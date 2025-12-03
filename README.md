@@ -25,16 +25,20 @@ The exact topics and depth may vary by edition of the course; see `syllabus.md` 
 
 ---
 
-## 2. Technologies
+## 2. Technologies & Tools
 
-Depending on the semester, we may use one or more of the following (the exact list will be provided in class or on the course platform):
+This course primarily focuses on:
 
-* **Document store** – e.g. MongoDB
-* **Key–value / wide-column** – e.g. Redis, Cassandra, DynamoDB
-* **Graph database** – e.g. Neo4j
-* **Containerization (optional)** – Docker / Docker Compose for local setup
+* **MongoDB** – Document database for all labs
+* **MongoDB Shell (mongosh)** – Interactive MongoDB shell
+* **MongoDB Database Tools** – Including `mongoimport` and `mongorestore`
+* **Node.js** (optional) – For programmatic database access
+* **Sample Datasets** – 30+ real-world datasets included in the repository
 
-Each lab README will state explicitly which tools are required.
+Prerequisites:
+* MongoDB Community Edition (latest stable version)
+* MongoDB Database Tools
+* Text editor or IDE of your choice
 
 ---
 
@@ -66,187 +70,84 @@ nosql-databases-labs/
     └── ...
 ```
 
-Each lab folder contains at least:
+Key repository components:
 
-* A **`README.md`** with the lab statement, requirements, and examples.
-* Optionally a **`starter/`** directory with starter code, schemas, or datasets.
-
-You should **not** modify the global structure of the repository unless explicitly instructed.
+* **`instructions.md`** – Comprehensive guide for importing data into MongoDB
+* **`data/`** – Extensive collection of sample datasets in JSON and BSON formats
+* **`labs/`** – Practical exercises with step-by-step instructions
+* Each lab includes setup scripts, query examples, and test files
 
 ---
 
-## 4. How to use this repository (students)
+## 4. Getting Started
 
-### 4.1. Getting the code
-
-You should either:
-
-1. **Fork** the repository on GitHub (recommended), or
-2. **Clone** it directly if instructed (for example, when using GitHub Classroom templates).
-
-Example:
+### 4.1. Clone the Repository
 
 ```bash
-# Clone the main repository
+# Clone the repository
 git clone https://github.com/diogoribeiro7/nosql-databases-labs.git
 cd nosql-databases-labs
 ```
 
-If you are using a **fork**:
+### 4.2. Import Sample Data
 
+Before starting the labs, import the sample datasets into MongoDB:
+
+1. **Quick Start**: See the [**MongoDB Data Import Instructions**](./instructions.md) for detailed guidance
+2. **Example**: Import a dataset using mongoimport:
+   ```bash
+   mongoimport --db training --collection books --file data/datasets/books.json --jsonArray
+   ```
+
+### 4.3. Working on Labs
+
+Currently available:
+
+* **Lab 01 – Introduction & Setup**
+  * Location: `labs/lab01_intro/`
+  * Features: MongoDB setup, basic CRUD operations, indexing
+  * Includes: `import_data.js`, `queries.js`, `test_queries.js`
+  * Setup guide: `SETUP_MONGOSH.md` for MongoDB Shell installation
+
+To start Lab 01:
 ```bash
-git clone https://github.com/<your-username>/nosql-databases-labs.git
-cd nosql-databases-labs
+cd labs/lab01_intro
+mongosh --file import_data.js  # Load sample data
+mongosh --file queries.js      # Run example queries
 ```
 
 ---
 
-### 4.2. Working on a lab
+## 5. Available Datasets
 
-For each lab:
+The repository includes 30+ sample datasets for practice:
 
-1. Go to the corresponding folder, e.g.:
+### Core Datasets (`data/datasets/`)
+* **books.json** – Book catalog with titles, authors, and categories
+* **companies.json** – Company information and financial data
+* **products.json** – Product inventory and pricing
+* **restaurant.json** – Restaurant listings and ratings
+* **students.json** – Student records and grades
+* **countries-big.json** & **countries-small.json** – Geographic data
 
-   ```bash
-   cd labs/lab01_intro
-   ```
+### MongoDB Sample Datasets
+* **sample_airbnb/** – Vacation rental listings and reviews
+* **sample_analytics/** – Financial accounts and transactions
+* **sample_geospatial/** – Shipwreck locations with coordinates
+* **sample_mflix/** – Movie database with reviews and theaters
+* **sample_supplies/** – Sales and inventory data
+* **sample_training/** – Various datasets for learning (tweets, trips, zips, etc.)
+* **sample_weatherdata/** – Weather observations
 
-2. Read the **`README.md`** with the instructions.
+### BSON Format Examples
+* **ColoradoScooters/** – Scooter rental data in BSON format
 
-3. Work inside the suggested folders (e.g. `starter/` or `src/`, if created).
-
-4. Follow the naming conventions specified in `instructions/submission_guide.md`.
-
-You may create additional files and directories inside each lab folder, as long as you respect the submission rules.
-
----
-
-### 4.3. Submitting your work
-
-Submission rules may depend on the platform used.
-Unless stated otherwise, the standard workflow is:
-
-1. **Commit** your changes with a clear message:
-
-   ```bash
-   git add .
-   git commit -m "LAB01 – Completed basic queries"
-   ```
-
-2. **Push** your work to your fork or to the provided remote:
-
-   ```bash
-   git push origin main
-   ```
-
-3. **Submit** according to [`instructions/submission_guide.md`](instructions/submission_guide.md), for example:
-
-   * Submit the URL of your repository.
-   * Submit the URL of a specific branch or tag.
-   * Upload a `.zip` export if required by the platform.
-
-Always verify the deadline and any late-submission policy.
+> **📚 Import Guide:** See [**MongoDB Data Import Instructions**](./instructions.md) for detailed steps on loading these datasets
 
 ---
 
-## 5. Lab overview
 
-> The detailed description for each lab is in `labs/<lab_name>/README.md`.
-
-The exact list of labs may change, but a typical set includes:
-
-* **Lab 01 – Introduction & Setup**
-
-  * Install NoSQL tools (e.g. MongoDB / Docker image).
-  * Basic CRUD operations.
-  * Importing and exporting JSON data.
-
-  > **📚 Data Import Guide:** For detailed instructions on how to import JSON and BSON files from the `data/` folder into MongoDB, see the [**MongoDB Data Import Instructions**](./instructions.md). This guide covers multiple import methods including `mongoimport`, `mongorestore`, MongoDB Shell, and programmatic approaches.
-
-* **Lab 02 – Data Modeling**
-
-  * Design a schema for a simple application.
-  * Embed vs reference.
-  * Denormalization strategies and query patterns.
-
-* **Lab 03 – Queries and Indexes**
-
-  * Filtering and projections.
-  * Aggregation pipelines / query operators.
-  * Creating and analyzing indexes.
-
-* **Lab 04 – Advanced Aggregation & Analytics**
-
-  * Complex aggregation pipelines.
-  * Time-series analysis and window functions.
-  * Multi-collection joins with $lookup.
-  * Business analytics and reporting.
-
-* **Final Project** (if assigned)
-
-  * Design and implement a small application backed by at least one NoSQL database.
-  * Explain your modeling decisions and trade-offs in a short written report.
-
-The concrete list and grading weights are defined in `syllabus.md` and `instructions/grading_rubric.md`.
-
----
-
-## 6. Evaluation
-
-The evaluation criteria for labs are detailed in
-[`instructions/grading_rubric.md`](instructions/grading_rubric.md). In general:
-
-* Each lab has a defined **weight** in the final grade.
-* Late submissions may incur **penalties** (or may not be accepted).
-
-Your work for each lab will usually be graded on:
-
-1. **Correctness**
-
-   * Does your solution meet the requirements?
-   * Do your queries/operations return the expected results?
-
-2. **Code and data organization**
-
-   * Clear structure of files and folders.
-   * Meaningful names for scripts, collections, and databases.
-   * Basic comments or notes where appropriate.
-
-3. **Reproducibility**
-
-   * Can the instructor reproduce your results easily?
-   * Are there clear instructions (e.g. in `NOTES.md`) on how to run your scripts?
-
-4. **Professionalism**
-
-   * Clean commit history (no large temporary files, no secrets).
-   * Respecting naming and submission conventions.
-
----
-
-## 7. Academic integrity
-
-You are encouraged to:
-
-* Discuss ideas and concepts with your classmates.
-* Ask questions and request clarification during labs or on the course forum.
-
-However, you must **not**:
-
-* Copy code or full solutions from other students.
-* Publish your solutions in public repositories during the course.
-* Use AI tools to produce complete solutions without understanding them.
-
-If you use external resources (documentation, tutorials, snippets), you must **cite them**, e.g.:
-
-* As a comment in your scripts.
-* In a small `REFERENCES.md` file inside the lab folder.
-
-Violations of academic integrity may lead to penalties according to the institution's regulations.
-
----
-
-## 8. Getting help
+## 6. Getting help
 
 If you have questions about a lab, please:
 
@@ -265,7 +166,7 @@ This helps the teaching staff answer you faster and more effectively.
 
 ---
 
-## 9. License
+## 7. License
 
 Unless specified otherwise, this repository is provided under the **MIT License** (or another license chosen by the instructor).
 
