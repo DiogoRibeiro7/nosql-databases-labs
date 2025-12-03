@@ -1,0 +1,47 @@
+[
+  {
+    "customer_id": 1,
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "city": "New York",
+    "country": "USA",
+    "age": 28,
+    "balance": 1250.50
+  },
+  {
+    "customer_id": 2,
+    "name": "Bob Smith",
+    "email": "bob.smith@example.com",
+    "city": "London",
+    "country": "UK",
+    "age": 35,
+    "balance": 3400.75
+  },
+  {
+    "customer_id": 3,
+    "name": "Carlos Martinez",
+    "email": "carlos.martinez@example.com",
+    "city": "Madrid",
+    "country": "Spain",
+    "age": 42,
+    "balance": 890.20
+  },
+  {
+    "customer_id": 4,
+    "name": "Diana Chen",
+    "email": "diana.chen@example.com",
+    "city": "Singapore",
+    "country": "Singapore",
+    "age": 31,
+    "balance": 5600.00
+  },
+  {
+    "customer_id": 5,
+    "name": "Emma Wilson",
+    "email": "emma.wilson@example.com",
+    "city": "Sydney",
+    "country": "Australia",
+    "age": 29,
+    "balance": 2100.80
+  }
+]
