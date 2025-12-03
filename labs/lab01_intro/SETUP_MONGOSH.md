@@ -14,11 +14,14 @@ This guide explains how to set up and use MongoDB with the modern `mongosh`.
 3. **MongoDB Compass download** (for import/export):
    - Download from: [MongoDB Compass download page](https://www.mongodb.com/try/download/compass)
 
+4. **MongoDB Database Tools** (for `mongoimport`):
+   - Download from: [MongoDB Database Tools download page](https://www.mongodb.com/try/download/database-tools)
+
 ## Installation
 
 ### Windows
 
-1. Download and install MongoDB Community Server
+1. Download and install MongoDB Compass Download
 2. Download and install MongoDB Shell (mongosh) separately
 3. Download and install MongoDB Database Tools
 4. Add all three to your PATH environment variable
@@ -28,23 +31,9 @@ This guide explains how to set up and use MongoDB with the modern `mongosh`.
 ```bash
 # Using Homebrew
 brew tap mongodb/brew
-brew install mongodb-community
+brew install mongodb-compass
 brew install mongosh
 brew install mongodb-database-tools
-```
-
-### Linux (Ubuntu/Debian)
-
-```bash
-# Import MongoDB public key
-wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
-
-# Add MongoDB repository
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-
-# Update and install
-sudo apt-get update
-sudo apt-get install -y mongodb-org mongodb-mongosh mongodb-database-tools
 ```
 
 
