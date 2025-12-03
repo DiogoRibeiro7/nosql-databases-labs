@@ -45,7 +45,12 @@ A typical structure for this repository is:
 ```text
 nosql-databases-labs/
 ├── README.md                 # You are here
+├── instructions.md           # MongoDB data import guide
 ├── syllabus.md               # (Optional) Course outline and schedule
+├── data/                     # Sample datasets (JSON/BSON files)
+│   ├── datasets/             # General purpose datasets
+│   ├── sample_*/             # MongoDB sample datasets
+│   └── ColoradoScooters/     # BSON format examples
 ├── instructions/
 │   └── project_guidelines.md # Final project specification
 └── labs/
@@ -155,6 +160,8 @@ The exact list of labs may change, but a typical set includes:
   * Install NoSQL tools (e.g. MongoDB / Docker image).
   * Basic CRUD operations.
   * Importing and exporting JSON data.
+
+  > **📚 Data Import Guide:** For detailed instructions on how to import JSON and BSON files from the `data/` folder into MongoDB, see the [**MongoDB Data Import Instructions**](./instructions.md). This guide covers multiple import methods including `mongoimport`, `mongorestore`, MongoDB Shell, and programmatic approaches.
 
 * **Lab 02 – Data Modeling**
 
