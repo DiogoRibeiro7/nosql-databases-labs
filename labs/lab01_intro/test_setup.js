@@ -73,8 +73,11 @@ try {
     // Test modern JavaScript
     const names = db.customers.find().toArray().map(c => c.name);
     print(`   ✓ Modern JS works: Retrieved ${names.length} customer names`);
-} catch (e) {
+} catch (error) {
     print("   ✗ Some mongosh features may not be available");
+    if (error && error.message) {
+        print(`     Error: ${error.message}`);
+    }
 }
 
 print("\n=================================");

@@ -1,0 +1,199 @@
+{
+  "datasets": [
+    {
+      "path": "labs/lab01_intro/sample.json",
+      "format": "json-array",
+      "expectedCount": 5
+    },
+    {
+      "path": "data/datasets/books.json",
+      "format": "ndjson",
+      "expectedCount": 431
+    },
+    {
+      "path": "data/datasets/city_inspections.json",
+      "format": "ndjson",
+      "expectedCount": 81047
+    },
+    {
+      "path": "data/datasets/companies.json",
+      "format": "ndjson",
+      "expectedCount": 18801
+    },
+    {
+      "path": "data/datasets/countries-big.json",
+      "format": "ndjson",
+      "expectedCount": 21640
+    },
+    {
+      "path": "data/datasets/countries-small.json",
+      "format": "ndjson",
+      "expectedCount": 248
+    },
+    {
+      "path": "data/datasets/covers.json",
+      "format": "ndjson",
+      "expectedCount": 5071
+    },
+    {
+      "path": "data/datasets/grades.json",
+      "format": "ndjson",
+      "expectedCount": 280
+    },
+    {
+      "path": "data/datasets/ObesityDataSet.json",
+      "format": "json-array",
+      "expectedCount": 2111
+    },
+    {
+      "path": "data/datasets/products.json",
+      "format": "ndjson",
+      "expectedCount": 11
+    },
+    {
+      "path": "data/datasets/profiles.json",
+      "format": "ndjson",
+      "expectedCount": 1515
+    },
+    {
+      "path": "data/datasets/restaurant.json",
+      "format": "ndjson",
+      "expectedCount": 2548
+    },
+    {
+      "path": "data/datasets/students.json",
+      "format": "ndjson",
+      "expectedCount": 200
+    },
+    {
+      "path": "data/datasets/toulouse_public.json",
+      "format": "json-array",
+      "expectedCount": 21446
+    },
+    {
+      "path": "data/ColoradoScooters/zipcodes.bson",
+      "format": "bson",
+      "expectedCount": 526
+    },
+    {
+      "path": "data/ColoradoScooters/scooters.bson",
+      "format": "bson",
+      "expectedCount": 999999
+    },
+    {
+      "path": "data/foodmart/account.bson",
+      "format": "bson",
+      "expectedCount": 11
+    },
+    {
+      "path": "data/foodmart/category.bson",
+      "format": "bson",
+      "expectedCount": 4
+    },
+    {
+      "path": "data/foodmart/customer.bson",
+      "format": "bson",
+      "expectedCount": 10281
+    },
+    {
+      "path": "data/foodmart/currency.bson",
+      "format": "bson",
+      "expectedCount": 72
+    },
+    {
+      "path": "data/foodmart/days.bson",
+      "format": "bson",
+      "expectedCount": 7
+    },
+    {
+      "path": "data/foodmart/department.bson",
+      "format": "bson",
+      "expectedCount": 12
+    },
+    {
+      "path": "data/foodmart/employee_closure.bson",
+      "format": "bson",
+      "expectedCount": 7179
+    },
+    {
+      "path": "data/foodmart/employee.bson",
+      "format": "bson",
+      "expectedCount": 1155
+    },
+    {
+      "path": "data/foodmart/expense_fact.bson",
+      "format": "bson",
+      "expectedCount": 2400
+    },
+    {
+      "path": "data/foodmart/promotion.bson",
+      "format": "bson",
+      "expectedCount": 1864
+    },
+    {
+      "path": "data/foodmart/product_class.bson",
+      "format": "bson",
+      "expectedCount": 110
+    },
+    {
+      "path": "data/foodmart/product.bson",
+      "format": "bson",
+      "expectedCount": 1560
+    },
+    {
+      "path": "data/foodmart/position.bson",
+      "format": "bson",
+      "expectedCount": 18
+    },
+    {
+      "path": "data/foodmart/inventory_fact.bson",
+      "format": "bson",
+      "expectedCount": 11352
+    },
+    {
+      "path": "data/foodmart/reserve_employee.bson",
+      "format": "bson",
+      "expectedCount": 143
+    },
+    {
+      "path": "data/foodmart/region.bson",
+      "format": "bson",
+      "expectedCount": 110
+    },
+    {
+      "path": "data/foodmart/salary.bson",
+      "format": "bson",
+      "expectedCount": 21252
+    },
+    {
+      "path": "data/foodmart/sales_fact.bson",
+      "format": "bson",
+      "expectedCount": 269720
+    },
+    {
+      "path": "data/foodmart/store.bson",
+      "format": "bson",
+      "expectedCount": 25
+    },
+    {
+      "path": "data/foodmart/system.indexes.bson",
+      "format": "bson",
+      "expectedCount": 22
+    },
+    {
+      "path": "data/foodmart/warehouse_class.bson",
+      "format": "bson",
+      "expectedCount": 6
+    },
+    {
+      "path": "data/foodmart/warehouse.bson",
+      "format": "bson",
+      "expectedCount": 24
+    },
+    {
+      "path": "data/foodmart/time_by_day.bson",
+      "format": "bson",
+      "expectedCount": 730
+    }
+  ]
+}

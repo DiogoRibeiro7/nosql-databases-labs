@@ -166,7 +166,21 @@ This helps the teaching staff answer you faster and more effectively.
 
 ---
 
-## 7. License
+## 7. Tooling & Quality Checks
+
+This repository ships with a lightweight JavaScript toolchain to keep scripts and datasets consistent:
+
+```bash
+npm install        # install dev dependencies
+npm run lint       # ESLint + Prettier checks for labs/**/*.js and scripts/**
+npm run test:data  # dataset smoke tests (JSON/NDJSON/BSON integrity)
+```
+
+`npm test` runs both the linters and the dataset smoke tests, and the GitHub Actions workflow executes this command before spinning up MongoDB for the lab scripts. Dataset expectations live in `scripts/data-manifest.json`; update the manifest if you intentionally add or remove records so smoke tests stay green.
+
+---
+
+## 8. License
 
 This repository is provided under the **MIT License**.
 

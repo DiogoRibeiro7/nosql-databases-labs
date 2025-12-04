@@ -1,0 +1,33 @@
+{
+  "name": "nosql-databases-labs",
+  "version": "1.0.0",
+  "description": "This repository contains the **practical work** for the *NoSQL Databases* course.\r Students will use this repo to work on weekly labs and (optionally) a final project.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint \"labs/**/*.js\" \"scripts/**/*.js\"",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write \"labs/**/*.js\" \"scripts/**/*.js\"",
+    "format:check": "prettier --check \"labs/**/*.js\" \"scripts/**/*.js\"",
+    "test:data": "node scripts/data-smoke-test.js",
+    "test": "npm run lint && npm run test:data"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiogoRibeiro7/nosql-databases-labs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DiogoRibeiro7/nosql-databases-labs/issues"
+  },
+  "homepage": "https://github.com/DiogoRibeiro7/nosql-databases-labs#readme",
+  "devDependencies": {
+    "bson": "^7.0.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.5.0",
+    "prettier": "^3.7.4"
+  }
+}
