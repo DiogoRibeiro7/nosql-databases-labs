@@ -1,0 +1,52 @@
+name: Lab CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  lab01-mongodb-tests:
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install mongosh
+        run: sudo npm install -g mongosh
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          for i in {1..30}; do
+            if mongosh --host 127.0.0.1 --quiet --eval "db.adminCommand({ ping: 1 })" > /dev/null 2>&1; then
+              echo "MongoDB is ready"
+              exit 0
+            fi
+            echo "Waiting for MongoDB..."
+            sleep 2
+          done
+          echo "MongoDB did not become ready in time" >&2
+          exit 1
+
+      - name: Import Lab 01 sample data
+        run: mongosh --host 127.0.0.1 --file labs/lab01_intro/import_data.js
+
+      - name: Run setup verification script
+        run: mongosh --host 127.0.0.1 --file labs/lab01_intro/test_setup.js
+
+      - name: Run query verification script
+        run: mongosh --host 127.0.0.1 --file labs/lab01_intro/test_queries.js
