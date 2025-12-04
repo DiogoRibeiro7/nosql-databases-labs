@@ -168,7 +168,7 @@ This helps the teaching staff answer you faster and more effectively.
 
 ## 7. License
 
-Unless specified otherwise, this repository is provided under the **MIT License** (or another license chosen by the instructor).
+This repository is provided under the **MIT License**.
 
 See [`LICENSE`](LICENSE) for details.
 
