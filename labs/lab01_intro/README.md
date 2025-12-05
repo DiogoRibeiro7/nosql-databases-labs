@@ -13,8 +13,65 @@ By the end of this lab you should be able to:
 
 ## 1. Setup
 
-1. Install MongoDB locally on your system.
-2. Verify that your database server is running.
+## 1. Install MongoDB locally on your system.
+
+### For MacOS
+
+### 1. Install Homebrew
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### 2. Make Sure you have XCode CLI Tools
+```bash
+xcode-select --install
+``` 
+
+### 3. Install MongoDB Community Edition
+
+#### 1. Install MongoDB for Brew
+```bash
+brew tap mongodb/brew
+```
+
+#### 2. Update Homebrew
+```bash
+brew update
+```
+
+#### 3. Install MongoDB Community
+```bash
+brew install mongodb-community@7.0
+```
+
+#### If you have any error in step 3 reinstall llvm
+```bash
+brew reinstall llvm
+```
+
+#### 4. Start Mongo Server
+```bash
+brew services start mongodb-community@7.0
+```
+
+#### 5. Install Mongo Shell
+```bash
+brew install mongosh
+```
+
+#### 6. Install Mongo Compass
+```bash
+brew install --cask mongodb-compass
+```
+
+#### 7. Verify if it's Installed
+```bash
+mongosh --version
+```
+
+Your done!
+
+### 2. Verify that your database server is running.
 
 Examples:
 
@@ -24,7 +81,7 @@ mongod --version
 mongosh --version
 ```
 
-3. Make sure you know how to connect to your database (host, port, credentials if any).
+### 3. Make sure you know how to connect to your database (host, port, credentials if any).
 
 ---
 
