@@ -180,7 +180,17 @@ npm run test:data  # dataset smoke tests (JSON/NDJSON/BSON integrity)
 
 ---
 
-## 8. License
+## 8. Contributing & Pull Requests
+
+* Read [`CONTRIBUTING.md`](./CONTRIBUTING.md) for workflow, tooling, and submission standards.
+* Review the detailed [Pull Request Guide](./pull_requests.md) and use the template stored in `.github/PULL_REQUEST_TEMPLATE.md`.
+* Follow the [Code of Conduct](./CODE_OF_CONDUCT.md) in every interaction.
+* Group deliverables must follow the structure defined in [`group-work/README.md`](./group-work/README.md).
+* When filing issues, select the appropriate template under `.github/ISSUE_TEMPLATE/`.
+
+---
+
+## 9. License
 
 This repository is provided under the **MIT License**.
 
