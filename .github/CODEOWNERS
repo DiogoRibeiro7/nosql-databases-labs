@@ -1,0 +1,9 @@
+# Automatically request reviews from instructors for each area of the repo.
+# Syntax: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+*                  @diogoribeiro7
+labs/              @diogoribeiro7
+labs/lab01_intro/  @diogoribeiro7
+group-work/        @diogoribeiro7
+.github/           @diogoribeiro7
+scripts/           @diogoribeiro7
