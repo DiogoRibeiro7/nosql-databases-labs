@@ -22,14 +22,17 @@ module.exports = [
     }
   },
   {
-    files: ["labs/lab01_intro/*.js"],
+    files: ["labs/lab01_intro/*.js", "labs/lab02_modeling/*_mongosh.js"],
     languageOptions: {
       globals: {
         ...globals.node,
         db: "writable",
         print: "readonly",
         printjson: "readonly",
-        quit: "readonly"
+        quit: "readonly",
+        use: "readonly",
+        ObjectId: "readonly",
+        ISODate: "readonly"
       }
     }
   }
