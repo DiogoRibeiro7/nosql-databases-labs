@@ -1,0 +1,52 @@
+[
+  {
+    "_id": { "$oid": "65a1b2c3d4e5f6g7h8i9j0k1" },
+    "customer_id": "CUST001",
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "password_hash": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+    "phone": "+1-555-0123",
+    "address": {
+      "street": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001",
+      "country": "USA"
+    },
+    "loyalty_points": 1250,
+    "created_at": { "$date": "2023-01-15T10:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "65a1b2c3d4e5f6g7h8i9j0k2" },
+    "customer_id": "CUST002",
+    "name": "Bob Smith",
+    "email": "bob.smith@example.com",
+    "password_hash": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+    "phone": "+1-555-0456",
+    "address": {
+      "street": "456 Oak Ave",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90001",
+      "country": "USA"
+    },
+    "loyalty_points": 580,
+    "created_at": { "$date": "2023-03-22T14:15:00Z" }
+  },
+  {
+    "_id": { "$oid": "65a1b2c3d4e5f6g7h8i9j0k3" },
+    "customer_id": "CUST003",
+    "name": "Carol Williams",
+    "email": "carol.w@example.com",
+    "password_hash": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+    "phone": "+44-20-1234-5678",
+    "address": {
+      "street": "10 Downing Street",
+      "city": "London",
+      "zip": "SW1A 2AA",
+      "country": "UK"
+    },
+    "loyalty_points": 3200,
+    "created_at": { "$date": "2022-11-05T09:00:00Z" }
+  }
+]

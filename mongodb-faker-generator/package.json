@@ -1,0 +1,31 @@
+{
+  "name": "mongodb-faker-generator",
+  "version": "1.0.0",
+  "description": "Generate realistic fake data for MongoDB",
+  "type": "module",
+  "scripts": {
+    "generate": "node javascript/generate_fake_data.js",
+    "generate:python": "python python/generate_fake_data.py",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "mongodb": "^6.3.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@jest/globals": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "extensionsToTreatAsEsm": [".js"],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
+  },
+  "author": "Diogo Ribeiro",
+  "license": "MIT"
+}

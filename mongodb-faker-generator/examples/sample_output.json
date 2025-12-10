@@ -1,0 +1,219 @@
+{
+  "sample_user": {
+    "_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "username": "joao_silva_92",
+    "email": "joao.silva@example.com",
+    "profile": {
+      "firstName": "João",
+      "lastName": "Silva",
+      "fullName": "João Miguel Silva",
+      "avatar": "https://avatars.example.com/user/12345.jpg",
+      "bio": "Desenvolvedor full-stack apaixonado por tecnologia e inovação. Sempre em busca de novos desafios e oportunidades de aprendizado.",
+      "birthDate": "1992-04-15T00:00:00.000Z",
+      "gender": "M",
+      "phone": "+351 912 345 678",
+      "address": {
+        "street": "Rua das Flores, 123",
+        "city": "Porto",
+        "state": "Porto",
+        "country": "Portugal",
+        "postalCode": "4000-123",
+        "coordinates": {
+          "type": "Point",
+          "coordinates": [-8.611, 41.1496]
+        }
+      }
+    },
+    "account": {
+      "type": "premium",
+      "status": "active",
+      "createdAt": "2022-06-15T10:30:45.000Z",
+      "lastLogin": "2024-01-20T14:22:33.000Z",
+      "loginCount": 342,
+      "preferences": {
+        "newsletter": true,
+        "notifications": true,
+        "language": "pt",
+        "theme": "dark"
+      }
+    },
+    "tags": ["developer", "tech", "porto", "premium"],
+    "metadata": {
+      "source": "web",
+      "ipAddress": "85.240.123.45",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+    }
+  },
+  
+  "sample_product": {
+    "sku": "9789725641234",
+    "name": "Laptop Ultra Pro 15",
+    "description": "Laptop de alta performance com processador Intel Core i7 de última geração, 16GB RAM DDR4, SSD 512GB NVMe, ecrã Full HD de 15.6 polegadas com tecnologia IPS. Ideal para profissionais exigentes e gamers.",
+    "category": "Electronics",
+    "subcategory": "Computers",
+    "brand": "TechCorp Solutions",
+    "price": {
+      "amount": 899.99,
+      "currency": "EUR",
+      "discount": 15.0
+    },
+    "inventory": {
+      "inStock": true,
+      "quantity": 45,
+      "warehouse": "Porto"
+    },
+    "attributes": {
+      "color": null,
+      "size": null,
+      "weight": "1.85 kg",
+      "dimensions": {
+        "length": 36,
+        "width": 24,
+        "height": 2,
+        "unit": "cm"
+      }
+    },
+    "ratings": {
+      "average": 4.6,
+      "count": 234
+    },
+    "images": [
+      "https://example.com/products/laptop-1.jpg",
+      "https://example.com/products/laptop-2.jpg",
+      "https://example.com/products/laptop-3.jpg"
+    ],
+    "tags": ["laptop", "computer", "professional", "gaming", "portable"],
+    "createdAt": "2023-03-10T09:15:00.000Z",
+    "updatedAt": "2024-01-15T16:45:30.000Z"
+  },
+  
+  "sample_transaction": {
+    "orderId": "ord_a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "userId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "status": "delivered",
+    "items": [
+      {
+        "productSku": "9789725641234",
+        "productName": "Laptop Ultra Pro 15",
+        "quantity": 1,
+        "unitPrice": 899.99,
+        "total": 899.99
+      },
+      {
+        "productSku": "9789725641235",
+        "productName": "Wireless Mouse Pro",
+        "quantity": 2,
+        "unitPrice": 29.99,
+        "total": 59.98
+      }
+    ],
+    "payment": {
+      "method": "credit_card",
+      "status": "completed",
+      "transactionId": "txn_abc123def456"
+    },
+    "shipping": {
+      "address": {
+        "street": "Avenida dos Aliados, 456",
+        "city": "Porto",
+        "postalCode": "4000-456",
+        "country": "Portugal"
+      },
+      "method": "express",
+      "trackingNumber": "PT123456789",
+      "estimatedDelivery": "2024-01-25T00:00:00.000Z"
+    },
+    "totals": {
+      "subtotal": 959.97,
+      "tax": 220.79,
+      "shipping": 9.99,
+      "total": 1190.75
+    },
+    "timestamps": {
+      "created": "2024-01-20T11:30:00.000Z",
+      "updated": "2024-01-22T09:15:00.000Z"
+    }
+  },
+  
+  "sample_log": {
+    "timestamp": "2024-01-20T14:22:33.456Z",
+    "level": "INFO",
+    "type": "api_call",
+    "userId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "sessionId": "sess_xyz789abc123",
+    "message": "User successfully retrieved product catalog",
+    "metadata": {
+      "ip": "85.240.123.45",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "endpoint": "/api/products/catalog",
+      "method": "GET",
+      "statusCode": 200,
+      "responseTime": 145
+    },
+    "error": null
+  },
+  
+  "statistics": {
+    "generation_summary": {
+      "users": {
+        "total": 100,
+        "by_type": {
+          "free": 45,
+          "premium": 40,
+          "enterprise": 15
+        },
+        "by_status": {
+          "active": 75,
+          "inactive": 20,
+          "suspended": 5
+        }
+      },
+      "products": {
+        "total": 500,
+        "by_category": {
+          "Electronics": 95,
+          "Books": 82,
+          "Clothing": 88,
+          "Home & Garden": 79,
+          "Sports": 81,
+          "Toys": 75
+        },
+        "in_stock": 425,
+        "with_discount": 150
+      },
+      "transactions": {
+        "total": 1000,
+        "by_status": {
+          "pending": 50,
+          "processing": 100,
+          "shipped": 200,
+          "delivered": 600,
+          "cancelled": 50
+        },
+        "total_revenue": 485750.25,
+        "average_order_value": 485.75
+      },
+      "logs": {
+        "total": 5000,
+        "by_level": {
+          "DEBUG": 800,
+          "INFO": 2500,
+          "WARNING": 1200,
+          "ERROR": 400,
+          "CRITICAL": 100
+        }
+      }
+    },
+    "database_info": {
+      "name": "database_demo",
+      "collections": 4,
+      "indexes": {
+        "users": 4,
+        "products": 4,
+        "transactions": 3,
+        "logs": 4
+      },
+      "estimated_size_mb": 12.5
+    }
+  }
+}

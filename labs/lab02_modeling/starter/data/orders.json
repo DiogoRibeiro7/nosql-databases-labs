@@ -1,0 +1,166 @@
+[
+  {
+    "_id": { "$oid": "65c1d2e3f4a5b6c7d8e9f0a1" },
+    "order_id": "ORD001",
+    "customer_id": "CUST001",
+    "order_date": { "$date": "2024-01-15T14:30:00Z" },
+    "status": "shipped",
+    "shipping_address": {
+      "street": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001",
+      "country": "USA"
+    },
+    "billing_address": {
+      "street": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001",
+      "country": "USA"
+    },
+    "payment_method": "credit_card",
+    "items": [
+      {
+        "product_id": "PROD001",
+        "product_name": "Wireless Headphones XYZ",
+        "quantity": 1,
+        "unit_price": 199.99,
+        "subtotal": 199.99
+      },
+      {
+        "product_id": "PROD042",
+        "product_name": "Phone Case - Universal",
+        "quantity": 2,
+        "unit_price": 15.99,
+        "subtotal": 31.98
+      }
+    ],
+    "subtotal": 231.97,
+    "tax": 20.88,
+    "shipping_cost": 9.99,
+    "total": 262.84,
+    "tracking_number": "1Z999AA10123456784",
+    "estimated_delivery": { "$date": "2024-01-20T00:00:00Z" },
+    "actual_delivery": null
+  },
+  {
+    "_id": { "$oid": "65c1d2e3f4a5b6c7d8e9f0a2" },
+    "order_id": "ORD002",
+    "customer_id": "CUST002",
+    "order_date": { "$date": "2024-01-18T09:15:00Z" },
+    "status": "delivered",
+    "shipping_address": {
+      "street": "456 Oak Ave",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90001",
+      "country": "USA"
+    },
+    "billing_address": {
+      "street": "456 Oak Ave",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90001",
+      "country": "USA"
+    },
+    "payment_method": "paypal",
+    "items": [
+      {
+        "product_id": "PROD002",
+        "product_name": "Smart Watch Pro",
+        "quantity": 1,
+        "unit_price": 299.99,
+        "subtotal": 299.99
+      }
+    ],
+    "subtotal": 299.99,
+    "tax": 27.00,
+    "shipping_cost": 0.00,
+    "total": 326.99,
+    "tracking_number": "1Z999AA10987654321",
+    "estimated_delivery": { "$date": "2024-01-23T00:00:00Z" },
+    "actual_delivery": { "$date": "2024-01-22T16:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "65c1d2e3f4a5b6c7d8e9f0a3" },
+    "order_id": "ORD003",
+    "customer_id": "CUST001",
+    "order_date": { "$date": "2024-02-10T10:30:00Z" },
+    "status": "delivered",
+    "shipping_address": {
+      "street": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001",
+      "country": "USA"
+    },
+    "billing_address": {
+      "street": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001",
+      "country": "USA"
+    },
+    "payment_method": "credit_card",
+    "items": [
+      {
+        "product_id": "PROD042",
+        "product_name": "Phone Case - Universal",
+        "quantity": 1,
+        "unit_price": 15.99,
+        "subtotal": 15.99
+      }
+    ],
+    "subtotal": 15.99,
+    "tax": 1.44,
+    "shipping_cost": 4.99,
+    "total": 22.42,
+    "tracking_number": "1Z999AA10456789012",
+    "estimated_delivery": { "$date": "2024-02-15T00:00:00Z" },
+    "actual_delivery": { "$date": "2024-02-13T11:20:00Z" }
+  },
+  {
+    "_id": { "$oid": "65c1d2e3f4a5b6c7d8e9f0a4" },
+    "order_id": "ORD004",
+    "customer_id": "CUST003",
+    "order_date": { "$date": "2024-02-12T15:45:00Z" },
+    "status": "processing",
+    "shipping_address": {
+      "street": "10 Downing Street",
+      "city": "London",
+      "zip": "SW1A 2AA",
+      "country": "UK"
+    },
+    "billing_address": {
+      "street": "10 Downing Street",
+      "city": "London",
+      "zip": "SW1A 2AA",
+      "country": "UK"
+    },
+    "payment_method": "credit_card",
+    "items": [
+      {
+        "product_id": "PROD103",
+        "product_name": "Ergonomic Office Chair",
+        "quantity": 1,
+        "unit_price": 349.99,
+        "subtotal": 349.99
+      },
+      {
+        "product_id": "PROD001",
+        "product_name": "Wireless Headphones XYZ",
+        "quantity": 1,
+        "unit_price": 199.99,
+        "subtotal": 199.99
+      }
+    ],
+    "subtotal": 549.98,
+    "tax": 49.50,
+    "shipping_cost": 19.99,
+    "total": 619.47,
+    "tracking_number": null,
+    "estimated_delivery": { "$date": "2024-02-20T00:00:00Z" },
+    "actual_delivery": null
+  }
+]
