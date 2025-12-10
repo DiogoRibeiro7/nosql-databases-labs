@@ -10,7 +10,7 @@ on:
       - '*'
 
 jobs:
-  lab01-mongodb-tests:
+  mongodb-labs-tests:
     runs-on: ubuntu-latest
     services:
       mongodb:
@@ -56,3 +56,12 @@ jobs:
 
       - name: Run query verification script
         run: mongosh --host 127.0.0.1 --file labs/lab01_intro/test_queries.js
+
+      - name: Import Lab 02 modeling data
+        run: mongosh --host 127.0.0.1 --file labs/lab02_modeling/import_data_mongosh.js
+
+      - name: Run Lab 02 queries script
+        run: mongosh --host 127.0.0.1 --file labs/lab02_modeling/queries_mongosh.js
+
+      - name: Run Lab 02 test queries script
+        run: mongosh --host 127.0.0.1 --file labs/lab02_modeling/test_queries_mongosh.js

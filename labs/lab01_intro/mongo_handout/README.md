@@ -244,8 +244,6 @@ if __name__ == "__main__":
   - Choose a database and collection (`client["library"]["books"]`).
   - Run `.find()` with filters, sorting, and limit.
 
-Encourage them to modify the filter and print only selected fields.
-
 ---
 
 ## 4. Connecting with JavaScript (Node.js)

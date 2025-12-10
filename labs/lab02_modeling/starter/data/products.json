@@ -1,0 +1,117 @@
+[
+  {
+    "_id": { "$oid": "65b1c2d3e4f5a6b7c8d9e0f1" },
+    "product_id": "PROD001",
+    "name": "Wireless Headphones XYZ",
+    "description": "Premium noise-cancelling wireless headphones with 30-hour battery life and superior sound quality.",
+    "category": "Electronics",
+    "subcategory": "Audio",
+    "price": 199.99,
+    "stock_quantity": 50,
+    "images": [
+      "https://cdn.example.com/prod001_1.jpg",
+      "https://cdn.example.com/prod001_2.jpg",
+      "https://cdn.example.com/prod001_3.jpg"
+    ],
+    "specifications": {
+      "brand": "AudioTech",
+      "color": "Black",
+      "wireless": true,
+      "bluetooth_version": "5.2",
+      "battery_life": "30 hours",
+      "noise_cancellation": true,
+      "weight": "250g"
+    },
+    "ratings": {
+      "average": 4.5,
+      "count": 128
+    },
+    "created_at": { "$date": "2023-06-01T00:00:00Z" },
+    "updated_at": { "$date": "2024-01-10T15:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "65b1c2d3e4f5a6b7c8d9e0f2" },
+    "product_id": "PROD002",
+    "name": "Smart Watch Pro",
+    "description": "Advanced fitness tracking smartwatch with heart rate monitor, GPS, and 7-day battery life.",
+    "category": "Electronics",
+    "subcategory": "Wearables",
+    "price": 299.99,
+    "stock_quantity": 35,
+    "images": [
+      "https://cdn.example.com/prod002_1.jpg",
+      "https://cdn.example.com/prod002_2.jpg"
+    ],
+    "specifications": {
+      "brand": "TechFit",
+      "color": "Silver",
+      "display": "1.4 inch AMOLED",
+      "water_resistant": "5ATM",
+      "gps": true,
+      "heart_rate_monitor": true,
+      "battery_life": "7 days"
+    },
+    "ratings": {
+      "average": 4.7,
+      "count": 89
+    },
+    "created_at": { "$date": "2023-08-15T00:00:00Z" },
+    "updated_at": { "$date": "2024-01-12T10:00:00Z" }
+  },
+  {
+    "_id": { "$oid": "65b1c2d3e4f5a6b7c8d9e0f3" },
+    "product_id": "PROD042",
+    "name": "Phone Case - Universal",
+    "description": "Durable silicone phone case with shock absorption. Fits most 6-6.5 inch phones.",
+    "category": "Accessories",
+    "subcategory": "Phone Accessories",
+    "price": 15.99,
+    "stock_quantity": 200,
+    "images": [
+      "https://cdn.example.com/prod042_1.jpg"
+    ],
+    "specifications": {
+      "brand": "CaseGuard",
+      "color": "Blue",
+      "material": "Silicone",
+      "compatibility": "6-6.5 inch phones",
+      "drop_protection": "Military grade"
+    },
+    "ratings": {
+      "average": 4.2,
+      "count": 456
+    },
+    "created_at": { "$date": "2023-04-10T00:00:00Z" },
+    "updated_at": { "$date": "2024-01-05T12:20:00Z" }
+  },
+  {
+    "_id": { "$oid": "65b1c2d3e4f5a6b7c8d9e0f4" },
+    "product_id": "PROD103",
+    "name": "Ergonomic Office Chair",
+    "description": "Premium office chair with lumbar support, adjustable height, and breathable mesh back.",
+    "category": "Furniture",
+    "subcategory": "Office Furniture",
+    "price": 349.99,
+    "stock_quantity": 15,
+    "images": [
+      "https://cdn.example.com/prod103_1.jpg",
+      "https://cdn.example.com/prod103_2.jpg",
+      "https://cdn.example.com/prod103_3.jpg"
+    ],
+    "specifications": {
+      "brand": "ErgoMax",
+      "color": "Black",
+      "material": "Mesh and Steel",
+      "adjustable_height": true,
+      "lumbar_support": true,
+      "weight_capacity": "150kg",
+      "warranty": "5 years"
+    },
+    "ratings": {
+      "average": 4.8,
+      "count": 234
+    },
+    "created_at": { "$date": "2023-09-01T00:00:00Z" },
+    "updated_at": { "$date": "2024-01-08T16:45:00Z" }
+  }
+]
