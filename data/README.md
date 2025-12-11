@@ -58,6 +58,15 @@ These are standard sample datasets provided by MongoDB Atlas for learning and te
 
 - **`GraphTest/`** - Graph database test data
 
+### Full datasets
+
+The full datasets are **not** versioned in this GitHub repository.
+
+- AirportDB (MySQL HeatWave → JSONL/CSV):  
+  <https://drive.google.com/file/d/1Cq4tHKu-7qcmES1-xgsgtf_gf74BPunY/view?usp=sharing>
+
+After downloading the archive, extract it. The extracted `AirportDB` folder should be placed inside the `data/` directory alongside other datasets.
+
 ## Usage
 
 These datasets are used for:
