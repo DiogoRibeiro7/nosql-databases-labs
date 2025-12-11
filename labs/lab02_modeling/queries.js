@@ -10,7 +10,14 @@ const { MongoClient } = require("mongodb");
 const DATABASE_NAME = "lab02_ecommerce";
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
-// Helper function to print results
+/**
+ * Pretty-print query results with a heading and optional limit so
+ * long responses remain readable in the terminal.
+ *
+ * @param {string} title - Heading displayed above the results.
+ * @param {Array} results - Array of documents to show.
+ * @param {number} [limit=5] - Optional limit for console output.
+ */
 function printResults (title, results, limit = 5) {
   console.log(`\n${"=".repeat(60)}`);
   console.log(title);
@@ -32,6 +39,12 @@ function printResults (title, results, limit = 5) {
   console.log(`\nTotal results: ${results.length}`);
 }
 
+/**
+ * Connect to MongoDB and execute the end-to-end demo queries that
+ * validate the modeling decisions for Lab 02.
+ *
+ * @returns {Promise<void>}
+ */
 async function runQueries () {
   let client;
 
@@ -117,6 +130,7 @@ async function runQueries () {
     const topProducts = await db
       .collection("orders")
       .aggregate([
+        // Flatten each order item first so we can aggregate quantities per product.
         { $unwind: "$items" },
         {
           $group: {

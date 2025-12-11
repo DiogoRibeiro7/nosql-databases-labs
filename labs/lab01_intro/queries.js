@@ -18,6 +18,7 @@ db = db.getSiblingDB("lab01_student")
 // Insert 3 additional customers (skip if they already exist)
 print("Attempting to insert additional customers...");
 try {
+  // ordered:false keeps inserting remaining docs even if one violates the unique email index.
   db.customers.insertMany([
     {
       customer_id: 6,
@@ -105,6 +106,7 @@ db.customers.updateOne(
 // 3.2. Update multiple customers - increase balance by 10% for age > 30
 db.customers.updateMany(
   { age: { $gt: 30 } },
+  // $mul applies percentage increase without needing a client-side loop.
   { $mul: { balance: 1.1 } }
 );
 
@@ -123,12 +125,14 @@ db.customers.countDocuments();
 
 // 4.2. Count customers per country
 db.customers.aggregate([
+  // $group by country is enough to answer the "customers per country" task.
   {
     $group: {
       _id: "$country",
       count: { $sum: 1 }
     }
   },
+  // Sorting puts the biggest customer bases first.
   {
     $sort: { count: -1 }
   }
@@ -149,6 +153,7 @@ db.customers.aggregate([
   {
     $group: {
       _id: null,
+      // Combine several metrics in one pass to demonstrate accumulator variety.
       averageBalance: { $avg: "$balance" },
       totalBalance: { $sum: "$balance" },
       minBalance: { $min: "$balance" },
@@ -162,6 +167,7 @@ db.customers.aggregate([
   {
     $group: {
       _id: "$country",
+      // Combine per-country stats to support multiple dashboard-style answers.
       customerCount: { $sum: 1 },
       avgAge: { $avg: "$age" },
       avgBalance: { $avg: "$balance" },
@@ -177,6 +183,7 @@ db.customers.aggregate([
 db.customers.aggregate([
   {
     $bucket: {
+      // Bucketing creates pseudo age ranges so the distribution is easy to read.
       groupBy: "$age",
       boundaries: [20, 30, 40, 50],
       default: "50+",

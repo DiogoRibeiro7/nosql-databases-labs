@@ -15,14 +15,25 @@ let passedTests = 0;
 let failedTests = 0;
 const testResults = [];
 
-// Helper function to assert conditions
+/**
+ * Lightweight assertion helper so each test can abort early with a readable error.
+ *
+ * @param {boolean} condition - Expression that must be true.
+ * @param {string} message - Error message when the assertion fails.
+ */
 function assert(condition, message) {
     if (!condition) {
         throw new Error(message || 'Assertion failed');
     }
 }
 
-// Helper function to run tests
+/**
+ * Run an individual test block and capture pass/fail status for the summary.
+ *
+ * @param {string} testName - Friendly description of the test.
+ * @param {Function} testFunc - Synchronous callback that throws on failure.
+ * @returns {boolean} True if the test succeeded.
+ */
 function runTest(testName, testFunc) {
     print(`\nTesting: ${testName}...`);
     try {

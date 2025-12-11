@@ -9,7 +9,7 @@ print("=================================");
 print("Resetting Lab 01 Database");
 print("=================================\n");
 
-// Drop the existing collection
+// Drop the existing collection so the reset starts from an empty state.
 print("Dropping existing customers collection...");
 db.customers.drop();
 print("✓ Collection dropped\n");
@@ -64,6 +64,7 @@ const customers = [
   }
 ];
 
+// Insert the baseline dataset so every student starts with identical rows.
 const result = db.customers.insertMany(customers);
 print(`✓ Inserted ${result.insertedIds ? Object.keys(result.insertedIds).length : customers.length} documents\n`);
 
@@ -86,7 +87,7 @@ print("✓ Created compound index on age and balance");
 db.customers.createIndex({ email: 1 }, { unique: true });
 print("✓ Created unique index on email\n");
 
-// Verify the reset
+// Verify the reset succeeded and remind the user what to execute next.
 const count = db.customers.countDocuments();
 print("=================================");
 print("Database reset completed!");
