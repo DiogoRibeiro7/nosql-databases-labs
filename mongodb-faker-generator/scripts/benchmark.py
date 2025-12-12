@@ -82,6 +82,7 @@ def main():
     start_time = time.time()
     start_memory = get_memory_usage()
 
+    # Generate the entire dataset to highlight combined memory/time usage.
     users = generate_users(100)
     products = generate_products(500)
     transactions = generate_transactions(users, products, 1000)
