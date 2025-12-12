@@ -1,3 +1,5 @@
+"""Unit tests covering the pure data-generation helpers (no MongoDB calls)."""
+
 import pytest
 from faker import Faker
 import sys

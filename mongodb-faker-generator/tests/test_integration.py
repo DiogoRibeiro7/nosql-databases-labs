@@ -1,3 +1,5 @@
+"""Integration tests that exercise MongoDB indexes, pipelines, and TTL behavior."""
+
 import pytest
 from pymongo import MongoClient, ASCENDING, DESCENDING
 import sys
