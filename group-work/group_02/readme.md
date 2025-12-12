@@ -1,4 +1,6 @@
-GROUP 03
-Antonio Amorim
-Gabriel Paiva
-Emanuel Gomes
+# GROUP 03
+
+Members:
+- Antonio Amorim
+- Gabriel Paiva
+- Emanuel Gomes
