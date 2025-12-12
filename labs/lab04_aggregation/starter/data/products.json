@@ -1,0 +1,302 @@
+[
+  {
+    "product_id": "P001",
+    "name": "Wireless Headphones",
+    "category": "Electronics",
+    "price": 89.99,
+    "cost": 45.0,
+    "supplier": "TechSound",
+    "launch_date": "2023-10-17",
+    "stock_quantity": 107
+  },
+  {
+    "product_id": "P002",
+    "name": "Smart Watch",
+    "category": "Electronics",
+    "price": 249.99,
+    "cost": 125.0,
+    "supplier": "WearTech",
+    "launch_date": "2022-01-26",
+    "stock_quantity": 429
+  },
+  {
+    "product_id": "P003",
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 59.99,
+    "cost": 28.0,
+    "supplier": "AudioPro",
+    "launch_date": "2022-10-09",
+    "stock_quantity": 175
+  },
+  {
+    "product_id": "P004",
+    "name": "Laptop Stand",
+    "category": "Electronics",
+    "price": 34.99,
+    "cost": 15.0,
+    "supplier": "DeskMaster",
+    "launch_date": "2022-08-17",
+    "stock_quantity": 121
+  },
+  {
+    "product_id": "P005",
+    "name": "Wireless Mouse",
+    "category": "Electronics",
+    "price": 29.99,
+    "cost": 12.0,
+    "supplier": "PeripheralPlus",
+    "launch_date": "2022-04-15",
+    "stock_quantity": 396
+  },
+  {
+    "product_id": "P006",
+    "name": "USB-C Hub",
+    "category": "Electronics",
+    "price": 49.99,
+    "cost": 22.0,
+    "supplier": "ConnectCo",
+    "launch_date": "2023-07-13",
+    "stock_quantity": 94
+  },
+  {
+    "product_id": "P007",
+    "name": "Cotton T-Shirt",
+    "category": "Clothing",
+    "price": 19.99,
+    "cost": 7.0,
+    "supplier": "FashionLine",
+    "launch_date": "2023-08-28",
+    "stock_quantity": 266
+  },
+  {
+    "product_id": "P008",
+    "name": "Denim Jeans",
+    "category": "Clothing",
+    "price": 59.99,
+    "cost": 25.0,
+    "supplier": "DenimCo",
+    "launch_date": "2022-02-02",
+    "stock_quantity": 65
+  },
+  {
+    "product_id": "P009",
+    "name": "Winter Jacket",
+    "category": "Clothing",
+    "price": 129.99,
+    "cost": 55.0,
+    "supplier": "OutdoorWear",
+    "launch_date": "2022-04-06",
+    "stock_quantity": 161
+  },
+  {
+    "product_id": "P010",
+    "name": "Running Shoes",
+    "category": "Clothing",
+    "price": 79.99,
+    "cost": 35.0,
+    "supplier": "SportsFit",
+    "launch_date": "2022-08-27",
+    "stock_quantity": 308
+  },
+  {
+    "product_id": "P011",
+    "name": "Casual Sneakers",
+    "category": "Clothing",
+    "price": 64.99,
+    "cost": 28.0,
+    "supplier": "FootComfort",
+    "launch_date": "2023-09-09",
+    "stock_quantity": 63
+  },
+  {
+    "product_id": "P012",
+    "name": "Hoodie",
+    "category": "Clothing",
+    "price": 44.99,
+    "cost": 18.0,
+    "supplier": "CozyWear",
+    "launch_date": "2023-07-29",
+    "stock_quantity": 151
+  },
+  {
+    "product_id": "P013",
+    "name": "Coffee Maker",
+    "category": "Home",
+    "price": 79.99,
+    "cost": 38.0,
+    "supplier": "KitchenPro",
+    "launch_date": "2023-10-28",
+    "stock_quantity": 409
+  },
+  {
+    "product_id": "P014",
+    "name": "Bed Sheets Set",
+    "category": "Home",
+    "price": 49.99,
+    "cost": 20.0,
+    "supplier": "HomeComfort",
+    "launch_date": "2023-07-13",
+    "stock_quantity": 264
+  },
+  {
+    "product_id": "P015",
+    "name": "Table Lamp",
+    "category": "Home",
+    "price": 39.99,
+    "cost": 16.0,
+    "supplier": "LightingCo",
+    "launch_date": "2022-08-14",
+    "stock_quantity": 279
+  },
+  {
+    "product_id": "P016",
+    "name": "Throw Pillow",
+    "category": "Home",
+    "price": 24.99,
+    "cost": 10.0,
+    "supplier": "DecorPlus",
+    "launch_date": "2023-08-27",
+    "stock_quantity": 192
+  },
+  {
+    "product_id": "P017",
+    "name": "Wall Clock",
+    "category": "Home",
+    "price": 34.99,
+    "cost": 14.0,
+    "supplier": "TimeKeeper",
+    "launch_date": "2022-01-07",
+    "stock_quantity": 438
+  },
+  {
+    "product_id": "P018",
+    "name": "Storage Basket",
+    "category": "Home",
+    "price": 29.99,
+    "cost": 12.0,
+    "supplier": "OrganizePro",
+    "launch_date": "2022-06-13",
+    "stock_quantity": 407
+  },
+  {
+    "product_id": "P019",
+    "name": "Python Programming Guide",
+    "category": "Books",
+    "price": 39.99,
+    "cost": 15.0,
+    "supplier": "TechBooks",
+    "launch_date": "2023-03-09",
+    "stock_quantity": 224
+  },
+  {
+    "product_id": "P020",
+    "name": "The Business Mindset",
+    "category": "Books",
+    "price": 24.99,
+    "cost": 10.0,
+    "supplier": "BizPublish",
+    "launch_date": "2022-10-12",
+    "stock_quantity": 129
+  },
+  {
+    "product_id": "P021",
+    "name": "Cooking Masterclass",
+    "category": "Books",
+    "price": 29.99,
+    "cost": 12.0,
+    "supplier": "CulinaryPress",
+    "launch_date": "2022-08-09",
+    "stock_quantity": 440
+  },
+  {
+    "product_id": "P022",
+    "name": "Mystery Novel Collection",
+    "category": "Books",
+    "price": 34.99,
+    "cost": 14.0,
+    "supplier": "FictionHouse",
+    "launch_date": "2022-12-11",
+    "stock_quantity": 102
+  },
+  {
+    "product_id": "P023",
+    "name": "Self-Help Journey",
+    "category": "Books",
+    "price": 19.99,
+    "cost": 8.0,
+    "supplier": "LifeBooks",
+    "launch_date": "2022-04-05",
+    "stock_quantity": 244
+  },
+  {
+    "product_id": "P024",
+    "name": "History Chronicles",
+    "category": "Books",
+    "price": 44.99,
+    "cost": 18.0,
+    "supplier": "HistoryPress",
+    "launch_date": "2022-04-10",
+    "stock_quantity": 233
+  },
+  {
+    "product_id": "P025",
+    "name": "Yoga Mat",
+    "category": "Sports",
+    "price": 34.99,
+    "cost": 15.0,
+    "supplier": "FitnessPro",
+    "launch_date": "2022-12-19",
+    "stock_quantity": 359
+  },
+  {
+    "product_id": "P026",
+    "name": "Dumbbells Set",
+    "category": "Sports",
+    "price": 89.99,
+    "cost": 40.0,
+    "supplier": "PowerLift",
+    "launch_date": "2022-09-28",
+    "stock_quantity": 463
+  },
+  {
+    "product_id": "P027",
+    "name": "Water Bottle",
+    "category": "Sports",
+    "price": 19.99,
+    "cost": 7.0,
+    "supplier": "HydrateCo",
+    "launch_date": "2022-02-14",
+    "stock_quantity": 423
+  },
+  {
+    "product_id": "P028",
+    "name": "Resistance Bands",
+    "category": "Sports",
+    "price": 24.99,
+    "cost": 10.0,
+    "supplier": "FlexFit",
+    "launch_date": "2023-04-16",
+    "stock_quantity": 324
+  },
+  {
+    "product_id": "P029",
+    "name": "Jump Rope",
+    "category": "Sports",
+    "price": 14.99,
+    "cost": 5.0,
+    "supplier": "CardioGear",
+    "launch_date": "2022-05-08",
+    "stock_quantity": 243
+  },
+  {
+    "product_id": "P030",
+    "name": "Exercise Ball",
+    "category": "Sports",
+    "price": 29.99,
+    "cost": 12.0,
+    "supplier": "CoreFit",
+    "launch_date": "2022-03-22",
+    "stock_quantity": 332
+  }
+]
