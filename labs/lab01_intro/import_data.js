@@ -5,10 +5,10 @@
 // Connect to the lab01_student database
 db = db.getSiblingDB('lab01_student');
 
-// Drop existing collection if it exists (optional)
+// Drop existing collection if it exists so the script can be re-run idempotently.
 db.customers.drop();
 
-// Sample data to import
+// Sample data to import. Keeping it in code makes the script portable inside mongosh.
 const customers = [
   {
     "customer_id": 1,
@@ -57,12 +57,12 @@ const customers = [
   }
 ];
 
-// Insert the sample data
+// Insert the sample data and report how many documents were created.
 print("Importing sample data...");
 const result = db.customers.insertMany(customers);
 print(`Successfully inserted ${result.insertedIds ? Object.keys(result.insertedIds).length : customers.length} documents`);
 
-// Create indexes
+// Create indexes that support the lab's queries (city, country, compound, unique).
 print("\nCreating indexes...");
 
 // Index on city
@@ -81,12 +81,12 @@ print("✓ Created compound index on age and balance");
 db.customers.createIndex({ email: 1 }, { unique: true });
 print("✓ Created unique index on email");
 
-// Verify the import
+// Verify the import completed successfully before exiting.
 print("\nVerifying import...");
 const count = db.customers.countDocuments();
 print(`Total documents in collection: ${count}`);
 
-// Show sample data
+// Show a subset of documents so students can visually confirm the data shape.
 print("\nSample data (first 3 documents):");
 db.customers.find().limit(3).forEach(doc => {
   printjson(doc);

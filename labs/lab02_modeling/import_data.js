@@ -15,6 +15,12 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 // Collection names
 const COLLECTIONS = ["customers", "products", "orders", "reviews"];
 
+/**
+ * Read a JSON file from disk and parse it into JavaScript objects.
+ *
+ * @param {string} filePath - Absolute path to the JSON file.
+ * @returns {Promise<object[]>} Parsed JSON contents.
+ */
 async function loadJSONFile (filePath) {
   try {
     const data = await fs.readFile(filePath, "utf8");
@@ -25,6 +31,12 @@ async function loadJSONFile (filePath) {
   }
 }
 
+/**
+ * Main entry point that connects to MongoDB, loads all seed documents,
+ * and ensures indexes are created for every collection in the model.
+ *
+ * @returns {Promise<void>}
+ */
 async function importData () {
   let client;
 
@@ -54,6 +66,7 @@ async function importData () {
 
     // Import data for each collection
     console.log("\nImporting sample data...");
+    // Source JSON sits inside the starter pack so instructors can tweak samples easily.
     const dataDir = path.join(__dirname, "starter", "data");
 
     for (const collectionName of COLLECTIONS) {
@@ -98,6 +111,7 @@ async function importData () {
 
     // Verify import
     console.log("\nVerifying data import...");
+    // Print document counts so students can confirm dataset size matches expectations.
     for (const collectionName of COLLECTIONS) {
       const count = await db.collection(collectionName).countDocuments();
       console.log(`${collectionName}: ${count} documents`);
@@ -116,6 +130,12 @@ async function importData () {
   }
 }
 
+/**
+ * Create the indexes required by the lab's query workload.
+ *
+ * @param {import("mongodb").Db} db - Active database handle.
+ * @returns {Promise<void>}
+ */
 async function createIndexes (db) {
   try {
     // Customers collection indexes

@@ -95,9 +95,12 @@ def get_mongo_client(uri: str = "mongodb://localhost:27017") -> MongoClient:
     ConnectionFailure
         If the server cannot be reached.
     """
+    # Fail fast with a descriptive error when the URI is malformed.
     if not isinstance(uri, str):
         raise TypeError("MongoDB URI must be a string.")
 
+    # The short timeout prevents the sample script from hanging if MongoDB
+    # is not running on the student's machine.
     client = MongoClient(uri, serverSelectionTimeoutMS=5000)
 
     # 'ping' is a simple command to check that MongoDB is reachable.
@@ -133,11 +136,13 @@ def get_collection(
     TypeError
         If db_name or collection_name are not non-empty strings.
     """
+    # Sanity-check identifiers before accessing PyMongo helpers.
     if not isinstance(db_name, str) or not db_name:
         raise TypeError("db_name must be a non-empty string.")
     if not isinstance(collection_name, str) or not collection_name:
         raise TypeError("collection_name must be a non-empty string.")
 
+    # Delegate collection retrieval to PyMongo using the validated names.
     db = client[db_name]
     return db[collection_name]
 
@@ -156,6 +161,7 @@ def list_databases(client: MongoClient) -> List[str]:
     list of str
         Names of databases.
     """
+    # PyMongo returns a list of strings directly, so we can forward it as-is.
     return client.list_database_names()
 
 
@@ -173,6 +179,8 @@ def list_collections(collection: Collection) -> List[str]:
     list of str
         Names of collections in the same database.
     """
+    # Grab the parent database through the provided collection so students
+    # can list related collections without reconnecting.
     db = collection.database
     return db.list_collection_names()
 
@@ -205,6 +213,7 @@ def find_example_documents(collection: Collection) -> List[Dict[str, Any]]:
     #     .limit(5)
     # )
 
+    # Return the documents so callers can decide how to present them.
     return docs
 
 
@@ -286,10 +295,13 @@ import { MongoClient } from "mongodb";
  *   If connection fails.
  */
 async function getMongoClient(uri = "mongodb://localhost:27017") {
+  // Validate configuration up front so we fail early with a meaningful message.
   if (typeof uri !== "string") {
     throw new TypeError("MongoDB URI must be a string.");
   }
 
+  // Create a client with a short server selection timeout so the script
+  // doesn't hang for long if the server is unavailable.
   const client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 5000,
   });
@@ -308,6 +320,7 @@ async function getMongoClient(uri = "mongodb://localhost:27017") {
  * @returns {Promise<string[]>}
  */
 async function listDatabases(client) {
+  // Use the admin interface to enumerate database metadata in a single call.
   const adminDb = client.db().admin();
   const { databases } = await adminDb.listDatabases();
   return databases.map((db) => db.name);
@@ -329,6 +342,7 @@ function getCollection(client, dbName, collectionName) {
     throw new TypeError("collectionName must be a non-empty string.");
   }
 
+  // Re-use the validated names to obtain handles to both the DB and collection.
   const db = client.db(dbName);
   return db.collection(collectionName);
 }
@@ -342,6 +356,8 @@ function getCollection(client, dbName, collectionName) {
  */
 async function listCollections(client, dbName) {
   const db = client.db(dbName);
+  // `collections()` returns the full collection objects, so we map to names
+  // to keep the return signature simple for students.
   const collections = await db.collections();
   return collections.map((c) => c.collectionName);
 }
@@ -358,6 +374,7 @@ async function findExampleDocuments(collection) {
 
   // 2) Filter: books with more than 300 pages,
   //    sorted by pageCount descending, limited to 5 results.
+  //    This highlights basic filter + sort + pagination features in one call.
   const docs = await collection
     .find({ pageCount: { $gt: 300 } })
     .sort({ pageCount: -1 })
@@ -367,21 +384,32 @@ async function findExampleDocuments(collection) {
   return docs;
 }
 
+/**
+ * Entry point that orchestrates the demo by connecting to MongoDB,
+ * printing metadata, and logging sample documents from `library.books`.
+ *
+ * @returns {Promise<void>}
+ */
 async function main() {
   let client;
 
   try {
+    // Establish the client connection using the shared helper above.
     client = await getMongoClient();
 
+    // Provide a quick overview of what's accessible on this server.
     const dbNames = await listDatabases(client);
     console.log("Databases:", dbNames);
 
     const dbName = "library";
     const collectionName = "books";
 
+    // Show which collections exist in the target database so students
+    // know what they can query next.
     const collections = await listCollections(client, dbName);
     console.log(`Collections in '${dbName}':`, collections);
 
+    // Retrieve example documents to demonstrate a basic query pipeline.
     const booksCollection = getCollection(client, dbName, collectionName);
     const docs = await findExampleDocuments(booksCollection);
 

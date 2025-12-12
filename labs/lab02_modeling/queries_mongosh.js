@@ -22,6 +22,7 @@ print("QUERY 1: Customer's Recent Orders");
 print("█".repeat(60));
 
 // Simple find query
+// Simple find query that relies on embedded items to avoid extra lookups.
 const customerOrders = db.orders
     .find({ customer_id: "CUST001" })
     .sort({ order_date: -1 })
@@ -41,6 +42,7 @@ customerOrders.forEach((order, index) => {
 
 // Using aggregation pipeline for more control
 print("\n--- Using Aggregation Pipeline ---");
+// Aggregation flavor of the same query for summaries/counts.
 const customerOrdersAgg = db.orders.aggregate([
     { $match: { customer_id: "CUST001" } },
     { $sort: { order_date: -1 } },
@@ -93,7 +95,7 @@ print("QUERY 3: Top Products by Quantity Sold");
 print("█".repeat(60));
 
 const topProducts = db.orders.aggregate([
-    // Unwind items array to process each item separately
+    // Unwind items array to process each item separately.
     { $unwind: "$items" },
 
     // Group by product and sum quantities
@@ -134,6 +136,7 @@ topProducts.forEach((product, index) => {
 
 // Alternative: Top Products by Revenue
 print("\n--- Top Products by Revenue ---");
+// Variant that ranks products by revenue instead of quantity.
 const topByRevenue = db.orders.aggregate([
     { $unwind: "$items" },
     { $group: {
@@ -172,6 +175,7 @@ electronicsProducts.forEach((product, index) => {
 
 // Category with price range
 print("\nAffordable Electronics ($50-$200):");
+// Add a price filter to demonstrate range queries on the same data.
 const affordableElectronics = db.products.find({
     category: "Electronics",
     price: { $gte: 50, $lte: 200 }
@@ -183,6 +187,7 @@ affordableElectronics.forEach((product, index) => {
 
 // Faceted search aggregation
 print("\n--- Faceted Search for Electronics ---");
+// Run a faceted search to show multiple aggregations over the same match set.
 const facetedSearch = db.products.aggregate([
     { $match: { category: "Electronics" } },
     { $facet: {
