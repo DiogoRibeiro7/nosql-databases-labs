@@ -173,15 +173,16 @@ Follow the general submission workflow in
 
 ---
 
-## 5. Grading (summary)
+## 5. Self-Assessment Checklist
 
-This lab will be graded according to the general rubric in
-[`instructions/grading_rubric.md`](../../instructions/grading_rubric.md). A typical breakdown is:
+Use this list to confirm you practiced the core skills before moving on:
 
-* Correct setup and data import: **30%**
-* Correctness of queries and aggregations: **40%**
-* Use of at least one meaningful index: **15%**
-* Clarity and completeness of `NOTES.md` and file organization: **15%**
+* Successfully import `sample.json` and document the command used.
+* Run basic CRUD queries (find, insert, update, delete) without errors.
+* Create at least one index (e.g., on `city`) and explain why it helps.
+* Capture troubleshooting notes and setup steps inside `NOTES.md`.
+
+If each item feels comfortable, you are ready to continue to the next lab.
 
 ---
 

@@ -270,24 +270,16 @@ Follow the submission guidelines in
 
 ---
 
-## 5. Grading (summary)
+## 5. Self-Assessment Checklist
 
-* **Sales Analytics (Task 1)**: 25%
-  - Correctness and completeness of pipelines
-  - Quality of insights
+Before moving on, make sure you can demonstrate:
 
-* **Customer Analytics (Task 2)**: 25%
-  - Correctness of RFM and cohort analysis
-  - Segmentation logic
+* **Task 1 – Sales Analytics**: Pipelines return sensible revenue/volume numbers and are documented in `sales_analytics.js`.
+* **Task 2 – Customer Analytics**: Your RFM/cohort logic is explained and reproducible.
+* **Task 3 – Product Analytics**: Cross-sell or inventory insights include the aggregation stages used to derive them.
+* **Task 4 – Advanced Techniques**: At least one pipeline uses window functions or performance tweaks with recorded metrics.
 
-* **Product Analytics (Task 3)**: 20%
-  - Cross-sell analysis accuracy
-  - Inventory recommendations
-
-* **Advanced Techniques (Task 4)**: 30%
-  - Correct use of window functions
-  - Pipeline optimization
-  - Complex transformations
+If any item feels shaky, revisit the corresponding section or practice pipeline before proceeding.
 
 ---
 

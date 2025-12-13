@@ -321,27 +321,17 @@ Your submission should include:
 
 ---
 
-## 7. Grading Rubric
+## 7. Self-Assessment Checklist
 
-- **Replica Set Configuration (25%)**
-  - Correct setup and configuration
-  - Understanding of roles (primary/secondary)
+Use this list to confirm you exercised the main scenarios:
 
-- **Read/Write Operations (25%)**
-  - Proper use of read preferences
-  - Appropriate write concerns
+- **Replica Set Configuration** – You can rebuild the environment from scratch and explain each member’s role.
+- **Read/Write Operations** – Demonstrate read preference changes and write concerns with recorded observations.
+- **Failover Handling** – Perform a manual `rs.stepDown()` and document how your app reacts.
+- **Monitoring & Maintenance** – Capture replication lag output plus any alerts/watchdogs you configured.
+- **Documentation** – Summarize procedures and results in `NOTES.md` or companion files.
 
-- **Failover Handling (25%)**
-  - Successful failover simulation
-  - Application resilience
-
-- **Monitoring & Maintenance (15%)**
-  - Replication lag monitoring
-  - Proper maintenance procedures
-
-- **Documentation (10%)**
-  - Clear explanations
-  - Well-organized notes
+If you can repeat these steps without referencing the instructions, you've internalized the practice goals.
 
 ---
 

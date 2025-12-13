@@ -116,6 +116,10 @@ mongosh --file import_data.js  # Load sample data
 mongosh --file queries.js      # Run example queries
 ```
 
+### 4.4. Performance Expectations
+
+Each lab includes target data sizes, latency goals, and timing budgets so you can verify your environment before tackling the deeper exercises. Review [`docs/performance_expectations.md`](docs/performance_expectations.md) for the per-lab checklist and link it from your lab notes when reporting metrics.
+
 ---
 
 ## 5. Available Datasets

@@ -91,7 +91,7 @@ Current tests only validate document counts. Improvements needed:
 - [x] Add schema documentation for each dataset in `data/`
 - [x] Create troubleshooting guide for common MongoDB issues
 - [ ] Document how to extend the lab framework (API docs)
-- [ ] Document performance expectations per lab
+- [x] Document performance expectations per lab
 - [x] Add query optimization best practices guide
 
 ## Priority 4: Medium (Developer Experience)
@@ -106,7 +106,6 @@ Current tests only validate document counts. Improvements needed:
 
 ### Data Management
 
-- [ ] Consider Git LFS for large datasets (repo is currently 1.1 GB)
 - [ ] Add data versioning and freshness tracking
 - [ ] Create data dictionary for all sample datasets
 - [ ] Implement data validation schemas

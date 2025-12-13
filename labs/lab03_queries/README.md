@@ -258,7 +258,7 @@ For students who want extra practice (or extra credit), complete the “Advanced
 2. Stress-test the system by dropping/rebuilding critical indexes, then document the impact in `diagnostics.md`.
 3. Create `data_quality.js` to flag data anomalies and persist suspect documents for review.
 
-These exercises mirror real incident-response workflows. Keep your findings in `labs/lab03_queries/diagnostics.md` so graders can see your reasoning even if you only complete part of the bonus.
+These exercises mirror real incident-response workflows. Keep your findings in `labs/lab03_queries/diagnostics.md` so you can track your reasoning (and show classmates) even if you only complete part of the bonus.
 
 ---
 
@@ -287,30 +287,16 @@ If you want to validate your setup with lighter tasks first, complete the checkl
 
 ---
 
-## 5. Grading (summary)
+## 5. Self-Assessment Checklist
 
-This lab will be graded according to the general rubric in
-[`instructions/grading_rubric.md`](../../instructions/grading_rubric.md). A typical breakdown is:
+Use the following prompts to verify you’ve practiced each skill area:
 
-* **Complex queries (Task 1)**: 25%
-  - Correctness of queries
-  - Use of appropriate operators
-  - Query clarity and efficiency
+* **Complex queries (Task 1)** – Can you explain which operators you chose and why each query benefits from them?
+* **Aggregations (Task 2)** – Do your pipelines include `$match`, `$group`, and at least one advanced stage, with notes about performance?
+* **Indexes (Task 3)** – Have you recorded before/after metrics (`executionTimeMillis`, `totalDocsExamined`) for each index?
+* **Optimization analysis (Task 4)** – Can you narrate the bottleneck, the change you made, and the resulting improvement?
 
-* **Aggregation pipelines (Task 2)**: 30%
-  - Correct use of aggregation stages
-  - Complexity and completeness
-  - Result accuracy
-
-* **Index design and optimization (Task 3)**: 30%
-  - Appropriate index selection
-  - Performance improvements
-  - Understanding of trade-offs
-
-* **Query optimization analysis (Task 4)**: 15%
-  - Quality of analysis
-  - Problem identification
-  - Solution effectiveness
+Treat these questions as a practice review with a teammate; if you can answer confidently, you’re ready for the next module.
 
 ---
 

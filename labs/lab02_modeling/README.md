@@ -122,15 +122,16 @@ Follow the general submission rules in
 
 ---
 
-## 5. Grading (summary)
+## 5. Self-Assessment Checklist
 
-This lab will be graded according to the general rubric in
-[`instructions/grading_rubric.md`](../../instructions/grading_rubric.md). A typical breakdown is:
+Use this informal rubric to gauge whether you’ve covered the essentials:
 
-* Quality and clarity of the data model: **40%**
-* Justification of embedding vs referencing and relationships: **25%**
-* Quality and correctness of sample queries: **20%**
-* Documentation and organization (`model.md`, `queries.md`, `NOTES.md`): **15%**
+* Conceptual model clearly identifies entities, attributes, and relationships.
+* Embedding vs referencing decisions are justified in `model.md` or `NOTES.md`.
+* Sample queries demonstrate each required workload from Section 2.
+* Proposed indexes include trade-off discussions (write cost, storage).
+
+If you can explain each bullet to a peer, you’ve extracted the intended lessons.
 
 ---
 

@@ -37,4 +37,4 @@ Mention any surprising observations (duplicate cities, missing data, etc.) in `N
 
 ---
 
-Once these warm-ups feel comfortable, proceed to the primary Lab 01 tasks. You can keep `lab01_basic` as a playground and use `lab01_<student_id>` for graded work.
+Once these warm-ups feel comfortable, proceed to the primary Lab 01 tasks. You can keep `lab01_basic` as a playground and use `lab01_<student_id>` for your main practice workspace.
