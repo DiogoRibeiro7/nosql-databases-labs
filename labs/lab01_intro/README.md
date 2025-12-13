@@ -90,7 +90,7 @@ mongosh --version
 A small JSON dataset is provided in:
 
 ```text
-labs/lab01_intro/starter/data/sample.json
+labs/lab01_intro/sample.json
 ```
 
 Your tasks:
@@ -104,7 +104,7 @@ You may use commands such as (example for MongoDB CLI):
 mongoimport \
   --db lab01_<your_student_id> \
   --collection customers \
-  --file starter/data/sample.json \
+  --file sample.json \
   --jsonArray
 ```
 

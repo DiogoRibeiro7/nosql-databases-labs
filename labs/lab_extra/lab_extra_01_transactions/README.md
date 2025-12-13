@@ -382,3 +382,10 @@ Individual test files:
 - [Read/Write Concerns](https://docs.mongodb.com/manual/reference/read-concern/)
 - [Causal Consistency](https://docs.mongodb.com/manual/core/causal-consistency-read-write-concerns/)
 - [Saga Pattern](https://microservices.io/patterns/data/saga.html)
+
+---
+
+## Feedback & Collaboration
+
+- Report transaction-lab issues or feature requests in [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) using the `lab_extra_01` label.
+- Start or join conversations in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to compare approaches for retry logic, consistency patterns, or saga workflows.

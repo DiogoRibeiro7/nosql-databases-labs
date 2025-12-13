@@ -45,23 +45,23 @@ The repository now contains 5 main labs that cover the essential NoSQL concepts:
 
 ### Extra Labs (Optional/Advanced)
 
-The following labs are proposed as extra/optional content for advanced students or extended courses:
+The repository now ships with three optional labs for advanced students or extended courses:
 
-- [ ] **Lab Extra 1: Consistency Patterns & Transactions**
+- [x] **Lab Extra 1: Consistency Patterns & Transactions**
 
   - ACID transactions in MongoDB
   - Read/write concerns
   - Consistency patterns for distributed systems
   - Handling eventual consistency
 
-- [ ] **Lab Extra 2: Sharding & Horizontal Scaling**
+- [x] **Lab Extra 2: Sharding & Horizontal Scaling**
 
   - Sharding concepts and strategies
   - Choosing shard keys
   - Balancing and chunk migration
   - Monitoring sharded clusters
 
-- [ ] **Lab Extra 3: Indexing Strategies & Advanced Performance**
+- [x] **Lab Extra 3: Indexing Strategies & Advanced Performance**
 
   - Creating and managing indexes
   - Index types (single field, compound, multikey, text)
@@ -106,9 +106,9 @@ Current tests only validate document counts. Improvements needed:
 
 ### Data Management
 
-- [ ] Add data versioning and freshness tracking
-- [ ] Create data dictionary for all sample datasets
-- [ ] Implement data validation schemas
+- [x] Add data versioning and freshness tracking
+- [x] Create data dictionary for all sample datasets
+- [x] Implement data validation schemas
 
 ## Priority 5: Medium (Group Work Enhancement)
 
@@ -160,14 +160,14 @@ Currently 12 groups with minimal content:
 
 ### Phase 3 (Medium term - Optional)
 
-1. Create Lab Extra 1 (Consistency Patterns & Transactions)
-2. Create Lab Extra 2 (Sharding & Horizontal Scaling)
+1. ~~Create Lab Extra 1 (Consistency Patterns & Transactions)~~ ✓
+2. ~~Create Lab Extra 2 (Sharding & Horizontal Scaling)~~ ✓
 3. Add performance benchmarks
 4. Implement advanced monitoring exercises
 
 ### Phase 4 (Long term - Optional)
 
-1. Create Lab Extra 3 (Advanced Indexing & Performance)
+1. ~~Create Lab Extra 3 (Advanced Indexing & Performance)~~ ✓
 2. Add modern MongoDB features (change streams, time-series, etc.)
 3. Complete all advanced documentation
 4. Create self-paced learning paths
@@ -187,7 +187,7 @@ Currently 12 groups with minimal content:
 Metric                | Current | Target
 --------------------- | ------- | -------------
 Core Lab Count        | 5       | 5 ✓
-Extra Labs (Optional) | 0       | 3
+Extra Labs (Optional) | 3       | 3 ✓
 Test Coverage         | ~30%    | >80%
 Documentation Files   | 48      | 60+
 Automated Validations | Basic   | Comprehensive

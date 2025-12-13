@@ -529,3 +529,10 @@ Individual tests:
 - [Query Optimization](https://docs.mongodb.com/manual/core/query-optimization/)
 - [Performance Best Practices](https://docs.mongodb.com/manual/administration/analyzing-mongodb-performance/)
 - [Index Strategies](https://docs.mongodb.com/manual/applications/indexes/)
+
+---
+
+## Feedback & Collaboration
+
+- Use [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab_extra_03` label to flag documentation gaps or request new profiling scenarios.
+- Share explain-plan screenshots, profiler workflows, or benchmark scripts in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) so others can replicate your findings.

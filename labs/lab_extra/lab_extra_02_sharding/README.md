@@ -468,3 +468,10 @@ Individual tests:
 - [Shard Key Selection](https://docs.mongodb.com/manual/core/sharding-shard-key/)
 - [Zone Sharding](https://docs.mongodb.com/manual/core/zone-sharding/)
 - [Sharding Best Practices](https://docs.mongodb.com/manual/core/sharding-data-partitioning/)
+
+---
+
+## Feedback & Collaboration
+
+- Use [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab_extra_02` label to report sharding-lab bugs or request new scenarios.
+- Swap cluster setup tips or performance findings in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to help others troubleshoot.

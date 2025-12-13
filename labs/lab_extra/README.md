@@ -158,6 +158,15 @@ Complete all three labs in order (01 → 02 → 03) for comprehensive knowledge
 
 ### Community
 - [MongoDB Community Forums](https://www.mongodb.com/community/forums/)
+
+---
+
+## Feedback & Collaboration
+
+- Log suggestions or issues for any extra lab via [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) and tag them with `lab_extra`.
+- Use the [Discussions tab](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to share lessons learned, environment tips, or questions so others can jump in.
+
+Please search existing threads before opening new ones to keep the history tidy.
 - [Stack Overflow - MongoDB](https://stackoverflow.com/questions/tagged/mongodb)
 
 ### Tools
