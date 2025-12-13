@@ -31,27 +31,23 @@ Sharding is MongoDB's approach to horizontal scaling:
 
 ### 1.2 Sharding Components
 
-```
-┌─────────────────────────────────────────────┐
-│                 Application                  │
-└─────────────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────┐
-│              mongos (Router)                 │
-└─────────────────────────────────────────────┘
-                        │
-        ┌───────────────┼───────────────┐
-        ▼               ▼               ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│   Shard 1    │ │   Shard 2    │ │   Shard 3    │
-│  (Replica    │ │  (Replica    │ │  (Replica    │
-│    Set)      │ │    Set)      │ │    Set)      │
-└──────────────┘ └──────────────┘ └──────────────┘
+```mermaid
+flowchart TB
+    app([Application])
+    router([mongos<br/>Router])
+    shard1([Shard 1<br/>Replica Set])
+    shard2([Shard 2<br/>Replica Set])
+    shard3([Shard 3<br/>Replica Set])
+    config([Config Servers<br/>Replica Set])
 
-┌─────────────────────────────────────────────┐
-│          Config Servers (Replica Set)        │
-└─────────────────────────────────────────────┘
+    app --> router
+    router --> shard1
+    router --> shard2
+    router --> shard3
+    config -.-> router
+
+    classDef shard fill:#F2F6FF,stroke:#4C6EF5,stroke-width:1px;
+    class shard1,shard2,shard3 shard
 ```
 
 --------------------------------------------------------------------------------

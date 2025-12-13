@@ -73,27 +73,13 @@
 
 ### 1.3\. Conceptual Diagram
 
-```
-┌─────────────┐
-│  CUSTOMER   │
-└──────┬──────┘
-       │ 1
-       │
-       │ N
-┌──────▼──────┐       ┌─────────────┐
-│   ORDER     │───────│ ORDER ITEM  │
-└──────┬──────┘   N   └──────┬──────┘
-       │                     │
-       │ 1                   │ N
-       │                     │ 1
-       │               ┌─────▼──────┐
-       │               │  PRODUCT   │
-       │               └─────┬──────┘
-       │                     │ 1
-       │ N                   │
-┌──────▼──────┐              │ N
-│   REVIEW    │──────────────┘
-└─────────────┘
+```mermaid
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : appears_in
+    PRODUCT ||--o{ REVIEW : receives
+    CUSTOMER ||--o{ REVIEW : writes
 ```
 
 --------------------------------------------------------------------------------

@@ -131,27 +131,23 @@ mongosh --port 27019  # Secondary 2
 
 ### 4.1. Replica Set Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Application / Driver                      │
-└─────────────────────────────────────────────────────────────┘
-                               │
-                    ┌──────────┴──────────┐
-                    │   Connection Pool    │
-                    └──────────┬──────────┘
-                               │
-        ┌──────────────────────┼──────────────────────┐
-        ↓                      ↓                      ↓
-┌──────────────┐      ┌──────────────┐      ┌──────────────┐
-│   Primary    │      │  Secondary   │      │  Secondary   │
-│   (27017)    │─────→│   (27018)    │      │   (27019)    │
-│              │      │              │      │              │
-│   Accepts    │      │   Reads      │      │   Reads      │
-│   Writes     │      │   Only       │      │   Only       │
-└──────────────┘      └──────────────┘      └──────────────┘
-        │                      ↑                      ↑
-        └──────────────────────┴──────────────────────┘
-                      Replication Flow
+```mermaid
+flowchart TB
+    app([Application / Driver])
+    pool[[Connection Pool]]
+    primary([Primary<br/>27017])
+    s1([Secondary<br/>27018])
+    s2([Secondary<br/>27019])
+
+    app --> pool
+    pool -->|Writes| primary
+    pool -.->|Read Preference| s1
+    pool -.->|Read Preference| s2
+    primary -->|Replication| s1
+    primary -->|Replication| s2
+
+    classDef readOnly fill:#E8F4FF,stroke:#1F78B4,stroke-width:1px;
+    class s1,s2 readOnly
 ```
 
 ### 4.2. Failover Process

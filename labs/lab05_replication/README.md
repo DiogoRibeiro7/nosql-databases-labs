@@ -29,19 +29,20 @@ Replication serves multiple purposes:
 
 ### 1.2. MongoDB Replica Set Architecture
 
-```
-        ┌─────────────┐
-        │   Primary   │  ← All writes go here
-        │  (Port 27017)│  → Replicates to secondaries
-        └─────┬───────┘
-              │
-        ┌─────┴────────────────┐
-        ▼                      ▼
-┌──────────────┐      ┌──────────────┐
-│  Secondary 1 │      │  Secondary 2 │
-│  (Port 27018)│      │  (Port 27019)│
-└──────────────┘      └──────────────┘
-    Read-only            Read-only
+```mermaid
+flowchart TB
+    primary([Primary<br/>Port 27017])
+    s1([Secondary 1<br/>Port 27018])
+    s2([Secondary 2<br/>Port 27019])
+
+    primary -->|Replication| s1
+    primary -->|Replication| s2
+
+    classDef readOnly fill:#E8F4FF,stroke:#1F78B4,stroke-width:1px;
+    class s1,s2 readOnly
+
+    linkStyle 0 stroke:#4CAF50,stroke-width:2px;
+    linkStyle 1 stroke:#4CAF50,stroke-width:2px;
 ```
 
 ### 1.3. Key Concepts
