@@ -37,6 +37,20 @@ async function loadJSONFile (filePath) {
  *
  * @returns {Promise<void>}
  */
+function handleConnectionError (error) {
+  if (
+    error?.name === "MongoServerSelectionError" ||
+    error?.message?.includes("ECONNREFUSED")
+  ) {
+    console.error("\n⚠️ Unable to connect to MongoDB at", MONGODB_URI);
+    console.error("   • Make sure the mongod service is running");
+    console.error("   • If you are using Docker, start the MongoDB container first");
+    console.error("   • You can change the connection URI via the MONGODB_URI env var\n");
+    return true;
+  }
+  return false;
+}
+
 async function importData () {
   let client;
 
@@ -120,7 +134,9 @@ async function importData () {
     console.log("\n✓ Data import completed successfully!");
     console.log(`Database "${DATABASE_NAME}" is ready for use.`);
   } catch (error) {
-    console.error("\nError during import:", error);
+    if (!handleConnectionError(error)) {
+      console.error("\nError during import:", error.message || error);
+    }
     process.exit(1);
   } finally {
     if (client) {

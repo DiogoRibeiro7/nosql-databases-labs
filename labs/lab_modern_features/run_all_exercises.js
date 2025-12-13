@@ -49,12 +49,36 @@ class ModernFeaturesTestRunner {
     }
   }
 
-  async runExercise(name, filePath, skipInLocal = false) {
+  async runExercise(name, filePath, skipInLocal = false, requireReplicaSet = false) {
     console.log(`\n${'='.repeat(60)}`);
     console.log(`Running: ${name}`);
     console.log('='.repeat(60));
 
     const isAtlas = this.connectionUrl.includes('mongodb+srv://');
+
+    if (requireReplicaSet) {
+      const requiresReplicaSet = !isAtlas;
+      if (requiresReplicaSet) {
+        const client = new MongoClient(this.connectionUrl);
+        try {
+          await client.connect();
+          const adm = client.db('admin');
+          const status = await adm.command({ replSetGetStatus: 1 }).catch(() => null);
+          if (!status) {
+            console.warn('⚠️ Skipped: Change Streams require a replica set. Run lab05 replication setup first.');
+            this.results.push({
+              exercise: name,
+              status: 'skipped',
+              reason: 'Replica set not detected',
+              duration: 0
+            });
+            return;
+          }
+        } finally {
+          await client.close();
+        }
+      }
+    }
 
     if (skipInLocal && !isAtlas) {
       console.log('⚠️ Skipped: This exercise requires MongoDB Atlas');
@@ -79,12 +103,13 @@ class ModernFeaturesTestRunner {
         await exercise.connect();
       }
 
-      // Run main exercise methods
+      const helperNames = new Set(['connect', 'cleanup', 'generateMockEmbedding', 'cosineSimilarity']);
+      const helperPrefixes = ['generate', 'cosine', '_', 'format', 'build'];
+
       const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(exercise))
-        .filter(method => method !== 'constructor' &&
-                         method !== 'connect' &&
-                         method !== 'cleanup' &&
-                         !method.startsWith('_'));
+        .filter(method => method !== 'constructor')
+        .filter(method => !helperNames.has(method))
+        .filter(method => !helperPrefixes.some(prefix => method.startsWith(prefix)));
 
       for (const method of methods.slice(0, 3)) { // Run first 3 exercises from each file
         if (typeof exercise[method] === 'function') {
@@ -138,6 +163,7 @@ class ModernFeaturesTestRunner {
       {
         name: 'Change Streams (Real-time Data)',
         file: './exercises/01_change_streams.js',
+        requireReplicaSet: true,
         skipInLocal: false
       },
       {
@@ -172,7 +198,8 @@ class ModernFeaturesTestRunner {
       await this.runExercise(
         exercise.name,
         path.join(__dirname, exercise.file),
-        exercise.skipInLocal
+        exercise.skipInLocal,
+        exercise.requireReplicaSet
       );
     }
 

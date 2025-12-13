@@ -12,7 +12,8 @@ This lab explores advanced MongoDB features that enable real-time data processin
 ## Lab Structure
 
 ### 1. Change Streams (Real-time Data)
-Learn to monitor real-time data changes in MongoDB collections.
+Learn to monitor real-time data changes in MongoDB collections.  
+> Requires a replica set (use Lab 05 setup locally or MongoDB Atlas).
 
 ### 2. Time-Series Collections
 Work with time-stamped data using MongoDB's optimized time-series collections.

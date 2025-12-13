@@ -5,8 +5,21 @@ const { MongoClient, ObjectId, Long } = require('mongodb');
 const fs = require('fs').promises;
 const path = require('path');
 
-const uri = 'mongodb://localhost:27017';
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = 'lab03_movies';
+
+function handleConnectionError(error) {
+  if (
+    error?.name === 'MongoServerSelectionError' ||
+    error?.message?.includes('ECONNREFUSED')
+  ) {
+    console.error('\n⚠️ Unable to connect to MongoDB at', uri);
+    console.error('   • Start mongod locally or update MONGODB_URI');
+    console.error('   • For Docker setups, ensure the MongoDB container is running\n');
+    return true;
+  }
+  return false;
+}
 
 // Helper function to convert Extended JSON to regular MongoDB objects
 function convertExtendedJSON(obj) {
@@ -184,7 +197,10 @@ async function main() {
     console.log("\nYou can now run: node queries.js");
 
   } catch (error) {
-    console.error('Error during import:', error);
+    if (!handleConnectionError(error)) {
+      console.error('Error during import:', error.message || error);
+    }
+    process.exit(1);
   } finally {
     await client.close();
     console.log('\nDisconnected from MongoDB');
@@ -192,4 +208,9 @@ async function main() {
 }
 
 // Run the import
-main().catch(console.error);
+main().catch(error => {
+  if (!handleConnectionError(error)) {
+    console.error(error);
+  }
+  process.exit(1);
+});

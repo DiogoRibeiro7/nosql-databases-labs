@@ -181,6 +181,7 @@ node write_concerns.js
 ```
 
 Understand these options:
+
 - `w: 1`: Acknowledged by primary only
 - `w: "majority"`: Acknowledged by majority of replica set
 - `w: 3`: Acknowledged by specific number of members
@@ -203,6 +204,7 @@ node simulate_failover.js
 ```
 
 This script will:
+
 1. Kill the primary process
 2. Watch the election process
 3. Verify a new primary is elected
@@ -227,10 +229,12 @@ rs.status()
 
 #### 5.1. Monitor Replication Lag
 
-```javascript
-// Run replication lag monitor
-node monitor_replication.js
+```bash
+# Run replication lag monitor
+node monitor_replication.js --minutes=2 --interval=5
 ```
+
+This command writes `monitor_report.json` with lag-per-member samples and election statistics. Keep the monitor running while you perform writes or failover drills to capture meaningful data.
 
 #### 5.2. View the Oplog
 
@@ -283,6 +287,7 @@ node simulate_network_partition.js
 ### Exercise 1: Design for High Availability
 
 Design a replica set configuration for an e-commerce application with:
+
 - Geo-distributed members
 - Read-heavy workload
 - 99.99% uptime requirement
@@ -292,6 +297,7 @@ Document your design in `solution/ha_design.md`.
 ### Exercise 2: Implement Application Resilience
 
 Modify the provided application to:
+
 1. Handle primary failures gracefully
 2. Retry failed writes
 3. Route reads based on consistency requirements
@@ -301,6 +307,7 @@ Complete the code in `solution/resilient_app.js`.
 ### Exercise 3: Backup Strategy
 
 Implement a backup strategy using:
+
 1. Secondary member for backups
 2. Point-in-time recovery using oplog
 3. Consistent snapshots
@@ -328,7 +335,7 @@ Use this list to confirm you exercised the main scenarios:
 - **Replica Set Configuration** – You can rebuild the environment from scratch and explain each member’s role.
 - **Read/Write Operations** – Demonstrate read preference changes and write concerns with recorded observations.
 - **Failover Handling** – Perform a manual `rs.stepDown()` and document how your app reacts.
-- **Monitoring & Maintenance** – Capture replication lag output plus any alerts/watchdogs you configured.
+- **Monitoring & Maintenance** – Capture replication lag output via `monitor_replication.js`, inspect oplog window, and note any alerts/watchdogs you configured.
 - **Documentation** – Summarize procedures and results in `NOTES.md` or companion files.
 
 If you can repeat these steps without referencing the instructions, you've internalized the practice goals.
@@ -424,3 +431,13 @@ Good luck! Remember, replication is crucial for production deployments, so take 
 
 - Open [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab05` label for any replication script problems or feature requests.
 - Discuss failover drills, read preferences, or monitoring strategies in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to learn from others.
+
+---
+
+## Advanced Monitoring Exercises
+
+1. **Replica Set Dashboard** – Run `node monitor_replication.js --minutes=5 --interval=3` while issuing writes and plot lag per secondary from `monitor_report.json`.
+2. **Oplog Health Alerts** – Extend the script to capture `collStats` on `local.oplog.rs` and alert when the oplog window falls below your safety threshold.
+3. **Election Detection** – Combine `simulate_failover.js` with the monitor to compute mean time to recovery and validate automatic failover behavior.
+
+Document these findings in the “Advanced Replication Runbook” section of `NOTES.md`.

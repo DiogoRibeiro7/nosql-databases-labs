@@ -36,6 +36,7 @@ This course primarily focuses on:
 * **Sample Datasets** – 30+ real-world datasets included in the repository
 
 Prerequisites:
+
 * MongoDB Community Edition (latest stable version)
 * MongoDB Database Tools
 * Text editor or IDE of your choice
@@ -109,7 +110,14 @@ Currently available:
   * Includes: `import_data.js`, `queries.js`, `test_queries.js`
   * Setup guide: `SETUP_MONGOSH.md` for MongoDB Shell installation
 
+* **Lab Modern Features – Change Streams, Time-Series & More**
+  * Location: `labs/lab_modern_features/`
+  * Features: change streams, time-series collections, Atlas Search, vector search, GridFS, MongoDB Charts
+  * Includes: `exercises/01_change_streams.js` … `06_mongodb_charts.js`, `run_all_exercises.js`
+  * Requires MongoDB 5.0+ (6.0+ for some modules) and optional Atlas access
+
 To start Lab 01:
+
 ```bash
 cd labs/lab01_intro
 mongosh --file import_data.js  # Load sample data
@@ -120,11 +128,25 @@ mongosh --file queries.js      # Run example queries
 
 Each lab includes target data sizes, latency goals, and timing budgets so you can verify your environment before tackling the deeper exercises. Review [`docs/performance_expectations.md`](docs/performance_expectations.md) for the per-lab checklist and link it from your lab notes when reporting metrics.
 
-### 4.5. Extending the Lab Framework
+### 4.5. Testing & Validation
+
+Automated test suites exist for Labs 01–05. Run them locally with:
+
+```bash
+npm run test:labs
+```
+
+See [`docs/testing_framework.md`](docs/testing_framework.md) for per-lab commands, advanced benchmarks, and CI integration details.
+
+### 4.6. Extending the Lab Framework
 
 Instructors or contributors who want to add new labs should follow [`docs/extending_lab_framework.md`](docs/extending_lab_framework.md). It covers directory structure, README expectations, starter data/scripts, and how to update repository metadata when introducing additional content.
 
-### 4.6. Feedback & Collaboration
+### 4.7. Self-Paced Learning Paths
+
+Not sure what to tackle next? Follow the recommended sequences in [`docs/self_paced_paths.md`](docs/self_paced_paths.md). It outlines the core labs, advanced tracks, modern features lab, and optional projects.
+
+### 4.8. Feedback & Collaboration
 
 - **Issues** – Report bugs, missing instructions, or propose enhancements via the [GitHub Issues tab](https://github.com/diogoribeiro7/nosql-databases-labs/issues). Label requests clearly (e.g., `lab03`, `docs`, `data`).
 - **Discussions** – Share tips, ask conceptual questions, or showcase solutions in the [Discussions tab](https://github.com/diogoribeiro7/nosql-databases-labs/discussions). TAs monitor these threads to highlight best practices.
@@ -138,6 +160,7 @@ Please search existing threads before opening new ones to avoid duplicates.
 The repository includes 30+ sample datasets for practice:
 
 ### Core Datasets (`data/datasets/`)
+
 * **books.json** – Book catalog with titles, authors, and categories
 * **companies.json** – Company information and financial data
 * **products.json** – Product inventory and pricing
@@ -146,6 +169,7 @@ The repository includes 30+ sample datasets for practice:
 * **countries-big.json** & **countries-small.json** – Geographic data
 
 ### MongoDB Sample Datasets
+
 * **sample_airbnb/** – Vacation rental listings and reviews
 * **sample_analytics/** – Financial accounts and transactions
 * **sample_geospatial/** – Shipwreck locations with coordinates
@@ -155,12 +179,12 @@ The repository includes 30+ sample datasets for practice:
 * **sample_weatherdata/** – Weather observations
 
 ### BSON Format Examples
+
 * **ColoradoScooters/** – Scooter rental data in BSON format
 
 > **📚 Import Guide:** See [**MongoDB Data Import Instructions**](./instructions.md) for detailed steps on loading these datasets
 
 ---
-
 
 ## 6. Getting help
 

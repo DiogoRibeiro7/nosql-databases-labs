@@ -188,6 +188,26 @@ jobs:
         env:
           MONGODB_URI: mongodb://127.0.0.1:27017
 
+      # Lab 03 Tests with Coverage
+      - name: Lab 03 - Import and Test with Coverage
+        run: |
+          cd labs/lab03_queries
+          node import_data.js
+          nyc --reporter=lcov --reporter=text node test_data_integrity.js || true
+          cd ../..
+        env:
+          MONGODB_URI: mongodb://127.0.0.1:27017
+
+      # Lab 04 Tests with Coverage
+      - name: Lab 04 - Import and Test with Coverage
+        run: |
+          cd labs/lab04_aggregation
+          node import_data.js
+          nyc --reporter=lcov --reporter=text node test_lab04.js || true
+          cd ../..
+        env:
+          MONGODB_URI: mongodb://127.0.0.1:27017
+
       - name: Upload Node.js Coverage to Codecov
         if: always()
         uses: codecov/codecov-action@v3
@@ -330,6 +350,11 @@ jobs:
       - name: Validate Group Structure
         run: |
           node scripts/validate_groups.js || true
+        continue-on-error: true
+
+      - name: Run Submission Validator
+        run: |
+          node group-work/scripts/group_submission_validator.js || true
         continue-on-error: true
 
   # ============================================================================

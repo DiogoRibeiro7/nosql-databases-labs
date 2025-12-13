@@ -274,6 +274,7 @@ Inside `labs/lab03_queries/`, you should have:
   - `profiler.js` – Automated workload runner + profiler summary
   - `data_quality.js` – Aggregation pipeline for anomaly detection
   - `diagnostics.md` – Profiler findings, index stress-test metrics, and remediation notes
+* Optional: `test_lab03_performance.js` – Benchmark suite for key query patterns
 * Optional: Screenshots of explain plans or performance graphs
 
 Follow the general submission workflow in
@@ -287,6 +288,18 @@ If you want to validate your setup with lighter tasks first, complete the checkl
 
 ---
 
+### Performance Benchmarks
+
+Run the benchmark suite after creating your indexes:
+
+```bash
+cd labs/lab03_queries
+node test_lab03_performance.js
+```
+
+The script compares indexed vs non-indexed queries, aggregation pipelines, covered queries, and sort performance. Log the output in `NOTES.md` to document your before/after metrics.
+
+---
 ## 5. Self-Assessment Checklist
 
 Use the following prompts to verify you’ve practiced each skill area:

@@ -30,10 +30,11 @@ class VectorSearchExercises {
    * Generate mock embeddings (in real scenarios, use OpenAI, Cohere, etc.)
    */
   generateMockEmbedding(text, dimensions = 384) {
+    const safeText = (text && text.length > 0) ? text : 'placeholder text';
     // Simple mock embedding based on text characteristics
     // In production, use actual embedding models
     const embedding = [];
-    const seed = text.length + text.charCodeAt(0);
+    const seed = safeText.length + safeText.charCodeAt(0);
 
     for (let i = 0; i < dimensions; i++) {
       // Generate deterministic pseudo-random values

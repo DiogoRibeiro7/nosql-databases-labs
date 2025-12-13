@@ -91,3 +91,15 @@ Before requesting a review, make sure:
 --------------------------------------------------------------------------------
 
 Need help? Tag an instructor on the PR or use the course communication channels with a link to your branch. Consistent structure and clear documentation make it easier for staff to review and grade your work. Good luck!
+
+--------------------------------------------------------------------------------
+
+## 6. Validation Tools
+
+Run the automated validator before opening a pull request:
+
+```bash
+node group-work/scripts/group_submission_validator.js
+```
+
+The script checks required files, documentation sections, code quality, and optional artefacts (presentations, diagrams, etc.). Fix any reported issues and attach the generated summary to your PR if instructors request it.

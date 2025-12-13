@@ -270,6 +270,16 @@ Follow the submission guidelines in
 
 ---
 
+### Testing
+
+1. Ensure MongoDB is running locally.
+2. Execute `node import_data.js` to seed `lab04_analytics`.
+3. Run `node test_lab04.js` to validate counts, indexes, and aggregation outputs.
+
+The repository-level guide in [`docs/testing_framework.md`](../../docs/testing_framework.md) lists additional automation options (including `npm run test:labs`).
+
+---
+
 ## 5. Self-Assessment Checklist
 
 Before moving on, make sure you can demonstrate:

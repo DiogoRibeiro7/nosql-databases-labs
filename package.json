@@ -9,7 +9,8 @@
     "format": "prettier --write \"labs/**/*.js\" \"scripts/**/*.js\"",
     "format:check": "prettier --check \"labs/**/*.js\" \"scripts/**/*.js\"",
     "test:data": "node scripts/data-smoke-test.js",
-    "test": "npm run lint && npm run test:data"
+    "test": "npm run lint && npm run test:data",
+    "test:labs": "node scripts/run_lab_tests.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
     "prettier": "^3.7.4"
+  },
+  "dependencies": {
+    "mongodb": "^6.10.0"
   }
 }
