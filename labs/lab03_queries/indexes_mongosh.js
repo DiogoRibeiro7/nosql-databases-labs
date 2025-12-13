@@ -1,333 +1,329 @@
-/**
- * Lab 03 - Index Management (mongosh version)
- *
- * Run this file in mongosh:
- * mongosh mflix --file indexes_mongosh.js
- *
- * This script creates and tests various index types
- */
+// Lab 03 - Index Design and Optimization
+// Database: lab03_movies
+// Collection: movies, theaters, users
 
-use('mflix');
+use lab03_movies
 
-print("=" .repeat(60));
-print("Lab 03 - MongoDB Index Management");
-print("=" .repeat(60));
+// ========================================
+// TASK 3: INDEX DESIGN AND OPTIMIZATION
+// ========================================
 
-// ========================================================================
-// 1. Single Field Indexes
-// ========================================================================
-print("\n1. CREATING SINGLE FIELD INDEXES");
-print("-".repeat(40));
+// Before creating indexes, analyze baseline performance
+// Run these queries with explain() to see COLLSCAN (collection scan)
 
-// Create index on year
-db.movies.createIndex({ year: 1 });
-print("✓ Created ascending index on 'year'");
+// BASELINE QUERIES (run these BEFORE creating indexes)
+// =======================================================
 
-// Create descending index on rating
-db.movies.createIndex({ "imdb.rating": -1 });
-print("✓ Created descending index on 'imdb.rating'");
+// Query 1: Find movies by genre (BEFORE index)
+db.movies.find({ genres: "Action" }).explain("executionStats");
 
-// Create index on runtime
-db.movies.createIndex({ runtime: 1 });
-print("✓ Created ascending index on 'runtime'");
+// Query 2: Find movies by year and rating (BEFORE index)
+db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } }).explain("executionStats");
 
-// ========================================================================
-// 2. Compound Indexes
-// ========================================================================
-print("\n2. CREATING COMPOUND INDEXES");
-print("-".repeat(40));
+// Query 3: Find movies by director (BEFORE index)
+db.movies.find({ directors: "Christopher Nolan" }).explain("executionStats");
 
-// Compound index for genre and year queries
-db.movies.createIndex({ genres: 1, year: -1 });
-print("✓ Created compound index on 'genres' (asc) and 'year' (desc)");
 
-// Compound index for rating and year
-db.movies.createIndex({ "imdb.rating": -1, year: -1 });
-print("✓ Created compound index on 'imdb.rating' and 'year' (both desc)");
+// ========================================
+// SINGLE-FIELD INDEXES
+// ========================================
 
-// Compound index for country, year, and rating
-db.movies.createIndex({ countries: 1, year: -1, "imdb.rating": -1 });
-print("✓ Created compound index on 'countries', 'year', 'imdb.rating'");
-
-// ========================================================================
-// 3. Multikey Indexes (for arrays)
-// ========================================================================
-print("\n3. CREATING MULTIKEY INDEXES");
-print("-".repeat(40));
-
-// Index on cast array
-db.movies.createIndex({ cast: 1 });
-print("✓ Created multikey index on 'cast' array");
-
-// Index on directors array
-db.movies.createIndex({ directors: 1 });
-print("✓ Created multikey index on 'directors' array");
-
-// Index on genres array (if not already created)
+// 1. Index on genres (for genre filtering)
 db.movies.createIndex({ genres: 1 });
-print("✓ Created multikey index on 'genres' array");
 
-// ========================================================================
-// 4. Text Indexes
-// ========================================================================
-print("\n4. CREATING TEXT INDEXES");
-print("-".repeat(40));
+// 2. Index on year (for year filtering)
+db.movies.createIndex({ year: 1 });
 
-// Drop existing text index if any
-try {
-    db.movies.dropIndex("text");
-} catch(e) {
-    // Text index might not exist
-}
+// 3. Index on IMDb rating (for rating filtering and sorting)
+db.movies.createIndex({ "imdb.rating": -1 });  // Descending for common sort order
 
-// Create text index on multiple fields
-db.movies.createIndex({
+// 4. Index on directors (for director queries)
+db.movies.createIndex({ directors: 1 });
+
+// 5. Index on title (for title lookups)
+db.movies.createIndex({ title: 1 });
+
+// 6. Index on cast (array index for actor queries)
+db.movies.createIndex({ cast: 1 });
+
+// ========================================
+// COMPOUND INDEXES
+// ========================================
+
+// 7. Compound index on (genres, imdb.rating)
+// Useful for: Filter by genre + filter/sort by rating
+// ESR Rule: Equality (genres) -> Sort/Range (rating)
+db.movies.createIndex({ genres: 1, "imdb.rating": -1 });
+
+// 8. Compound index on (year, imdb.rating)
+// Useful for: Filter by year + filter/sort by rating
+db.movies.createIndex({ year: -1, "imdb.rating": -1 });
+
+// 9. Compound index on (directors, year)
+// Useful for: Find director's movies sorted by year
+db.movies.createIndex({ directors: 1, year: -1 });
+
+// 10. Compound index on (genres, year, imdb.rating)
+// Useful for: Find movies by genre and year range, sorted by rating
+db.movies.createIndex({ genres: 1, year: -1, "imdb.rating": -1 });
+
+// ========================================
+// TEXT INDEX
+// ========================================
+
+// 11. Text index on title and plot for full-text search
+db.movies.createIndex(
+  {
     title: "text",
-    plot: "text",
-    fullplot: "text"
-}, {
+    plot: "text"
+  },
+  {
     weights: {
-        title: 10,
-        plot: 5,
-        fullplot: 1
+      title: 10,    // Title matches are more important
+      plot: 5
     },
-    name: "movie_text_search"
-});
-
-print("✓ Created weighted text index on 'title', 'plot', 'fullplot'");
-
-// ========================================================================
-// 5. Sparse Indexes
-// ========================================================================
-print("\n5. CREATING SPARSE INDEXES");
-print("-".repeat(40));
-
-// Sparse index on awards.wins (not all movies have awards)
-db.movies.createIndex(
-    { "awards.wins": 1 },
-    { sparse: true }
+    name: "movie_text_index"
+  }
 );
-print("✓ Created sparse index on 'awards.wins'");
 
-// Sparse index on tomatoes ratings
+// ========================================
+// INDEXES ON EMBEDDED FIELDS
+// ========================================
+
+// 12. Index on embedded field (awards.wins)
+db.movies.createIndex({ "awards.wins": -1 });
+
+// 13. Index on embedded field (awards.nominations)
+db.movies.createIndex({ "awards.nominations": -1 });
+
+// 14. Index on IMDb votes (for finding highly-voted movies)
+db.movies.createIndex({ "imdb.votes": -1 });
+
+// ========================================
+// INDEXES FOR THEATERS COLLECTION
+// ========================================
+
+// 15. Index on theater location city
+db.theaters.createIndex({ "location.city": 1 });
+
+// 16. Index on screening times
+db.theaters.createIndex({ "screenings.time": 1 });
+
+// 17. Compound index for location-based screening queries
+db.theaters.createIndex({ "location.city": 1, "screenings.time": 1 });
+
+// 18. Index on capacity (for finding large theaters)
+db.theaters.createIndex({ capacity: -1 });
+
+// ========================================
+// INDEXES FOR USERS COLLECTION
+// ========================================
+
+// 19. Index on username (for login/lookup)
+db.users.createIndex({ username: 1 }, { unique: true });
+
+// 20. Index on email (for login/lookup)
+db.users.createIndex({ email: 1 }, { unique: true });
+
+// 21. Index on total_movies_watched (for finding active users)
+db.users.createIndex({ total_movies_watched: -1 });
+
+// 22. Index on favorite genres
+db.users.createIndex({ "preferences.favorite_genres": 1 });
+
+// 23. Index on viewing history movie_id
+db.users.createIndex({ "viewing_history.movie_id": 1 });
+
+// ========================================
+// SPECIALIZED INDEXES
+// ========================================
+
+// 24. Partial index: Only index high-rated movies (rating >= 8.0)
 db.movies.createIndex(
-    { "tomatoes.viewer.rating": 1 },
-    { sparse: true }
+  { "imdb.rating": -1 },
+  {
+    partialFilterExpression: { "imdb.rating": { $gte: 8.0 } },
+    name: "high_rated_movies_idx"
+  }
 );
-print("✓ Created sparse index on 'tomatoes.viewer.rating'");
 
-// ========================================================================
-// 6. Partial Indexes
-// ========================================================================
-print("\n6. CREATING PARTIAL INDEXES");
-print("-".repeat(40));
-
-// Partial index for high-rated movies only
+// 25. Sparse index: Only index documents with a specific field
 db.movies.createIndex(
-    { year: 1, title: 1 },
-    {
-        partialFilterExpression: { "imdb.rating": { $gte: 8.0 } },
-        name: "high_rated_movies"
-    }
+  { "box_office": -1 },
+  { sparse: true, name: "box_office_sparse_idx" }
 );
-print("✓ Created partial index for movies with rating >= 8.0");
 
-// Partial index for recent movies
-db.movies.createIndex(
-    { genres: 1, "imdb.rating": -1 },
-    {
-        partialFilterExpression: { year: { $gte: 2000 } },
-        name: "recent_movies_by_genre"
-    }
-);
-print("✓ Created partial index for movies from year 2000+");
+// 26. TTL index for temporary data (example: user sessions)
+// Note: This is just an example - not applicable to our current collections
+// db.sessions.createIndex({ "created_at": 1 }, { expireAfterSeconds: 3600 });
 
-// ========================================================================
-// 7. TTL Indexes (for sessions collection)
-// ========================================================================
-print("\n7. CREATING TTL INDEXES");
-print("-".repeat(40));
+// ========================================
+// COVERED QUERIES EXAMPLE
+// ========================================
 
-// Check if sessions collection exists
-if (db.sessions.countDocuments() > 0 || true) {
-    // TTL index to expire sessions after 30 days
-    db.sessions.createIndex(
-        { created_at: 1 },
-        { expireAfterSeconds: 2592000 } // 30 days
-    );
-    print("✓ Created TTL index on sessions (30-day expiration)");
-} else {
-    print("⊘ Skipped: sessions collection not found");
-}
+// 27. Index for covered query (all fields in projection are in index)
+db.movies.createIndex({ title: 1, year: 1, "imdb.rating": 1 });
 
-// ========================================================================
-// 8. Unique Indexes
-// ========================================================================
-print("\n8. CREATING UNIQUE INDEXES");
-print("-".repeat(40));
+// This query will be covered (no document reads, only index reads)
+db.movies.find(
+  { title: "Inception" },
+  { title: 1, year: 1, "imdb.rating": 1, _id: 0 }
+).explain("executionStats");
 
-// For comments collection - ensure unique comment IDs
-if (db.comments.countDocuments() > 0 || true) {
-    // Create unique index on email+movie_id combination
-    try {
-        db.comments.createIndex(
-            { email: 1, movie_id: 1, date: 1 },
-            { unique: true }
-        );
-        print("✓ Created unique compound index on comments");
-    } catch(e) {
-        print("⚠ Could not create unique index (duplicates may exist)");
-    }
-}
+// ========================================
+// VIEW ALL INDEXES
+// ========================================
 
-// ========================================================================
-// 9. Geospatial Indexes
-// ========================================================================
-print("\n9. CREATING GEOSPATIAL INDEXES");
-print("-".repeat(40));
+// List all indexes on movies collection
+db.movies.getIndexes();
 
-// 2dsphere index for theaters
-if (db.theaters.countDocuments() > 0 || true) {
-    db.theaters.createIndex({ "location.geo": "2dsphere" });
-    print("✓ Created 2dsphere index on theaters.location.geo");
-}
+// List all indexes on theaters collection
+db.theaters.getIndexes();
 
-// ========================================================================
-// 10. Index Analysis and Statistics
-// ========================================================================
-print("\n10. INDEX STATISTICS AND ANALYSIS");
-print("-".repeat(40));
+// List all indexes on users collection
+db.users.getIndexes();
 
-// List all indexes with their sizes
-print("\nIndexes on 'movies' collection:");
-const movieIndexes = db.movies.getIndexes();
-movieIndexes.forEach(idx => {
-    const stats = db.movies.stats({ indexDetails: true });
-    print(`  • ${idx.name}:`);
-    print(`    Keys: ${JSON.stringify(idx.key)}`);
-    if (idx.partialFilterExpression) {
-        print(`    Partial: ${JSON.stringify(idx.partialFilterExpression)}`);
-    }
-    if (idx.sparse) {
-        print(`    Sparse: true`);
-    }
-});
+// ========================================
+// INDEX STATISTICS
+// ========================================
 
-// ========================================================================
-// 11. Testing Index Performance
-// ========================================================================
-print("\n11. TESTING INDEX PERFORMANCE");
-print("-".repeat(40));
+// Get collection statistics (includes index sizes)
+db.movies.stats();
+db.theaters.stats();
+db.users.stats();
 
-// Test 1: Query without index (force collection scan)
-print("\nTest 1: Collection Scan (no index)");
-const noIndexPlan = db.movies.explain("executionStats").find({
-    plot: /alien invasion/i  // Field without specific index
-}).limit(10);
+// Get index sizes
+db.movies.stats().indexSizes;
 
-if (noIndexPlan.executionStats) {
-    print(`  Time: ${noIndexPlan.executionStats.executionTimeMillis}ms`);
-    print(`  Docs Examined: ${noIndexPlan.executionStats.totalDocsExamined}`);
-    print(`  Index Used: ${noIndexPlan.executionStats.executionStages.stage}`);
-}
+// ========================================
+// ANALYZE INDEX USAGE
+// ========================================
 
-// Test 2: Query with index
-print("\nTest 2: Index Scan");
-const withIndexPlan = db.movies.explain("executionStats").find({
-    year: 2015  // Has index
-}).limit(10);
+// Check if indexes are being used (run after workload)
+db.movies.aggregate([{ $indexStats: {} }]);
 
-if (withIndexPlan.executionStats) {
-    print(`  Time: ${withIndexPlan.executionStats.executionTimeMillis}ms`);
-    print(`  Docs Examined: ${withIndexPlan.executionStats.totalDocsExamined}`);
-    print(`  Index Used: ${withIndexPlan.executionStats.executionStages.indexName || 'none'}`);
-}
+// ========================================
+// POST-INDEX PERFORMANCE TESTING
+// ========================================
 
-// Test 3: Compound index usage
-print("\nTest 3: Compound Index");
-const compoundPlan = db.movies.explain("executionStats").find({
-    genres: "Action",
-    year: { $gte: 2010 }
-}).sort({ year: -1 }).limit(10);
+// Re-run baseline queries with explain() to see IXSCAN (index scan)
 
-if (compoundPlan.executionStats) {
-    print(`  Time: ${compoundPlan.executionStats.executionTimeMillis}ms`);
-    print(`  Docs Examined: ${compoundPlan.executionStats.totalDocsExamined}`);
-    print(`  Index Used: ${compoundPlan.executionStats.executionStages.indexName || 'none'}`);
-}
+// Query 1: Find movies by genre (AFTER index)
+db.movies.find({ genres: "Action" }).explain("executionStats");
 
-// Test 4: Text search
-print("\nTest 4: Text Index Search");
-const textPlan = db.movies.explain("executionStats").find({
-    $text: { $search: "space adventure" }
-}).limit(10);
+// Query 2: Find movies by year and rating (AFTER index)
+db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } }).explain("executionStats");
 
-if (textPlan.executionStats) {
-    print(`  Time: ${textPlan.executionStats.executionTimeMillis}ms`);
-    print(`  Index Used: TEXT index`);
-}
+// Query 3: Find movies by director (AFTER index)
+db.movies.find({ directors: "Christopher Nolan" }).explain("executionStats");
 
-// ========================================================================
-// 12. Index Recommendations
-// ========================================================================
-print("\n12. INDEX RECOMMENDATIONS");
-print("-".repeat(40));
+// Query 4: Text search (AFTER index)
+db.movies.find({ $text: { $search: "space adventure" } }).explain("executionStats");
 
-print("\nBased on common query patterns, consider these indexes:");
-print("");
-print("// For filtering by multiple genres and date ranges:");
-print("db.movies.createIndex({ genres: 1, released: 1 })");
-print("");
-print("// For user activity queries:");
-print("db.comments.createIndex({ email: 1, date: -1 })");
-print("");
-print("// For session management:");
-print("db.sessions.createIndex({ user_id: 1, last_activity: -1 })");
-print("");
-print("// For theater searches by location and features:");
-print("db.theaters.createIndex({ 'location.address.state': 1, 'location.address.city': 1 })");
+// ========================================
+// EXAMPLE: COMPARING COVERED VS NON-COVERED QUERY
+// ========================================
 
-// ========================================================================
-// 13. Index Maintenance Commands
-// ========================================================================
-print("\n13. INDEX MAINTENANCE COMMANDS");
-print("-".repeat(40));
+// Non-covered query (needs to read documents)
+db.movies.find(
+  { title: "Inception" },
+  { title: 1, year: 1, "imdb.rating": 1, plot: 1, _id: 0 }
+).explain("executionStats");
 
-print("\nUseful index management commands:");
-print("");
-print("// View index usage statistics:");
-print("db.movies.aggregate([{ $indexStats: {} }])");
-print("");
-print("// Rebuild all indexes:");
-print("db.movies.reIndex()");
-print("");
-print("// Drop specific index:");
-print("db.movies.dropIndex('index_name')");
-print("");
-print("// Get index size:");
-print("db.movies.totalIndexSize()");
-print("");
-print("// Validate indexes:");
-print("db.movies.validate({ full: true })");
+// Covered query (all data from index)
+db.movies.find(
+  { title: "Inception" },
+  { title: 1, year: 1, "imdb.rating": 1, _id: 0 }
+).explain("executionStats");
 
-// ========================================================================
-// Summary
-// ========================================================================
-print("\n" + "=".repeat(60));
-print("INDEX CREATION SUMMARY");
-print("=".repeat(60));
+// ========================================
+// EXAMPLE: ESR RULE (Equality, Sort, Range)
+// ========================================
 
-const collections = ["movies", "comments", "theaters", "sessions", "users"];
-let totalIndexes = 0;
+// Good compound index following ESR rule
+// Equality: genres = "Action"
+// Sort: year descending
+// Range: imdb.rating > 7.0
+db.movies.createIndex({ genres: 1, year: -1, "imdb.rating": -1 });
 
-collections.forEach(coll => {
-    const indexes = db[coll].getIndexes();
-    if (indexes.length > 0) {
-        print(`\n${coll}: ${indexes.length} indexes`);
-        totalIndexes += indexes.length;
-    }
-});
+// Query that uses the index efficiently
+db.movies.find({
+  genres: "Action",
+  "imdb.rating": { $gt: 7.0 }
+}).sort({ year: -1 }).explain("executionStats");
 
-print(`\nTotal indexes created: ${totalIndexes}`);
-print("\n✓ Index setup completed successfully!");
-print("=".repeat(60));
+// ========================================
+// DROP REDUNDANT INDEXES (if needed)
+// ========================================
+
+// If you have both of these indexes, the second one is redundant
+// db.movies.createIndex({ genres: 1 });
+// db.movies.createIndex({ genres: 1, "imdb.rating": -1 });
+
+// The compound index can be used for queries on just genres
+// So the single-field index is redundant
+
+// Drop single-field index if compound exists
+// db.movies.dropIndex({ genres: 1 });
+
+// Or drop by name
+// db.movies.dropIndex("genres_1");
+
+// ========================================
+// MONITORING INDEX PERFORMANCE
+// ========================================
+
+// Enable profiling to capture slow queries
+db.setProfilingLevel(1, { slowms: 100 });  // Log queries slower than 100ms
+
+// View slow queries
+db.system.profile.find().sort({ ts: -1 }).limit(10).pretty();
+
+// Disable profiling
+// db.setProfilingLevel(0);
+
+// ========================================
+// OPTIMAL INDEX STRATEGY FOR THIS DATASET
+// ========================================
+
+/*
+RECOMMENDED MINIMAL INDEX SET:
+
+For movies collection:
+1. { genres: 1, "imdb.rating": -1 }  - Most common query pattern
+2. { directors: 1, year: -1 }         - Director queries
+3. { title: 1 }                       - Title lookups
+4. { title: "text", plot: "text" }    - Text search
+5. { year: -1, "imdb.rating": -1 }    - Year + rating queries
+6. { cast: 1 }                        - Actor queries
+
+For theaters collection:
+1. { "location.city": 1 }
+2. { "screenings.time": 1 }
+
+For users collection:
+1. { username: 1 } (unique)
+2. { email: 1 } (unique)
+3. { total_movies_watched: -1 }
+
+AVOID:
+- Too many single-field indexes (use compound instead)
+- Indexes on low-cardinality fields (e.g., boolean fields)
+- Indexes that are never used (check with $indexStats)
+
+TRADE-OFFS:
+- More indexes = Faster reads, Slower writes
+- Each index uses ~10-20% of collection size
+- Compound indexes can replace multiple single-field indexes
+*/
+
+// ========================================
+// CLEANUP: REMOVE ALL INDEXES (for testing)
+// ========================================
+
+// WARNING: This will drop ALL indexes except _id
+// Use only for testing/debugging
+
+// db.movies.dropIndexes();
+// db.theaters.dropIndexes();
+// db.users.dropIndexes();

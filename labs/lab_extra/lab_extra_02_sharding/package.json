@@ -1,0 +1,23 @@
+{
+  "name": "lab-extra-02-sharding",
+  "version": "1.0.0",
+  "description": "Lab Extra 02 - MongoDB Sharding & Horizontal Scaling",
+  "main": "sharding_demo.js",
+  "scripts": {
+    "setup": "node setup_sharding.js",
+    "test": "node test_sharding.js",
+    "demo": "node run_demo.js"
+  },
+  "dependencies": {
+    "mongodb": "^5.0.0"
+  },
+  "keywords": [
+    "mongodb",
+    "sharding",
+    "horizontal-scaling",
+    "distributed-systems",
+    "nosql"
+  ],
+  "author": "",
+  "license": "MIT"
+}

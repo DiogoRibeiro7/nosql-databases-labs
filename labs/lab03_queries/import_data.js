@@ -1,18 +1,12 @@
 // Robust import script for lab03_movies database
-// Run this in mongosh: load("labs/lab03_queries/import_data_robust.js")
+// Run this with Node.js: node import_data.js
 
-print("Setting up lab03_movies database...\n");
+const { MongoClient, ObjectId, Long } = require('mongodb');
+const fs = require('fs').promises;
+const path = require('path');
 
-// Switch to lab03_movies database
-db = db.getSiblingDB("lab03_movies");
-
-// Clear existing collections if any
-print("Clearing existing collections...");
-db.movies.drop();
-db.theaters.drop();
-db.users.drop();
-db.comments.drop();
-db.sessions.drop();
+const uri = 'mongodb://localhost:27017';
+const dbName = 'lab03_movies';
 
 // Helper function to convert Extended JSON to regular MongoDB objects
 function convertExtendedJSON(obj) {
@@ -27,7 +21,7 @@ function convertExtendedJSON(obj) {
   if (typeof obj === 'object') {
     // Convert $oid to ObjectId
     if (obj.$oid) {
-      return ObjectId(obj.$oid);
+      return new ObjectId(obj.$oid);
     }
 
     // Convert $date to Date
@@ -47,7 +41,7 @@ function convertExtendedJSON(obj) {
 
     // Convert $numberLong
     if (obj.$numberLong) {
-      return NumberLong(obj.$numberLong);
+      return Long.fromString(obj.$numberLong);
     }
 
     // Convert $numberDouble
@@ -67,10 +61,10 @@ function convertExtendedJSON(obj) {
 }
 
 // Function to import a collection with error handling
-function importCollection(collectionName, filename) {
+async function importCollection(db, collectionName, filename) {
   try {
-    print(`\nImporting ${collectionName}...`);
-    const jsonContent = fs.readFileSync(filename, "utf8");
+    console.log(`\nImporting ${collectionName}...`);
+    const jsonContent = await fs.readFile(filename, 'utf8');
 
     let data;
 
@@ -79,13 +73,13 @@ function importCollection(collectionName, filename) {
       data = JSON.parse(jsonContent);
     } catch (e) {
       // If that fails, try to parse as NDJSON (newline-delimited JSON)
-      print(`  Trying NDJSON format for ${collectionName}...`);
+      console.log(`  Trying NDJSON format for ${collectionName}...`);
       const lines = jsonContent.split('\n').filter(line => line.trim());
       data = lines.map(line => {
         try {
           return JSON.parse(line);
         } catch (lineError) {
-          print(`  Warning: Skipping invalid line in ${collectionName}`);
+          console.log(`  Warning: Skipping invalid line in ${collectionName}`);
           return null;
         }
       }).filter(item => item !== null);
@@ -98,6 +92,9 @@ function importCollection(collectionName, filename) {
     // Convert Extended JSON format
     const converted = convertExtendedJSON(data);
 
+    // Drop existing collection
+    await db.collection(collectionName).drop().catch(() => {});
+
     // Insert in batches for large collections
     const batchSize = 1000;
     let totalInserted = 0;
@@ -105,66 +102,94 @@ function importCollection(collectionName, filename) {
     for (let i = 0; i < converted.length; i += batchSize) {
       const batch = converted.slice(i, Math.min(i + batchSize, converted.length));
       try {
-        const result = db[collectionName].insertMany(batch, { ordered: false });
+        const result = await db.collection(collectionName).insertMany(batch, { ordered: false });
         totalInserted += result.insertedCount;
       } catch (insertError) {
-        print(`  Warning: Some documents in ${collectionName} batch ${Math.floor(i/batchSize) + 1} failed to insert`);
-        print(`  Error: ${insertError.message}`);
+        console.log(`  Warning: Some documents in ${collectionName} batch ${Math.floor(i/batchSize) + 1} failed to insert`);
+        console.log(`  Error: ${insertError.message}`);
         // Continue with next batch
       }
 
       if ((i + batchSize) % 5000 === 0 || i + batchSize >= converted.length) {
-        print(`  Processed ${Math.min(i + batchSize, converted.length)} / ${converted.length} documents...`);
+        console.log(`  Processed ${Math.min(i + batchSize, converted.length)} / ${converted.length} documents...`);
       }
     }
 
-    const count = db[collectionName].countDocuments();
-    print(`  Successfully imported ${count} documents into ${collectionName}`);
+    const count = await db.collection(collectionName).countDocuments();
+    console.log(`  Successfully imported ${count} documents into ${collectionName}`);
     return true;
 
   } catch (error) {
-    print(`  ERROR importing ${collectionName}: ${error.message}`);
+    console.log(`  ERROR importing ${collectionName}: ${error.message}`);
     return false;
   }
 }
 
-// Import all collections
-const collections = [
-  { name: "movies", file: "labs/lab03_queries/starter/data/movies.json" },
-  { name: "theaters", file: "labs/lab03_queries/starter/data/theaters.json" },
-  { name: "users", file: "labs/lab03_queries/starter/data/users.json" },
-  { name: "comments", file: "labs/lab03_queries/starter/data/comments.json" },
-  { name: "sessions", file: "labs/lab03_queries/starter/data/sessions.json" }
-];
+async function main() {
+  const client = new MongoClient(uri);
 
-let successCount = 0;
-for (const col of collections) {
-  if (importCollection(col.name, col.file)) {
-    successCount++;
+  try {
+    console.log("Setting up lab03_movies database...\n");
+
+    await client.connect();
+    console.log('Connected to MongoDB');
+
+    const db = client.db(dbName);
+
+    console.log("Clearing existing collections...");
+
+    // Import all collections
+    const collections = [
+      { name: "movies", file: path.join(__dirname, "starter/data/movies.json") },
+      { name: "theaters", file: path.join(__dirname, "starter/data/theaters.json") },
+      { name: "users", file: path.join(__dirname, "starter/data/users.json") },
+      { name: "comments", file: path.join(__dirname, "starter/data/comments.json") },
+      { name: "sessions", file: path.join(__dirname, "starter/data/sessions.json") }
+    ];
+
+    let successCount = 0;
+    for (const col of collections) {
+      if (await importCollection(db, col.name, col.file)) {
+        successCount++;
+      }
+    }
+
+    console.log("\n========================================");
+    console.log("Database setup complete!");
+    console.log(`Successfully imported ${successCount} / ${collections.length} collections`);
+    console.log("========================================");
+
+    console.log("\nVerifying data:");
+    console.log(`Movies: ${await db.collection('movies').countDocuments()}`);
+    console.log(`Theaters: ${await db.collection('theaters').countDocuments()}`);
+    console.log(`Users: ${await db.collection('users').countDocuments()}`);
+    console.log(`Comments: ${await db.collection('comments').countDocuments()}`);
+    console.log(`Sessions: ${await db.collection('sessions').countDocuments()}`);
+
+    // Show sample documents if available
+    const movieCount = await db.collection('movies').countDocuments();
+    if (movieCount > 0) {
+      console.log("\nSample movie:");
+      const sampleMovie = await db.collection('movies').findOne({}, {projection: {title: 1, year: 1, genres: 1, _id: 0}});
+      console.log(JSON.stringify(sampleMovie, null, 2));
+    }
+
+    const commentCount = await db.collection('comments').countDocuments();
+    if (commentCount > 0) {
+      console.log("\nSample comment:");
+      const sampleComment = await db.collection('comments').findOne({}, {projection: {name: 1, email: 1, text: 1, _id: 0}});
+      console.log(JSON.stringify(sampleComment, null, 2));
+    }
+
+    console.log("\nYou can now run: node queries.js");
+
+  } catch (error) {
+    console.error('Error during import:', error);
+  } finally {
+    await client.close();
+    console.log('\nDisconnected from MongoDB');
   }
 }
 
-print("\n========================================");
-print("Database setup complete!");
-print(`Successfully imported ${successCount} / ${collections.length} collections`);
-print("========================================");
-
-print("\nVerifying data:");
-print(`Movies: ${db.movies.countDocuments()}`);
-print(`Theaters: ${db.theaters.countDocuments()}`);
-print(`Users: ${db.users.countDocuments()}`);
-print(`Comments: ${db.comments.countDocuments()}`);
-print(`Sessions: ${db.sessions.countDocuments()}`);
-
-// Show sample documents if available
-if (db.movies.countDocuments() > 0) {
-  print("\nSample movie:");
-  printjson(db.movies.findOne({}, {title: 1, year: 1, genres: 1, _id: 0}));
-}
-
-if (db.comments.countDocuments() > 0) {
-  print("\nSample comment:");
-  printjson(db.comments.findOne({}, {name: 1, email: 1, text: 1, _id: 0}));
-}
-
-print("\nYou can now run: load('labs/lab03_queries/queries.js')");
+// Run the import
+main().catch(console.error);

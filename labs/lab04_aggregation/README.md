@@ -70,6 +70,8 @@ db.customers.countDocuments()
 
 ## 3. Tasks
 
+**Important:** Before running any JavaScript files, please refer to [FILE_USAGE_GUIDE.md](FILE_USAGE_GUIDE.md) to understand which files should be run with Node.js vs MongoDB Shell (mongosh).
+
 ### Task 1: Sales Analytics (25%)
 
 Build aggregation pipelines to analyze sales data:

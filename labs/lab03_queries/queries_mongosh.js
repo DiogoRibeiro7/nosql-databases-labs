@@ -1,360 +1,280 @@
-/**
- * Lab 03 - Advanced Queries (mongosh version)
- *
- * Run this file in mongosh:
- * mongosh mflix --file queries_mongosh.js
- *
- * Or copy and paste individual queries into mongosh
- */
+// Lab 03 - Complex Queries
+// Database: lab03_movies
+// Collection: movies, theaters, users
 
-// Switch to the correct database
-use('mflix');
+// Switch to lab03_movies database
+db = db.getSiblingDB("lab03_movies")
 
-print("=" .repeat(60));
-print("Lab 03 - Advanced MongoDB Queries");
-print("=" .repeat(60));
+// ========================================
+// TASK 1: COMPLEX QUERIES
+// ========================================
 
-// ========================================================================
-// Query 1: Find movies by genre and year range
-// ========================================================================
-print("\n1. MOVIES BY GENRE AND YEAR");
-print("-".repeat(40));
+// 1. Find all movies released between 2010 and 2020 with IMDb rating > 8.0
+db.movies.find({
+  year: { $gte: 2010, $lte: 2020 },
+  "imdb.rating": { $gt: 8.0 }
+}).sort({ "imdb.rating": -1 });
 
-const genreYearMovies = db.movies.find({
-    genres: "Sci-Fi",
-    year: { $gte: 2010, $lte: 2020 }
-}).sort({ "imdb.rating": -1 }).limit(5).toArray();
+// With projection (cleaner output)
+db.movies.find(
+  {
+    year: { $gte: 2010, $lte: 2020 },
+    "imdb.rating": { $gt: 8.0 }
+  },
+  {
+    title: 1,
+    year: 1,
+    "imdb.rating": 1,
+    genres: 1,
+    _id: 0
+  }
+).sort({ "imdb.rating": -1 });
 
-print("Top Sci-Fi movies (2010-2020):");
-genreYearMovies.forEach(movie => {
-    print(`  ${movie.title} (${movie.year}) - Rating: ${movie.imdb?.rating || 'N/A'}`);
+// ========================================
+// 2. Find all movies in "Drama" or "Thriller" genres with at least one award
+db.movies.find({
+  genres: { $in: ["Drama", "Thriller"] },
+  "awards.wins": { $gte: 1 }
+}).sort({ "awards.wins": -1 });
+
+// Alternative using $or
+db.movies.find({
+  $or: [
+    { genres: "Drama" },
+    { genres: "Thriller" }
+  ],
+  "awards.wins": { $gte: 1 }
 });
 
-// ========================================================================
-// Query 2: Complex text search with score
-// ========================================================================
-print("\n2. TEXT SEARCH WITH RELEVANCE");
-print("-".repeat(40));
-
-// Ensure text index exists
-db.movies.createIndex({ title: "text", plot: "text", fullplot: "text" });
-
-const textSearchResults = db.movies.find(
-    { $text: { $search: "space alien robot" } },
-    { score: { $meta: "textScore" } }
-).sort({ score: { $meta: "textScore" } }).limit(5).toArray();
-
-print("Movies matching 'space alien robot':");
-textSearchResults.forEach(movie => {
-    print(`  ${movie.title} (${movie.year})`);
-    print(`    Relevance Score: ${movie.score.toFixed(2)}`);
+// ========================================
+// 3. Find all movies where Tom Hanks appears in the cast
+db.movies.find({
+  cast: "Tom Hanks"
 });
 
-// ========================================================================
-// Query 3: Find movies with multiple conditions using $and, $or
-// ========================================================================
-print("\n3. COMPLEX LOGICAL CONDITIONS");
-print("-".repeat(40));
+// With formatted output
+db.movies.find(
+  { cast: "Tom Hanks" },
+  { title: 1, year: 1, cast: 1, "imdb.rating": 1, _id: 0 }
+).sort({ year: -1 });
 
-const complexLogicalQuery = db.movies.find({
-    $and: [
-        { year: { $gte: 2000 } },
-        { $or: [
-            { "imdb.rating": { $gte: 9.0 } },
-            { "awards.wins": { $gte: 50 } }
-        ]},
-        { runtime: { $lte: 180 } }
-    ]
-}).limit(5).toArray();
-
-print("Recent movies that are either highly rated OR highly awarded:");
-complexLogicalQuery.forEach(movie => {
-    print(`  ${movie.title} (${movie.year})`);
-    print(`    Rating: ${movie.imdb?.rating || 'N/A'}, Awards: ${movie.awards?.wins || 0}`);
+// Using regex for partial match
+db.movies.find({
+  cast: { $regex: /Tom Hanks/i }
 });
 
-// ========================================================================
-// Query 4: Array operations - $elemMatch, $size
-// ========================================================================
-print("\n4. ARRAY OPERATIONS");
-print("-".repeat(40));
+// ========================================
+// 4. Find movies released in last 5 years, sorted by rating, top 20
+const currentYear = 2024;
+const fiveYearsAgo = currentYear - 5;
 
-// Find movies where a specific actor appears in first 3 cast positions
-const leadActorMovies = db.movies.find({
-    cast: { $elemMatch: { $eq: "Leonardo DiCaprio" } }
-}).limit(5).toArray();
+db.movies.find({
+  year: { $gte: fiveYearsAgo }
+}).sort({ "imdb.rating": -1 }).limit(20);
 
-print("Movies with Leonardo DiCaprio:");
-leadActorMovies.forEach(movie => {
-    const position = movie.cast?.indexOf("Leonardo DiCaprio") + 1;
-    print(`  ${movie.title} (${movie.year}) - Position #${position} in cast`);
+// With projection
+db.movies.find(
+  { year: { $gte: 2019 } },
+  { title: 1, year: 1, "imdb.rating": 1, genres: 1, _id: 0 }
+).sort({ "imdb.rating": -1 }).limit(20);
+
+// ========================================
+// 5. Find all theaters in New York with screenings scheduled for today
+const today = new Date("2024-11-18");
+const tomorrow = new Date("2024-11-19");
+
+db.theaters.find({
+  "location.city": "New York",
+  "screenings.time": {
+    $gte: today,
+    $lt: tomorrow
+  }
 });
 
-// Find movies with exactly 3 directors
-const threeDirectorMovies = db.movies.find({
-    directors: { $size: 3 }
-}).limit(3).toArray();
-
-print("\nMovies with exactly 3 directors:");
-threeDirectorMovies.forEach(movie => {
-    print(`  ${movie.title}: ${movie.directors.join(", ")}`);
+// Alternative: Check if screenings array is not empty
+db.theaters.find({
+  "location.city": "New York",
+  screenings: { $exists: true, $ne: [] }
 });
 
-// ========================================================================
-// Query 5: Regex patterns for flexible matching
-// ========================================================================
-print("\n5. REGEX PATTERN MATCHING");
-print("-".repeat(40));
-
-// Find movies with titles starting with "The" and ending with numbers
-const regexMovies = db.movies.find({
-    title: { $regex: /^The.*\d+$/, $options: "i" }
-}).limit(5).toArray();
-
-print("Movies matching pattern '^The.*[0-9]+$':");
-regexMovies.forEach(movie => {
-    print(`  ${movie.title} (${movie.year})`);
+// ========================================
+// 6. Find users who watched >50 movies and prefer "Sci-Fi"
+db.users.find({
+  total_movies_watched: { $gt: 50 },
+  "preferences.favorite_genres": "Sci-Fi"
 });
 
-// ========================================================================
-// Query 6: Working with embedded documents
-// ========================================================================
-print("\n6. EMBEDDED DOCUMENT QUERIES");
-print("-".repeat(40));
+// With projection
+db.users.find(
+  {
+    total_movies_watched: { $gt: 50 },
+    "preferences.favorite_genres": "Sci-Fi"
+  },
+  {
+    username: 1,
+    total_movies_watched: 1,
+    "preferences.favorite_genres": 1,
+    _id: 0
+  }
+);
 
-// Find movies with specific tomatoes ratings
-const tomatoesQuery = db.movies.find({
-    "tomatoes.viewer.rating": { $gte: 4.5 },
-    "tomatoes.critic.rating": { $gte: 8.0 }
-}).limit(5).toArray();
+// ========================================
+// 7. Find movies with runtime between 90-120 minutes, excluding documentaries
+db.movies.find({
+  runtime: { $gte: 90, $lte: 120 },
+  genres: { $ne: "Documentary" }
+}).sort({ "imdb.rating": -1 });
 
-print("Highly rated on Rotten Tomatoes (both critics and viewers):");
-tomatoesQuery.forEach(movie => {
-    print(`  ${movie.title} (${movie.year})`);
-    if (movie.tomatoes) {
-        print(`    Critic: ${movie.tomatoes.critic?.rating || 'N/A'}/10`);
-        print(`    Viewer: ${movie.tomatoes.viewer?.rating || 'N/A'}/5`);
+// Alternative: Explicitly exclude documentaries
+db.movies.find({
+  $and: [
+    { runtime: { $gte: 90, $lte: 120 } },
+    { genres: { $nin: ["Documentary"] } }
+  ]
+});
+
+// ========================================
+// 8. Text search: Find movies with "space" or "alien" in title or plot
+// First, create text index (if not exists)
+db.movies.createIndex({ title: "text", plot: "text" });
+
+// Then search
+db.movies.find({
+  $text: { $search: "space alien" }
+});
+
+// With relevance score
+db.movies.find(
+  { $text: { $search: "space alien" } },
+  { score: { $meta: "textScore" }, title: 1, plot: 1, year: 1 }
+).sort({ score: { $meta: "textScore" } });
+
+// Search for exact phrase
+db.movies.find({
+  $text: { $search: "\"outer space\"" }
+});
+
+// ========================================
+// ADDITIONAL USEFUL QUERIES
+// ========================================
+
+// 9. Find movies by specific director with high ratings
+db.movies.find({
+  directors: "Christopher Nolan",
+  "imdb.rating": { $gte: 8.0 }
+}).sort({ year: -1 });
+
+// 10. Find movies with multiple genres
+db.movies.find({
+  $expr: { $gt: [{ $size: "$genres" }, 2] }
+});
+
+// 11. Find movies with cast array size greater than 4
+db.movies.find({
+  $expr: { $gte: [{ $size: "$cast" }, 5] }
+});
+
+// 12. Find highly-rated but not highly-awarded movies
+db.movies.find({
+  "imdb.rating": { $gte: 8.5 },
+  "awards.wins": { $lt: 50 }
+});
+
+// 13. Find movies in specific language
+db.movies.find({
+  languages: "English"
+});
+
+// 14. Find movies released in specific decade (2010s)
+db.movies.find({
+  year: { $gte: 2010, $lt: 2020 }
+});
+
+// 15. Find movies with regex on title (case-insensitive)
+db.movies.find({
+  title: { $regex: /the/i }
+});
+
+// 16. Find movies with elemMatch (complex array conditions)
+db.users.find({
+  viewing_history: {
+    $elemMatch: {
+      user_rating: { $gte: 9.0 },
+      watched_date: { $gte: "2024-01-01" }
     }
+  }
 });
 
-// ========================================================================
-// Query 7: Geospatial queries (if theater data available)
-// ========================================================================
-print("\n7. GEOSPATIAL QUERIES");
-print("-".repeat(40));
+// 17. Count movies by genre (simple aggregation alternative)
+db.movies.distinct("genres");
 
-// Check if theaters collection exists and has location data
-const theaterCount = db.theaters.countDocuments();
+// 18. Find theaters with capacity > 2000
+db.theaters.find({
+  capacity: { $gt: 2000 }
+}).sort({ capacity: -1 });
 
-if (theaterCount > 0) {
-    // Ensure 2dsphere index
-    db.theaters.createIndex({ "location.geo": "2dsphere" });
-
-    // Find theaters near a point (e.g., San Francisco)
-    const nearbyTheaters = db.theaters.find({
-        "location.geo": {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [-122.4194, 37.7749] // San Francisco coordinates
-                },
-                $maxDistance: 50000 // 50km
-            }
-        }
-    }).limit(5).toArray();
-
-    print("Theaters near San Francisco:");
-    nearbyTheaters.forEach(theater => {
-        print(`  ${theater.name} - ${theater.location.address.city}, ${theater.location.address.state}`);
-    });
-} else {
-    print("No theater data available for geospatial queries");
-}
-
-// ========================================================================
-// Query 8: Date operations
-// ========================================================================
-print("\n8. DATE OPERATIONS");
-print("-".repeat(40));
-
-// Find movies released in the last N years
-const currentYear = new Date().getFullYear();
-const recentMovies = db.movies.find({
-    year: { $gte: currentYear - 5 }
-}).sort({ year: -1 }).limit(5).toArray();
-
-print(`Movies from the last 5 years (${currentYear - 5}-${currentYear}):`);
-recentMovies.forEach(movie => {
-    print(`  ${movie.title} (${movie.year})`);
+// 19. Find users created in 2022
+db.users.find({
+  created_at: {
+    $gte: new Date("2022-01-01"),
+    $lt: new Date("2023-01-01")
+  }
 });
 
-// Find movies with recent comments
-const moviesWithRecentComments = db.movies.aggregate([
-    {
-        $lookup: {
-            from: "comments",
-            localField: "_id",
-            foreignField: "movie_id",
-            as: "recent_comments"
-        }
-    },
-    {
-        $match: {
-            "recent_comments": { $ne: [] }
-        }
-    },
-    {
-        $project: {
-            title: 1,
-            year: 1,
-            comment_count: { $size: "$recent_comments" }
-        }
-    },
-    { $sort: { comment_count: -1 } },
-    { $limit: 5 }
-]).toArray();
-
-print("\nMovies with most comments:");
-moviesWithRecentComments.forEach(movie => {
-    print(`  ${movie.title} (${movie.year}) - ${movie.comment_count} comments`);
+// 20. Find movies where Leonardo DiCaprio and Tom Hanks are not in cast
+db.movies.find({
+  cast: {
+    $nin: ["Leonardo DiCaprio", "Tom Hanks"]
+  }
 });
 
-// ========================================================================
-// Query 9: Aggregation with $lookup (JOIN)
-// ========================================================================
-print("\n9. JOIN OPERATIONS WITH $LOOKUP");
-print("-".repeat(40));
+// ========================================
+// QUERY WITH EXPLAIN (Performance Analysis)
+// ========================================
 
-// Find movies with their comments and user information
-const moviesWithComments = db.movies.aggregate([
-    { $match: { year: 2015 } },
-    { $limit: 3 },
-    {
-        $lookup: {
-            from: "comments",
-            let: { movie_id: "$_id" },
-            pipeline: [
-                { $match: { $expr: { $eq: ["$movie_id", "$$movie_id"] } } },
-                { $limit: 2 },
-                { $project: { name: 1, email: 1, text: 1, date: 1 } }
-            ],
-            as: "comments"
-        }
-    },
-    {
-        $project: {
-            title: 1,
-            year: 1,
-            "imdb.rating": 1,
-            comments: 1
-        }
-    }
-]).toArray();
+// Check execution plan for genre query
+db.movies.find({ genres: "Action" }).explain("executionStats");
 
-print("Movies with their comments:");
-moviesWithComments.forEach(movie => {
-    print(`\n${movie.title} (${movie.year}) - Rating: ${movie.imdb?.rating || 'N/A'}`);
-    if (movie.comments.length > 0) {
-        print("  Recent Comments:");
-        movie.comments.forEach(comment => {
-            print(`    - ${comment.name}: "${comment.text.substring(0, 50)}..."`);
-        });
-    } else {
-        print("  No comments");
-    }
+// Check execution plan for year + rating query
+db.movies.find({
+  year: 2015,
+  "imdb.rating": { $gt: 7.0 }
+}).explain("executionStats");
+
+// Check execution plan for director query
+db.movies.find({ directors: "Christopher Nolan" }).explain("executionStats");
+
+// ========================================
+// COVERED QUERIES (All data from index)
+// ========================================
+
+// After creating index on title and year:
+// db.movies.createIndex({ title: 1, year: 1 });
+
+// This query can be covered (all data from index)
+db.movies.find(
+  { title: "Inception" },
+  { title: 1, year: 1, _id: 0 }
+);
+
+// ========================================
+// COMPOUND QUERIES
+// ========================================
+
+// Complex query with multiple conditions
+db.movies.find({
+  $and: [
+    { year: { $gte: 2010 } },
+    { "imdb.rating": { $gte: 8.0 } },
+    { genres: "Sci-Fi" },
+    { "awards.wins": { $gte: 10 } }
+  ]
+}).sort({ "imdb.rating": -1 });
+
+// Using $nor (neither condition is true)
+db.movies.find({
+  $nor: [
+    { genres: "Horror" },
+    { genres: "Documentary" }
+  ]
 });
-
-// ========================================================================
-// Query 10: Update operations examples
-// ========================================================================
-print("\n10. UPDATE OPERATIONS");
-print("-".repeat(40));
-
-// Example: Update a movie's viewer count (dry run - not actually executing)
-print("Example update commands (not executed):");
-print("");
-print("// Increment view count:");
-print('db.movies.updateOne(');
-print('  { title: "The Matrix" },');
-print('  { $inc: { views: 1 } }');
-print(');');
-print("");
-print("// Add a new genre to a movie:");
-print('db.movies.updateOne(');
-print('  { title: "Inception" },');
-print('  { $addToSet: { genres: "Mind-bending" } }');
-print(');');
-print("");
-print("// Update multiple fields:");
-print('db.movies.updateMany(');
-print('  { year: { $lt: 1950 } },');
-print('  { $set: { era: "Classic" } }');
-print(');');
-
-// ========================================================================
-// Query 11: Aggregation - Group and statistical operations
-// ========================================================================
-print("\n11. STATISTICAL AGGREGATIONS");
-print("-".repeat(40));
-
-const genreStats = db.movies.aggregate([
-    { $unwind: "$genres" },
-    { $group: {
-        _id: "$genres",
-        count: { $sum: 1 },
-        avgRating: { $avg: "$imdb.rating" },
-        minYear: { $min: "$year" },
-        maxYear: { $max: "$year" },
-        totalRuntime: { $sum: "$runtime" }
-    }},
-    { $sort: { count: -1 } },
-    { $limit: 5 }
-]).toArray();
-
-print("Genre Statistics (Top 5):");
-genreStats.forEach(genre => {
-    print(`\n${genre._id}:`);
-    print(`  Movies: ${genre.count}`);
-    print(`  Avg Rating: ${genre.avgRating?.toFixed(2) || 'N/A'}`);
-    print(`  Year Range: ${genre.minYear}-${genre.maxYear}`);
-    print(`  Total Runtime: ${Math.floor(genre.totalRuntime / 60)} hours`);
-});
-
-// ========================================================================
-// Query 12: Performance analysis
-// ========================================================================
-print("\n12. QUERY PERFORMANCE ANALYSIS");
-print("-".repeat(40));
-
-// Analyze a query's execution plan
-const explainOutput = db.movies.explain("executionStats").find({
-    genres: "Action",
-    year: { $gte: 2010 }
-}).limit(10);
-
-if (explainOutput.executionStats) {
-    print("Query Performance for Action movies (2010+):");
-    print(`  Execution Time: ${explainOutput.executionStats.executionTimeMillis}ms`);
-    print(`  Documents Examined: ${explainOutput.executionStats.totalDocsExamined}`);
-    print(`  Documents Returned: ${explainOutput.executionStats.nReturned}`);
-    print(`  Efficiency: ${(explainOutput.executionStats.nReturned / explainOutput.executionStats.totalDocsExamined * 100).toFixed(1)}%`);
-
-    // Check if index was used
-    const stage = explainOutput.executionStats.executionStages;
-    if (stage.stage === "COLLSCAN") {
-        print("  ⚠ Warning: Collection scan - consider adding index");
-    } else {
-        print("  ✓ Index scan used");
-    }
-}
-
-// List available indexes
-print("\nAvailable Indexes on movies collection:");
-const indexes = db.movies.getIndexes();
-indexes.forEach(idx => {
-    print(`  ${idx.name}: ${JSON.stringify(idx.key)}`);
-});
-
-print("\n" + "=".repeat(60));
-print("✓ All queries completed successfully!");
-print("=".repeat(60));

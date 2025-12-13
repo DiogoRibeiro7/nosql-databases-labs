@@ -101,6 +101,8 @@ node setup_replica_set.js
 
 ## 4. Tasks
 
+**Important:** Before running any JavaScript files, please refer to [FILE_USAGE_GUIDE.md](FILE_USAGE_GUIDE.md) to understand which files should be run with Node.js vs MongoDB Shell (mongosh).
+
 ### Task 1: Basic Replica Set Operations
 
 #### 1.1. Check Replica Set Status

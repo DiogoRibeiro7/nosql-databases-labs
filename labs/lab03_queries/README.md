@@ -75,6 +75,8 @@ db.users.countDocuments()
 
 ## 3. Tasks
 
+**Important:** Before running any JavaScript files, please refer to [FILE_USAGE_GUIDE.md](FILE_USAGE_GUIDE.md) to understand which files should be run with Node.js vs MongoDB Shell (mongosh).
+
 ### Task 1: Complex Queries (25%)
 
 Write queries to answer the following questions. Use query operators such as `$and`, `$or`, `$in`, `$regex`, `$elemMatch`, etc.
@@ -175,6 +177,7 @@ db.movies.find({ $text: { $search: "space adventure" } }).explain("executionStat
 ```
 
 Document the following for each query:
+
 - Execution time (ms)
 - Documents examined
 - Documents returned
