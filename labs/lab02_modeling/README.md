@@ -143,3 +143,21 @@ The following items are optional but recommended if you finish early:
 * Sketch how you would migrate from a relational schema to this NoSQL schema.
 
 If you do any extensions, briefly describe them in `NOTES.md`.
+
+---
+
+### Basic Warm-up (Optional)
+
+New to data modeling? Start with the lightweight prompts in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md). They walk you through listing entities, mapping relationships, drafting embed vs reference decisions, and writing a tiny sample document before you commit to the full deliverables.
+
+---
+
+### Advanced Challenges (Bonus)
+
+Structured stretch goals are documented in [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). They cover:
+
+1. Designing multi-tenant strategies.
+2. Building an index prioritization/backlog process.
+3. Planning a relational-to-document migration.
+
+Record any progress in the “Advanced Exercises Summary” section of your `NOTES.md` and link to the supporting files you created.

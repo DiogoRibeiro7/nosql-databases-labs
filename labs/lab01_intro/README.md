@@ -197,3 +197,21 @@ These items are **not required** for full marks, but are recommended if you fini
   * Prints a short report to the console.
 
 If you implement any extensions, mention them in `NOTES.md`.
+
+---
+
+### Basic Warm-up (Optional)
+
+Need a gentler starting point? Work through the four-step primer in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md) before tackling the main lab. It guides you through dataset inspection, a partial import, simple CRUD, and a quick query sampler.
+
+---
+
+### Advanced Challenges (Bonus)
+
+If you want structured stretch goals, see [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). It outlines:
+
+1. An environment diagnostics script (`env_check.*`).
+2. An idempotent database seeder.
+3. A minimal API + smoke test harness.
+
+Document any progress in the “Advanced Exercises Status” section of your `NOTES.md`.

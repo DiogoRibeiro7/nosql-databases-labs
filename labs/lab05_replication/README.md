@@ -407,4 +407,22 @@ If you finish early, try these advanced topics:
 
 ---
 
+### Basic Warm-up (Optional)
+
+Before attempting the full replica set scenarios, consider running through the onboarding checklist in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md). It walks you through setup verification, primary/secondary reads, manual failover, and an introductory read-preference test.
+
+---
+
+### Advanced Challenges (Bonus Track)
+
+Comprehensive, scenario-driven drills are documented in [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). They include:
+
+1. Election chaos simulations with flaky networks and custom priorities.
+2. Read-preference load testing to verify routing and latency.
+3. Oplog watchdog scripts that raise alerts when lag exceeds a threshold.
+
+Summaries and runbooks belong in the “Advanced Replication Runbook” section of `NOTES.md`.
+
+---
+
 Good luck! Remember, replication is crucial for production deployments, so take time to understand these concepts thoroughly.

@@ -250,6 +250,18 @@ Include:
 
 ---
 
+### Task 5: Diagnostics & Resilience Drills (Bonus 10%)
+
+For students who want extra practice (or extra credit), complete the “Advanced Exercise 0” section in [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). The drills ask you to:
+
+1. Build `profiler.js` to replay your workload, capture profiler metrics, and recommend indexes.
+2. Stress-test the system by dropping/rebuilding critical indexes, then document the impact in `diagnostics.md`.
+3. Create `data_quality.js` to flag data anomalies and persist suspect documents for review.
+
+These exercises mirror real incident-response workflows. Keep your findings in `labs/lab03_queries/diagnostics.md` so graders can see your reasoning even if you only complete part of the bonus.
+
+---
+
 ## 4. What to Submit
 
 Inside `labs/lab03_queries/`, you should have:
@@ -258,10 +270,20 @@ Inside `labs/lab03_queries/`, you should have:
 * `aggregations.js` – Aggregation pipelines from Task 2
 * `indexes.js` – Index creation commands from Task 3
 * `NOTES.md` – Analysis, performance results, and optimization explanations
+* Optional bonus deliverables (Task 5):
+  - `profiler.js` – Automated workload runner + profiler summary
+  - `data_quality.js` – Aggregation pipeline for anomaly detection
+  - `diagnostics.md` – Profiler findings, index stress-test metrics, and remediation notes
 * Optional: Screenshots of explain plans or performance graphs
 
 Follow the general submission workflow in
 [`instructions/submission_guide.md`](../../instructions/submission_guide.md).
+
+---
+
+### Basic Warm-up (Optional)
+
+If you want to validate your setup with lighter tasks first, complete the checklist in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md). It covers collection counts, simple find queries, a short aggregation, and your first index + explain plan.
 
 ---
 

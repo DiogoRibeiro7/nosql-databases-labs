@@ -418,6 +418,24 @@ Document your answers in `NOTES.md`.
 
 ---
 
+### Basic Warm-up (Optional)
+
+Need to brush up before tackling the full analytics backlog? Run the starter pipelines in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md) covering simple grouping, lookups, customer segments, and a first aggregation explain plan.
+
+---
+
+### Advanced Challenges (Bonus Track)
+
+Students aiming for deeper mastery should read [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). It introduces:
+
+1. Sliding-window anomaly detection with `$setWindowFields`.
+2. A reusable pipeline helper library to reduce duplication.
+3. An aggregation benchmarking harness that captures `executionStats`.
+
+Summaries belong in the “Advanced Exercises Dashboard” section of `NOTES.md`.
+
+---
+
 ## 9. Resources
 
 - [Aggregation Pipeline](https://docs.mongodb.com/manual/core/aggregation-pipeline/)
