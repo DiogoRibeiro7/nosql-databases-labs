@@ -346,6 +346,11 @@ db.collection.find({ field: value }).explain("allPlansExecution")
 
 ---
 
+### Feedback & Collaboration
+
+- Report dataset or script issues via [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab03` label.
+- Trade tuning tips or ask for help in the [Discussions tab](https://github.com/diogoribeiro7/nosql-databases-labs/discussions); TAs highlight insightful threads regularly.
+
 ## 7. Optional Extensions
 
 These are not required but recommended for deeper learning:

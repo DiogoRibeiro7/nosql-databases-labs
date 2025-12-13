@@ -90,7 +90,7 @@ Current tests only validate document counts. Improvements needed:
 - [x] Fix typo: `mongodb-faker-generator/REAME.md` → `README.md`
 - [x] Add schema documentation for each dataset in `data/`
 - [x] Create troubleshooting guide for common MongoDB issues
-- [ ] Document how to extend the lab framework (API docs)
+- [x] Document how to extend the lab framework (API docs)
 - [x] Document performance expectations per lab
 - [x] Add query optimization best practices guide
 

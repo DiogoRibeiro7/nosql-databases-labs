@@ -80,7 +80,7 @@ db.orders.find({status: "pending"}).sort({createdAt: -1})
 db.orders.find({status: "pending"})
 
 // This query CANNOT use the index efficiently
-db.orders.find({createdAt: {$gte: new Date("2024-01-01")}})
+db.orders.find({createdAt: {$gte: new Date("2025-01-01")}})
 ```
 
 #### 3. Multikey Index (Arrays)
@@ -637,4 +637,4 @@ db.runCommand({compact: "collection"})
 
 ---
 
-*Last updated: December 2024*
+*Last updated: December 2025*

@@ -417,3 +417,10 @@ Summaries and runbooks belong in the “Advanced Replication Runbook” section 
 ---
 
 Good luck! Remember, replication is crucial for production deployments, so take time to understand these concepts thoroughly.
+
+---
+
+### Feedback & Collaboration
+
+- Open [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab05` label for any replication script problems or feature requests.
+- Discuss failover drills, read preferences, or monitoring strategies in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to learn from others.

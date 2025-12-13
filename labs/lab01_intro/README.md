@@ -216,3 +216,10 @@ If you want structured stretch goals, see [`ADVANCED_EXERCISES.md`](ADVANCED_EXE
 3. A minimal API + smoke test harness.
 
 Document any progress in the “Advanced Exercises Status” section of your `NOTES.md`.
+
+---
+
+### Feedback & Collaboration
+
+- Use the [Issues tab](https://github.com/diogoribeiro7/nosql-databases-labs/issues) to report bugs or suggest improvements (tag with `lab01`).
+- Post tips or questions in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) so classmates can learn from your experience.

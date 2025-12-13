@@ -440,3 +440,10 @@ Summaries belong in the “Advanced Exercises Dashboard” section of `NOTES.md`
 ---
 
 Good luck! This lab simulates real-world analytics work you'd do as a data analyst or backend engineer.
+
+---
+
+### Feedback & Collaboration
+
+- File enhancement ideas or bugs via [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) tagged `lab04`.
+- Share pipeline patterns or visualizations in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to inspire classmates.

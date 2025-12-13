@@ -120,6 +120,17 @@ mongosh --file queries.js      # Run example queries
 
 Each lab includes target data sizes, latency goals, and timing budgets so you can verify your environment before tackling the deeper exercises. Review [`docs/performance_expectations.md`](docs/performance_expectations.md) for the per-lab checklist and link it from your lab notes when reporting metrics.
 
+### 4.5. Extending the Lab Framework
+
+Instructors or contributors who want to add new labs should follow [`docs/extending_lab_framework.md`](docs/extending_lab_framework.md). It covers directory structure, README expectations, starter data/scripts, and how to update repository metadata when introducing additional content.
+
+### 4.6. Feedback & Collaboration
+
+- **Issues** – Report bugs, missing instructions, or propose enhancements via the [GitHub Issues tab](https://github.com/diogoribeiro7/nosql-databases-labs/issues). Label requests clearly (e.g., `lab03`, `docs`, `data`).
+- **Discussions** – Share tips, ask conceptual questions, or showcase solutions in the [Discussions tab](https://github.com/diogoribeiro7/nosql-databases-labs/discussions). TAs monitor these threads to highlight best practices.
+
+Please search existing threads before opening new ones to avoid duplicates.
+
 ---
 
 ## 5. Available Datasets

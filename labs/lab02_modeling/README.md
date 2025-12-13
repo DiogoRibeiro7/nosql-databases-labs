@@ -162,3 +162,10 @@ Structured stretch goals are documented in [`ADVANCED_EXERCISES.md`](ADVANCED_EX
 3. Planning a relational-to-document migration.
 
 Record any progress in the “Advanced Exercises Summary” section of your `NOTES.md` and link to the supporting files you created.
+
+---
+
+### Feedback & Collaboration
+
+- File ideas or bugs in the [Issues tab](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab02` label.
+- Share modeling tips or diagrams via [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) so others can benefit.
