@@ -162,33 +162,33 @@ class ModernFeaturesTestRunner {
     const exercises = [
       {
         name: 'Change Streams (Real-time Data)',
-        file: './exercises/01_change_streams.js',
+        file: './exercises/01_change_streams/solution.js',
         requireReplicaSet: true,
         skipInLocal: false
       },
       {
         name: 'Time-Series Collections',
-        file: './exercises/02_timeseries_collections.js',
+        file: './exercises/02_timeseries_collections/solution.js',
         skipInLocal: false
       },
       {
         name: 'Atlas Search',
-        file: './exercises/03_atlas_search.js',
+        file: './exercises/03_atlas_search/solution.js',
         skipInLocal: false // Has local fallbacks
       },
       {
         name: 'Vector Search (AI/ML)',
-        file: './exercises/04_vector_search.js',
+        file: './exercises/04_vector_search/solution.js',
         skipInLocal: false // Has local simulation
       },
       {
         name: 'GridFS File Storage',
-        file: './exercises/05_gridfs.js',
+        file: './exercises/05_gridfs/solution.js',
         skipInLocal: false
       },
       {
         name: 'MongoDB Charts Data Preparation',
-        file: './exercises/06_mongodb_charts.js',
+        file: './exercises/06_mongodb_charts/solution.js',
         skipInLocal: false
       }
     ];

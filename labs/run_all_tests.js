@@ -202,9 +202,9 @@ class LabTestRunner {
         number: 'Modern',
         name: 'Modern Features',
         exercises: [
-          { name: 'Change Streams', path: 'lab_modern_features/exercises/01_change_streams.js', type: 'exercise', limit: 2 },
-          { name: 'Time-Series', path: 'lab_modern_features/exercises/02_timeseries_collections.js', type: 'exercise', limit: 2 },
-          { name: 'Vector Search', path: 'lab_modern_features/exercises/04_vector_search.js', type: 'exercise', limit: 2 }
+          { name: 'Change Streams', path: 'lab_modern_features/exercises/01_change_streams/solution.js', type: 'exercise', limit: 2 },
+          { name: 'Time-Series', path: 'lab_modern_features/exercises/02_timeseries_collections/solution.js', type: 'exercise', limit: 2 },
+          { name: 'Vector Search', path: 'lab_modern_features/exercises/04_vector_search/solution.js', type: 'exercise', limit: 2 }
         ]
       }
     ];

@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "node run_all_exercises.js",
-    "change-streams": "node exercises/01_change_streams.js",
-    "time-series": "node exercises/02_timeseries_collections.js",
-    "atlas-search": "node exercises/03_atlas_search.js",
-    "vector-search": "node exercises/04_vector_search.js",
-    "gridfs": "node exercises/05_gridfs.js",
-    "charts": "node exercises/06_mongodb_charts.js"
+    "change-streams": "node exercises/01_change_streams/solution.js",
+    "time-series": "node exercises/02_timeseries_collections/solution.js",
+    "atlas-search": "node exercises/03_atlas_search/solution.js",
+    "vector-search": "node exercises/04_vector_search/solution.js",
+    "gridfs": "node exercises/05_gridfs/solution.js",
+    "charts": "node exercises/06_mongodb_charts/solution.js"
   },
   "keywords": [
     "mongodb",
