@@ -210,6 +210,11 @@ jobs:
           cd ../..
         env:
           MONGODB_URI: mongodb://127.0.0.1:27017
+          LAB03_LIMIT_MOVIES: 60
+          LAB03_LIMIT_THEATERS: 15
+          LAB03_LIMIT_USERS: 20
+          LAB03_LIMIT_COMMENTS: 100
+          LAB03_LIMIT_SESSIONS: 60
 
       # Lab 04 Tests with Coverage
       - name: Lab 04 - Import and Test with Coverage

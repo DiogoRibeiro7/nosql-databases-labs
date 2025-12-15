@@ -7,6 +7,16 @@ const path = require('path');
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = 'lab03_movies';
+const args = process.argv.slice(2);
+const globalLimit = (() => {
+  const flag = args.find(arg => arg.startsWith('--limit='));
+  if (flag) return parseLimit(flag.split('=')[1]);
+  const flagIndex = args.indexOf('--limit');
+  if (flagIndex !== -1 && args[flagIndex + 1]) {
+    return parseLimit(args[flagIndex + 1]);
+  }
+  return parseLimit(process.env.LAB03_IMPORT_LIMIT);
+})();
 
 function handleConnectionError(error) {
   if (
@@ -19,6 +29,15 @@ function handleConnectionError(error) {
     return true;
   }
   return false;
+}
+
+function parseLimit(value) {
+  if (value === undefined || value === null || value === '') return null;
+  const limit = parseInt(value, 10);
+  if (!Number.isFinite(limit) || limit <= 0) {
+    return null;
+  }
+  return limit;
 }
 
 // Helper function to convert Extended JSON to regular MongoDB objects
@@ -74,7 +93,7 @@ function convertExtendedJSON(obj) {
 }
 
 // Function to import a collection with error handling
-async function importCollection(db, collectionName, filename) {
+async function importCollection(db, collectionName, filename, maxDocs) {
   try {
     console.log(`\nImporting ${collectionName}...`);
     const jsonContent = await fs.readFile(filename, 'utf8');
@@ -105,6 +124,12 @@ async function importCollection(db, collectionName, filename) {
 
     // Convert Extended JSON format
     const converted = convertExtendedJSON(data);
+    let documents = converted;
+
+    if (maxDocs && maxDocs > 0 && converted.length > maxDocs) {
+      documents = converted.slice(0, maxDocs);
+      console.log(`  Limiting to ${maxDocs} documents (of ${converted.length}) for ${collectionName}`);
+    }
 
     // Drop existing collection
     await db.collection(collectionName).drop().catch(() => {});
@@ -113,8 +138,8 @@ async function importCollection(db, collectionName, filename) {
     const batchSize = 1000;
     let totalInserted = 0;
 
-    for (let i = 0; i < converted.length; i += batchSize) {
-      const batch = converted.slice(i, Math.min(i + batchSize, converted.length));
+    for (let i = 0; i < documents.length; i += batchSize) {
+      const batch = documents.slice(i, Math.min(i + batchSize, documents.length));
       try {
         const result = await db.collection(collectionName).insertMany(batch, { ordered: false });
         totalInserted += result.insertedCount;
@@ -124,8 +149,8 @@ async function importCollection(db, collectionName, filename) {
         // Continue with next batch
       }
 
-      if ((i + batchSize) % 5000 === 0 || i + batchSize >= converted.length) {
-        console.log(`  Processed ${Math.min(i + batchSize, converted.length)} / ${converted.length} documents...`);
+      if ((i + batchSize) % 5000 === 0 || i + batchSize >= documents.length) {
+        console.log(`  Processed ${Math.min(i + batchSize, documents.length)} / ${documents.length} documents...`);
       }
     }
 
@@ -156,6 +181,22 @@ async function main() {
     console.log("Clearing existing collections...");
 
     // Import all collections
+    const resolveLimit = (name) => {
+      const normalized = name.toUpperCase();
+      const envValue = process.env[`LAB03_LIMIT_${normalized}`];
+      const cliFlag = args.find(arg => arg.startsWith(`--limit-${name.toLowerCase()}=`));
+      if (cliFlag) {
+        return parseLimit(cliFlag.split('=')[1]);
+      }
+      const cliIndex = args.indexOf(`--limit-${name.toLowerCase()}`);
+      if (cliIndex !== -1 && args[cliIndex + 1]) {
+        return parseLimit(args[cliIndex + 1]);
+      }
+
+      const envLimit = parseLimit(envValue);
+      return envLimit ?? globalLimit;
+    };
+
     const collections = [
       { name: "movies", file: path.join(__dirname, "starter/data/movies.json") },
       { name: "theaters", file: path.join(__dirname, "starter/data/theaters.json") },
@@ -166,7 +207,7 @@ async function main() {
 
     let successCount = 0;
     for (const col of collections) {
-      if (await importCollection(db, col.name, col.file)) {
+      if (await importCollection(db, col.name, col.file, resolveLimit(col.name))) {
         successCount++;
       }
     }
