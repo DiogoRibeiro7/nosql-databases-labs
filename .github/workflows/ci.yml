@@ -296,7 +296,7 @@ jobs:
 
       - name: Upload Benchmark Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: benchmark-results
           path: labs/*/benchmark_results.json
@@ -337,7 +337,7 @@ jobs:
 
       - name: Upload Validation Reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: validation-reports
           path: labs/*/validation_report.json
@@ -393,7 +393,7 @@ jobs:
           echo "View detailed reports at: https://codecov.io/gh/${{ github.repository }}" >> coverage-summary.md
 
       - name: Upload Coverage Summary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-summary
           path: coverage-summary.md

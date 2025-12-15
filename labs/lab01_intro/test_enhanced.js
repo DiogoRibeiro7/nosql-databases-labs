@@ -1,3 +1,6 @@
+/* eslint-env mongo */
+/* global load, TestFramework */
+
 /**
  * Enhanced Test Suite for Lab 01 - Introduction to MongoDB
  * Uses assertion-based validation for comprehensive testing
@@ -92,7 +95,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 2: Query with exact match
   this.test("Find by email (exact match)", function() {
-    const results = this.assertQueryResults(
+    this.assertQueryResults(
       { email: "john@example.com" },
       [{ name: "John Doe", age: 35 }],
       { count: 1 }
@@ -101,7 +104,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 3: Query with comparison operator
   this.test("Find customers older than 30", function() {
-    const results = this.assertQueryResults(
+    this.assertQueryResults(
       { age: { $gt: 30 } },
       null,
       {
@@ -115,7 +118,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 4: Query with multiple conditions
   this.test("Find customers from USA in New York", function() {
-    const results = this.assertQueryResults(
+    this.assertQueryResults(
       { city: "New York", country: "USA" },
       null,
       {
@@ -131,7 +134,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 5: Array queries
   this.test("Find customers with purchases", function() {
-    const results = this.assertQueryResults(
+    this.assertQueryResults(
       { "purchases.0": { $exists: true } },
       null,
       {
@@ -145,7 +148,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 6: Aggregation - Count by country
   this.test("Aggregation: Count customers by country", function() {
-    const results = this.assertAggregationResults(
+    this.assertAggregationResults(
       [
         { $group: { _id: "$country", count: { $sum: 1 } } },
         { $sort: { count: -1 } }
@@ -160,7 +163,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 7: Aggregation - Average age
   this.test("Aggregation: Calculate average age", function() {
-    const results = this.assertAggregationResults(
+    this.assertAggregationResults(
       [
         { $group: { _id: null, averageAge: { $avg: "$age" } } }
       ],
@@ -176,7 +179,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 8: Aggregation - Total purchases per customer
   this.test("Aggregation: Total purchase value per customer", function() {
-    const results = this.assertAggregationResults(
+    this.assertAggregationResults(
       [
         { $unwind: "$purchases" },
         {
@@ -200,7 +203,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
 
   // Test 9: Date range queries
   this.test("Find customers created in January 2024", function() {
-    const results = this.assertQueryResults(
+    this.assertQueryResults(
       {
         createdAt: {
           $gte: new Date("2024-01-01"),
@@ -302,7 +305,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
     try {
       this.collection.createIndex({ name: "text", email: "text" });
 
-      const results = this.collection.find(
+      this.collection.find(
         { $text: { $search: "john" } }
       ).toArray();
 

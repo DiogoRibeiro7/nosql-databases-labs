@@ -1,0 +1,23 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore build/dist directories
+dist/
+build/
+
+# Ignore coverage reports
+coverage/
+.nyc_output/
+
+# Ignore Python directories
+venv/
+__pycache__/
+*.pyc
+
+# Ignore data files
+*.json
+*.csv
+
+# Ignore specific directories
+mongodb-faker-generator/python/
+mongodb-faker-generator/tests/

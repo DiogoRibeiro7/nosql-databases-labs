@@ -1,8 +1,19 @@
-# Group 23 - MongoDB NoSQL Database Project
+#!/usr/bin/env node
+
+/**
+ * Update README files to focus on database operations only (no API)
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const GROUPS_DIR = path.join(__dirname, '..', 'group-work');
+
+const generateDatabaseFocusedReadme = (groupNum) => `# Group ${groupNum} - MongoDB NoSQL Database Project
 
 ## Team Members
 
-See our team composition in [group_members.md](../group_members.md#group-23)
+See our team composition in [group_members.md](../group_members.md#group-${groupNum})
 
 ## Project Overview
 
@@ -51,29 +62,29 @@ This project demonstrates our comprehensive understanding of MongoDB database op
 - Regular expression searches for text patterns
 
 #### Advanced Queries
-- Complex filtering with `$and`, `$or`, `$nor` operators
-- Array queries using `$elemMatch`, `$all`, `$size`
+- Complex filtering with \`$and\`, \`$or\`, \`$nor\` operators
+- Array queries using \`$elemMatch\`, \`$all\`, \`$size\`
 - Nested document queries with dot notation
 - Comparison operators for range queries
 
 ### 4. Aggregation Pipelines
 
 #### Data Analysis Pipelines
-- `$match` stages for filtering
-- `$group` operations for statistical analysis
-- `$project` for data transformation
-- `$sort` and `$limit` for result control
+- \`$match\` stages for filtering
+- \`$group\` operations for statistical analysis
+- \`$project\` for data transformation
+- \`$sort\` and \`$limit\` for result control
 
 #### Complex Aggregations
 - Multi-stage pipelines for business analytics
-- `$lookup` for joining collections
-- `$unwind` for array manipulation
-- `$facet` for multiple aggregation outputs
+- \`$lookup\` for joining collections
+- \`$unwind\` for array manipulation
+- \`$facet\` for multiple aggregation outputs
 
 ### 5. Update Operations
 - Single and multi-document updates
-- Array update operators (`$push`, `$pull`, `$addToSet`)
-- Field update operators (`$set`, `$unset`, `$inc`)
+- Array update operators (\`$push\`, \`$pull\`, \`$addToSet\`)
+- Field update operators (\`$set\`, \`$unset\`, \`$inc\`)
 - Conditional updates with query filters
 
 ### 6. Index Management
@@ -100,43 +111,43 @@ This project demonstrates our comprehensive understanding of MongoDB database op
 ### Running Our Solution
 
 1. **Start MongoDB Server**
-   ```bash
+   \`\`\`bash
    mongod --dbpath /path/to/data/directory
-   ```
+   \`\`\`
 
 2. **Connect to MongoDB**
-   ```bash
+   \`\`\`bash
    mongosh
-   ```
+   \`\`\`
 
 3. **Create and Use Database**
-   ```javascript
-   use group_23_db
-   ```
+   \`\`\`javascript
+   use group_${groupNum}_db
+   \`\`\`
 
 4. **Execute Our Scripts**
-   ```bash
+   \`\`\`bash
    mongosh < solution.js
-   ```
+   \`\`\`
 
 5. **Verify Data**
-   ```javascript
+   \`\`\`javascript
    db.getCollectionNames()
    db.collection_name.countDocuments()
-   ```
+   \`\`\`
 
 ## Query Examples from Our Solution
 
 ### Example 1: Find Products by Category
-```javascript
+\`\`\`javascript
 db.products.find({
   category: "Electronics",
   price: { $gte: 100, $lte: 1000 }
 })
-```
+\`\`\`
 
 ### Example 2: Aggregate Sales Data
-```javascript
+\`\`\`javascript
 db.sales.aggregate([
   { $match: { year: 2024 } },
   { $group: {
@@ -146,15 +157,15 @@ db.sales.aggregate([
   }},
   { $sort: { _id: 1 } }
 ])
-```
+\`\`\`
 
 ### Example 3: Update Inventory
-```javascript
+\`\`\`javascript
 db.inventory.updateMany(
   { quantity: { $lt: 10 } },
   { $set: { status: "low_stock", lastUpdated: new Date() } }
 )
-```
+\`\`\`
 
 ## Performance Optimizations
 
@@ -177,7 +188,7 @@ db.inventory.updateMany(
 
 ### Challenge 1: Complex Aggregations
 - **Problem**: Needed to analyze data across multiple collections
-- **Solution**: Used `$lookup` stages with optimized pipeline order
+- **Solution**: Used \`$lookup\` stages with optimized pipeline order
 
 ### Challenge 2: Large Dataset Insertion
 - **Problem**: Inserting millions of documents efficiently
@@ -213,10 +224,30 @@ Through this project, we gained practical experience in:
 ## Documentation
 
 Additional files in our submission:
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
+- \`solution.md\` - Complete MongoDB queries and operations
+- \`queries.js\` - JavaScript file with all database operations
+- \`data.json\` - Sample data for testing
 
 ## Contributors
 
-Group 23 - 2025
+Group ${groupNum} - ${new Date().getFullYear()}
+`;
+
+// Get all group directories
+const groups = fs.readdirSync(GROUPS_DIR)
+  .filter(dir => dir.startsWith('group_') && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory());
+
+console.log(`Updating README files for ${groups.length} groups with database-only focus...`);
+
+groups.forEach(group => {
+  const groupNum = group.replace('group_', '');
+  const groupPath = path.join(GROUPS_DIR, group);
+  const readmePath = path.join(groupPath, 'README.md');
+
+  // Generate and write the database-focused README
+  const readmeContent = generateDatabaseFocusedReadme(groupNum);
+  fs.writeFileSync(readmePath, readmeContent);
+  console.log(`✓ Updated README.md for ${group} with database-only focus`);
+});
+
+console.log('\n✓ All README files updated to focus on database operations only (no API)');
