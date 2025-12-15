@@ -12,9 +12,9 @@ on:
   workflow_dispatch:
 
 env:
-  MONGODB_VERSION: 7.0
-  NODE_VERSION: 20
-  PYTHON_VERSION: 3.11
+  MONGODB_VERSION: '7.0'
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
 
 jobs:
   # ============================================================================
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb:
-        image: mongo:${{ env.MONGODB_VERSION }}
+        image: mongo:7.0
         ports:
           - 27017:27017
         options: >-
@@ -136,7 +136,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb:
-        image: mongo:${{ env.MONGODB_VERSION }}
+        image: mongo:7.0
         ports:
           - 27017:27017
 
@@ -237,7 +237,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb:
-        image: mongo:${{ env.MONGODB_VERSION }}
+        image: mongo:7.0
         ports:
           - 27017:27017
 
@@ -309,7 +309,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb:
-        image: mongo:${{ env.MONGODB_VERSION }}
+        image: mongo:7.0
         ports:
           - 27017:27017
 
