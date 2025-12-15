@@ -85,6 +85,7 @@ async function importCollection(db, collectionName, filename) {
     try {
       data = JSON.parse(jsonContent);
     } catch (e) {
+      console.log(`  JSON parse failed for ${collectionName}: ${e.message}`);
       // If that fails, try to parse as NDJSON (newline-delimited JSON)
       console.log(`  Trying NDJSON format for ${collectionName}...`);
       const lines = jsonContent.split('\n').filter(line => line.trim());
@@ -92,7 +93,7 @@ async function importCollection(db, collectionName, filename) {
         try {
           return JSON.parse(line);
         } catch (lineError) {
-          console.log(`  Warning: Skipping invalid line in ${collectionName}`);
+          console.log(`  Warning: Skipping invalid line in ${collectionName}: ${lineError.message}`);
           return null;
         }
       }).filter(item => item !== null);
@@ -130,6 +131,9 @@ async function importCollection(db, collectionName, filename) {
 
     const count = await db.collection(collectionName).countDocuments();
     console.log(`  Successfully imported ${count} documents into ${collectionName}`);
+    if (totalInserted !== count) {
+      console.log(`  Insert attempts acknowledged: ${totalInserted}`);
+    }
     return true;
 
   } catch (error) {

@@ -18,6 +18,7 @@ let TestFramework;
 try {
     load('../tests/test_framework.js');
 } catch (e) {
+    print(`⚠️  Could not load shared test framework: ${e.message}`);
     // Define inline if not available
     TestFramework = class {
         constructor(dbName, collectionName) {

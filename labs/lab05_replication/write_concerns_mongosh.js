@@ -255,7 +255,7 @@ try {
         },
         { writeConcern: { w: 3, wtimeout: 100 } }  // 100ms timeout
     );
-    print("  ✓ Write succeeded within timeout");
+    print("  ✓ Write succeeded within timeout (insertedId: " + result.insertedId + ")");
 } catch (e) {
     if (e.toString().includes("timeout")) {
         print(`  ⚠ Write timed out as expected: ${e}`);

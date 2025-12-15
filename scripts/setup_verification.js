@@ -48,7 +48,7 @@ async function checkNodeVersion() {
       checks.warnings.push('Node.js version (old but may work)');
     }
   } catch (error) {
-    log.error('Failed to check Node.js version');
+    log.error(`Failed to check Node.js version: ${error.message}`);
     checks.failed.push('Node.js version check');
   }
 }
@@ -130,7 +130,7 @@ async function checkMongoDB() {
       log.success(`Replica set "${replStatus.set}" is configured with ${replStatus.members.length} members`);
       checks.passed.push('MongoDB replica set');
     } catch (err) {
-      log.info('MongoDB is running in standalone mode (replica set not configured)');
+      log.info(`MongoDB is running in standalone mode (replica set not configured): ${err.message}`);
       checks.passed.push('MongoDB standalone');
     }
 
@@ -269,7 +269,7 @@ async function checkMongosh() {
     log.success(`mongosh is installed: ${mongoshVersion.trim()}`);
     checks.passed.push('mongosh installation');
   } catch (error) {
-    log.warning('mongosh not found in PATH');
+    log.warning(`mongosh not found in PATH: ${error.message}`);
     log.info('Install mongosh from: https://www.mongodb.com/try/download/shell');
     checks.warnings.push('mongosh not installed');
   }
@@ -298,13 +298,13 @@ async function checkDocker() {
           log.info('Start with: docker-compose up -d');
         }
       } catch (err) {
-        log.warning('Could not check Docker container status');
+        log.warning(`Could not check Docker container status: ${err.message}`);
       }
     }
 
     checks.passed.push('Docker setup');
   } catch (error) {
-    log.info('Docker not installed (optional for local MongoDB)');
+    log.info(`Docker not installed (optional for local MongoDB): ${error.message}`);
   }
 }
 

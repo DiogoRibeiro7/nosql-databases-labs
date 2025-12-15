@@ -217,7 +217,6 @@ class IndexingLab {
         // Suggest indexes
         const suggestions = slowQueries.map(query => {
             const filter = query._id.filter || {};
-            const keys = Object.keys(filter);
 
             return {
                 collection: query._id.ns,

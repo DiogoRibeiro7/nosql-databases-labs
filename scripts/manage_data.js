@@ -211,6 +211,7 @@ class DataManager {
   generateReports() {
     // Version report
     const versionReport = this.versionTracker.generateReport();
+    console.log('Version report generated:', versionReport);
 
     // Data quality report
     const qualityReport = {

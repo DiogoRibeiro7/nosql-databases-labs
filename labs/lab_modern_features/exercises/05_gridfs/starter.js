@@ -34,6 +34,7 @@ class GridFSStarter {
 
   async downloadSample(fileId) {
     // TODO: stream from bucket.openDownloadStream(fileId) to stdout or a buffer
+    console.log(`Download placeholder for fileId: ${fileId}`);
   }
 
   async cleanup() {

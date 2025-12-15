@@ -136,7 +136,7 @@ class WriteConcernDemo {
                     });
 
                     times.push(Date.now() - startTime);
-                } catch (error) {
+                } catch {
                     errors++;
                 }
 

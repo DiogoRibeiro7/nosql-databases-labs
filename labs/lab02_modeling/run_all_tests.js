@@ -12,7 +12,6 @@
  */
 
 const { spawn } = require("child_process");
-const path = require("path");
 const fs = require("fs");
 
 // Test suite configuration
@@ -134,8 +133,6 @@ function generateFinalReport() {
   results.suites.forEach(suite => {
     const icon = suite.status === "passed" ? "✓" :
                  suite.status === "failed" ? "✗" : "⚠";
-    const statusColor = suite.status === "passed" ? "" :
-                       suite.status === "failed" ? "" : "";
 
     const name = suite.name.padEnd(maxNameLength);
     const status = suite.status.toUpperCase().padEnd(8);

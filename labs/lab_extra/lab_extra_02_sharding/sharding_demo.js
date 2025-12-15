@@ -115,7 +115,7 @@ class ShardingManager {
 
     for (const point of splitPoints) {
       try {
-        const result = await this.adminDb.command({
+        await this.adminDb.command({
           split: namespace,
           middle: point,
         });
@@ -150,6 +150,7 @@ class ShardingManager {
       const result = await this.adminDb.command({ balancerStatus: 1 });
       return result;
     } catch (error) {
+      console.warn("Falling back to legacy balancer status:", error.message);
       // Fallback for older versions
       const settings = await this.client
         .db("config")

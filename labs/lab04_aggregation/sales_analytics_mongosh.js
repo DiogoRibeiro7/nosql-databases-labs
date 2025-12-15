@@ -408,7 +408,7 @@ print("Customer Segments by Spending:");
 const segmentNames = ["< $100", "$100-500", "$500-1K", "$1K-5K", "$5K-10K", "> $10K"];
 customerSegments.forEach((segment, index) => {
     if (segment._id !== "Other") {
-        const name = segmentNames[customerSegments.indexOf(segment)] || segment._id;
+        const name = segmentNames[index] || segment._id;
         print(`\n${name}:`);
         print(`  Customers: ${segment.count}`);
         print(`  Total Revenue: $${segment.totalRevenue.toFixed(2)}`);

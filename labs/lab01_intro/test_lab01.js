@@ -4,7 +4,6 @@
  */
 
 const { LabTestFramework, TestDataGenerator } = require('../test_framework');
-const { MongoClient } = require('mongodb');
 const assert = require('assert');
 
 class Lab01Tests {

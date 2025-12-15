@@ -28,6 +28,9 @@ function getCurrentMember() {
     return { host: "unknown", isPrimary: false, isSecondary: false };
 }
 
+const initialMember = getCurrentMember();
+print(`Connected to: ${initialMember.host} (primary: ${initialMember.isPrimary}, secondary: ${initialMember.isSecondary})`);
+
 // ========================================================================
 // Setup Test Data
 // ========================================================================

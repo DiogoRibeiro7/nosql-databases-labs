@@ -417,6 +417,7 @@ class MongoDBChartsExercises {
       }
       console.log(`  ${item.category}: ${item.value > 0 ? '+' : ''}${item.value.toLocaleString()}`);
     });
+    console.log(`  Running total after adjustments: ${running.toLocaleString()}`);
   }
 
   /**

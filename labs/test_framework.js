@@ -8,7 +8,6 @@
 const { MongoClient } = require('mongodb');
 const assert = require('assert');
 const fs = require('fs').promises;
-const path = require('path');
 
 class LabTestFramework {
   constructor(config = {}) {

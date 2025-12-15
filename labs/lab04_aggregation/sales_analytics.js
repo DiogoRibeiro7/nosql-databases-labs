@@ -2,7 +2,7 @@
 // Database: lab04_analytics
 // Collection: sales
 
-use lab04_analytics
+use('lab04_analytics');
 
 // ========================================
 // TASK 1: SALES ANALYTICS

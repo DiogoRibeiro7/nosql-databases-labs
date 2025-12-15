@@ -29,6 +29,7 @@ class VectorSearchStarter {
 
   async findSimilarProducts(queryText) {
     // TODO: run $vectorSearch (Atlas) or a cosine similarity fallback
+    console.log(`Vector search placeholder for query: "${queryText}"`);
   }
 
   async cleanup() {

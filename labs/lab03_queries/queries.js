@@ -217,6 +217,7 @@ async function runQueries() {
       });
     } catch (error) {
       console.log('  Text index not available. Create it with: db.movies.createIndex({title:"text", plot:"text"})');
+      console.log(`  Details: ${error.message}`);
     }
 
     // ========================================

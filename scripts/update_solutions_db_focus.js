@@ -527,7 +527,7 @@ db.users.find({
 ### 3. Regex Pattern Matching
 \`\`\`javascript
 db.users.find({
-  email: { $regex: /.*@example\.com$/, $options: "i" }
+  email: { $regex: /.*@example\\.com$/, $options: "i" }
 })
 \`\`\`
 

@@ -50,6 +50,7 @@ async function testPerformance() {
             { $count: 'total' }
         ]).toArray();
         const timeWithoutIndex = Date.now() - startWithoutIndex;
+        const withoutIndexCount = resultWithoutIndex[0]?.total || 0;
 
         // Create index
         await db.collection('sales').createIndex({ date: 1 });
@@ -60,9 +61,11 @@ async function testPerformance() {
             { $count: 'total' }
         ]).toArray();
         const timeWithIndex = Date.now() - startWithIndex;
+        const withIndexCount = resultWithIndex[0]?.total || 0;
 
         console.log(`Without index: ${timeWithoutIndex}ms`);
         console.log(`With index: ${timeWithIndex}ms`);
+        console.log(`Records matched (w/o index -> w/ index): ${withoutIndexCount} -> ${withIndexCount}`);
         console.log(`Improvement: ${((timeWithoutIndex - timeWithIndex) / timeWithoutIndex * 100).toFixed(1)}%`);
 
         // ========================================
@@ -102,10 +105,13 @@ async function testPerformance() {
             { $group: { _id: null, total: { $sum: '$amount' } } }
         ]).toArray();
         const timeGoodPipeline = Date.now() - startGoodPipeline;
+        const badTotal = badResult[0]?.total || 0;
+        const goodTotal = goodResult[0]?.total || 0;
 
         console.log('Pipeline Optimization:');
         console.log(`  Bad (late filter): ${timeBadPipeline}ms`);
         console.log(`  Good (early filter): ${timeGoodPipeline}ms`);
+        console.log(`  Totals compared (bad vs good): ${badTotal} vs ${goodTotal}`);
         console.log(`  Improvement: ${((timeBadPipeline - timeGoodPipeline) / timeBadPipeline * 100).toFixed(1)}%`);
 
         // ========================================
@@ -137,6 +143,7 @@ async function testPerformance() {
             console.log(`Large aggregation completed with ${largeAggregation.length} results`);
         } catch (error) {
             console.log('Large aggregation would fail without allowDiskUse');
+            console.log(`Details: ${error.message}`);
         }
 
         // ========================================
@@ -161,6 +168,8 @@ async function testPerformance() {
             { $group: { _id: '$customer_id', total: { $sum: '$amount' } } }
         ]).toArray();
         const timeWithProjection = Date.now() - startWithProjection;
+        console.log(`Without projection groups: ${noProjectionResult.length}`);
+        console.log(`With projection groups: ${withProjectionResult.length}`);
 
         console.log(`Without projection: ${timeNoProjection}ms`);
         console.log(`With projection: ${timeWithProjection}ms`);
@@ -205,8 +214,8 @@ async function testPerformance() {
         ]).toArray();
         const timeOptimizedLookup = Date.now() - startOptimizedLookup;
 
-        console.log(`Basic lookup: ${timeBasicLookup}ms`);
-        console.log(`Optimized lookup: ${timeOptimizedLookup}ms`);
+        console.log(`Basic lookup: ${timeBasicLookup}ms (joined docs: ${basicLookup.length})`);
+        console.log(`Optimized lookup: ${timeOptimizedLookup}ms (joined docs: ${optimizedLookup.length})`);
         console.log(`Improvement: ${((timeBasicLookup - timeOptimizedLookup) / timeBasicLookup * 100).toFixed(1)}%`);
 
         // ========================================
@@ -249,6 +258,7 @@ async function testPerformance() {
 
         console.log(`Direct aggregation: ${timeDirectQuery}ms`);
         console.log(`Cached view query: ${timeCachedQuery}ms`);
+        console.log(`Result sets (direct vs cache): ${directQuery.length} vs ${cachedQuery.length}`);
         console.log(`Improvement: ${((timeDirectQuery - timeCachedQuery) / timeDirectQuery * 100).toFixed(1)}%`);
 
         // ========================================
@@ -268,8 +278,11 @@ async function testPerformance() {
             cursor: { batchSize: batchSize }
         });
 
+        let lastCustomerId = null;
+
         for await (const doc of cursor) {
             processed++;
+            lastCustomerId = doc.customer_id || lastCustomerId;
             // Process each document
             if (processed % batchSize === 0) {
                 console.log(`  Processed ${processed} documents...`);
@@ -279,6 +292,9 @@ async function testPerformance() {
         const timeBatch = Date.now() - startBatch;
         console.log(`Total processed: ${processed} documents in ${timeBatch}ms`);
         console.log(`Rate: ${(processed / (timeBatch / 1000)).toFixed(0)} docs/second`);
+        if (lastCustomerId) {
+            console.log(`Last customer processed: ${lastCustomerId}`);
+        }
 
         // ========================================
         // 9. PERFORMANCE METRICS SUMMARY

@@ -425,7 +425,6 @@ async function validateBusinessRules(db) {
 
   // Check for reasonable date ranges
   const now = new Date();
-  const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
   let futureDates = 0;
 
   orders.forEach(order => {

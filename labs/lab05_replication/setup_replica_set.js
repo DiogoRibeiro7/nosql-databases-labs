@@ -166,10 +166,10 @@ async function initializeReplicaSet() {
 
         // Check if replica set is already initialized
         try {
-            const status = await admin.command({ replSetGetStatus: 1 });
+            await admin.command({ replSetGetStatus: 1 });
             console.log('Replica set already initialized. Skipping initialization.');
             return;
-        } catch (error) {
+        } catch {
             // Not initialized yet, continue
         }
 
@@ -228,7 +228,7 @@ async function waitForPrimary(client) {
             process.stdout.write('.');
             await new Promise(resolve => setTimeout(resolve, 1000));
             attempts++;
-        } catch (error) {
+        } catch {
             process.stdout.write('.');
             await new Promise(resolve => setTimeout(resolve, 1000));
             attempts++;

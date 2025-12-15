@@ -38,7 +38,7 @@ class ReadPreferenceDemo {
     }
 
     // Helper to identify which server handled the read
-    async identifyReadServer(client, collection) {
+    async identifyReadServer(client) {
         try {
             // Use serverStatus to identify the server
             const admin = client.db('admin');
@@ -48,10 +48,11 @@ class ReadPreferenceDemo {
             const hostInfo = await admin.command({ hostInfo: 1 });
 
             return {
-                host: serverStatus.host || 'unknown',
+                host: serverStatus.host || hostInfo.system?.hostname || 'unknown',
                 port: serverStatus.port || 'unknown',
                 isPrimary: serverStatus.repl?.ismaster || false,
-                state: serverStatus.repl?.myState || 'unknown'
+                state: serverStatus.repl?.myState || 'unknown',
+                os: hostInfo.os?.type || hostInfo.os?.name || 'unknown'
             };
         } catch (error) {
             return { error: error.message };
@@ -79,7 +80,7 @@ class ReadPreferenceDemo {
                 const duration = Date.now() - startTime;
 
                 // Get server information
-                const serverInfo = await this.identifyReadServer(client, collection);
+                const serverInfo = await this.identifyReadServer(client);
 
                 results[mode] = {
                     success: true,
@@ -269,7 +270,7 @@ const readPref = new ReadPreference(
                 try {
                     await collection.findOne({});
                     successCount++;
-                } catch (error) {
+                } catch {
                     errorCount++;
                 }
 

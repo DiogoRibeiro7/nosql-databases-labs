@@ -1,6 +1,8 @@
 // Robust import script for lab03_movies database
 // Run this in mongosh: load("labs/lab03_queries/import_data_robust.js")
 
+const fs = require("fs");
+
 print("Setting up lab03_movies database...\n");
 
 // Switch to lab03_movies database
@@ -78,6 +80,7 @@ function importCollection(collectionName, filename) {
     try {
       data = JSON.parse(jsonContent);
     } catch (e) {
+      print(`  JSON parse failed for ${collectionName}: ${e.message}`);
       // If that fails, try to parse as NDJSON (newline-delimited JSON)
       print(`  Trying NDJSON format for ${collectionName}...`);
       const lines = jsonContent.split('\n').filter(line => line.trim());
@@ -85,7 +88,7 @@ function importCollection(collectionName, filename) {
         try {
           return JSON.parse(line);
         } catch (lineError) {
-          print(`  Warning: Skipping invalid line in ${collectionName}`);
+          print(`  Warning: Skipping invalid line in ${collectionName}: ${lineError.message}`);
           return null;
         }
       }).filter(item => item !== null);
@@ -120,6 +123,9 @@ function importCollection(collectionName, filename) {
 
     const count = db[collectionName].countDocuments();
     print(`  Successfully imported ${count} documents into ${collectionName}`);
+    if (totalInserted !== count) {
+        print(`  Insert attempts acknowledged: ${totalInserted}`);
+    }
     return true;
 
   } catch (error) {

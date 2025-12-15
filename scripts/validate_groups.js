@@ -14,7 +14,6 @@ const path = require("path");
 // Configuration
 const GROUPS_DIR = path.join(__dirname, "..", "group-work");
 const REQUIRED_FILES = ["README.md", "solution.md"];
-const MIN_FILE_SIZE = 100; // bytes
 const MIN_README_SIZE = 500; // bytes for README
 const MIN_SOLUTION_SIZE = 1000; // bytes for solution
 

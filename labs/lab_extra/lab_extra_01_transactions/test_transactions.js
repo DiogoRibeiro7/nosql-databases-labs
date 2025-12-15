@@ -87,6 +87,7 @@ async function runTests() {
             return { success: true };
         });
         console.log('Attempts:', attemptCount);
+        console.log('Retry result:', result);
         console.assert(attemptCount === 3, 'Should retry 3 times');
         console.log('✓ Test 8 passed\n');
 

@@ -577,7 +577,7 @@ class Lab02AdvancedExercises {
 
     for (const review of reviewData) {
       // Insert review
-      const reviewResult = await reviews.insertOne({
+      await reviews.insertOne({
         productId: productResult.insertedId,
         ...review,
         timestamp: new Date()

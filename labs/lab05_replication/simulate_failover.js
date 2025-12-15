@@ -84,6 +84,7 @@ class FailoverSimulator {
                     status.down.push(port);
                 }
             } catch (error) {
+                console.log(`✗ Unable to read status from port ${port}: ${error.message}`);
                 status.down.push(port);
             }
         }
@@ -130,7 +131,7 @@ class FailoverSimulator {
                     message: `Test write ${writeCount}`
                 };
 
-                const result = await collection.insertOne(doc, {
+                await collection.insertOne(doc, {
                     w: 'majority',
                     wtimeout: 5000
                 });
@@ -196,7 +197,7 @@ class FailoverSimulator {
                     lastPrimary = status.primary;
                 }
             } catch (error) {
-                // Monitoring continues despite errors
+                console.log(`\nMonitoring error: ${error.message}`);
             }
         }, 500); // Check every 500ms
 
@@ -230,7 +231,7 @@ class FailoverSimulator {
                 try {
                     const admin = client.db('admin');
                     await admin.command({ shutdown: 1, force: true });
-                } catch (error) {
+                } catch {
                     // Expected - connection will be closed
                 }
             }
@@ -252,14 +253,14 @@ class FailoverSimulator {
                             break;
                         }
                     }
-                } catch (error) {
+                } catch {
                     // Process might already be dead
                 }
             } else {
                 // Unix/Linux/Mac: Kill process by port
                 try {
                     await execPromise(`lsof -ti:${primaryPort} | xargs kill -9`);
-                } catch (error) {
+                } catch {
                     // Process might already be dead
                 }
             }

@@ -317,7 +317,7 @@ runTest('Failover and recovery', () => {
         rs.stepDown(30);
     } catch (e) {
         // Step down causes connection reset, this is expected
-        print(`    Step down initiated (connection reset expected)`);
+        print(`    Step down initiated (connection reset expected): ${e.message || e}`);
     }
 
     print(`    Waiting 10 seconds for new election...`);
@@ -349,7 +349,7 @@ runTest('Monitor replication lag', () => {
     print(`    Checking replication lag...`);
 
     // Get replication info
-    const replInfo = rs.printSecondaryReplicationInfo();
+    rs.printSecondaryReplicationInfo();
 
     const status = rs.status();
     const secondaries = status.members.filter(m => m.stateStr === 'SECONDARY');

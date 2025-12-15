@@ -60,12 +60,21 @@ if (initialPrimary) {
     }
 
     print("\nWaiting for new primary election...");
-    sleep(5000); // Wait 5 seconds for election
+    const newPrimaryElected = waitFor(() => {
+        try {
+            const status = rs.status();
+            const primary = status.members.find(m => m.stateStr === "PRIMARY");
+            return primary && primary.name !== initialPrimary;
+        } catch {
+            return false;
+        }
+    }, 60000, 2000);
 
-    const newPrimary = checkPrimary();
-
-    if (newPrimary && newPrimary !== initialPrimary) {
-        print(`✓ Failover successful! New primary: ${newPrimary}`);
+    if (newPrimaryElected) {
+        const newPrimary = checkPrimary();
+        if (newPrimary && newPrimary !== initialPrimary) {
+            print(`✓ Failover successful! New primary: ${newPrimary}`);
+        }
     } else {
         print("✗ Failover may not have completed yet");
     }
@@ -155,7 +164,7 @@ try {
         },
         { writeConcern: { w: 1, wtimeout: 5000 } }
     );
-    print("  ✓ Write with w:1 succeeded");
+    print("  ✓ Write with w:1 succeeded (insertedId: " + result1.insertedId + ")");
 } catch (e) {
     print("  ✗ Write with w:1 failed: " + e);
 }
@@ -171,7 +180,7 @@ try {
         },
         { writeConcern: { w: "majority", wtimeout: 5000 } }
     );
-    print("  ✓ Write with w:majority succeeded");
+    print("  ✓ Write with w:majority succeeded (insertedId: " + result2.insertedId + ")");
 } catch (e) {
     print("  ✗ Write with w:majority failed: " + e);
 }
@@ -187,7 +196,7 @@ try {
         },
         { writeConcern: { w: 3, wtimeout: 5000 } }
     );
-    print("  ✓ Write with w:3 succeeded (all members available)");
+    print("  ✓ Write with w:3 succeeded (all members available, insertedId: " + result3.insertedId + ")");
 } catch (e) {
     print("  ✗ Write with w:3 failed: " + e);
 }

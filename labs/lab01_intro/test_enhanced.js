@@ -1,5 +1,5 @@
 /* eslint-env mongo */
-/* global load, TestFramework */
+/* global TestFramework */
 
 /**
  * Enhanced Test Suite for Lab 01 - Introduction to MongoDB
@@ -305,7 +305,7 @@ tester.suite("Lab 01 - MongoDB Introduction Tests", function() {
     try {
       this.collection.createIndex({ name: "text", email: "text" });
 
-      this.collection.find(
+      const results = this.collection.find(
         { $text: { $search: "john" } }
       ).toArray();
 

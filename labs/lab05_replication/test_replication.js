@@ -5,7 +5,7 @@
  */
 
 const { MongoClient } = require('mongodb');
-const { REPLICA_SET_NAME, MEMBERS } = require('./setup_replica_set');
+const { REPLICA_SET_NAME } = require('./setup_replica_set');
 
 class ReplicationTester {
     constructor() {

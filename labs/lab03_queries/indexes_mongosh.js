@@ -2,7 +2,7 @@
 // Database: lab03_movies
 // Collection: movies, theaters, users
 
-use lab03_movies
+use('lab03_movies');
 
 // ========================================
 // TASK 3: INDEX DESIGN AND OPTIMIZATION
