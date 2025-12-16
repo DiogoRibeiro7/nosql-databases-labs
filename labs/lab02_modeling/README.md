@@ -45,6 +45,8 @@ You do **not** need to implement the full application UI, but your **data model*
 
 ## 3. Tasks
 
+**Important:** Before running any JavaScript files, please refer to [FILE_USAGE_GUIDE.md](FILE_USAGE_GUIDE.md) to understand which files should be run with Node.js vs MongoDB Shell (mongosh).
+
 ### 3.1. Conceptual model
 
 1. Identify the main **entities** and their **attributes**.

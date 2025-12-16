@@ -56,7 +56,7 @@ echo ---------------------------------------
 REM Drop existing collection if it exists (optional - uncomment if needed)
 REM mongosh %DB_NAME% --eval "db.%COLLECTION_NAME%.drop()" >nul 2>&1
 
-REM Import data using mongoimport
+REM Import data using mongoimport so we can load the JSON sample without custom tooling
 mongoimport --db %DB_NAME% --collection %COLLECTION_NAME% --file %DATA_FILE% --jsonArray
 
 if %errorlevel% equ 0 (
@@ -64,7 +64,7 @@ if %errorlevel% equ 0 (
     echo Step 3: Verifying import...
     echo ---------------------------------------
 
-    REM Verify the import using mongosh and capture the count
+    REM Verify the import using mongosh and capture the count for a quick sanity check
     for /f %%i in ('mongosh %DB_NAME% --quiet --eval "db.%COLLECTION_NAME%.countDocuments()"') do set COUNT=%%i
     echo √ Successfully imported %COUNT% documents into %DB_NAME%.%COLLECTION_NAME%
 

@@ -57,7 +57,7 @@ echo "---------------------------------------"
 # Drop existing collection if it exists (optional - uncomment if needed)
 # mongosh $DB_NAME --eval "db.$COLLECTION_NAME.drop()" > /dev/null 2>&1
 
-# Import data using mongoimport
+# Import data using mongoimport so we can load the JSON file without writing custom code.
 mongoimport --db $DB_NAME --collection $COLLECTION_NAME --file $DATA_FILE --jsonArray
 
 if [ $? -eq 0 ]; then
@@ -65,7 +65,7 @@ if [ $? -eq 0 ]; then
     echo "Step 3: Verifying import..."
     echo "---------------------------------------"
 
-    # Verify the import using mongosh
+    # Verify the import using mongosh to give the student a quick sanity check.
     COUNT=$(mongosh $DB_NAME --quiet --eval "db.$COLLECTION_NAME.countDocuments()")
     echo "✓ Successfully imported $COUNT documents into $DB_NAME.$COLLECTION_NAME"
 

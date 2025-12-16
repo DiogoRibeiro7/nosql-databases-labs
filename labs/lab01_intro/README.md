@@ -114,6 +114,8 @@ The exact command may vary depending on your environment and database.
 
 ## 3. Tasks
 
+**Important:** Before running any JavaScript files, please refer to [FILE_USAGE_GUIDE.md](FILE_USAGE_GUIDE.md) to understand which files should be run with Node.js vs MongoDB Shell (mongosh).
+
 Use a database named:
 
 ```text

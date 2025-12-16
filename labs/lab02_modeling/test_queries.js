@@ -15,7 +15,13 @@ let passedTests = 0;
 let failedTests = 0;
 const testResults = [];
 
-// Helper function to run a test
+/**
+ * Execute a single async test block with consistent logging and accounting.
+ *
+ * @param {string} testName - Human-readable description.
+ * @param {() => Promise<void>} testFunc - Async body that throws on failure.
+ * @returns {Promise<boolean>} True if the test passed.
+ */
 async function runTest (testName, testFunc) {
   try {
     console.log(`\nRunning: ${testName}...`);
@@ -33,13 +39,23 @@ async function runTest (testName, testFunc) {
   }
 }
 
-// Test helper to assert conditions
+/**
+ * Minimal assertion helper so we can throw descriptive errors inside tests.
+ *
+ * @param {boolean} condition - Expression that must be true.
+ * @param {string} message - Error message when the assertion fails.
+ */
 function assert (condition, message) {
   if (!condition) {
     throw new Error(message || "Assertion failed");
   }
 }
 
+/**
+ * Full test suite that connects to MongoDB and validates modeling assumptions.
+ *
+ * @returns {Promise<void>}
+ */
 async function testQueries () {
   let client;
 

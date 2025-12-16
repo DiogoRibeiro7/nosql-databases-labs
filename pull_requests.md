@@ -13,7 +13,7 @@ Follow this checklist each time you submit work to `nosql-databases-labs`. Well-
   git checkout main
   git pull upstream main
   ```
-* Create a new branch from `main`. Recommended formats:
+* Create a new branch from `develop`. Recommended formats:
   * Student labs: `group_<nn>-lab<nn>` (e.g. `group_07-lab03`)
   * Instructor updates: `chore/update-lab04-scripts`, `fix/lab02-data-import`
 

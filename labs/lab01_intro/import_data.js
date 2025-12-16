@@ -1,12 +1,11 @@
-// Lab 01 - Data Import Script for mongosh
-// This script can be run directly in mongosh to set up the database
-// Run with: mongosh --file import_data.js
+// Lab 01 - Data Import Script for Node.js
+// This script can be run with Node.js to set up the database
+// Run with: node import_data.js
 
-// Connect to the lab01_student database
-db = db.getSiblingDB('lab01_student');
+const { MongoClient } = require('mongodb');
 
-// Drop existing collection if it exists (optional)
-db.customers.drop();
+const uri = 'mongodb://localhost:27017';
+const dbName = 'lab01_student';
 
 // Sample data to import
 const customers = [
@@ -50,50 +49,99 @@ const customers = [
     "customer_id": 5,
     "name": "Edward Brown",
     "email": "ed.brown@example.com",
-    "city": "Sydney",
-    "country": "Australia",
+    "city": "Berlin",
+    "country": "Germany",
     "age": 29,
     "balance": 2500.00
+  },
+  {
+    "customer_id": 6,
+    "name": "Fiona Garcia",
+    "email": "fiona.g@example.com",
+    "city": "Madrid",
+    "country": "Spain",
+    "age": 33,
+    "balance": 1950.75
+  },
+  {
+    "customer_id": 7,
+    "name": "George Wilson",
+    "email": "george.wilson@example.com",
+    "city": "Sydney",
+    "country": "Australia",
+    "age": 45,
+    "balance": 4200.00
+  },
+  {
+    "customer_id": 8,
+    "name": "Hannah Lee",
+    "email": "hannah.lee@example.com",
+    "city": "Seoul",
+    "country": "South Korea",
+    "age": 27,
+    "balance": 1600.50
+  },
+  {
+    "customer_id": 9,
+    "name": "Ian Taylor",
+    "email": "ian.t@example.com",
+    "city": "Toronto",
+    "country": "Canada",
+    "age": 38,
+    "balance": 2800.25
+  },
+  {
+    "customer_id": 10,
+    "name": "Julia Martinez",
+    "email": "julia.m@example.com",
+    "city": "Mexico City",
+    "country": "Mexico",
+    "age": 30,
+    "balance": 2200.00
   }
 ];
 
-// Insert the sample data
-print("Importing sample data...");
-const result = db.customers.insertMany(customers);
-print(`Successfully inserted ${result.insertedIds ? Object.keys(result.insertedIds).length : customers.length} documents`);
+async function importData() {
+  const client = new MongoClient(uri);
 
-// Create indexes
-print("\nCreating indexes...");
+  try {
+    // Connect to MongoDB
+    await client.connect();
+    console.log('Connected to MongoDB');
 
-// Index on city
-db.customers.createIndex({ city: 1 });
-print("✓ Created index on city");
+    // Get database reference
+    const db = client.db(dbName);
 
-// Index on country
-db.customers.createIndex({ country: 1 });
-print("✓ Created index on country");
+    // Drop existing collection if it exists
+    await db.collection('customers').drop().catch(() => {
+      console.log('Collection does not exist, creating new one');
+    });
 
-// Compound index on age and balance
-db.customers.createIndex({ age: 1, balance: -1 });
-print("✓ Created compound index on age and balance");
+    // Insert the data
+    const result = await db.collection('customers').insertMany(customers);
 
-// Unique index on email
-db.customers.createIndex({ email: 1 }, { unique: true });
-print("✓ Created unique index on email");
+    console.log(`Successfully inserted ${result.insertedCount} documents`);
 
-// Verify the import
-print("\nVerifying import...");
-const count = db.customers.countDocuments();
-print(`Total documents in collection: ${count}`);
+    // Verify the import
+    const count = await db.collection('customers').countDocuments();
+    console.log(`Total documents in customers collection: ${count}`);
 
-// Show sample data
-print("\nSample data (first 3 documents):");
-db.customers.find().limit(3).forEach(doc => {
-  printjson(doc);
-});
+    // Show a sample document
+    const sample = await db.collection('customers').findOne({});
+    console.log('\nSample document:');
+    console.log(JSON.stringify(sample, null, 2));
 
-print("\n=================================");
-print("Database setup completed!");
-print("=================================");
-print("\nYou can now run queries from queries.js or explore the data.");
-print("To load queries.js, use: load('queries.js')");
+    console.log('\nDatabase setup complete!');
+    console.log('You can now run queries against the lab01_student.customers collection');
+
+  } catch (error) {
+    console.error('Error importing data:', error);
+  } finally {
+    // Close the connection
+    await client.close();
+    console.log('\nDisconnected from MongoDB');
+  }
+}
+
+// Run the import
+importData().catch(console.error);
