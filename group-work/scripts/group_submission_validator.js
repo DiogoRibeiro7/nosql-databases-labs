@@ -7,13 +7,13 @@
  * ensuring consistency, completeness, and quality.
  */
 
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-const { MongoClient } = require('mongodb');
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+const { MongoClient } = require("mongodb");
 
 class GroupSubmissionValidator {
-  constructor() {
+  constructor () {
     this.validationRules = this.loadValidationRules();
     this.results = {
       groups: [],
@@ -21,65 +21,58 @@ class GroupSubmissionValidator {
         total: 0,
         passed: 0,
         failed: 0,
-        warnings: 0
-      }
+        warnings: 0,
+      },
     };
   }
 
   /**
    * Load validation rules configuration
    */
-  loadValidationRules() {
+  loadValidationRules () {
     return {
       requiredFiles: [
-        { name: 'README.md', minSize: 500 },
-        { name: 'solution.js', minSize: 100 },
-        { name: 'queries.md', minSize: 200 },
-        { name: 'test_results.json', minSize: 50 }
+        { name: "README.md", minSize: 500 },
+        { name: "solution.js", minSize: 100 },
+        { name: "queries.md", minSize: 200 },
+        { name: "test_results.json", minSize: 50 },
       ],
-      optionalFiles: [
-        'presentation.pdf',
-        'data_model.png',
-        'performance_report.md'
-      ],
+      optionalFiles: ["presentation.pdf", "data_model.png", "performance_report.md"],
       codeQuality: {
         maxLineLength: 120,
         minCommentRatio: 0.1,
         requiredPatterns: [
-          /db\.\w+\.find/,  // Must have find queries
-          /db\.\w+\.aggregate/,  // Must have aggregation
-          /createIndex/  // Should have index creation
+          /db\.\w+\.find/, // Must have find queries
+          /db\.\w+\.aggregate/, // Must have aggregation
+          /createIndex/, // Should have index creation
         ],
         forbiddenPatterns: [
-          /eval\(/,  // No eval for security
-          /password|secret|key/i,  // No hardcoded secrets
-          /DROP|TRUNCATE/i  // No destructive operations
-        ]
+          /eval\(/, // No eval for security
+          /password|secret|key/i, // No hardcoded secrets
+          /DROP|TRUNCATE/i, // No destructive operations
+        ],
       },
       documentation: {
         requiredSections: [
-          '## Group Information',
-          '## Problem Statement',
-          '## Solution',
-          '## Testing',
-          '## References'
+          "## Group Information",
+          "## Problem Statement",
+          "## Solution",
+          "## Testing",
+          "## References",
         ],
-        minWordCount: 500
+        minWordCount: 500,
       },
       submission: {
         maxSizeMB: 10,
-        allowedExtensions: [
-          '.md', '.js', '.json', '.txt', '.pdf',
-          '.png', '.jpg', '.jpeg', '.gif'
-        ]
-      }
+        allowedExtensions: [".md", ".js", ".json", ".txt", ".pdf", ".png", ".jpg", ".jpeg", ".gif"],
+      },
     };
   }
 
   /**
    * Validate a single group submission
    */
-  async validateGroup(groupPath) {
+  async validateGroup (groupPath) {
     const groupName = path.basename(groupPath);
     console.log(`\nValidating ${groupName}...`);
 
@@ -92,21 +85,21 @@ class GroupSubmissionValidator {
         code: await this.checkCodeQuality(groupPath),
         documentation: await this.checkDocumentation(groupPath),
         queries: await this.checkQueries(groupPath),
-        tests: await this.checkTests(groupPath)
+        tests: await this.checkTests(groupPath),
       },
       score: 0,
-      status: 'pending',
+      status: "pending",
       issues: [],
-      warnings: []
+      warnings: [],
     };
 
     // Calculate score
     validation.score = this.calculateScore(validation.checks);
-    validation.status = validation.score >= 70 ? 'passed' : 'failed';
+    validation.status = validation.score >= 70 ? "passed" : "failed";
 
     // Update summary
     this.results.summary.total++;
-    if (validation.status === 'passed') {
+    if (validation.status === "passed") {
       this.results.summary.passed++;
     } else {
       this.results.summary.failed++;
@@ -120,18 +113,18 @@ class GroupSubmissionValidator {
   /**
    * Check directory structure
    */
-  async checkStructure(groupPath) {
+  async checkStructure (groupPath) {
     const result = {
       valid: true,
       score: 100,
-      details: []
+      details: [],
     };
 
     // Check if directory exists and is readable
     if (!fs.existsSync(groupPath)) {
       result.valid = false;
       result.score = 0;
-      result.details.push('Directory does not exist');
+      result.details.push("Directory does not exist");
       return result;
     }
 
@@ -139,7 +132,7 @@ class GroupSubmissionValidator {
     if (!stats.isDirectory()) {
       result.valid = false;
       result.score = 0;
-      result.details.push('Not a directory');
+      result.details.push("Not a directory");
       return result;
     }
 
@@ -153,7 +146,7 @@ class GroupSubmissionValidator {
     }
 
     // Check for required subdirectories
-    const expectedDirs = ['src', 'docs', 'tests', 'data'];
+    const expectedDirs = ["src", "docs", "tests", "data"];
     let foundDirs = 0;
 
     expectedDirs.forEach(dir => {
@@ -171,13 +164,13 @@ class GroupSubmissionValidator {
   /**
    * Check required and optional files
    */
-  async checkFiles(groupPath) {
+  async checkFiles (groupPath) {
     const result = {
       valid: true,
       score: 100,
       required: {},
       optional: {},
-      details: []
+      details: [],
     };
 
     // Check required files
@@ -188,14 +181,14 @@ class GroupSubmissionValidator {
       if (fs.existsSync(filePath)) {
         const stats = fs.statSync(filePath);
         if (stats.size < fileRule.minSize) {
-          result.required[fileRule.name] = 'incomplete';
+          result.required[fileRule.name] = "incomplete";
           result.details.push(`${fileRule.name} is too small (${stats.size} bytes)`);
           result.score -= 10;
         } else {
-          result.required[fileRule.name] = 'present';
+          result.required[fileRule.name] = "present";
         }
       } else {
-        result.required[fileRule.name] = 'missing';
+        result.required[fileRule.name] = "missing";
         result.details.push(`Missing required file: ${fileRule.name}`);
         missingRequired++;
         result.score -= 20;
@@ -205,7 +198,7 @@ class GroupSubmissionValidator {
     // Check optional files
     for (const fileName of this.validationRules.optionalFiles) {
       const filePath = path.join(groupPath, fileName);
-      result.optional[fileName] = fs.existsSync(filePath) ? 'present' : 'missing';
+      result.optional[fileName] = fs.existsSync(filePath) ? "present" : "missing";
     }
 
     if (missingRequired > 0) {
@@ -219,21 +212,21 @@ class GroupSubmissionValidator {
   /**
    * Check code quality
    */
-  async checkCodeQuality(groupPath) {
+  async checkCodeQuality (groupPath) {
     const result = {
       valid: true,
       score: 100,
       details: [],
-      metrics: {}
+      metrics: {},
     };
 
     // Find all JavaScript files
-    const jsFiles = this.findFiles(groupPath, '.js');
+    const jsFiles = this.findFiles(groupPath, ".js");
 
     if (jsFiles.length === 0) {
       result.valid = false;
       result.score = 0;
-      result.details.push('No JavaScript files found');
+      result.details.push("No JavaScript files found");
       return result;
     }
 
@@ -243,14 +236,14 @@ class GroupSubmissionValidator {
     let securityIssues = [];
 
     for (const file of jsFiles) {
-      const content = fs.readFileSync(file, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(file, "utf8");
+      const lines = content.split("\n");
 
       totalLines += lines.length;
 
       // Count comments
       lines.forEach(line => {
-        if (line.trim().startsWith('//') || line.trim().startsWith('/*')) {
+        if (line.trim().startsWith("//") || line.trim().startsWith("/*")) {
           totalComments++;
         }
         if (line.length > this.validationRules.codeQuality.maxLineLength) {
@@ -281,8 +274,8 @@ class GroupSubmissionValidator {
       totalFiles: jsFiles.length,
       totalLines,
       totalComments,
-      commentRatio: (commentRatio * 100).toFixed(1) + '%',
-      longLines
+      commentRatio: (commentRatio * 100).toFixed(1) + "%",
+      longLines,
     };
 
     if (commentRatio < this.validationRules.codeQuality.minCommentRatio) {
@@ -302,24 +295,24 @@ class GroupSubmissionValidator {
   /**
    * Check documentation quality
    */
-  async checkDocumentation(groupPath) {
+  async checkDocumentation (groupPath) {
     const result = {
       valid: true,
       score: 100,
       details: [],
-      metrics: {}
+      metrics: {},
     };
 
-    const readmePath = path.join(groupPath, 'README.md');
+    const readmePath = path.join(groupPath, "README.md");
 
     if (!fs.existsSync(readmePath)) {
       result.valid = false;
       result.score = 0;
-      result.details.push('README.md not found');
+      result.details.push("README.md not found");
       return result;
     }
 
-    const content = fs.readFileSync(readmePath, 'utf8');
+    const content = fs.readFileSync(readmePath, "utf8");
     const wordCount = content.split(/\s+/).length;
 
     // Check word count
@@ -338,7 +331,7 @@ class GroupSubmissionValidator {
     }
 
     if (missingSections.length > 0) {
-      result.details.push(`Missing sections: ${missingSections.join(', ')}`);
+      result.details.push(`Missing sections: ${missingSections.join(", ")}`);
     }
 
     // Check for proper markdown formatting
@@ -351,11 +344,11 @@ class GroupSubmissionValidator {
       codeBlocks: Math.floor(codeBlocks),
       headings,
       links,
-      sections: this.validationRules.documentation.requiredSections.length - missingSections.length
+      sections: this.validationRules.documentation.requiredSections.length - missingSections.length,
     };
 
     if (codeBlocks < 2) {
-      result.details.push('Insufficient code examples');
+      result.details.push("Insufficient code examples");
       result.score -= 5;
     }
 
@@ -366,19 +359,19 @@ class GroupSubmissionValidator {
   /**
    * Check MongoDB queries
    */
-  async checkQueries(groupPath) {
+  async checkQueries (groupPath) {
     const result = {
       valid: true,
       score: 100,
       details: [],
-      queries: []
+      queries: [],
     };
 
     // Look for query files
     const queryFiles = [
-      path.join(groupPath, 'queries.js'),
-      path.join(groupPath, 'queries.md'),
-      path.join(groupPath, 'solution.js')
+      path.join(groupPath, "queries.js"),
+      path.join(groupPath, "queries.md"),
+      path.join(groupPath, "solution.js"),
     ];
 
     let foundQueries = false;
@@ -387,7 +380,7 @@ class GroupSubmissionValidator {
     for (const file of queryFiles) {
       if (fs.existsSync(file)) {
         foundQueries = true;
-        const content = fs.readFileSync(file, 'utf8');
+        const content = fs.readFileSync(file, "utf8");
 
         // Count different types of queries
         const findQueries = (content.match(/db\.\w+\.find/g) || []).length;
@@ -402,20 +395,20 @@ class GroupSubmissionValidator {
           find: findQueries,
           aggregate: aggregateQueries,
           update: updateQueries,
-          index: indexQueries
+          index: indexQueries,
         });
 
         // Check query variety
         if (findQueries === 0) {
-          result.details.push('No find queries found');
+          result.details.push("No find queries found");
           result.score -= 20;
         }
         if (aggregateQueries === 0) {
-          result.details.push('No aggregation queries found');
+          result.details.push("No aggregation queries found");
           result.score -= 20;
         }
         if (indexQueries === 0) {
-          result.details.push('No index creation found');
+          result.details.push("No index creation found");
           result.score -= 10;
         }
       }
@@ -424,7 +417,7 @@ class GroupSubmissionValidator {
     if (!foundQueries) {
       result.valid = false;
       result.score = 0;
-      result.details.push('No query files found');
+      result.details.push("No query files found");
     } else if (queryCount < 3) {
       result.score -= 30;
       result.details.push(`Insufficient queries (found ${queryCount}, minimum 3)`);
@@ -437,40 +430,40 @@ class GroupSubmissionValidator {
   /**
    * Check test results
    */
-  async checkTests(groupPath) {
+  async checkTests (groupPath) {
     const result = {
       valid: true,
       score: 100,
       details: [],
-      testResults: null
+      testResults: null,
     };
 
-    const testResultsPath = path.join(groupPath, 'test_results.json');
+    const testResultsPath = path.join(groupPath, "test_results.json");
 
     if (!fs.existsSync(testResultsPath)) {
       result.score -= 30;
-      result.details.push('No test results file found');
+      result.details.push("No test results file found");
       return result;
     }
 
     try {
-      const testData = JSON.parse(fs.readFileSync(testResultsPath, 'utf8'));
+      const testData = JSON.parse(fs.readFileSync(testResultsPath, "utf8"));
 
       if (!testData.tests || !Array.isArray(testData.tests)) {
         result.score -= 20;
-        result.details.push('Invalid test results format');
+        result.details.push("Invalid test results format");
         return result;
       }
 
       const totalTests = testData.tests.length;
-      const passedTests = testData.tests.filter(t => t.status === 'passed').length;
+      const passedTests = testData.tests.filter(t => t.status === "passed").length;
       const failedTests = totalTests - passedTests;
 
       result.testResults = {
         total: totalTests,
         passed: passedTests,
         failed: failedTests,
-        passRate: totalTests > 0 ? (passedTests / totalTests * 100).toFixed(1) + '%' : '0%'
+        passRate: totalTests > 0 ? ((passedTests / totalTests) * 100).toFixed(1) + "%" : "0%",
       };
 
       if (totalTests < 3) {
@@ -482,7 +475,6 @@ class GroupSubmissionValidator {
         result.score -= failedTests * 5;
         result.details.push(`${failedTests} test(s) failed`);
       }
-
     } catch (error) {
       result.valid = false;
       result.score = 50;
@@ -496,21 +488,21 @@ class GroupSubmissionValidator {
   /**
    * Calculate overall score
    */
-  calculateScore(checks) {
+  calculateScore (checks) {
     const weights = {
       structure: 0.1,
       files: 0.2,
       code: 0.2,
       documentation: 0.2,
       queries: 0.2,
-      tests: 0.1
+      tests: 0.1,
     };
 
     let totalScore = 0;
     let totalWeight = 0;
 
     Object.entries(checks).forEach(([category, result]) => {
-      if (result && typeof result.score === 'number') {
+      if (result && typeof result.score === "number") {
         totalScore += result.score * weights[category];
         totalWeight += weights[category];
       }
@@ -522,7 +514,7 @@ class GroupSubmissionValidator {
   /**
    * Get directory size
    */
-  async getDirectorySize(dirPath) {
+  async getDirectorySize (dirPath) {
     let size = 0;
 
     const files = fs.readdirSync(dirPath);
@@ -543,7 +535,7 @@ class GroupSubmissionValidator {
   /**
    * Find files by extension
    */
-  findFiles(dirPath, extension) {
+  findFiles (dirPath, extension) {
     let files = [];
 
     if (!fs.existsSync(dirPath)) {
@@ -555,7 +547,7 @@ class GroupSubmissionValidator {
       const itemPath = path.join(dirPath, item);
       const stats = fs.statSync(itemPath);
 
-      if (stats.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+      if (stats.isDirectory() && !item.startsWith(".") && item !== "node_modules") {
         files = files.concat(this.findFiles(itemPath, extension));
       } else if (stats.isFile() && itemPath.endsWith(extension)) {
         files.push(itemPath);
@@ -568,29 +560,29 @@ class GroupSubmissionValidator {
   /**
    * Generate validation report
    */
-  generateReport() {
+  generateReport () {
     const report = {
       timestamp: new Date().toISOString(),
       summary: this.results.summary,
       groups: this.results.groups,
-      statistics: this.calculateStatistics()
+      statistics: this.calculateStatistics(),
     };
 
     // Save JSON report
-    const reportPath = path.join('group-work', 'validation_report.json');
+    const reportPath = path.join("group-work", "validation_report.json");
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 
     // Generate HTML report
     const htmlReport = this.generateHTMLReport(report);
-    const htmlPath = path.join('group-work', 'validation_report.html');
+    const htmlPath = path.join("group-work", "validation_report.html");
     fs.writeFileSync(htmlPath, htmlReport);
 
     // Generate markdown summary
     const mdReport = this.generateMarkdownReport(report);
-    const mdPath = path.join('group-work', 'VALIDATION_SUMMARY.md');
+    const mdPath = path.join("group-work", "VALIDATION_SUMMARY.md");
     fs.writeFileSync(mdPath, mdReport);
 
-    console.log('\n📊 Reports generated:');
+    console.log("\n📊 Reports generated:");
     console.log(`  - ${reportPath}`);
     console.log(`  - ${htmlPath}`);
     console.log(`  - ${mdPath}`);
@@ -601,23 +593,25 @@ class GroupSubmissionValidator {
   /**
    * Calculate statistics
    */
-  calculateStatistics() {
+  calculateStatistics () {
     const scores = this.results.groups.map(g => g.score);
 
     return {
-      averageScore: scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1) : 0,
+      averageScore:
+        scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1) : 0,
       minScore: scores.length > 0 ? Math.min(...scores) : 0,
       maxScore: scores.length > 0 ? Math.max(...scores) : 0,
-      passRate: this.results.summary.total > 0
-        ? (this.results.summary.passed / this.results.summary.total * 100).toFixed(1) + '%'
-        : '0%'
+      passRate:
+        this.results.summary.total > 0
+          ? ((this.results.summary.passed / this.results.summary.total) * 100).toFixed(1) + "%"
+          : "0%",
     };
   }
 
   /**
    * Generate HTML report
    */
-  generateHTMLReport(report) {
+  generateHTMLReport (report) {
     return `<!DOCTYPE html>
 <html>
 <head>
@@ -661,7 +655,9 @@ class GroupSubmissionValidator {
             <th>Queries</th>
             <th>Tests</th>
         </tr>
-        ${report.groups.map(g => `
+        ${report.groups
+          .map(
+            g => `
         <tr>
             <td>${g.groupName}</td>
             <td class="score">${g.score}</td>
@@ -673,7 +669,9 @@ class GroupSubmissionValidator {
             <td>${g.checks.queries.score}</td>
             <td>${g.checks.tests.score}</td>
         </tr>
-        `).join('')}
+        `
+          )
+          .join("")}
     </table>
 </body>
 </html>`;
@@ -682,7 +680,7 @@ class GroupSubmissionValidator {
   /**
    * Generate markdown report
    */
-  generateMarkdownReport(report) {
+  generateMarkdownReport (report) {
     return `# Group Submission Validation Summary
 
 Generated: ${report.timestamp}
@@ -700,22 +698,28 @@ Generated: ${report.timestamp}
 
 | Group | Score | Status | Issues |
 |-------|-------|--------|--------|
-${report.groups.map(g => {
-  const issues = [];
-  Object.entries(g.checks).forEach(([category, check]) => {
-    if (check.details && check.details.length > 0) {
-      issues.push(...check.details.slice(0, 2));
-    }
-  });
-  return `| ${g.groupName} | ${g.score} | ${g.status === 'passed' ? '✅ Passed' : '❌ Failed'} | ${issues.slice(0, 2).join('; ')} |`;
-}).join('\n')}
+${report.groups
+  .map(g => {
+    const issues = [];
+    Object.entries(g.checks).forEach(([category, check]) => {
+      if (check.details && check.details.length > 0) {
+        issues.push(...check.details.slice(0, 2));
+      }
+    });
+    return `| ${g.groupName} | ${g.score} | ${
+      g.status === "passed" ? "✅ Passed" : "❌ Failed"
+    } | ${issues.slice(0, 2).join("; ")} |`;
+  })
+  .join("\n")}
 
 ## Detailed Breakdown
 
-${report.groups.map(g => `
+${report.groups
+  .map(
+    g => `
 ### ${g.groupName} - Score: ${g.score}/100
 
-**Status:** ${g.status === 'passed' ? '✅ Passed' : '❌ Failed'}
+**Status:** ${g.status === "passed" ? "✅ Passed" : "❌ Failed"}
 
 #### Scores by Category:
 - Structure: ${g.checks.structure.score}/100
@@ -726,12 +730,17 @@ ${report.groups.map(g => `
 - Tests: ${g.checks.tests.score}/100
 
 #### Issues:
-${Object.entries(g.checks).map(([category, check]) =>
-  check.details && check.details.length > 0
-    ? `**${category}:**\n${check.details.map(d => `- ${d}`).join('\n')}`
-    : ''
-).filter(s => s).join('\n\n')}
-`).join('\n---\n')}
+${Object.entries(g.checks)
+  .map(([category, check]) =>
+    check.details && check.details.length > 0
+      ? `**${category}:**\n${check.details.map(d => `- ${d}`).join("\n")}`
+      : ""
+  )
+  .filter(s => s)
+  .join("\n\n")}
+`
+  )
+  .join("\n---\n")}
 
 ## Recommendations
 
@@ -753,20 +762,21 @@ ${Object.entries(g.checks).map(([category, check]) =>
   /**
    * Validate all groups
    */
-  async validateAll() {
-    const groupsDir = path.join(process.cwd(), 'group-work');
+  async validateAll () {
+    const groupsDir = path.join(process.cwd(), "group-work");
 
     if (!fs.existsSync(groupsDir)) {
-      console.error('Group work directory not found');
+      console.error("Group work directory not found");
       return;
     }
 
-    const groups = fs.readdirSync(groupsDir)
-      .filter(item => {
-        const itemPath = path.join(groupsDir, item);
-        return fs.statSync(itemPath).isDirectory() &&
-               (item.startsWith('group_') || item.startsWith('group-'));
-      });
+    const groups = fs.readdirSync(groupsDir).filter(item => {
+      const itemPath = path.join(groupsDir, item);
+      return (
+        fs.statSync(itemPath).isDirectory() &&
+        (item.startsWith("group_") || item.startsWith("group-"))
+      );
+    });
 
     console.log(`Found ${groups.length} groups to validate\n`);
 
@@ -780,18 +790,18 @@ ${Object.entries(g.checks).map(([category, check]) =>
 }
 
 // CLI interface
-async function main() {
+async function main () {
   const validator = new GroupSubmissionValidator();
 
-  console.log('='.repeat(60));
-  console.log('GROUP SUBMISSION VALIDATION');
-  console.log('='.repeat(60));
+  console.log("=".repeat(60));
+  console.log("GROUP SUBMISSION VALIDATION");
+  console.log("=".repeat(60));
 
   const report = await validator.validateAll();
 
-  console.log('\n' + '='.repeat(60));
-  console.log('VALIDATION COMPLETE');
-  console.log('='.repeat(60));
+  console.log("\n" + "=".repeat(60));
+  console.log("VALIDATION COMPLETE");
+  console.log("=".repeat(60));
   console.log(`\nTotal Groups: ${report.summary.total}`);
   console.log(`Passed: ${report.summary.passed}`);
   console.log(`Failed: ${report.summary.failed}`);

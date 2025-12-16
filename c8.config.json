@@ -19,8 +19,8 @@
     "text",
     "text-summary"
   ],
-  "report-dir": "./coverage",
-  "temp-dir": "./.nyc_output",
+  "reports-dir": "./coverage",
+  "temp-directory": "./.nyc_output",
   "check-coverage": true,
   "branches": 80,
   "lines": 80,

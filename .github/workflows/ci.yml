@@ -152,7 +152,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci || npm install
-          npm install -g nyc mongosh || true
+          npm install -g mongosh || true
 
       - name: Run linters and dataset smoke tests
         run: npm test
@@ -178,7 +178,7 @@ jobs:
           mongosh --host 127.0.0.1 --file test_setup.js
           mongosh --host 127.0.0.1 --file test_queries.js
           if [ -f test_queries.js ]; then
-            nyc --reporter=lcov --reporter=text node test_queries.js || true
+            npx c8 --reporter=lcov --reporter=text node test_queries.js || true
           fi
           cd ../..
         env:
@@ -192,10 +192,10 @@ jobs:
           mongosh --host 127.0.0.1 --file queries_mongosh.js
           mongosh --host 127.0.0.1 --file test_queries_mongosh.js
           if [ -f test_queries.js ]; then
-            nyc --reporter=lcov --reporter=text node test_queries.js || true
+            npx c8 --reporter=lcov --reporter=text node test_queries.js || true
           fi
           if [ -f run_all_tests.js ]; then
-            nyc --reporter=lcov --reporter=text node run_all_tests.js --quick || true
+            npx c8 --reporter=lcov --reporter=text node run_all_tests.js --quick || true
           fi
           cd ../..
         env:
@@ -206,7 +206,7 @@ jobs:
         run: |
           cd labs/lab03_queries
           node import_data.js
-          nyc --reporter=lcov --reporter=text node test_data_integrity.js || true
+          npx c8 --reporter=lcov --reporter=text node test_data_integrity.js || true
           cd ../..
         env:
           MONGODB_URI: mongodb://127.0.0.1:27017
@@ -221,7 +221,7 @@ jobs:
         run: |
           cd labs/lab04_aggregation
           node import_data.js
-          nyc --reporter=lcov --reporter=text node test_lab04.js || true
+          npx c8 --reporter=lcov --reporter=text node test_lab04.js || true
           cd ../..
         env:
           MONGODB_URI: mongodb://127.0.0.1:27017

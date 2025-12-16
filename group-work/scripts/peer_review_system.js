@@ -7,15 +7,15 @@
  * collects feedback, and calculates peer scores.
  */
 
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
 
 class PeerReviewSystem {
-  constructor() {
-    this.reviewsPath = path.join('group-work', 'peer_reviews.json');
-    this.assignmentsPath = path.join('group-work', 'review_assignments.json');
-    this.templatesPath = path.join('group-work', 'templates', 'peer_review_template.md');
+  constructor () {
+    this.reviewsPath = path.join("group-work", "peer_reviews.json");
+    this.assignmentsPath = path.join("group-work", "review_assignments.json");
+    this.templatesPath = path.join("group-work", "templates", "peer_review_template.md");
 
     this.reviews = this.loadReviews();
     this.assignments = this.loadAssignments();
@@ -25,47 +25,47 @@ class PeerReviewSystem {
   /**
    * Load existing reviews
    */
-  loadReviews() {
+  loadReviews () {
     if (fs.existsSync(this.reviewsPath)) {
-      return JSON.parse(fs.readFileSync(this.reviewsPath, 'utf8'));
+      return JSON.parse(fs.readFileSync(this.reviewsPath, "utf8"));
     }
     return {
       reviews: [],
-      statistics: {}
+      statistics: {},
     };
   }
 
   /**
    * Load review assignments
    */
-  loadAssignments() {
+  loadAssignments () {
     if (fs.existsSync(this.assignmentsPath)) {
-      return JSON.parse(fs.readFileSync(this.assignmentsPath, 'utf8'));
+      return JSON.parse(fs.readFileSync(this.assignmentsPath, "utf8"));
     }
     return {
       assignments: [],
-      rounds: []
+      rounds: [],
     };
   }
 
   /**
    * Save reviews
    */
-  saveReviews() {
+  saveReviews () {
     fs.writeFileSync(this.reviewsPath, JSON.stringify(this.reviews, null, 2));
   }
 
   /**
    * Save assignments
    */
-  saveAssignments() {
+  saveAssignments () {
     fs.writeFileSync(this.assignmentsPath, JSON.stringify(this.assignments, null, 2));
   }
 
   /**
    * Get review criteria
    */
-  getReviewCriteria() {
+  getReviewCriteria () {
     return {
       technical_quality: {
         weight: 0.3,
@@ -75,8 +75,8 @@ class PeerReviewSystem {
           2: "Below Average - Works partially, significant issues",
           3: "Average - Works but has some issues",
           4: "Good - Works well with minor issues",
-          5: "Excellent - Works perfectly, well-optimized"
-        }
+          5: "Excellent - Works perfectly, well-optimized",
+        },
       },
       documentation: {
         weight: 0.2,
@@ -86,8 +86,8 @@ class PeerReviewSystem {
           2: "Minimal documentation",
           3: "Adequate documentation",
           4: "Good documentation",
-          5: "Excellent, comprehensive documentation"
-        }
+          5: "Excellent, comprehensive documentation",
+        },
       },
       problem_solving: {
         weight: 0.2,
@@ -97,8 +97,8 @@ class PeerReviewSystem {
           2: "Basic approach with significant gaps",
           3: "Adequate approach, solves basic requirements",
           4: "Good approach, handles most cases",
-          5: "Excellent approach, innovative solutions"
-        }
+          5: "Excellent approach, innovative solutions",
+        },
       },
       code_organization: {
         weight: 0.15,
@@ -108,8 +108,8 @@ class PeerReviewSystem {
           2: "Poor organization",
           3: "Adequate organization",
           4: "Good organization",
-          5: "Excellent organization"
-        }
+          5: "Excellent organization",
+        },
       },
       testing: {
         weight: 0.15,
@@ -119,16 +119,16 @@ class PeerReviewSystem {
           2: "Minimal testing",
           3: "Basic testing",
           4: "Good test coverage",
-          5: "Comprehensive testing"
-        }
-      }
+          5: "Comprehensive testing",
+        },
+      },
     };
   }
 
   /**
    * Assign peer reviewers using round-robin
    */
-  assignReviewers(groups, reviewsPerGroup = 3) {
+  assignReviewers (groups, reviewsPerGroup = 3) {
     const assignments = [];
     const numGroups = groups.length;
 
@@ -151,17 +151,17 @@ class PeerReviewSystem {
         group: group,
         reviewers: reviewers,
         assigned_date: new Date().toISOString(),
-        status: 'pending'
+        status: "pending",
       });
     });
 
     // Store assignments
     const round = {
-      id: crypto.randomBytes(4).toString('hex'),
+      id: crypto.randomBytes(4).toString("hex"),
       created: new Date().toISOString(),
       groups: groups,
       reviews_per_group: reviewsPerGroup,
-      assignments: assignments
+      assignments: assignments,
     };
 
     this.assignments.rounds.push(round);
@@ -174,7 +174,7 @@ class PeerReviewSystem {
   /**
    * Submit a peer review
    */
-  submitReview(reviewerGroup, targetGroup, assignmentId, scores, feedback) {
+  submitReview (reviewerGroup, targetGroup, assignmentId, scores, feedback) {
     // Validate scores
     const validatedScores = {};
     let totalWeightedScore = 0;
@@ -188,7 +188,7 @@ class PeerReviewSystem {
     });
 
     const review = {
-      id: crypto.randomBytes(8).toString('hex'),
+      id: crypto.randomBytes(8).toString("hex"),
       reviewer_group: reviewerGroup,
       target_group: targetGroup,
       assignment_id: assignmentId,
@@ -199,16 +199,17 @@ class PeerReviewSystem {
         strengths: feedback.strengths || [],
         weaknesses: feedback.weaknesses || [],
         suggestions: feedback.suggestions || [],
-        general_comments: feedback.general_comments || ''
+        general_comments: feedback.general_comments || "",
       },
-      status: 'submitted'
+      status: "submitted",
     };
 
     // Check for duplicate review
     const existingIndex = this.reviews.reviews.findIndex(
-      r => r.reviewer_group === reviewerGroup &&
-           r.target_group === targetGroup &&
-           r.assignment_id === assignmentId
+      r =>
+        r.reviewer_group === reviewerGroup &&
+        r.target_group === targetGroup &&
+        r.assignment_id === assignmentId
     );
 
     if (existingIndex >= 0) {
@@ -227,7 +228,7 @@ class PeerReviewSystem {
   /**
    * Get reviews for a specific group
    */
-  getGroupReviews(groupId, assignmentId = null) {
+  getGroupReviews (groupId, assignmentId = null) {
     let reviews = this.reviews.reviews.filter(r => r.target_group === groupId);
 
     if (assignmentId) {
@@ -255,7 +256,7 @@ class PeerReviewSystem {
             average: (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2),
             min: Math.min(...scores),
             max: Math.max(...scores),
-            count: scores.length
+            count: scores.length,
           };
         }
       });
@@ -266,7 +267,7 @@ class PeerReviewSystem {
         review_count: reviews.length,
         reviews: reviews,
         aggregate_scores: aggregateScores,
-        overall_score: this.calculateOverallScore(aggregateScores)
+        overall_score: this.calculateOverallScore(aggregateScores),
       };
     }
 
@@ -276,14 +277,14 @@ class PeerReviewSystem {
       review_count: 0,
       reviews: [],
       aggregate_scores: {},
-      overall_score: 0
+      overall_score: 0,
     };
   }
 
   /**
    * Calculate overall score from aggregate scores
    */
-  calculateOverallScore(aggregateScores) {
+  calculateOverallScore (aggregateScores) {
     let totalWeightedScore = 0;
     let totalWeight = 0;
 
@@ -299,7 +300,7 @@ class PeerReviewSystem {
   /**
    * Generate peer review form
    */
-  generateReviewForm(reviewerGroup, targetGroup, assignmentId) {
+  generateReviewForm (reviewerGroup, targetGroup, assignmentId) {
     const form = `# Peer Review Form
 
 ## Review Information
@@ -312,19 +313,27 @@ class PeerReviewSystem {
 
 Please rate each criterion on a scale of 1-5:
 
-${Object.entries(this.criteria).map(([criterion, config]) => `
-### ${criterion.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} (Weight: ${config.weight * 100}%)
+${Object.entries(this.criteria)
+  .map(
+    ([criterion, config]) => `
+### ${criterion.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())} (Weight: ${
+      config.weight * 100
+    }%)
 *${config.description}*
 
 Rating: [ ] 1  [ ] 2  [ ] 3  [ ] 4  [ ] 5
 
 **Scale:**
-${Object.entries(config.scale).map(([score, desc]) => `- ${score}: ${desc}`).join('\n')}
+${Object.entries(config.scale)
+  .map(([score, desc]) => `- ${score}: ${desc}`)
+  .join("\n")}
 
 **Comments:**
 _________________________________
 _________________________________
-`).join('\n')}
+`
+  )
+  .join("\n")}
 
 ## Qualitative Feedback
 
@@ -376,10 +385,14 @@ I/We have reviewed this submission fairly and provided constructive feedback.
 `;
 
     // Save form
-    const formPath = path.join('group-work', 'reviews', `review_${reviewerGroup}_to_${targetGroup}_${assignmentId}.md`);
+    const formPath = path.join(
+      "group-work",
+      "reviews",
+      `review_${reviewerGroup}_to_${targetGroup}_${assignmentId}.md`
+    );
 
     // Ensure directory exists
-    const reviewsDir = path.join('group-work', 'reviews');
+    const reviewsDir = path.join("group-work", "reviews");
     if (!fs.existsSync(reviewsDir)) {
       fs.mkdirSync(reviewsDir, { recursive: true });
     }
@@ -391,7 +404,7 @@ I/We have reviewed this submission fairly and provided constructive feedback.
   /**
    * Update review statistics
    */
-  updateStatistics() {
+  updateStatistics () {
     const stats = {
       total_reviews: this.reviews.reviews.length,
       by_assignment: {},
@@ -402,8 +415,8 @@ I/We have reviewed this submission fairly and provided constructive feedback.
         good: 0,
         average: 0,
         below_average: 0,
-        poor: 0
-      }
+        poor: 0,
+      },
     };
 
     this.reviews.reviews.forEach(review => {
@@ -418,7 +431,7 @@ I/We have reviewed this submission fairly and provided constructive feedback.
         stats.by_group[review.target_group] = {
           received: 0,
           average_score: 0,
-          scores: []
+          scores: [],
         };
       }
       stats.by_group[review.target_group].received++;
@@ -442,9 +455,9 @@ I/We have reviewed this submission fairly and provided constructive feedback.
     // Calculate average scores
     Object.entries(stats.by_group).forEach(([group, data]) => {
       if (data.scores.length > 0) {
-        data.average_score = (
-          data.scores.reduce((a, b) => a + b, 0) / data.scores.length
-        ).toFixed(2);
+        data.average_score = (data.scores.reduce((a, b) => a + b, 0) / data.scores.length).toFixed(
+          2
+        );
       }
     });
 
@@ -455,7 +468,7 @@ I/We have reviewed this submission fairly and provided constructive feedback.
   /**
    * Generate peer review report
    */
-  generateReport() {
+  generateReport () {
     this.updateStatistics();
     const stats = this.reviews.statistics;
 
@@ -473,11 +486,26 @@ Generated: ${new Date().toISOString()}
 
 | Rating | Count | Percentage |
 |--------|-------|------------|
-| Excellent (4.5-5.0) | ${stats.quality_distribution.excellent} | ${(stats.quality_distribution.excellent / stats.total_reviews * 100).toFixed(1)}% |
-| Good (3.5-4.4) | ${stats.quality_distribution.good} | ${(stats.quality_distribution.good / stats.total_reviews * 100).toFixed(1)}% |
-| Average (2.5-3.4) | ${stats.quality_distribution.average} | ${(stats.quality_distribution.average / stats.total_reviews * 100).toFixed(1)}% |
-| Below Average (1.5-2.4) | ${stats.quality_distribution.below_average} | ${(stats.quality_distribution.below_average / stats.total_reviews * 100).toFixed(1)}% |
-| Poor (1.0-1.4) | ${stats.quality_distribution.poor} | ${(stats.quality_distribution.poor / stats.total_reviews * 100).toFixed(1)}% |
+| Excellent (4.5-5.0) | ${stats.quality_distribution.excellent} | ${(
+      (stats.quality_distribution.excellent / stats.total_reviews) *
+      100
+    ).toFixed(1)}% |
+| Good (3.5-4.4) | ${stats.quality_distribution.good} | ${(
+      (stats.quality_distribution.good / stats.total_reviews) *
+      100
+    ).toFixed(1)}% |
+| Average (2.5-3.4) | ${stats.quality_distribution.average} | ${(
+      (stats.quality_distribution.average / stats.total_reviews) *
+      100
+    ).toFixed(1)}% |
+| Below Average (1.5-2.4) | ${stats.quality_distribution.below_average} | ${(
+      (stats.quality_distribution.below_average / stats.total_reviews) *
+      100
+    ).toFixed(1)}% |
+| Poor (1.0-1.4) | ${stats.quality_distribution.poor} | ${(
+      (stats.quality_distribution.poor / stats.total_reviews) *
+      100
+    ).toFixed(1)}% |
 
 ## Group Scores
 
@@ -489,7 +517,7 @@ Generated: ${new Date().toISOString()}
       .sort((a, b) => parseFloat(b[1].average_score) - parseFloat(a[1].average_score))
       .forEach(([group, data]) => {
         const score = parseFloat(data.average_score);
-        const status = score >= 3.5 ? '✅ Good' : score >= 2.5 ? '⚠️ Needs Improvement' : '❌ Poor';
+        const status = score >= 3.5 ? "✅ Good" : score >= 2.5 ? "⚠️ Needs Improvement" : "❌ Poor";
         report += `| ${group} | ${data.received} | ${data.average_score} | ${status} |\n`;
       });
 
@@ -525,16 +553,18 @@ Generated: ${new Date().toISOString()}
       reviews.forEach(review => {
         report += `**Review from ${review.reviewer_group}**\n`;
         report += `- Weighted Score: ${review.weighted_score.toFixed(2)}\n`;
-        report += `- Scores: ${Object.entries(review.scores).map(([c, s]) => `${c}: ${s}`).join(', ')}\n`;
+        report += `- Scores: ${Object.entries(review.scores)
+          .map(([c, s]) => `${c}: ${s}`)
+          .join(", ")}\n`;
 
         if (review.feedback.strengths && review.feedback.strengths.length > 0) {
-          report += `- Strengths: ${review.feedback.strengths.join('; ')}\n`;
+          report += `- Strengths: ${review.feedback.strengths.join("; ")}\n`;
         }
         if (review.feedback.weaknesses && review.feedback.weaknesses.length > 0) {
-          report += `- Weaknesses: ${review.feedback.weaknesses.join('; ')}\n`;
+          report += `- Weaknesses: ${review.feedback.weaknesses.join("; ")}\n`;
         }
 
-        report += '\n';
+        report += "\n";
       });
     });
 
@@ -544,7 +574,7 @@ Generated: ${new Date().toISOString()}
   /**
    * Calculate final peer scores
    */
-  calculateFinalScores() {
+  calculateFinalScores () {
     const finalScores = {};
 
     // Get all unique groups
@@ -574,13 +604,13 @@ Generated: ${new Date().toISOString()}
         finalScores[group] = {
           peer_score: finalScore.toFixed(2),
           review_count: groupReviews.review_count,
-          confidence: this.calculateConfidence(groupReviews.reviews)
+          confidence: this.calculateConfidence(groupReviews.reviews),
         };
       } else {
         finalScores[group] = {
           peer_score: 0,
           review_count: 0,
-          confidence: 'none'
+          confidence: "none",
         };
       }
     });
@@ -591,29 +621,30 @@ Generated: ${new Date().toISOString()}
   /**
    * Calculate confidence in peer scores
    */
-  calculateConfidence(reviews) {
-    if (reviews.length === 0) return 'none';
-    if (reviews.length === 1) return 'low';
+  calculateConfidence (reviews) {
+    if (reviews.length === 0) return "none";
+    if (reviews.length === 1) return "low";
 
     // Calculate standard deviation
     const scores = reviews.map(r => r.weighted_score);
     const mean = scores.reduce((a, b) => a + b, 0) / scores.length;
-    const variance = scores.reduce((sum, score) => sum + Math.pow(score - mean, 2), 0) / scores.length;
+    const variance =
+      scores.reduce((sum, score) => sum + Math.pow(score - mean, 2), 0) / scores.length;
     const stdDev = Math.sqrt(variance);
 
     // Confidence based on number of reviews and consistency
-    if (reviews.length >= 3 && stdDev < 0.5) return 'high';
-    if (reviews.length >= 2 && stdDev < 1.0) return 'medium';
-    return 'low';
+    if (reviews.length >= 3 && stdDev < 0.5) return "high";
+    if (reviews.length >= 2 && stdDev < 1.0) return "medium";
+    return "low";
   }
 }
 
 // CLI interface
-function main() {
+function main () {
   const peerReview = new PeerReviewSystem();
   const args = process.argv.slice(2);
 
-  if (args.length === 0 || args[0] === '--help') {
+  if (args.length === 0 || args[0] === "--help") {
     console.log(`
 Peer Review System
 
@@ -639,20 +670,20 @@ Examples:
   const command = args[0];
 
   switch (command) {
-    case 'assign': {
+    case "assign": {
       const groups = args.slice(1);
       if (groups.length < 4) {
-        console.error('Need at least 4 groups for peer review');
+        console.error("Need at least 4 groups for peer review");
         return;
       }
       const round = peerReview.assignReviewers(groups);
-      console.log('Review assignments created:', round);
+      console.log("Review assignments created:", round);
       break;
     }
 
-    case 'status': {
+    case "status": {
       if (args.length < 2) {
-        console.error('Usage: status <group>');
+        console.error("Usage: status <group>");
         return;
       }
       const status = peerReview.getGroupReviews(args[1]);
@@ -660,23 +691,25 @@ Examples:
       break;
     }
 
-    case 'report': {
+    case "report": {
       const report = peerReview.generateReport();
-      const reportPath = path.join('group-work', 'PEER_REVIEW_REPORT.md');
+      const reportPath = path.join("group-work", "PEER_REVIEW_REPORT.md");
       fs.writeFileSync(reportPath, report);
       console.log(report);
       console.log(`\nReport saved to: ${reportPath}`);
       break;
     }
 
-    case 'scores': {
+    case "scores": {
       const scores = peerReview.calculateFinalScores();
-      console.log('\nFinal Peer Scores:');
-      console.log('='.repeat(60));
+      console.log("\nFinal Peer Scores:");
+      console.log("=".repeat(60));
       Object.entries(scores)
         .sort((a, b) => parseFloat(b[1].peer_score) - parseFloat(a[1].peer_score))
         .forEach(([group, data]) => {
-          console.log(`${group}: ${data.peer_score} (${data.review_count} reviews, ${data.confidence} confidence)`);
+          console.log(
+            `${group}: ${data.peer_score} (${data.review_count} reviews, ${data.confidence} confidence)`
+          );
         });
       break;
     }

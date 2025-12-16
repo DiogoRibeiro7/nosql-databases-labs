@@ -7,15 +7,15 @@
  * and maintains a complete history of changes for each group.
  */
 
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+const { execSync } = require("child_process");
 
 class SubmissionVersioning {
-  constructor() {
-    this.historyPath = path.join('group-work', '.submission_history');
-    this.metadataPath = path.join('group-work', 'submission_metadata.json');
+  constructor () {
+    this.historyPath = path.join("group-work", ".submission_history");
+    this.metadataPath = path.join("group-work", "submission_metadata.json");
 
     this.ensureHistoryDirectory();
     this.metadata = this.loadMetadata();
@@ -24,17 +24,17 @@ class SubmissionVersioning {
   /**
    * Ensure history directory exists
    */
-  ensureHistoryDirectory() {
+  ensureHistoryDirectory () {
     if (!fs.existsSync(this.historyPath)) {
       fs.mkdirSync(this.historyPath, { recursive: true });
 
       // Initialize git repo for version control
       try {
-        execSync('git init', { cwd: this.historyPath });
+        execSync("git init", { cwd: this.historyPath });
         execSync('git config user.email "system@nosql-labs.edu"', { cwd: this.historyPath });
         execSync('git config user.name "Submission System"', { cwd: this.historyPath });
       } catch (error) {
-        console.warn('Git initialization failed. Using file-based versioning.');
+        console.warn("Git initialization failed. Using file-based versioning.");
       }
     }
   }
@@ -42,28 +42,28 @@ class SubmissionVersioning {
   /**
    * Load metadata
    */
-  loadMetadata() {
+  loadMetadata () {
     if (fs.existsSync(this.metadataPath)) {
-      return JSON.parse(fs.readFileSync(this.metadataPath, 'utf8'));
+      return JSON.parse(fs.readFileSync(this.metadataPath, "utf8"));
     }
     return {
       groups: {},
       submissions: [],
-      statistics: {}
+      statistics: {},
     };
   }
 
   /**
    * Save metadata
    */
-  saveMetadata() {
+  saveMetadata () {
     fs.writeFileSync(this.metadataPath, JSON.stringify(this.metadata, null, 2));
   }
 
   /**
    * Create a new submission version
    */
-  createVersion(groupId, assignmentId, sourcePath, metadata = {}) {
+  createVersion (groupId, assignmentId, sourcePath, metadata = {}) {
     const versionId = this.generateVersionId();
     const timestamp = new Date().toISOString();
 
@@ -93,7 +93,7 @@ class SubmissionVersioning {
       file_count: Object.keys(checksums).length,
       total_size: this.getDirectorySize(versionPath),
       changes: {},
-      metadata
+      metadata,
     };
 
     // Check for previous version
@@ -107,14 +107,14 @@ class SubmissionVersioning {
     if (!this.metadata.groups[groupId]) {
       this.metadata.groups[groupId] = {
         submissions: {},
-        total_versions: 0
+        total_versions: 0,
       };
     }
 
     if (!this.metadata.groups[groupId].submissions[assignmentId]) {
       this.metadata.groups[groupId].submissions[assignmentId] = {
         versions: [],
-        latest_version: null
+        latest_version: null,
       };
     }
 
@@ -125,7 +125,7 @@ class SubmissionVersioning {
     // Add to submissions list
     this.metadata.submissions.push({
       ...versionData,
-      is_latest: true
+      is_latest: true,
     });
 
     // Mark previous version as not latest
@@ -148,14 +148,14 @@ class SubmissionVersioning {
   /**
    * Generate version ID
    */
-  generateVersionId() {
-    return `v${Date.now().toString(36)}_${crypto.randomBytes(4).toString('hex')}`;
+  generateVersionId () {
+    return `v${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}`;
   }
 
   /**
    * Copy directory recursively
    */
-  copyDirectory(source, destination) {
+  copyDirectory (source, destination) {
     if (!fs.existsSync(source)) {
       throw new Error(`Source directory does not exist: ${source}`);
     }
@@ -171,7 +171,7 @@ class SubmissionVersioning {
       const destPath = path.join(destination, item);
 
       if (fs.statSync(sourcePath).isDirectory()) {
-        if (item !== 'node_modules' && !item.startsWith('.')) {
+        if (item !== "node_modules" && !item.startsWith(".")) {
           this.copyDirectory(sourcePath, destPath);
         }
       } else {
@@ -183,10 +183,10 @@ class SubmissionVersioning {
   /**
    * Calculate checksums for all files
    */
-  calculateChecksums(dirPath) {
+  calculateChecksums (dirPath) {
     const checksums = {};
 
-    const calculateForDirectory = (currentPath, relativePath = '') => {
+    const calculateForDirectory = (currentPath, relativePath = "") => {
       const items = fs.readdirSync(currentPath);
 
       items.forEach(item => {
@@ -194,14 +194,14 @@ class SubmissionVersioning {
         const relativeItemPath = path.join(relativePath, item);
 
         if (fs.statSync(itemPath).isDirectory()) {
-          if (item !== 'node_modules' && !item.startsWith('.')) {
+          if (item !== "node_modules" && !item.startsWith(".")) {
             calculateForDirectory(itemPath, relativeItemPath);
           }
         } else {
-          const hash = crypto.createHash('sha256');
+          const hash = crypto.createHash("sha256");
           const data = fs.readFileSync(itemPath);
           hash.update(data);
-          checksums[relativeItemPath] = hash.digest('hex');
+          checksums[relativeItemPath] = hash.digest("hex");
         }
       });
     };
@@ -213,10 +213,10 @@ class SubmissionVersioning {
   /**
    * Get directory size
    */
-  getDirectorySize(dirPath) {
+  getDirectorySize (dirPath) {
     let size = 0;
 
-    const calculateSize = (currentPath) => {
+    const calculateSize = currentPath => {
       const items = fs.readdirSync(currentPath);
 
       items.forEach(item => {
@@ -224,7 +224,7 @@ class SubmissionVersioning {
         const stats = fs.statSync(itemPath);
 
         if (stats.isDirectory()) {
-          if (item !== 'node_modules' && !item.startsWith('.')) {
+          if (item !== "node_modules" && !item.startsWith(".")) {
             calculateSize(itemPath);
           }
         } else {
@@ -240,12 +240,12 @@ class SubmissionVersioning {
   /**
    * Calculate changes between versions
    */
-  calculateChanges(previousVersion, currentVersion) {
+  calculateChanges (previousVersion, currentVersion) {
     const changes = {
       added: [],
       modified: [],
       deleted: [],
-      unchanged: []
+      unchanged: [],
     };
 
     const prevChecksums = previousVersion.checksums || {};
@@ -273,7 +273,7 @@ class SubmissionVersioning {
       added: changes.added.length,
       modified: changes.modified.length,
       deleted: changes.deleted.length,
-      unchanged: changes.unchanged.length
+      unchanged: changes.unchanged.length,
     };
 
     return changes;
@@ -282,7 +282,7 @@ class SubmissionVersioning {
   /**
    * Get latest version for a submission
    */
-  getLatestVersion(groupId, assignmentId) {
+  getLatestVersion (groupId, assignmentId) {
     const group = this.metadata.groups[groupId];
     if (!group || !group.submissions[assignmentId]) {
       return null;
@@ -295,7 +295,7 @@ class SubmissionVersioning {
   /**
    * Get version history
    */
-  getVersionHistory(groupId, assignmentId = null) {
+  getVersionHistory (groupId, assignmentId = null) {
     const group = this.metadata.groups[groupId];
     if (!group) {
       return [];
@@ -311,20 +311,18 @@ class SubmissionVersioning {
       allVersions.push(...data.versions);
     });
 
-    return allVersions.sort((a, b) =>
-      new Date(b.timestamp) - new Date(a.timestamp)
-    );
+    return allVersions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   }
 
   /**
    * Compare two versions
    */
-  compareVersions(versionId1, versionId2) {
+  compareVersions (versionId1, versionId2) {
     const version1 = this.metadata.submissions.find(s => s.version_id === versionId1);
     const version2 = this.metadata.submissions.find(s => s.version_id === versionId2);
 
     if (!version1 || !version2) {
-      throw new Error('One or both versions not found');
+      throw new Error("One or both versions not found");
     }
 
     const comparison = {
@@ -332,16 +330,16 @@ class SubmissionVersioning {
         id: version1.version_id,
         timestamp: version1.timestamp,
         file_count: version1.file_count,
-        size: version1.total_size
+        size: version1.total_size,
       },
       version2: {
         id: version2.version_id,
         timestamp: version2.timestamp,
         file_count: version2.file_count,
-        size: version2.total_size
+        size: version2.total_size,
       },
       changes: this.calculateChanges(version1, version2),
-      time_difference: new Date(version2.timestamp) - new Date(version1.timestamp)
+      time_difference: new Date(version2.timestamp) - new Date(version1.timestamp),
     };
 
     return comparison;
@@ -350,7 +348,7 @@ class SubmissionVersioning {
   /**
    * Restore a specific version
    */
-  restoreVersion(versionId, destinationPath) {
+  restoreVersion (versionId, destinationPath) {
     const version = this.metadata.submissions.find(s => s.version_id === versionId);
 
     if (!version) {
@@ -375,14 +373,14 @@ class SubmissionVersioning {
       restored: true,
       version_id: versionId,
       destination: destinationPath,
-      files_restored: version.file_count
+      files_restored: version.file_count,
     };
   }
 
   /**
    * Git commit (if available)
    */
-  gitCommit(path, message) {
+  gitCommit (path, message) {
     try {
       execSync(`git add .`, { cwd: this.historyPath });
       execSync(`git commit -m "${message}"`, { cwd: this.historyPath });
@@ -396,14 +394,14 @@ class SubmissionVersioning {
   /**
    * Generate version report
    */
-  generateReport() {
+  generateReport () {
     const stats = {
       total_groups: Object.keys(this.metadata.groups).length,
       total_versions: this.metadata.submissions.length,
       total_size: 0,
       average_versions_per_group: 0,
       most_active_group: null,
-      largest_submission: null
+      largest_submission: null,
     };
 
     // Calculate statistics
@@ -439,7 +437,7 @@ Generated: ${new Date().toISOString()}
 - **Total Versions:** ${stats.total_versions}
 - **Total Size:** ${(stats.total_size / 1024 / 1024).toFixed(2)} MB
 - **Average Versions per Group:** ${stats.average_versions_per_group}
-- **Most Active Group:** ${stats.most_active_group || 'N/A'}
+- **Most Active Group:** ${stats.most_active_group || "N/A"}
 
 ## Version History by Group
 
@@ -455,15 +453,17 @@ Generated: ${new Date().toISOString()}
 
         submissionData.versions.forEach(version => {
           const timestamp = new Date(version.timestamp).toLocaleString();
-          const size = (version.total_size / 1024).toFixed(1) + ' KB';
-          const changes = version.changes?.summary ?
-            `+${version.changes.summary.added} ~${version.changes.summary.modified} -${version.changes.summary.deleted}` :
-            'Initial';
+          const size = (version.total_size / 1024).toFixed(1) + " KB";
+          const changes = version.changes?.summary
+            ? `+${version.changes.summary.added} ~${version.changes.summary.modified} -${version.changes.summary.deleted}`
+            : "Initial";
 
-          report += `\n| ${version.version_id.substring(0, 8)}... | ${timestamp} | ${version.file_count} | ${size} | ${changes} |`;
+          report += `\n| ${version.version_id.substring(0, 8)}... | ${timestamp} | ${
+            version.file_count
+          } | ${size} | ${changes} |`;
         });
 
-        report += '\n\n';
+        report += "\n\n";
       });
     });
 
@@ -478,7 +478,9 @@ Generated: ${new Date().toISOString()}
       .slice(0, 10)
       .forEach(submission => {
         const timestamp = new Date(submission.timestamp).toLocaleString();
-        report += `\n| ${submission.group_id} | ${submission.assignment_id} | ${submission.version_id.substring(0, 8)}... | ${timestamp} |`;
+        report += `\n| ${submission.group_id} | ${
+          submission.assignment_id
+        } | ${submission.version_id.substring(0, 8)}... | ${timestamp} |`;
       });
 
     return report;
@@ -486,11 +488,11 @@ Generated: ${new Date().toISOString()}
 }
 
 // CLI interface
-function main() {
+function main () {
   const versioning = new SubmissionVersioning();
   const args = process.argv.slice(2);
 
-  if (args.length === 0 || args[0] === '--help') {
+  if (args.length === 0 || args[0] === "--help") {
     console.log(`
 Submission Versioning System
 
@@ -516,26 +518,26 @@ Examples:
   const command = args[0];
 
   switch (command) {
-    case 'create': {
+    case "create": {
       if (args.length < 4) {
-        console.error('Usage: create <group> <assignment> <path>');
+        console.error("Usage: create <group> <assignment> <path>");
         return;
       }
 
       const version = versioning.createVersion(args[1], args[2], args[3]);
-      console.log('Version created:', version);
+      console.log("Version created:", version);
       break;
     }
 
-    case 'history': {
+    case "history": {
       if (args.length < 2) {
-        console.error('Usage: history <group> [assignment]');
+        console.error("Usage: history <group> [assignment]");
         return;
       }
 
       const history = versioning.getVersionHistory(args[1], args[2]);
-      console.log('\nVersion History:');
-      console.log('='.repeat(60));
+      console.log("\nVersion History:");
+      console.log("=".repeat(60));
 
       history.forEach(version => {
         console.log(`\nVersion: ${version.version_id}`);
@@ -543,15 +545,17 @@ Examples:
         console.log(`  Files: ${version.file_count}`);
         console.log(`  Size: ${(version.total_size / 1024).toFixed(1)} KB`);
         if (version.changes?.summary) {
-          console.log(`  Changes: +${version.changes.summary.added} ~${version.changes.summary.modified} -${version.changes.summary.deleted}`);
+          console.log(
+            `  Changes: +${version.changes.summary.added} ~${version.changes.summary.modified} -${version.changes.summary.deleted}`
+          );
         }
       });
       break;
     }
 
-    case 'compare': {
+    case "compare": {
       if (args.length < 3) {
-        console.error('Usage: compare <version1> <version2>');
+        console.error("Usage: compare <version1> <version2>");
         return;
       }
 
@@ -560,20 +564,20 @@ Examples:
       break;
     }
 
-    case 'restore': {
+    case "restore": {
       if (args.length < 3) {
-        console.error('Usage: restore <version> <destination>');
+        console.error("Usage: restore <version> <destination>");
         return;
       }
 
       const result = versioning.restoreVersion(args[1], args[2]);
-      console.log('Restore complete:', result);
+      console.log("Restore complete:", result);
       break;
     }
 
-    case 'report': {
+    case "report": {
       const report = versioning.generateReport();
-      const reportPath = path.join('group-work', 'VERSION_HISTORY_REPORT.md');
+      const reportPath = path.join("group-work", "VERSION_HISTORY_REPORT.md");
       fs.writeFileSync(reportPath, report);
       console.log(report);
       console.log(`\nReport saved to: ${reportPath}`);

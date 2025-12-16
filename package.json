@@ -23,7 +23,7 @@
     "test:lab03": "node tests/test_lab03.js",
     "test:lab04": "node tests/test_lab04.js",
     "test:lab05": "node tests/test_lab05.js",
-    "test:coverage": "nyc npm run test:labs",
+    "test:coverage": "c8 npm run test:labs",
     "help": "node scripts/help.js"
   },
   "repository": {
@@ -40,15 +40,15 @@
   "homepage": "https://github.com/DiogoRibeiro7/nosql-databases-labs#readme",
   "devDependencies": {
     "bson": "^7.0.0",
+    "c8": "^10.1.3",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
-    "prettier": "^3.7.4",
-    "nyc": "^15.1.0"
+    "prettier": "^3.7.4"
   },
   "dependencies": {
-    "mongodb": "^6.10.0",
+    "colors": "^1.4.0",
     "dotenv": "^16.3.1",
-    "colors": "^1.4.0"
+    "mongodb": "^6.10.0"
   }
 }
