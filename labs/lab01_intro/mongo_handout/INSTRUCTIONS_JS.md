@@ -60,21 +60,29 @@ import { MongoClient } from 'mongodb';
 const uri = 'mongodb://127.0.0.1:27017';
 const client = new MongoClient(uri);
 
+/**
+ * Connects to MongoDB, prints a collection count, and closes the client.
+ * This mirrors the more complete `mongo_intro.js` but keeps the snippet short.
+ */
 async function main() {
   try {
+    // Establish the client connection using the URI defined above.
     await client.connect();
     console.log('Connected to MongoDB');
 
     const db = client.db('myDatabase');
     const collection = db.collection('myCollection');
 
+    // Simple read so students can confirm the database contains documents.
     const count = await collection.countDocuments();
     console.log(`There are ${count} documents in myCollection`);
   } finally {
+    // Always close the client or the Node process may hang.
     await client.close();
   }
 }
 
+// Kick off the script and surface any errors that escaped the try/finally block.
 main().catch((err) => {
   console.error('Error in main():', err);
 });

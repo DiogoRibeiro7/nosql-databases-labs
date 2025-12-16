@@ -10,6 +10,11 @@ const { MongoClient } = require("mongodb");
 const DATABASE_NAME = "lab02_ecommerce";
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
+/**
+ * Drop the entire lab02 database after confirming it exists.
+ *
+ * @returns {Promise<void>}
+ */
 async function resetDatabase () {
   let client;
 
@@ -21,6 +26,7 @@ async function resetDatabase () {
     console.log("Connected successfully to MongoDB");
 
     // Check if database exists
+    // Query the admin DB to check if the target database is present.
     const admin = client.db().admin();
     const databases = await admin.listDatabases();
     const dbExists = databases.databases.some(db => db.name === DATABASE_NAME);
@@ -68,6 +74,11 @@ async function resetDatabase () {
 }
 
 // Add confirmation prompt when run directly
+/**
+ * Ask the user to confirm destructive work before running resetDatabase.
+ *
+ * @returns {Promise<boolean>} Whether the user typed yes/y.
+ */
 async function promptConfirmation () {
   const readline = require("readline");
   const rl = readline.createInterface({
@@ -75,6 +86,7 @@ async function promptConfirmation () {
     output: process.stdout,
   });
 
+  // Wrap readline question into a Promise so callers can await the answer.
   return new Promise(resolve => {
     rl.question(
       `\n⚠️  WARNING: This will delete the entire "${DATABASE_NAME}" database!\n` +

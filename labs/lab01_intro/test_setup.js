@@ -42,6 +42,7 @@ print("5. Checking indexes...");
 const indexes = db.customers.getIndexes();
 print(`   ✓ Found ${indexes.length} indexes:`);
 indexes.forEach(idx => {
+    // Make each index definition human-readable for quick verification.
     const keys = Object.keys(idx.key).join(", ");
     const unique = idx.unique ? " (unique)" : "";
     print(`     - ${idx.name}: [${keys}]${unique}`);
@@ -49,6 +50,7 @@ indexes.forEach(idx => {
 
 // Test 6: Test aggregation
 print("\n6. Testing aggregation pipeline...");
+// Group customers by country and sort descending to highlight the busiest markets.
 const countByCountry = db.customers.aggregate([
     { $group: { _id: "$country", count: { $sum: 1 } } },
     { $sort: { count: -1 } }
@@ -62,6 +64,12 @@ countByCountry.forEach(c => {
 print("\n7. Testing mongosh-specific features...");
 try {
     // Test async/await (mongosh feature)
+    /**
+     * Fetch the name for customer_id 1 using async/await so the verification
+     * gauges whether mongosh accepts top-level async helpers.
+     *
+     * @returns {Promise<string>}
+     */
     const asyncTest = async () => {
         const result = await db.customers.findOne({ customer_id: 1 });
         return result.name;
@@ -71,6 +79,7 @@ try {
     });
 
     // Test modern JavaScript
+    // collecting names with Array.map confirms that modern iterator helpers work.
     const names = db.customers.find().toArray().map(c => c.name);
     print(`   ✓ Modern JS works: Retrieved ${names.length} customer names`);
 } catch (error) {

@@ -1,3 +1,5 @@
+"""Validation-focused tests to ensure generated payloads obey business rules."""
+
 import pytest
 from datetime import datetime, timedelta
 import sys

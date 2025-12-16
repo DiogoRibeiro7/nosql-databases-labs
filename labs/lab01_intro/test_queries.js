@@ -9,6 +9,7 @@ print("=====================================\n");
 
 // Test 1: Count documents
 print("1. Counting all documents:");
+// countDocuments() is the quickest sanity check to ensure data exists.
 const count = db.customers.countDocuments();
 print(`   Found ${count} documents\n`);
 
@@ -33,7 +34,9 @@ db.customers.find({ age: { $gt: 30 } }).forEach(doc => {
 // Test 5: Aggregation - Count by country
 print("\n5. Counting customers by country:");
 db.customers.aggregate([
+    // Group by country to compute how many customers each market has.
     { $group: { _id: "$country", count: { $sum: 1 } } },
+    // Sort descending so the busiest countries print first.
     { $sort: { count: -1 } }
 ]).forEach(doc => {
     print(`   - ${doc._id}: ${doc.count} customer(s)`);
@@ -42,6 +45,7 @@ db.customers.aggregate([
 // Test 6: Aggregation - Average age
 print("\n6. Computing average age:");
 const avgResult = db.customers.aggregate([
+    // `_id: null` collapses everything into a single document with an average.
     { $group: { _id: null, averageAge: { $avg: "$age" } } }
 ]).toArray();
 print(`   Average age: ${avgResult[0].averageAge.toFixed(1)} years`);
