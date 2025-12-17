@@ -105,7 +105,7 @@ jobs:
         run: |
           if [ -d "mongodb-faker-generator/tests" ]; then
             cd mongodb-faker-generator
-            pytest tests/ -v --cov=python --cov-report=xml --cov-report=html --cov-report=term --cov-fail-under=80
+            pytest tests/ -v --cov=python --cov-report=xml --cov-report=html --cov-report=term --cov-fail-under=80 --junitxml=junit-python.xml -o junit_family=legacy
           else
             echo "No faker tests found, skipping..."
           fi
@@ -121,6 +121,13 @@ jobs:
           flags: python-faker
           name: python-faker-coverage
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Pytest Results to Codecov
+        if: always()
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./mongodb-faker-generator/junit-python.xml
 
   # ============================================================================
   # Node.js MongoDB Labs Tests with Coverage

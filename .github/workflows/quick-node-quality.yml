@@ -27,7 +27,7 @@ env:
 
 jobs:
   lint-matrix:
-    name: ESLint (${{ matrix.target.name }})
+    name: ESLint (${{ matrix.name }})
     strategy:
       matrix:
         include:
@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}-${{ hashFiles(matrix.target.hash-paths) }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}-${{ hashFiles(matrix.hash-paths) }}
           restore-keys: |
             ${{ runner.os }}-yarn-
 
@@ -67,7 +67,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Run scoped ESLint
-        run: yarn eslint --no-error-on-unmatched-pattern "${{ matrix.target.globs }}"
+        run: yarn eslint --no-error-on-unmatched-pattern "${{ matrix.globs }}"
 
   format-and-data:
     name: Format & Dataset Smoke

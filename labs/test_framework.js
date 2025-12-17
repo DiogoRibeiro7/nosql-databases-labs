@@ -8,6 +8,7 @@
 const { MongoClient } = require("mongodb");
 const assert = require("assert");
 const fs = require("fs").promises;
+const crypto = require("crypto");
 
 class LabTestFramework {
   constructor(config = {}) {
@@ -286,13 +287,14 @@ class LabTestFramework {
 class TestDataGenerator {
   static generateUsers(count) {
     const users = [];
+    const yearInMs = 365 * 24 * 60 * 60 * 1000;
     for (let i = 0; i < count; i++) {
       users.push({
         username: `user_${i}`,
         email: `user${i}@example.com`,
-        age: 18 + Math.floor(Math.random() * 50),
-        created_at: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000),
-        active: Math.random() > 0.2,
+        age: 18 + crypto.randomInt(50),
+        created_at: new Date(Date.now() - crypto.randomInt(yearInMs)),
+        active: crypto.randomInt(1000) >= 200,
       });
     }
     return users;
@@ -303,13 +305,16 @@ class TestDataGenerator {
     const products = [];
 
     for (let i = 0; i < count; i++) {
+      const priceCents = crypto.randomInt(99000);
+      const ratingIncrement = crypto.randomInt(40);
+      const tagCount = crypto.randomInt(5) + 1;
       products.push({
         name: `Product ${i}`,
-        category: categories[Math.floor(Math.random() * categories.length)],
-        price: parseFloat((10 + Math.random() * 990).toFixed(2)),
-        stock: Math.floor(Math.random() * 100),
-        rating: parseFloat((1 + Math.random() * 4).toFixed(1)),
-        tags: Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, j) => `tag${j}`),
+        category: categories[crypto.randomInt(categories.length)],
+        price: parseFloat((10 + priceCents / 100).toFixed(2)),
+        stock: crypto.randomInt(100),
+        rating: parseFloat((1 + ratingIncrement / 10).toFixed(1)),
+        tags: Array.from({ length: tagCount }, (_, j) => `tag${j}`),
       });
     }
     return products;
@@ -317,26 +322,29 @@ class TestDataGenerator {
 
   static generateOrders(count, userIds, productIds) {
     const orders = [];
+    const statusOptions = ["pending", "processing", "shipped", "delivered"];
+    const ninetyDaysInMs = 90 * 24 * 60 * 60 * 1000;
 
     for (let i = 0; i < count; i++) {
-      const itemCount = 1 + Math.floor(Math.random() * 5);
+      const itemCount = 1 + crypto.randomInt(5);
       const items = [];
 
       for (let j = 0; j < itemCount; j++) {
+        const itemPriceCents = crypto.randomInt(20000);
         items.push({
-          product_id: productIds[Math.floor(Math.random() * productIds.length)],
-          quantity: 1 + Math.floor(Math.random() * 5),
-          price: parseFloat((10 + Math.random() * 200).toFixed(2)),
+          product_id: productIds[crypto.randomInt(productIds.length)],
+          quantity: 1 + crypto.randomInt(5),
+          price: parseFloat((10 + itemPriceCents / 100).toFixed(2)),
         });
       }
 
       orders.push({
         order_id: `ORD-${1000 + i}`,
-        user_id: userIds[Math.floor(Math.random() * userIds.length)],
+        user_id: userIds[crypto.randomInt(userIds.length)],
         items,
         total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-        status: ["pending", "processing", "shipped", "delivered"][Math.floor(Math.random() * 4)],
-        created_at: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000),
+        status: statusOptions[crypto.randomInt(statusOptions.length)],
+        created_at: new Date(Date.now() - crypto.randomInt(ninetyDaysInMs)),
       });
     }
 

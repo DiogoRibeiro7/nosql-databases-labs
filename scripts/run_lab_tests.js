@@ -12,6 +12,7 @@ const { MongoClient } = require("mongodb");
 const path = require("path");
 
 const isWindows = process.platform === "win32";
+const projectRoot = path.resolve(__dirname, "..");
 
 const labs = [
   {
@@ -77,8 +78,11 @@ const labs = [
   },
 ];
 
-async function ensureMongoConnection(uri) {
-  const client = new MongoClient(uri, { serverSelectionTimeoutMS: 2000 });
+async function ensureMongoConnection(
+  uri,
+  clientFactory = (mongoUri) => new MongoClient(mongoUri, { serverSelectionTimeoutMS: 2000 })
+) {
+  const client = clientFactory(uri);
   try {
     await client.connect();
     await client.db("admin").command({ ping: 1 });
@@ -86,17 +90,19 @@ async function ensureMongoConnection(uri) {
   } catch {
     return false;
   } finally {
-    await client.close().catch(() => {});
+    if (client && typeof client.close === "function") {
+      await client.close().catch(() => {});
+    }
   }
 }
 
-function runCommand(step) {
+function runCommand(step, { spawn = spawnSync } = {}) {
   const commandString = `${step.cmd} ${step.args.join(" ")}`;
   console.log(`\n→ ${step.title}`);
   console.log(`   ${commandString}`);
 
-  const result = spawnSync(step.cmd, step.args, {
-    cwd: path.resolve(__dirname, ".."),
+  const result = spawn(step.cmd, step.args, {
+    cwd: projectRoot,
     stdio: "inherit",
     shell: isWindows,
     env: process.env,
@@ -115,8 +121,8 @@ function runCommand(step) {
   return { skipped: false, status: result.status };
 }
 
-function parseArgs() {
-  const args = process.argv.slice(2);
+function parseArgs(argv = process.argv.slice(2)) {
+  const args = argv;
   const params = {};
 
   args.forEach((arg) => {
@@ -178,7 +184,17 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error("Unexpected test runner error:", error);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error("Unexpected test runner error:", error);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  labs,
+  ensureMongoConnection,
+  runCommand,
+  parseArgs,
+  main,
+};
