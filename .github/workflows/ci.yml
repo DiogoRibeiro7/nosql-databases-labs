@@ -120,6 +120,7 @@ jobs:
           file: ./mongodb-faker-generator/coverage.xml
           flags: python-faker
           name: python-faker-coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # ============================================================================
   # Node.js MongoDB Labs Tests with Coverage
@@ -226,6 +227,7 @@ jobs:
           files: ./labs/*/coverage/lcov.info
           flags: nodejs-labs
           name: nodejs-coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # ============================================================================
   # Performance Benchmarks
