@@ -67,10 +67,10 @@ jobs:
           - 27017:27017
         options: >-
           --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 30
-          --health-start-period 45s
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+          --health-start-period 15s
 
     steps:
       - name: Checkout repository
@@ -96,22 +96,43 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Wait for MongoDB
-        env:
-          WAIT_TIMEOUT: 420
+      - name: Resolve MongoDB container id
+        id: mongo-cid
         shell: bash
         run: |
           set -euo pipefail
-          timeout="${WAIT_TIMEOUT:-240}"
+
+          # Service container names vary; resolve by image ancestor.
+          cid="$(docker ps --filter "ancestor=mongo:7.0" --format "{{.ID}}" | head -n1 || true)"
+          if [ -z "${cid}" ]; then
+            echo "Could not find mongo:7.0 container. docker ps -a:" >&2
+            docker ps -a >&2 || true
+            exit 1
+          fi
+
+          echo "cid=${cid}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for MongoDB (mongosh inside container)
+        env:
+          WAIT_TIMEOUT: 180
+          MONGO_CID: ${{ steps.mongo-cid.outputs.cid }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout="${WAIT_TIMEOUT:-180}"
           start="$(date +%s)"
 
-          until mongosh --host 127.0.0.1 --quiet --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1; do
+          until docker exec "${MONGO_CID}" mongosh --quiet --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1; do
             now="$(date +%s)"
             elapsed="$((now - start))"
+
             if [ "${elapsed}" -ge "${timeout}" ]; then
               echo "MongoDB did not become ready in time (${timeout}s)" >&2
+              echo "---- docker logs (mongo) ----" >&2
+              docker logs "${MONGO_CID}" >&2 || true
               exit 1
             fi
+
             echo "Waiting for MongoDB..."
             sleep 2
           done
