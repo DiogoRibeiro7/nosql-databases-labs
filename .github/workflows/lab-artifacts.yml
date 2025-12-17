@@ -67,10 +67,10 @@ jobs:
           - 27017:27017
         options: >-
           --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 20
-          --health-start-period 15s
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 30
+          --health-start-period 45s
 
     steps:
       - name: Checkout repository
@@ -98,7 +98,7 @@ jobs:
 
       - name: Wait for MongoDB
         env:
-          WAIT_TIMEOUT: 240
+          WAIT_TIMEOUT: 420
         shell: bash
         run: |
           set -euo pipefail
