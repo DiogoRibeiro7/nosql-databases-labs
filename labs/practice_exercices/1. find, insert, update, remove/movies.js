@@ -274,33 +274,26 @@ to a variable using the var keyword, then the cursor is automatically
 iterated up to 20 times to print up to the first 20 documents in the results.
 When you assign the cursor returned from the find() method 
 to a variable using the var keyword, the cursor does not automatically iterate. */
-var myCursor = comedy.find({year: {$gt: 2010}})
+const cursor = comedy.find({year: {$gt: 2010}});
 
 /* You can call the cursor variable in the shell to iterate up to 20 times
 – if there are 20 documents – and print the matching documents */
-myCursor
+cursor;
 
 /* You can also use the cursor method next() to access the documents */
-var myCursor = comedy.find({year: {$gt: 2010}})
-while (myCursor.hasNext()) {
-   print(tojson(myCursor.next()));
-}
-
-/* As an alternative print operation, consider the printjson() helper method to replace print(tojson()) */
-var myCursor = comedy.find({year: {$gt: 2010}})
-while (myCursor.hasNext()) {
-   printjson (myCursor.next());
+cursor.rewind();
+while (cursor.hasNext()) {
+   console.log(JSON.stringify(cursor.next(), null, 2));
 }
 
 /* You can use the cursor method forEach() to iterate the cursor and access the documents */
-var myCursor = comedy.find({year: {$gt: 2010}})
-myCursor.forEach(printjson)
+cursor.rewind();
+cursor.forEach((doc) => console.log(JSON.stringify(doc, null, 2)));
 
 /* You can use the toArray() method to iterate the cursor and return the documents in an array */
-var myCursor = comedy.find({year: {$gt: 2010}})
-var documentArray = myCursor.toArray()
-var myDocument = documentArray[1]
-print (myDocument)
+const documentArray = comedy.find({year: {$gt: 2010}}).toArray();
+const myDocument = documentArray[1];
+console.log(myDocument);
 
 /* The toArray() method loads into RAM all documents returned by the cursor; 
 the toArray() method exhausts the cursor. */
@@ -312,8 +305,7 @@ We're the Millers --> Jennifer Aniston,Luis Guzmán,Ed Helms,Kathryn Hahn
 The Hangover --> Bradley Cooper,Ed Helms,Zach Galifianakis
 The Hangover Part II --> Bradley Cooper,Ed Helms,Zach Galifianakis
 */
-var myCursor = comedy.find({}, {cast: true, name:true})
-myCursor.forEach(x=> print(`${x.name} --> ${x.cast}`))
+comedy.find({}, {cast: true, name:true}).forEach((x) => console.log(`${x.name} --> ${x.cast}`))
 
 
 /* Any good database system should have a count() method 
