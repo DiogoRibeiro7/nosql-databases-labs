@@ -1,4 +1,6 @@
-﻿# NoSQL Databases - Practical Labs (`nosql-databases-labs`)
+﻿![image](https://user-images.githubusercontent.com/38021615/66250308-be901380-e6f5-11e9-90cf-e53c90735e24.png)
+
+# NoSQL Databases - Practical Labs (`nosql-databases-labs`)
 
 Hands-on home for the NoSQL Databases course. Clone the repo, run the mongosh-first lab scripts, and document your findings inside each lab folder. Every lab ships with import scripts, tests, and optional practice exercises. Use this README as your quick reference while lab READMEs dive into specifics.
 
