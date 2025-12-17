@@ -5,6 +5,7 @@ New hands-on challenges that go beyond the Lab 01 starter tasks. Use the `lab0
 ---
 
 ## Exercise A · Customer Segmentation Dashboard
+
 1. Duplicate the base `customers` data into `customers_marketing`.
 2. Add fields for `segment` (e.g., `student`, `professional`, `enterprise`) and `engagementScore`.
 3. Build a script (`segment_dashboard.js`) that:
@@ -14,6 +15,7 @@ New hands-on challenges that go beyond the Lab 01 starter tasks. Use the `lab0
 4. Stretch goal: add a `$bucket` stage to show age distribution per segment.
 
 ## Exercise B · Event Log Importer
+
 1. Create a new collection `event_log`.
 2. Write a mongosh script that loads NDJSON lines (you can generate mock data or reuse `sample.json`) and enrich each row with:
    - `ingestedAt`
@@ -23,6 +25,7 @@ New hands-on challenges that go beyond the Lab 01 starter tasks. Use the `lab0
 4. Verify via `db.event_log.validate()` and document the import count in `NOTES.md`.
 
 ## Exercise C · CLI Reset Utility
+
 1. Write a Node script `reset_lab01_collections.js` that:
    - Drops `customers`, `customers_marketing`, and `event_log`.
    - Re-runs the official `import_data.js`.

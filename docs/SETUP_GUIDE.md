@@ -33,6 +33,7 @@ graph TD
 **Best For**: Quick start, consistent environment, easy cleanup
 
 ### Prerequisites
+
 - Docker Desktop installed ([Download](https://www.docker.com/products/docker-desktop))
 - 4GB RAM available for Docker
 - 5GB disk space
@@ -40,43 +41,51 @@ graph TD
 ### Step-by-Step Instructions
 
 #### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/nosql-databases-labs.git
 cd nosql-databases-labs
 ```
 
 #### 2. Copy Environment Template
+
 ```bash
 cp .env.template .env
 # Edit .env if needed (usually not required for Docker)
 ```
 
 #### 3. Start MongoDB Container
+
 ```bash
 docker-compose up -d
 ```
 
 #### 4. Verify Connection
+
 ```bash
 docker exec -it mongodb-labs mongosh --eval "db.version()"
 ```
 
 #### 5. Install Dependencies
+
 ```bash
 npm install
 ```
 
 #### 6. Run Setup Verification
+
 ```bash
 npm run verify:setup
 ```
 
 #### 7. Import Sample Data
+
 ```bash
 docker exec -it mongodb-labs mongosh lab01_student --file /app/labs/lab01_intro/import_data.js
 ```
 
 ### Docker Commands Reference
+
 ```bash
 # Start containers
 docker-compose up -d
@@ -105,11 +114,13 @@ docker-compose down -v
 ### Windows Installation
 
 #### 1. Download MongoDB
+
 - Visit [MongoDB Download Center](https://www.mongodb.com/try/download/community)
 - Download MongoDB Community Server (MSI installer)
 - Download MongoDB Shell separately
 
 #### 2. Install MongoDB
+
 ```powershell
 # Run installer as Administrator
 # Choose "Complete" installation
@@ -121,6 +132,7 @@ mongosh --version
 ```
 
 #### 3. Set Environment Variables
+
 ```powershell
 # Add to System PATH:
 # C:\Program Files\MongoDB\Server\7.0\bin
@@ -128,11 +140,13 @@ mongosh --version
 ```
 
 #### 4. Create Data Directory
+
 ```powershell
 mkdir C:\data\db
 ```
 
 #### 5. Start MongoDB
+
 ```powershell
 # If installed as service (automatic)
 net start MongoDB
@@ -144,6 +158,7 @@ mongod --dbpath C:\data\db
 ### macOS Installation
 
 #### 1. Install with Homebrew
+
 ```bash
 # Install Homebrew if needed
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -159,6 +174,7 @@ brew install mongosh
 ```
 
 #### 2. Start MongoDB
+
 ```bash
 # Start as service
 brew services start mongodb-community
@@ -170,28 +186,33 @@ mongod --config /usr/local/etc/mongod.conf
 ### Linux Installation (Ubuntu/Debian)
 
 #### 1. Import MongoDB GPG Key
+
 ```bash
 wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
 ```
 
 #### 2. Add MongoDB Repository
+
 ```bash
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 ```
 
 #### 3. Install MongoDB
+
 ```bash
 sudo apt update
 sudo apt install -y mongodb-org
 ```
 
 #### 4. Start MongoDB
+
 ```bash
 sudo systemctl start mongod
 sudo systemctl enable mongod  # Auto-start on boot
 ```
 
 ### Verification for All Operating Systems
+
 ```bash
 # Check MongoDB is running
 mongosh --eval "db.version()"
@@ -221,11 +242,13 @@ npm run verify:setup
 ### Step-by-Step Atlas Setup
 
 #### 1. Create Atlas Account
+
 - Visit [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 - Sign up for free account
 - Verify email
 
 #### 2. Create Cluster
+
 ```
 1. Click "Build a Cluster"
 2. Choose "Shared" (Free tier)
@@ -238,6 +261,7 @@ npm run verify:setup
 #### 3. Configure Security
 
 ##### Database User
+
 ```
 1. Go to "Database Access"
 2. Click "Add New Database User"
@@ -248,6 +272,7 @@ npm run verify:setup
 ```
 
 ##### Network Access
+
 ```
 1. Go to "Network Access"
 2. Click "Add IP Address"
@@ -257,6 +282,7 @@ npm run verify:setup
 ```
 
 #### 4. Get Connection String
+
 ```
 1. Go to "Clusters"
 2. Click "Connect"
@@ -266,6 +292,7 @@ npm run verify:setup
 ```
 
 #### 5. Update Environment
+
 ```bash
 # Edit .env file
 MONGODB_URI=mongodb+srv://labuser:password@nosql-labs.xxxxx.mongodb.net/
@@ -273,6 +300,7 @@ MONGODB_DB_NAME=nosql_labs
 ```
 
 #### 6. Test Connection
+
 ```bash
 mongosh "mongodb+srv://nosql-labs.xxxxx.mongodb.net/" --username labuser
 ```
@@ -284,6 +312,7 @@ mongosh "mongodb+srv://nosql-labs.xxxxx.mongodb.net/" --username labuser
 ### Replica Set Setup (Lab 05)
 
 #### Single Machine Replica Set
+
 ```bash
 # Create data directories
 mkdir -p /data/rs0-0 /data/rs0-1 /data/rs0-2
@@ -340,11 +369,13 @@ mongosh --host $(hostname).local
 ## ✅ Post-Setup Verification
 
 ### 1. Run Complete Verification
+
 ```bash
 npm run verify:setup
 ```
 
 Expected output:
+
 ```
 ✓ Node.js version v18.0.0 is supported
 ✓ All critical dependencies installed
@@ -355,6 +386,7 @@ Expected output:
 ```
 
 ### 2. Test Basic Operations
+
 ```bash
 # Connect to MongoDB
 mongosh
@@ -368,6 +400,7 @@ exit
 ```
 
 ### 3. Import Lab Data
+
 ```bash
 # Import data for Lab 01
 mongosh lab01_student --file labs/lab01_intro/import_data.js
@@ -378,6 +411,7 @@ mongosh lab01_student --eval "db.customers.countDocuments()"
 ```
 
 ### 4. Run Lab Tests
+
 ```bash
 # Test Lab 01
 npm run test:lab01
@@ -391,7 +425,9 @@ npm run test:labs
 ## 🔥 Common Setup Issues & Solutions
 
 ### Issue: "command not found: mongosh"
+
 **Solution**:
+
 ```bash
 # Reinstall MongoDB Shell
 # macOS: brew install mongosh
@@ -400,7 +436,9 @@ npm run test:labs
 ```
 
 ### Issue: "MongoNetworkError: connect ECONNREFUSED"
+
 **Solution**:
+
 ```bash
 # Start MongoDB service
 # macOS: brew services start mongodb-community
@@ -410,7 +448,9 @@ npm run test:labs
 ```
 
 ### Issue: "npm install" fails
+
 **Solution**:
+
 ```bash
 # Clear npm cache
 npm cache clean --force
@@ -423,7 +463,9 @@ npm install
 ```
 
 ### Issue: Docker "port already in use"
+
 **Solution**:
+
 ```bash
 # Find process using port 27017
 # Linux/Mac: lsof -i :27017
@@ -433,7 +475,9 @@ npm install
 ```
 
 ### Issue: Atlas connection timeout
+
 **Solution**:
+
 1. Check network whitelist (add current IP)
 2. Verify username/password
 3. Check if cluster is paused (free tier)
@@ -444,11 +488,13 @@ npm install
 ## 🎉 Setup Complete!
 
 ### Next Steps
+
 1. **Start with Lab 01**: [Introduction to MongoDB](../labs/lab01_intro/README.md)
 2. **Read Theory Primer**: [Document Databases](theory_primers/01_document_databases.md)
 3. **Join Community**: Ask questions in GitHub Discussions
 
 ### Quick Commands Reference
+
 ```bash
 # Verify setup
 npm run verify:setup
@@ -467,7 +513,9 @@ npm run help
 ```
 
 ### Environment Variables Reference
+
 Key variables in `.env`:
+
 ```bash
 MONGODB_URI=mongodb://localhost:27017  # or your Atlas URI
 MONGODB_DB_NAME=nosql_labs
@@ -487,6 +535,6 @@ LOG_LEVEL=info
 
 ---
 
-*Remember: The setup process is a one-time investment. Once complete, you'll have a powerful MongoDB learning environment!*
+_Remember: The setup process is a one-time investment. Once complete, you'll have a powerful MongoDB learning environment!_
 
-*Last Updated: December 2024*
+_Last Updated: December 2024_

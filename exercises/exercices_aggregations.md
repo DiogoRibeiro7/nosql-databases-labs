@@ -3,6 +3,7 @@
 This document shows MongoDB aggregation examples for key pipeline stages.
 
 We will use two collections:
+
 - `universities`
 - `courses`
 
@@ -46,7 +47,7 @@ We will use two collections:
     { year: 2017, number: 6125 }
   ]
 }
-````
+```
 
 ### Insert `universities`
 
@@ -116,20 +117,20 @@ db.universities.insertMany([
 ```js
 db.courses.insertMany([
   {
-    university: 'USAL',
-    name: 'Computer Science',
-    level: 'Excellent'
+    university: "USAL",
+    name: "Computer Science",
+    level: "Excellent",
   },
   {
-    university: 'USAL',
-    name: 'Electronics',
-    level: 'Intermediate'
+    university: "USAL",
+    name: "Electronics",
+    level: "Intermediate",
   },
   {
-    university: 'USAL',
-    name: 'Communication',
-    level: 'Excellent'
-  }
+    university: "USAL",
+    name: "Communication",
+    level: "Excellent",
+  },
 ]);
 ```
 
@@ -142,9 +143,7 @@ db.courses.insertMany([
 Filter documents by conditions.
 
 ```js
-db.universities.aggregate([
-  { $match: { country: 'Spain', city: 'Salamanca' } }
-]).pretty();
+db.universities.aggregate([{ $match: { country: "Spain", city: "Salamanca" } }]).pretty();
 ```
 
 **Output (example):**
@@ -192,9 +191,7 @@ db.universities.aggregate([
 Return only the fields you need (and optionally computed fields).
 
 ```js
-db.universities.aggregate([
-  { $project: { _id: 0, country: 1, city: 1, name: 1 } }
-]).pretty();
+db.universities.aggregate([{ $project: { _id: 0, country: 1, city: 1, name: 1 } }]).pretty();
 ```
 
 **Output:**
@@ -206,8 +203,8 @@ db.universities.aggregate([
 
 Notes:
 
-* Explicitly set `_id: 0` if you do not want `_id`.
-* For other fields, specifying `1` is enough.
+- Explicitly set `_id: 0` if you do not want `_id`.
+- For other fields, specifying `1` is enough.
 
 ---
 
@@ -218,9 +215,7 @@ Aggregate / summarize: counts, totals, averages, maximums, etc.
 Example: number of documents per university.
 
 ```js
-db.universities.aggregate([
-  { $group: { _id: '$name', totaldocs: { $sum: 1 } } }
-]).pretty();
+db.universities.aggregate([{ $group: { _id: "$name", totaldocs: { $sum: 1 } } }]).pretty();
 ```
 
 **Output:**
@@ -249,8 +244,8 @@ Write aggregation results to a new collection (must be the last stage).
 
 ```js
 db.universities.aggregate([
-  { $group: { _id: '$name', totaldocs: { $sum: 1 } } },
-  { $out: 'aggResults' }
+  { $group: { _id: "$name", totaldocs: { $sum: 1 } } },
+  { $out: "aggResults" },
 ]);
 
 // Check the new collection
@@ -274,10 +269,7 @@ Turn each element of an array into a separate output document.
 Example: unwind `students` only for USAL.
 
 ```js
-db.universities.aggregate([
-  { $match: { name: 'USAL' } },
-  { $unwind: '$students' }
-]).pretty();
+db.universities.aggregate([{ $match: { name: "USAL" } }, { $unwind: "$students" }]).pretty();
 ```
 
 **Output (example):**
@@ -298,12 +290,14 @@ Sort by a specific field.
 Example: unwind USAL students, project year/number, then sort by number descending.
 
 ```js
-db.universities.aggregate([
-  { $match: { name: 'USAL' } },
-  { $unwind: '$students' },
-  { $project: { _id: 0, 'students.year': 1, 'students.number': 1 } },
-  { $sort: { 'students.number': -1 } }
-]).pretty();
+db.universities
+  .aggregate([
+    { $match: { name: "USAL" } },
+    { $unwind: "$students" },
+    { $project: { _id: 0, "students.year": 1, "students.number": 1 } },
+    { $sort: { "students.number": -1 } },
+  ])
+  .pretty();
 ```
 
 **Output:**
@@ -322,13 +316,15 @@ db.universities.aggregate([
 Keep only the first N results.
 
 ```js
-db.universities.aggregate([
-  { $match: { name: 'USAL' } },
-  { $unwind: '$students' },
-  { $project: { _id: 0, 'students.year': 1, 'students.number': 1 } },
-  { $sort: { 'students.number': -1 } },
-  { $limit: 2 }
-]).pretty();
+db.universities
+  .aggregate([
+    { $match: { name: "USAL" } },
+    { $unwind: "$students" },
+    { $project: { _id: 0, "students.year": 1, "students.number": 1 } },
+    { $sort: { "students.number": -1 } },
+    { $limit: 2 },
+  ])
+  .pretty();
 ```
 
 **Output:**
@@ -347,10 +343,9 @@ Note: if you want the “top N” from sorted results, use `$limit` immediately 
 Add fields to the output documents.
 
 ```js
-db.universities.aggregate([
-  { $match: { name: 'USAL' } },
-  { $addFields: { foundation_year: 1218 } }
-]).pretty();
+db.universities
+  .aggregate([{ $match: { name: "USAL" } }, { $addFields: { foundation_year: 1218 } }])
+  .pretty();
 ```
 
 **Output (example):**
@@ -366,10 +361,7 @@ db.universities.aggregate([
 Count the number of output documents from previous stages.
 
 ```js
-db.universities.aggregate([
-  { $unwind: '$students' },
-  { $count: 'total_documents' }
-]).pretty();
+db.universities.aggregate([{ $unwind: "$students" }, { $count: "total_documents" }]).pretty();
 ```
 
 **Output:**
@@ -387,18 +379,20 @@ Join data across collections.
 Example: for USAL, add matching courses.
 
 ```js
-db.universities.aggregate([
-  { $match: { name: 'USAL' } },
-  { $project: { _id: 0, name: 1 } },
-  {
-    $lookup: {
-      from: 'courses',
-      localField: 'name',
-      foreignField: 'university',
-      as: 'courses'
-    }
-  }
-]).pretty();
+db.universities
+  .aggregate([
+    { $match: { name: "USAL" } },
+    { $project: { _id: 0, name: 1 } },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "name",
+        foreignField: "university",
+        as: "courses",
+      },
+    },
+  ])
+  .pretty();
 ```
 
 **Output (example):**
@@ -416,8 +410,8 @@ db.universities.aggregate([
 
 Indexing tip:
 
-* Index `universities.name`
-* Index `courses.university`
+- Index `universities.name`
+- Index `courses.university`
 
 ---
 
@@ -428,9 +422,7 @@ Shortcut for: group by a field, count, then sort descending.
 Example: number of courses per level.
 
 ```js
-db.courses.aggregate([
-  { $sortByCount: '$level' }
-]).pretty();
+db.courses.aggregate([{ $sortByCount: "$level" }]).pretty();
 ```
 
 **Output:**
@@ -448,35 +440,34 @@ Run multiple pipelines on the same input and return multiple “reports”.
 
 Example: for USAL, build two outputs:
 
-* `countingLevels`: count courses per level
-* `yearWithLessStudents`: year with the fewest students
+- `countingLevels`: count courses per level
+- `yearWithLessStudents`: year with the fewest students
 
 ```js
-db.universities.aggregate([
-  { $match: { name: 'USAL' } },
-  {
-    $lookup: {
-      from: 'courses',
-      localField: 'name',
-      foreignField: 'university',
-      as: 'courses'
-    }
-  },
-  {
-    $facet: {
-      countingLevels: [
-        { $unwind: '$courses' },
-        { $sortByCount: '$courses.level' }
-      ],
-      yearWithLessStudents: [
-        { $unwind: '$students' },
-        { $project: { _id: 0, students: 1 } },
-        { $sort: { 'students.number': 1 } },
-        { $limit: 1 }
-      ]
-    }
-  }
-]).pretty();
+db.universities
+  .aggregate([
+    { $match: { name: "USAL" } },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "name",
+        foreignField: "university",
+        as: "courses",
+      },
+    },
+    {
+      $facet: {
+        countingLevels: [{ $unwind: "$courses" }, { $sortByCount: "$courses.level" }],
+        yearWithLessStudents: [
+          { $unwind: "$students" },
+          { $project: { _id: 0, students: 1 } },
+          { $sort: { "students.number": 1 } },
+          { $limit: 1 },
+        ],
+      },
+    },
+  ])
+  .pretty();
 ```
 
 **Output (example):**
@@ -500,10 +491,12 @@ db.universities.aggregate([
 ## Total number of students (total alumni) per university
 
 ```js
-db.universities.aggregate([
-  { $unwind: '$students' },
-  { $group: { _id: '$name', totalalumni: { $sum: '$students.number' } } }
-]).pretty();
+db.universities
+  .aggregate([
+    { $unwind: "$students" },
+    { $group: { _id: "$name", totalalumni: { $sum: "$students.number" } } },
+  ])
+  .pretty();
 ```
 
 **Output:**
@@ -516,24 +509,25 @@ db.universities.aggregate([
 ## Sort by total alumni descending
 
 ```js
-db.universities.aggregate([
-  { $unwind: '$students' },
-  { $group: { _id: '$name', totalalumni: { $sum: '$students.number' } } },
-  { $sort: { totalalumni: -1 } }
-]).pretty();
+db.universities
+  .aggregate([
+    { $unwind: "$students" },
+    { $group: { _id: "$name", totalalumni: { $sum: "$students.number" } } },
+    { $sort: { totalalumni: -1 } },
+  ])
+  .pretty();
 ```
 
 ---
 
 # Performance notes
 
-* Prefer `$match` before `$sort` to reduce how many documents need sorting.
-* To take advantage of indexes, use `$match` and/or `$sort` early in the pipeline.
-* You can inspect the plan with `explain`:
+- Prefer `$match` before `$sort` to reduce how many documents need sorting.
+- To take advantage of indexes, use `$match` and/or `$sort` early in the pipeline.
+- You can inspect the plan with `explain`:
 
 ```js
 const pipeline = [ /* ... */ ];
 
 db.<collectionName>.aggregate(pipeline, { explain: true });
 ```
-

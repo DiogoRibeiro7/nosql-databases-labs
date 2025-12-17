@@ -44,6 +44,12 @@ These are standard sample datasets provided by MongoDB Atlas for learning and te
 
 - **`wine_quality/`** - Wine quality assessment data
 
+- **`airbnb_data/`** - Curated Lisbon and Porto listing snapshots used in lab extensions (see `sample_lisbon_listings.json` and `sample_porto_listings.json`)
+
+- **`food_express/`** - Synthetic restaurant and order documents used for CRUD modeling demos (`foodexpress_db.restaurants.json`, `foodexpress_db.orders.json`)
+
+- **`sample_databases/`** - Mirrors of companion SQL/JSON datasets (Northwind, Chinook, IMDB, MongoDB schema references) plus the LaTeX design notes that produce `northwind_mongodb_schema_design.pdf`
+
 ### Utility Datasets
 
 - **`datasets/`** - Collection of various JSON datasets including:
@@ -62,8 +68,7 @@ These are standard sample datasets provided by MongoDB Atlas for learning and te
 
 The full datasets are **not** versioned in this GitHub repository.
 
-- AirportDB (MySQL HeatWave → JSONL/CSV):  
-  <https://drive.google.com/file/d/1Cq4tHKu-7qcmES1-xgsgtf_gf74BPunY/view?usp=sharing>
+- AirportDB (MySQL HeatWave JSONL/CSV): <https://drive.google.com/file/d/1Cq4tHKu-7qcmES1-xgsgtf_gf74BPunY/view?usp=sharing>
 
 After downloading the archive, extract it. The extracted `AirportDB` folder should be placed inside the `data/` directory alongside other datasets.
 
@@ -76,6 +81,24 @@ These datasets are used for:
 - Data modeling exercises
 - Query optimization practice
 - Migration and transformation examples
+- Seeding MongoDB instances with rich synthetic data for labs (see below)
+
+### Data validation and tooling
+
+- Run `npm run test:data` (or `node scripts/data-smoke-test.js`) from the repo root to execute the dataset smoke tests.  
+  This script counts every document in `data/datasets/` and BSON bundles such as `data/foodmart/` to ensure nothing is missing or corrupted.
+- The `data/validation_schemas/` folder contains JSON Schema definitions that mirror what the smoke tests expect.
+- Conversion helpers like `world-db/world_sql_to_csv_json.py` and `sakila-db/sql_to_csv_json.py` regenerate JSON/CSV exports from the upstream SQL dumps.
+- For advanced demos, the `mongodb-faker-generator/` package can synthesize realistic `users`, `products`, `transactions`, and `logs` collections that feed several labs. See [mongodb-faker-generator/README.md](../mongodb-faker-generator/README.md) for regeneration instructions.
+
+### Download helpers
+
+If you need to refresh the datasets locally, use the scripts in this directory:
+
+- `download_all_databases.sh` / `.bat` fetch every supported dataset.
+- `download_simple.bat` downloads only the sample MongoDB archives for Windows labs.
+- `download_sample_databases.py` is a cross-platform helper used by CI to verify mirrors.
+Each script writes into the current `data/` directory, so run them from the repo root.
 
 ## Data Formats
 

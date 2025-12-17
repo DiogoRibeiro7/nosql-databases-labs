@@ -9,6 +9,7 @@ These exercises are optional but recommended once you are comfortable with the c
 **Goal:** provide a repeatable “doctor” script that students or teammates can run before starting the lab.
 
 ### Tasks
+
 1. Write a script (Node.js, Python, or shell) named `env_check.*` that:
    - Verifies `mongod`, `mongosh`, and `mongoimport` are in `$PATH` (or `Get-Command` on PowerShell).
    - Checks whether the default MongoDB port (27017) is reachable.
@@ -26,6 +27,7 @@ These exercises are optional but recommended once you are comfortable with the c
 **Goal:** move beyond one-off `mongoimport` commands by creating a scripted workflow that wipes + seeds your database safely.
 
 ### Tasks
+
 1. Create `labs/lab01_intro/seed_database.js` that:
    - Drops (or renames) the target database if it already exists.
    - Imports `starter/data/sample.json`.
@@ -43,6 +45,7 @@ These exercises are optional but recommended once you are comfortable with the c
 **Goal:** interact with your Lab 01 dataset through code, simulating the first step toward an application.
 
 ### Tasks
+
 1. Use your preferred runtime (Node/Express, Python/FastAPI, etc.) to build a tiny API with endpoints:
    - `GET /health` – confirms MongoDB connectivity and returns database/collection counts.
    - `GET /customers?city=<name>` – returns up to 10 matching customers.

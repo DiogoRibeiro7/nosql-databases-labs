@@ -5,6 +5,7 @@ This comprehensive guide helps instructors effectively deliver the MongoDB NoSQL
 ## 📋 Course Overview
 
 ### Course Structure
+
 - **5 Core Labs**: Progressive skill building from basics to advanced
 - **1 Modern Features Lab**: Cutting-edge MongoDB capabilities
 - **Extra Labs**: Advanced topics for ambitious students
@@ -12,19 +13,21 @@ This comprehensive guide helps instructors effectively deliver the MongoDB NoSQL
 - **Practice Exercises**: Additional challenges for reinforcement
 
 ### Time Requirements
-| Component | Estimated Time | Flexible? |
-|-----------|---------------|-----------|
-| Core Labs (1-5) | 24 hours | No - Required |
-| Modern Features | 8 hours | Yes - Optional |
-| Extra Labs | 6 hours | Yes - Optional |
-| Group Work | 10 hours | Yes - Recommended |
-| **Total Course** | **48 hours** | **38 minimum** |
+
+| Component        | Estimated Time | Flexible?         |
+| ---------------- | -------------- | ----------------- |
+| Core Labs (1-5)  | 24 hours       | No - Required     |
+| Modern Features  | 8 hours        | Yes - Optional    |
+| Extra Labs       | 6 hours        | Yes - Optional    |
+| Group Work       | 10 hours       | Yes - Recommended |
+| **Total Course** | **48 hours**   | **38 minimum**    |
 
 ## 🚀 Getting Started
 
 ### 1. Environment Setup
 
 #### Option A: Cloud-Based (MongoDB Atlas)
+
 ```bash
 # Easiest for students - no local installation
 1. Create Atlas account for class
@@ -35,6 +38,7 @@ This comprehensive guide helps instructors effectively deliver the MongoDB NoSQL
 ```
 
 #### Option B: Docker (Recommended)
+
 ```bash
 # Consistent environment across all machines
 docker-compose up -d
@@ -42,6 +46,7 @@ npm run verify:setup
 ```
 
 #### Option C: Local Installation
+
 ```bash
 # Most control but requires setup
 1. Install MongoDB Community Edition
@@ -64,17 +69,20 @@ npm run verify:setup
 ### Lab 01: Introduction (4 hours)
 
 **Learning Objectives:**
+
 - Install and configure MongoDB
 - Execute CRUD operations
 - Import/export data
 - Create basic indexes
 
 **Teaching Tips:**
+
 - Start with MongoDB architecture overview
 - Live demo each CRUD operation
 - Common mistakes: forgetting to switch databases, JSON syntax errors
 
 **Assessment Points:**
+
 - Can students insert and query data? (30%)
 - Do they understand database/collection concepts? (30%)
 - Can they import the sample data? (20%)
@@ -83,16 +91,19 @@ npm run verify:setup
 ### Lab 02: Data Modeling (5 hours)
 
 **Learning Objectives:**
+
 - Design document schemas
 - Choose between embedding/referencing
 - Implement validation rules
 
 **Teaching Tips:**
+
 - Use real-world examples (e-commerce, social media)
 - Diagram embedding vs referencing tradeoffs
 - Discuss the 16MB document limit
 
 **Assessment Points:**
+
 - Schema design appropriateness (40%)
 - Justification of design choices (30%)
 - Validation rules implementation (30%)
@@ -100,16 +111,19 @@ npm run verify:setup
 ### Lab 03: Advanced Queries (5 hours)
 
 **Learning Objectives:**
+
 - Complex query operators
 - Performance optimization
 - Text and geospatial searches
 
 **Teaching Tips:**
+
 - Build queries incrementally
 - Always show explain() output
 - Demonstrate index impact on performance
 
 **Assessment Points:**
+
 - Query correctness (30%)
 - Performance optimization (30%)
 - Use of appropriate operators (20%)
@@ -118,16 +132,19 @@ npm run verify:setup
 ### Lab 04: Aggregation (6 hours)
 
 **Learning Objectives:**
+
 - Build aggregation pipelines
 - Data transformation and analytics
 - Window functions and facets
 
 **Teaching Tips:**
+
 - Start with simple pipelines, add stages gradually
 - Visualize pipeline flow on whiteboard
 - Show real analytics use cases
 
 **Assessment Points:**
+
 - Pipeline correctness (40%)
 - Appropriate stage usage (30%)
 - Performance considerations (30%)
@@ -135,16 +152,19 @@ npm run verify:setup
 ### Lab 05: Replication (4 hours)
 
 **Learning Objectives:**
+
 - Configure replica sets
 - Understand failover
 - Read/write concerns
 
 **Teaching Tips:**
+
 - Demonstrate failover live
 - Explain CAP theorem implications
 - Show replication lag effects
 
 **Assessment Points:**
+
 - Replica set configuration (40%)
 - Understanding of consistency levels (30%)
 - Failover handling (30%)
@@ -154,12 +174,14 @@ npm run verify:setup
 ### Automated Grading Setup
 
 1. **Configure Auto-Grader:**
+
 ```bash
 cd group-work/scripts
 node auto_grader.js --setup
 ```
 
 2. **Grading Weights (Customizable):**
+
 ```javascript
 // group-work/scripts/grading_config.json
 {
@@ -184,6 +206,7 @@ node auto_grader.js --setup
 ```
 
 3. **Run Grading:**
+
 ```bash
 # Grade all submissions
 npm run grade:all
@@ -198,21 +221,24 @@ npm run grade:report
 ### Manual Grading Rubric
 
 #### Lab Submission Rubric
-| Criterion | Excellent (90-100%) | Good (70-89%) | Needs Work (< 70%) |
-|-----------|-------------------|---------------|-------------------|
-| **Functionality** | All tasks complete and working | Most tasks complete | Many tasks incomplete |
-| **Code Quality** | Clean, well-organized | Generally good, minor issues | Messy, hard to follow |
-| **Performance** | Optimized queries/indexes | Adequate performance | Poor performance |
-| **Documentation** | Comprehensive comments/README | Basic documentation | Little/no documentation |
+
+| Criterion         | Excellent (90-100%)            | Good (70-89%)                | Needs Work (< 70%)      |
+| ----------------- | ------------------------------ | ---------------------------- | ----------------------- |
+| **Functionality** | All tasks complete and working | Most tasks complete          | Many tasks incomplete   |
+| **Code Quality**  | Clean, well-organized          | Generally good, minor issues | Messy, hard to follow   |
+| **Performance**   | Optimized queries/indexes      | Adequate performance         | Poor performance        |
+| **Documentation** | Comprehensive comments/README  | Basic documentation          | Little/no documentation |
 
 ### Tracking Progress
 
 Use the provided tracking spreadsheet template:
+
 ```bash
 cp group-work/templates/grade_tracker.xlsx grades/
 ```
 
 Or use the automated tracker:
+
 ```bash
 node group-work/scripts/progress_tracker.js --export
 ```
@@ -222,6 +248,7 @@ node group-work/scripts/progress_tracker.js --export
 ### Adjusting Difficulty
 
 #### For Beginners:
+
 - Provide starter code templates
 - Add more guided exercises
 - Extend time limits
@@ -229,6 +256,7 @@ node group-work/scripts/progress_tracker.js --export
 - Focus on Labs 1-3
 
 #### For Advanced Students:
+
 - Remove scaffolding
 - Add performance requirements
 - Require optimization proofs
@@ -238,6 +266,7 @@ node group-work/scripts/progress_tracker.js --export
 ### Industry-Specific Customization
 
 #### For Web Developers:
+
 ```javascript
 // Emphasize these topics:
 - User authentication schemas
@@ -247,6 +276,7 @@ node group-work/scripts/progress_tracker.js --export
 ```
 
 #### For Data Scientists:
+
 ```javascript
 // Emphasize these topics:
 - Aggregation pipelines
@@ -256,6 +286,7 @@ node group-work/scripts/progress_tracker.js --export
 ```
 
 #### For DevOps/DBAs:
+
 ```javascript
 // Emphasize these topics:
 - Replication and sharding
@@ -267,6 +298,7 @@ node group-work/scripts/progress_tracker.js --export
 ### Adding Custom Labs
 
 1. **Create Lab Structure:**
+
 ```bash
 mkdir labs/lab_custom
 cp labs/lab01_intro/README.md labs/lab_custom/
@@ -274,6 +306,7 @@ cp labs/lab01_intro/README.md labs/lab_custom/
 ```
 
 2. **Add to Manifest:**
+
 ```javascript
 // labs/MANIFEST.json
 "lab_custom": {
@@ -286,9 +319,10 @@ cp labs/lab01_intro/README.md labs/lab_custom/
 ```
 
 3. **Create Test File:**
+
 ```javascript
 // tests/test_lab_custom.js
-const validateCustomLab = require('./validators/custom');
+const validateCustomLab = require("./validators/custom");
 // Add test cases
 ```
 
@@ -297,11 +331,13 @@ const validateCustomLab = require('./validators/custom');
 ### Group Formation
 
 **Random Assignment:**
+
 ```bash
 node group-work/scripts/group_formation.js --random --size 4
 ```
 
 **Skill-Balanced Assignment:**
+
 ```bash
 node group-work/scripts/group_formation.js --balanced --survey survey_results.csv
 ```
@@ -309,17 +345,20 @@ node group-work/scripts/group_formation.js --balanced --survey survey_results.cs
 ### Monitoring Progress
 
 **Real-time Dashboard:**
+
 ```bash
 npm run monitor:dashboard
 # Opens http://localhost:3000/instructor
 ```
 
 **Weekly Progress Reports:**
+
 ```bash
 node scripts/generate_progress_report.js --week 3
 ```
 
 **Identify Struggling Students:**
+
 ```bash
 node scripts/identify_at_risk.js --threshold 70
 ```
@@ -328,20 +367,20 @@ node scripts/identify_at_risk.js --threshold 70
 
 ### Student Environment Problems
 
-| Issue | Solution |
-|-------|----------|
-| Cannot connect to MongoDB | Check firewall, verify connection string |
-| Import fails | Check file path, ensure JSON format |
-| Tests timeout | Increase timeout in .env |
+| Issue                        | Solution                                  |
+| ---------------------------- | ----------------------------------------- |
+| Cannot connect to MongoDB    | Check firewall, verify connection string  |
+| Import fails                 | Check file path, ensure JSON format       |
+| Tests timeout                | Increase timeout in .env                  |
 | Replica set won't initialize | Check port availability, network settings |
 
 ### Grading System Issues
 
-| Issue | Solution |
-|-------|----------|
-| Auto-grader crashes | Check Node.js version, reinstall dependencies |
-| Grades not updating | Clear cache: `npm run grade:clear-cache` |
-| Submission not detected | Verify folder structure, check permissions |
+| Issue                   | Solution                                      |
+| ----------------------- | --------------------------------------------- |
+| Auto-grader crashes     | Check Node.js version, reinstall dependencies |
+| Grades not updating     | Clear cache: `npm run grade:clear-cache`      |
+| Submission not detected | Verify folder structure, check permissions    |
 
 ## 📈 Best Practices
 
@@ -418,12 +457,14 @@ npm run archive:semester
 ## 🔗 Additional Resources
 
 ### For Instructors
+
 - [MongoDB University Educator Program](https://university.mongodb.com/educators)
 - [Teaching Materials Repository](./teaching_materials/)
 - [Slide Templates](./slides/)
 - [Video Tutorials](./videos/)
 
 ### For Students
+
 - [MongoDB Documentation](https://docs.mongodb.com/)
 - [MongoDB Manual](https://docs.mongodb.com/manual/)
 - [MongoDB University](https://university.mongodb.com/)
@@ -432,12 +473,15 @@ npm run archive:semester
 ## 📞 Support
 
 ### Getting Help
+
 - **Technical Issues**: Open issue on GitHub
 - **Pedagogical Questions**: instructor-support@example.edu
 - **Emergency Support**: +1-555-MONGODB (24/7 during semester)
 
 ### Contributing Back
+
 We welcome contributions from instructors:
+
 - Submit new lab ideas
 - Share successful customizations
 - Report bugs and issues
@@ -447,15 +491,16 @@ We welcome contributions from instructors:
 
 This course aligns with MongoDB certifications:
 
-| Certification | Relevant Labs | Additional Study |
-|--------------|---------------|------------------|
-| Developer Associate | Labs 1-4 | Application development patterns |
-| DBA Associate | Labs 1, 5, Extra | Security, backup/recovery |
-| Data Analyst | Labs 3-4, Modern | BI Connector, Charts |
+| Certification       | Relevant Labs    | Additional Study                 |
+| ------------------- | ---------------- | -------------------------------- |
+| Developer Associate | Labs 1-4         | Application development patterns |
+| DBA Associate       | Labs 1, 5, Extra | Security, backup/recovery        |
+| Data Analyst        | Labs 3-4, Modern | BI Connector, Charts             |
 
 ---
 
 **Quick Commands Reference:**
+
 ```bash
 npm run verify:setup        # Check environment
 npm run test:all           # Run all tests
@@ -464,5 +509,5 @@ npm run monitor:dashboard  # Open monitoring
 npm run help              # Show all commands
 ```
 
-*Last Updated: December 2024*
-*Version: 2.0.0*
+_Last Updated: December 2024_
+_Version: 2.0.0_

@@ -7,9 +7,11 @@ Lab 02 now includes a comprehensive testing suite that validates your data model
 ## Test Suite Components
 
 ### 1. Basic Query Tests (`test_queries.js`)
+
 **Purpose**: Validates that your data model supports all required operations.
 
 **What it tests**:
+
 - Collection existence
 - Data presence
 - Customer orders queries
@@ -24,9 +26,11 @@ Lab 02 now includes a comprehensive testing suite that validates your data model
 **Run**: `node test_queries.js`
 
 ### 2. Data Integrity Validator (`data_integrity_validator.js`)
+
 **Purpose**: Performs comprehensive data integrity and relationship validation.
 
 **What it tests**:
+
 - Unique constraints (customer IDs, emails, product IDs)
 - Referential integrity (orders reference valid customers)
 - Data consistency (order totals match item sums)
@@ -40,9 +44,11 @@ Lab 02 now includes a comprehensive testing suite that validates your data model
 **Output**: Creates `validation_report.json` with detailed results
 
 ### 3. Performance Benchmarks (`performance_benchmarks.js`)
+
 **Purpose**: Measures query performance and identifies optimization opportunities.
 
 **What it tests**:
+
 - Simple indexed queries (< 10ms target)
 - Aggregation queries (< 50ms target)
 - Complex queries (< 100ms target)
@@ -54,9 +60,11 @@ Lab 02 now includes a comprehensive testing suite that validates your data model
 **Output**: Creates `benchmark_results.json` with timing statistics
 
 ### 4. Integration Tests (`integration_tests.js`)
+
 **Purpose**: Validates deliverables and overall lab completion.
 
 **What it tests**:
+
 - Required files existence (model.md, queries.md, NOTES.md)
 - Optional files (examples/, BASIC_EXERCISES.md)
 - Model document content
@@ -69,9 +77,11 @@ Lab 02 now includes a comprehensive testing suite that validates your data model
 **Output**: Creates `integration_test_report.json` with completion status
 
 ### 5. Validation Schemas (`validation_schemas.js`)
+
 **Purpose**: Applies and tests MongoDB JSON Schema validation rules.
 
 **Features**:
+
 - Customer schema (email format, address structure)
 - Product schema (price ranges, stock quantities)
 - Order schema (item validation, status enum)
@@ -83,9 +93,11 @@ Lab 02 now includes a comprehensive testing suite that validates your data model
 **Test validation**: `node validation_schemas.js --test`
 
 ### 6. Modeling Scenarios (`examples/modeling_scenarios.js`)
+
 **Purpose**: Provides practical examples of different modeling patterns.
 
 **Examples included**:
+
 - Embedding vs Referencing patterns
 - Product variations (Attribute Pattern)
 - Review handling (Subset Pattern)
@@ -226,6 +238,7 @@ If tests are failing:
 ## Summary
 
 The comprehensive test suite ensures your Lab 02 implementation:
+
 - Supports all required queries efficiently
 - Maintains data integrity
 - Uses appropriate MongoDB patterns

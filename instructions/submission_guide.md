@@ -21,13 +21,13 @@ Use this checklist every time you submit a lab or project deliverable. Completin
 
 ## 2. Artifact Requirements
 
-| Deliverable | Expectations |
-| --- | --- |
-| Lab README/NOTES | Mention datasets imported, commands executed, and any blockers. |
-| Scripts | Provide both mongosh (`*_mongosh.js`) and Node.js (`*.js`) variants when requested. |
-| Data | Store small fixtures in the lab folder. Large datasets belong under `data/`. |
-| Tests | Keep `test_*.js` deterministic. Use environment variables for credentials, never hard-code secrets. |
-| Screenshots | Place inside `docs/` or the lab folder’s `images/` subdirectory. Reference them from READMEs. |
+| Deliverable      | Expectations                                                                                        |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| Lab README/NOTES | Mention datasets imported, commands executed, and any blockers.                                     |
+| Scripts          | Provide both mongosh (`*_mongosh.js`) and Node.js (`*.js`) variants when requested.                 |
+| Data             | Store small fixtures in the lab folder. Large datasets belong under `data/`.                        |
+| Tests            | Keep `test_*.js` deterministic. Use environment variables for credentials, never hard-code secrets. |
+| Screenshots      | Place inside `docs/` or the lab folder’s `images/` subdirectory. Reference them from READMEs.       |
 
 ## 3. File/Folder Naming
 

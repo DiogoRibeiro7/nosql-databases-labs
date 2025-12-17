@@ -27,11 +27,13 @@ By the end of this lab you should be able to:
 ### 1.1 Why Indexes Matter
 
 Without indexes, MongoDB performs collection scans:
+
 - **O(n) complexity** for every query
 - **Full collection** read into memory
 - **Poor performance** as data grows
 
 With proper indexes:
+
 - **O(log n) complexity** for B-tree traversal
 - **Targeted reads** of relevant documents
 - **Scalable performance**
@@ -55,8 +57,8 @@ B-Tree Index Structure:
 
 ```javascript
 // Basic single field index
-db.users.createIndex({ username: 1 })  // Ascending
-db.users.createIndex({ age: -1 })      // Descending
+db.users.createIndex({ username: 1 }); // Ascending
+db.users.createIndex({ age: -1 }); // Descending
 
 // Index with options
 db.users.createIndex(
@@ -64,16 +66,16 @@ db.users.createIndex(
   {
     unique: true,
     sparse: true,
-    background: true
+    background: true,
   }
-)
+);
 ```
 
 ### 2.2 Compound Index
 
 ```javascript
 // Compound index (order matters!)
-db.orders.createIndex({ customerId: 1, orderDate: -1 })
+db.orders.createIndex({ customerId: 1, orderDate: -1 });
 
 // Supports queries on:
 // - customerId
@@ -85,7 +87,7 @@ db.orders.createIndex({ customerId: 1, orderDate: -1 })
 
 ```javascript
 // Automatically created for array fields
-db.products.createIndex({ tags: 1 })
+db.products.createIndex({ tags: 1 });
 
 // Document: { name: "Laptop", tags: ["electronics", "computers", "portable"] }
 // Creates index entries for each array element
@@ -95,56 +97,55 @@ db.products.createIndex({ tags: 1 })
 
 ```javascript
 // Full-text search index
-db.articles.createIndex({ content: "text", title: "text" })
+db.articles.createIndex({ content: "text", title: "text" });
 
 // Search usage
-db.articles.find({ $text: { $search: "mongodb indexing" } })
+db.articles.find({ $text: { $search: "mongodb indexing" } });
 
 // With score
-db.articles.find(
-  { $text: { $search: "performance" } },
-  { score: { $meta: "textScore" } }
-).sort({ score: { $meta: "textScore" } })
+db.articles
+  .find({ $text: { $search: "performance" } }, { score: { $meta: "textScore" } })
+  .sort({ score: { $meta: "textScore" } });
 ```
 
 ### 2.5 Geospatial Indexes
 
 ```javascript
 // 2dsphere index for GeoJSON
-db.locations.createIndex({ location: "2dsphere" })
+db.locations.createIndex({ location: "2dsphere" });
 
 // Find nearby
 db.locations.find({
   location: {
     $near: {
       $geometry: { type: "Point", coordinates: [-73.97, 40.77] },
-      $maxDistance: 1000
-    }
-  }
-})
+      $maxDistance: 1000,
+    },
+  },
+});
 
 // 2d index for legacy coordinates
-db.places.createIndex({ coordinates: "2d" })
+db.places.createIndex({ coordinates: "2d" });
 ```
 
 ### 2.6 Hashed Index
 
 ```javascript
 // For shard key distribution
-db.users.createIndex({ userId: "hashed" })
+db.users.createIndex({ userId: "hashed" });
 ```
 
 ### 2.7 Wildcard Index
 
 ```javascript
 // Index all fields in subdocument
-db.products.createIndex({ "attributes.$**": 1 })
+db.products.createIndex({ "attributes.$**": 1 });
 
 // Specific wildcard paths
 db.logs.createIndex(
   { "metadata.$**": 1 },
   { wildcardProjection: { "metadata.user": 1, "metadata.action": 1 } }
-)
+);
 ```
 
 ---
@@ -157,30 +158,32 @@ Optimal compound index order:
 
 ```javascript
 // Query pattern
-db.products.find({
-  category: "Electronics",        // Equality
-  price: { $gte: 100, $lte: 500 } // Range
-}).sort({ rating: -1 })            // Sort
+db.products
+  .find({
+    category: "Electronics", // Equality
+    price: { $gte: 100, $lte: 500 }, // Range
+  })
+  .sort({ rating: -1 }); // Sort
 
 // Optimal index
 db.products.createIndex({
-  category: 1,  // Equality first
-  rating: -1,   // Sort second
-  price: 1      // Range last
-})
+  category: 1, // Equality first
+  rating: -1, // Sort second
+  price: 1, // Range last
+});
 ```
 
 ### 3.2 Index Selectivity
 
 ```javascript
 // High selectivity (good)
-db.users.createIndex({ email: 1 })  // Unique values
+db.users.createIndex({ email: 1 }); // Unique values
 
 // Low selectivity (poor)
-db.users.createIndex({ gender: 1 })  // Only 2-3 values
+db.users.createIndex({ gender: 1 }); // Only 2-3 values
 
 // Compound index for low selectivity fields
-db.users.createIndex({ gender: 1, age: 1, city: 1 })
+db.users.createIndex({ gender: 1, age: 1, city: 1 });
 ```
 
 ---
@@ -191,13 +194,13 @@ db.users.createIndex({ gender: 1, age: 1, city: 1 })
 
 ```javascript
 // Basic explain
-db.orders.find({ customerId: "C123" }).explain()
+db.orders.find({ customerId: "C123" }).explain();
 
 // Detailed execution stats
-db.orders.find({ customerId: "C123" }).explain("executionStats")
+db.orders.find({ customerId: "C123" }).explain("executionStats");
 
 // All plans considered
-db.orders.find({ customerId: "C123" }).explain("allPlansExecution")
+db.orders.find({ customerId: "C123" }).explain("allPlansExecution");
 ```
 
 ### 4.2 Interpreting Explain Output
@@ -223,21 +226,18 @@ db.orders.find({ customerId: "C123" }).explain("allPlansExecution")
 
 ```javascript
 // Covered query (best performance)
-db.orders.find(
-  { customerId: "C123" },
-  { orderId: 1, orderDate: 1, _id: 0 }
-)
+db.orders.find({ customerId: "C123" }, { orderId: 1, orderDate: 1, _id: 0 });
 // Index: { customerId: 1, orderId: 1, orderDate: 1 }
 
 // Index intersection
 db.users.find({
   age: { $gte: 25, $lte: 35 },
-  city: "New York"
-})
+  city: "New York",
+});
 // Can use two separate indexes
 
 // Hint specific index
-db.orders.find({ status: "pending" }).hint({ status: 1, createdAt: -1 })
+db.orders.find({ status: "pending" }).hint({ status: 1, createdAt: -1 });
 ```
 
 ---
@@ -248,43 +248,43 @@ db.orders.find({ status: "pending" }).hint({ status: 1, createdAt: -1 })
 
 ```javascript
 // Enable profiling
-db.setProfilingLevel(1, { slowms: 100 })  // Log queries > 100ms
+db.setProfilingLevel(1, { slowms: 100 }); // Log queries > 100ms
 
 // Level 0: Off
 // Level 1: Slow queries only
 // Level 2: All queries
 
 // Query profiler data
-db.system.profile.find({
-  millis: { $gt: 100 }
-}).sort({ ts: -1 }).limit(10)
+db.system.profile
+  .find({
+    millis: { $gt: 100 },
+  })
+  .sort({ ts: -1 })
+  .limit(10);
 
 // Analyze slow queries
 db.system.profile.aggregate([
   { $match: { millis: { $gt: 100 } } },
-  { $group: {
-    _id: { ns: "$ns", op: "$op" },
-    count: { $sum: 1 },
-    avgMillis: { $avg: "$millis" },
-    maxMillis: { $max: "$millis" }
-  }},
-  { $sort: { maxMillis: -1 } }
-])
+  {
+    $group: {
+      _id: { ns: "$ns", op: "$op" },
+      count: { $sum: 1 },
+      avgMillis: { $avg: "$millis" },
+      maxMillis: { $max: "$millis" },
+    },
+  },
+  { $sort: { maxMillis: -1 } },
+]);
 ```
 
 ### 5.2 Index Usage Statistics
 
 ```javascript
 // Get index usage stats
-db.orders.aggregate([
-  { $indexStats: {} }
-])
+db.orders.aggregate([{ $indexStats: {} }]);
 
 // Find unused indexes
-db.orders.aggregate([
-  { $indexStats: {} },
-  { $match: { "accesses.ops": { $lt: 100 } } }
-])
+db.orders.aggregate([{ $indexStats: {} }, { $match: { "accesses.ops": { $lt: 100 } } }]);
 ```
 
 ### 5.3 Current Operations
@@ -292,12 +292,12 @@ db.orders.aggregate([
 ```javascript
 // Find long-running operations
 db.currentOp({
-  "active": true,
-  "secs_running": { $gt: 3 }
-})
+  active: true,
+  secs_running: { $gt: 3 },
+});
 
 // Kill operation
-db.killOp(opId)
+db.killOp(opId);
 ```
 
 ---
@@ -308,26 +308,24 @@ db.killOp(opId)
 
 ```javascript
 // Force index usage
-db.orders.find({ status: "pending" })
-  .hint({ status: 1, createdAt: -1 })
+db.orders.find({ status: "pending" }).hint({ status: 1, createdAt: -1 });
 
 // Force collection scan (testing)
-db.orders.find({ status: "pending" })
-  .hint({ $natural: 1 })
+db.orders.find({ status: "pending" }).hint({ $natural: 1 });
 ```
 
 ### 6.2 Index Intersection
 
 ```javascript
 // MongoDB can use multiple indexes
-db.products.createIndex({ category: 1 })
-db.products.createIndex({ price: 1 })
+db.products.createIndex({ category: 1 });
+db.products.createIndex({ price: 1 });
 
 // This query can use both indexes
 db.products.find({
   category: "Electronics",
-  price: { $lt: 500 }
-})
+  price: { $lt: 500 },
+});
 ```
 
 ### 6.3 Partial Indexes
@@ -337,7 +335,7 @@ db.products.find({
 db.orders.createIndex(
   { customerId: 1, orderDate: -1 },
   { partialFilterExpression: { status: "active" } }
-)
+);
 
 // Saves space, improves write performance
 ```
@@ -348,13 +346,13 @@ db.orders.createIndex(
 // Automatically delete old documents
 db.sessions.createIndex(
   { createdAt: 1 },
-  { expireAfterSeconds: 3600 }  // Delete after 1 hour
-)
+  { expireAfterSeconds: 3600 } // Delete after 1 hour
+);
 
 db.logs.createIndex(
   { expireAt: 1 },
-  { expireAfterSeconds: 0 }  // Delete at specific time
-)
+  { expireAfterSeconds: 0 } // Delete at specific time
+);
 ```
 
 ---
@@ -370,29 +368,29 @@ db.articles.createIndex(
   {
     weights: { title: 10, tags: 5, content: 1 },
     default_language: "english",
-    language_override: "lang"
+    language_override: "lang",
   }
-)
+);
 ```
 
 ### 7.2 Text Search Queries
 
 ```javascript
 // Basic search
-db.articles.find({ $text: { $search: "mongodb performance" } })
+db.articles.find({ $text: { $search: "mongodb performance" } });
 
 // Phrase search
-db.articles.find({ $text: { $search: "\"exact phrase\"" } })
+db.articles.find({ $text: { $search: '"exact phrase"' } });
 
 // Exclude terms
-db.articles.find({ $text: { $search: "mongodb -sql" } })
+db.articles.find({ $text: { $search: "mongodb -sql" } });
 
 // With additional filters
 db.articles.find({
   $text: { $search: "indexing" },
   category: "database",
-  publishDate: { $gte: ISODate("2024-01-01") }
-})
+  publishDate: { $gte: ISODate("2024-01-01") },
+});
 ```
 
 ---
@@ -406,20 +404,25 @@ db.articles.find({
 db.locations.find({
   location: {
     $geoWithin: {
-      $box: [[-74, 40], [-73, 41]]
-    }
-  }
-})
+      $box: [
+        [-74, 40],
+        [-73, 41],
+      ],
+    },
+  },
+});
 
 // Proximity with limit
-db.restaurants.find({
-  location: {
-    $nearSphere: {
-      $geometry: { type: "Point", coordinates: [-73.97, 40.77] },
-      $maxDistance: 1000
-    }
-  }
-}).limit(10)
+db.restaurants
+  .find({
+    location: {
+      $nearSphere: {
+        $geometry: { type: "Point", coordinates: [-73.97, 40.77] },
+        $maxDistance: 1000,
+      },
+    },
+  })
+  .limit(10);
 ```
 
 ---
@@ -459,14 +462,17 @@ Optimize this slow query:
 
 ```javascript
 // Current slow query
-db.orders.find({
-  $or: [
-    { status: "pending" },
-    { status: "processing" }
-  ],
-  customerId: { $in: [/* 1000 IDs */] },
-  totalAmount: { $gt: 100 }
-}).sort({ orderDate: -1 })
+db.orders
+  .find({
+    $or: [{ status: "pending" }, { status: "processing" }],
+    customerId: {
+      $in: [
+        /* 1000 IDs */
+      ],
+    },
+    totalAmount: { $gt: 100 },
+  })
+  .sort({ orderDate: -1 });
 
 // TODO: Create indexes and rewrite query
 ```
@@ -517,6 +523,7 @@ npm test
 ```
 
 Individual tests:
+
 - `test_indexes.js` - Index creation and validation
 - `test_performance.js` - Query performance tests
 - `test_optimization.js` - Optimization verification

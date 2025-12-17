@@ -24,6 +24,7 @@ graph LR
 ## Key Concepts
 
 ### 1. Documents
+
 A document is a self-contained unit of data:
 
 ```javascript
@@ -49,6 +50,7 @@ A document is a self-contained unit of data:
 ```
 
 ### 2. Collections
+
 Documents are organized into collections (similar to tables in relational databases):
 
 ```mermaid
@@ -68,6 +70,7 @@ graph TD
 Unlike relational databases, document databases are schema-flexible:
 
 **Same collection, different document structures:**
+
 ```javascript
 // Document 1: Basic user
 {
@@ -94,11 +97,13 @@ Unlike relational databases, document databases are schema-flexible:
 ## Advantages of Document Databases
 
 ### 1. Natural Data Representation
+
 - Data stored as it's used in applications
 - No need for complex joins
 - Intuitive for developers
 
 ### 2. Performance Benefits
+
 ```mermaid
 graph LR
     subgraph "Relational: Multiple Queries"
@@ -117,11 +122,13 @@ graph LR
 ```
 
 ### 3. Horizontal Scalability
+
 - Easy to shard across multiple servers
 - Each document is self-contained
 - No foreign key constraints to maintain
 
 ### 4. Flexible Evolution
+
 - Add new fields without migrations
 - Different documents can have different fields
 - Backward compatibility built-in
@@ -181,11 +188,7 @@ const session = client.startSession();
 session.startTransaction();
 try {
   await orders.insertOne(orderDoc, { session });
-  await inventory.updateOne(
-    { sku: "ABC123" },
-    { $inc: { quantity: -1 } },
-    { session }
-  );
+  await inventory.updateOne({ sku: "ABC123" }, { $inc: { quantity: -1 } }, { session });
   await session.commitTransaction();
 } catch (error) {
   await session.abortTransaction();
@@ -211,21 +214,25 @@ graph TD
 ## Best Practices
 
 ### 1. Design for Your Access Patterns
+
 - Embed data that's accessed together
 - Reference data that's accessed separately
 - Consider read vs write frequency
 
 ### 2. Document Size Considerations
+
 - MongoDB document size limit: 16MB
 - Keep frequently updated data separate
 - Use GridFS for large files
 
 ### 3. Indexing Strategy
+
 - Index fields used in queries
 - Compound indexes for multi-field queries
 - Avoid over-indexing (write performance impact)
 
 ### 4. Data Consistency
+
 - Use appropriate read/write concerns
 - Implement application-level validation
 - Consider using transactions when needed
@@ -233,21 +240,25 @@ graph TD
 ## MongoDB Specific Features
 
 ### 1. Query Language
+
 ```javascript
 // Find documents
-db.users.find({ age: { $gte: 18 } })
+db.users.find({ age: { $gte: 18 } });
 
 // Aggregation pipeline
 db.orders.aggregate([
   { $match: { status: "completed" } },
-  { $group: {
-    _id: "$customerId",
-    totalSpent: { $sum: "$total" }
-  }}
-])
+  {
+    $group: {
+      _id: "$customerId",
+      totalSpent: { $sum: "$total" },
+    },
+  },
+]);
 ```
 
 ### 2. Indexing Types
+
 - Single field indexes
 - Compound indexes
 - Multikey indexes (arrays)
@@ -256,6 +267,7 @@ db.orders.aggregate([
 - Hashed indexes
 
 ### 3. Replication & Sharding
+
 ```mermaid
 graph TD
     subgraph "Replica Set"
@@ -276,6 +288,7 @@ graph TD
 ## Summary
 
 Document databases offer:
+
 - **Flexibility**: Schema-less design adapts to changing requirements
 - **Performance**: Denormalized data reduces joins
 - **Scalability**: Horizontal scaling through sharding
@@ -286,7 +299,8 @@ Understanding these concepts prepares you for effective MongoDB development and 
 ---
 
 **Next Steps:**
+
 - [Lab 01: Introduction to MongoDB](../../labs/lab01_intro/README.md)
 - [Theory Primer: Data Modeling Tradeoffs](02_data_modeling_tradeoffs.md)
 
-*Last Updated: December 2024*
+_Last Updated: December 2024_

@@ -17,14 +17,14 @@ These guidelines describe the required structure, grading rubric, and submission
 
 Store the artifacts inside your group folder (`group-work/<group_id>/project/`):
 
-| File | Purpose |
-| --- | --- |
-| `README.md` | Executive summary, dataset origin, key results, instructions to run the project. |
-| `architecture.md` | Schema diagrams, reference flows, and reasoning for design choices. |
-| `queries/` | Scripts (Node.js, mongosh, or Python) demonstrating the core use-cases. |
-| `data/` | Sanitized sample data or scripts to download/generate it. |
-| `performance.md` | Metrics pulled from `docs/performance_expectations.md` template (latency, throughput, indexes). |
-| `tests/` | Optional, but highly encouraged; demonstrate how you validate correctness. |
+| File              | Purpose                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| `README.md`       | Executive summary, dataset origin, key results, instructions to run the project.                |
+| `architecture.md` | Schema diagrams, reference flows, and reasoning for design choices.                             |
+| `queries/`        | Scripts (Node.js, mongosh, or Python) demonstrating the core use-cases.                         |
+| `data/`           | Sanitized sample data or scripts to download/generate it.                                       |
+| `performance.md`  | Metrics pulled from `docs/performance_expectations.md` template (latency, throughput, indexes). |
+| `tests/`          | Optional, but highly encouraged; demonstrate how you validate correctness.                      |
 
 ## 3. Suggested Milestones
 
@@ -34,14 +34,14 @@ Store the artifacts inside your group folder (`group-work/<group_id>/project/`):
 
 ## 4. Evaluation Rubric (100 pts)
 
-| Area | Points | Notes |
-| --- | --- | --- |
-| Requirements Coverage | 20 | Does the solution solve the stated problem end-to-end? |
-| Data Modeling Quality | 20 | Appropriate embedding/reference strategy, validation, schema rationale. |
-| Query Depth | 20 | Variety of CRUD + aggregations; real use-cases vs generic demos. |
-| Performance & Operations | 15 | Indexing, replication/sharding considerations, monitoring insights. |
-| Code/Data Hygiene | 15 | Scripts are runnable, configs documented, secrets excluded. |
-| Presentation & Documentation | 10 | README clarity, diagrams, screenshot examples. |
+| Area                         | Points | Notes                                                                   |
+| ---------------------------- | ------ | ----------------------------------------------------------------------- |
+| Requirements Coverage        | 20     | Does the solution solve the stated problem end-to-end?                  |
+| Data Modeling Quality        | 20     | Appropriate embedding/reference strategy, validation, schema rationale. |
+| Query Depth                  | 20     | Variety of CRUD + aggregations; real use-cases vs generic demos.        |
+| Performance & Operations     | 15     | Indexing, replication/sharding considerations, monitoring insights.     |
+| Code/Data Hygiene            | 15     | Scripts are runnable, configs documented, secrets excluded.             |
+| Presentation & Documentation | 10     | README clarity, diagrams, screenshot examples.                          |
 
 Bonus points (up to +5) may be awarded for advanced features (change streams, Atlas Search, vector search, etc.) if accompanied by meaningful write-ups.
 

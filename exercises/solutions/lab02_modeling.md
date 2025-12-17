@@ -42,7 +42,7 @@ This scenario mirrors a real marketplace where hosts demand responsive dashboard
   ```
 
 - **Reviews:** referencing listing + guest; indexes:
-  
+
   ```javascript
   db.reviews.createIndex({ listingId: 1, createdAt: -1 });
   db.reviews.createIndex({ guestId: 1, createdAt: -1 });
@@ -54,30 +54,30 @@ This scenario mirrors a real marketplace where hosts demand responsive dashboard
   // Note: MongoDB doesn't support relative date validation in JSON Schema.
   // Use $expr with standard validation for date comparison:
   db.runCommand({
-    collMod: 'reservations',
+    collMod: "reservations",
     validator: {
       $and: [
         {
           $jsonSchema: {
-            bsonType: 'object',
-            required: ['checkIn', 'checkOut', 'listingId', 'guestId'],
+            bsonType: "object",
+            required: ["checkIn", "checkOut", "listingId", "guestId"],
             properties: {
-              checkIn: { bsonType: 'date' },
-              checkOut: { bsonType: 'date' },
-              listingId: { bsonType: 'string' },
-              guestId: { bsonType: 'string' },
-              total: { bsonType: 'number', minimum: 0 },
-              status: { enum: ['pending', 'confirmed', 'cancelled'] }
-            }
-          }
+              checkIn: { bsonType: "date" },
+              checkOut: { bsonType: "date" },
+              listingId: { bsonType: "string" },
+              guestId: { bsonType: "string" },
+              total: { bsonType: "number", minimum: 0 },
+              status: { enum: ["pending", "confirmed", "cancelled"] },
+            },
+          },
         },
         {
           $expr: {
-            $gte: ['$checkOut', '$checkIn']  // Ensure checkout is after checkin
-          }
-        }
-      ]
-    }
+            $gte: ["$checkOut", "$checkIn"], // Ensure checkout is after checkin
+          },
+        },
+      ],
+    },
   });
   ```
 
@@ -97,14 +97,14 @@ Product managers wanted clarity on how to store high-frequency workout and nutri
 - Micro-benchmark sample:
 
   ```javascript
-  console.time('embedded');
+  console.time("embedded");
   for (let i = 0; i < 1000; i++) {
     db.users_embedded.updateOne(
-      { userId: 'U1' },
+      { userId: "U1" },
       { $push: { workouts: { $each: [{ ts: new Date(), kcal: 450 }], $slice: -30 } } }
     );
   }
-  console.timeEnd('embedded');
+  console.timeEnd("embedded");
   ```
 
   Repeat for referencing collection and compare.
@@ -124,7 +124,12 @@ Customer success teams insisted on instant access to ticket timelines, but our l
     "priority": "P1",
     "status": "open",
     "timeline": [
-      { "type": "message", "actor": "agent", "body": "Investigating", "ts": { "$date": "2025-02-10T10:00:00Z" } },
+      {
+        "type": "message",
+        "actor": "agent",
+        "body": "Investigating",
+        "ts": { "$date": "2025-02-10T10:00:00Z" }
+      },
       { "type": "attachment", "name": "logs.zip", "size": 102400 }
     ]
   }
@@ -135,7 +140,10 @@ Customer success teams insisted on instant access to ticket timelines, but our l
 
   ```javascript
   db.tickets.createIndex({ tenantId: 1, status: 1, priority: 1 });
-  db.tickets.createIndex({ tenantId: 1, updatedAt: -1 }, { partialFilterExpression: { slaBreached: true } });
+  db.tickets.createIndex(
+    { tenantId: 1, updatedAt: -1 },
+    { partialFilterExpression: { slaBreached: true } }
+  );
   ```
 
 - Migration steps: script to iterate each tenant, copy tickets to new `tenantId` namespace, update application config to include tenant scoping.

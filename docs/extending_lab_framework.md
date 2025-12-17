@@ -29,11 +29,13 @@ labs/
 ```
 
 Minimum files:
+
 - `README.md` – main instructions (mirroring Lab 01–05 structure: objectives, setup, tasks, submission, self-assessment, warm-up, advanced challenges).
 - `NOTES.md` – template for students to document findings.
 - `FILE_USAGE_GUIDE.md` – declare which scripts run under Node.js vs `mongosh`.
 
 Optional but recommended:
+
 - `BASIC_EXERCISES.md` and `ADVANCED_EXERCISES.md`.
 - Setup helpers (`setup_database.sh/.bat`, `import_data.js`).
 - Test runners (`test_lab06_*.js`).
@@ -55,6 +57,7 @@ Each lab README should include:
 7. **Tips & best practices** – Optional but encouraged for labs that rely on specific tools (e.g., `explain()`, `$setWindowFields`, replica commands).
 
 When referencing shared docs:
+
 - Performance goals → link to `docs/performance_expectations.md`.
 - Troubleshooting → link to `TROUBLESHOOTING.md`.
 - Docker instructions → link to `DOCKER_SETUP.md` or `docker-compose.yml`.
@@ -64,11 +67,13 @@ When referencing shared docs:
 ## 4. Provide Starter Assets
 
 ### Data
+
 - Keep raw JSON/CSV/NDJSON files under `starter/data/`.
 - Include a short README or `schema.md` describing key fields.
 - If datasets are large (>50 MB), consider referencing `data/` or Git LFS instead of duplicating files.
 
 ### Scripts
+
 - Import scripts: `import_data.js` (Node) and/or `import_data_mongosh.js`.
 - Setup scripts: `setup_database.sh/.bat` for Docker/standalone.
 - Query or aggregation templates: `queries.js`, `aggregations.js`, etc.
@@ -81,13 +86,14 @@ Include comments indicating runtime (Node vs mongosh) and how to configure conne
 
 Testing patterns:
 
-| Lab type | Example tests |
-| --- | --- |
-| CRUD / queries | `test_queries.js`, `test_data_integrity.js` |
-| Aggregation | `test_labXX_performance.js` capturing execution stats |
+| Lab type            | Example tests                                                        |
+| ------------------- | -------------------------------------------------------------------- |
+| CRUD / queries      | `test_queries.js`, `test_data_integrity.js`                          |
+| Aggregation         | `test_labXX_performance.js` capturing execution stats                |
 | Replication / infra | Node scripts that hit health endpoints or run MongoDB admin commands |
 
 Guidelines:
+
 - Co-locate tests in the lab directory or under `tests/` with a clear filename (`test_lab06_mongosh.js`).
 - Use `assert`/`expect` statements instead of printing results.
 - Include instructions in the lab README about how/when to run them (`node test_lab06_mongosh.js`).
@@ -97,6 +103,7 @@ Guidelines:
 ## 6. Document Performance Expectations
 
 Update `docs/performance_expectations.md` with:
+
 - Dataset sizes
 - Expected query or pipeline latency
 - Setup timing (e.g., replica spin-up)

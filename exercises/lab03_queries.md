@@ -5,6 +5,7 @@ Additional query/index drills to push beyond the provided movie dataset tasks. U
 ---
 
 ## Exercise A · Recommendation Feed
+
 1. Starting from `starter/data/movies.json`, create `movies_practice` and add fields:
    - `viewsLast7Days`, `isStaffPick`, and an array `relatedTitles`.
 2. Build a “recommendation feed” aggregation that:
@@ -14,6 +15,7 @@ Additional query/index drills to push beyond the provided movie dataset tasks. U
 3. Explain the pipeline with `executionStats` and document the winning indexes.
 
 ## Exercise B · Geo + Text Search Combo
+
 1. Import sample theater data into `theaters_practice`.
 2. Create a compound index supporting:
    - `$geoNear` queries for coordinates.
@@ -22,6 +24,7 @@ Additional query/index drills to push beyond the provided movie dataset tasks. U
 4. Capture the plan summary and demonstrate how changing index order alters the winning plan.
 
 ## Exercise C · Fraud Detection Rules
+
 1. Create `tickets_practice` representing online purchases (price, payment method, userId, ipAddress, createdAt).
 2. Build aggregation pipelines for:
    - Detecting multiple payments from the same IP within 5 minutes.

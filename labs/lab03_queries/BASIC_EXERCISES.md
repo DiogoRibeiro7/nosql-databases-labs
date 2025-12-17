@@ -15,14 +15,15 @@ Use these before jumping into the full query/index workload. They reinforce shel
 Execute each query and copy the command/result snippet into `queries.js` or `queries_mongosh.js`:
 
 ```javascript
-db.movies.findOne({ year: 2015 })
-db.movies.find({ genres: "Drama" }, { title: 1, year: 1 }).limit(5)
-db.users.find({ "preferences.genres": "Sci-Fi" }).count()
+db.movies.findOne({ year: 2015 });
+db.movies.find({ genres: "Drama" }, { title: 1, year: 1 }).limit(5);
+db.users.find({ "preferences.genres": "Sci-Fi" }).count();
 ```
 
 ## Exercise 3: Intro Aggregation
 
 Build a three-stage pipeline:
+
 1. `$match` movies released after 2010.
 2. `$group` by `year` with `count`.
 3. `$sort` by year descending and `$limit` 3.

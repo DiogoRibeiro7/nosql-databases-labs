@@ -5,6 +5,7 @@ Push replica-set knowledge with targeted drills. Use disposable replica sets spu
 ---
 
 ## Exercise A · Read Preference Playground
+
 1. Configure a 3-node replica set with priority weightings (primary pref, hidden node, etc.).
 2. Write a Node script `read_preference_playground.js` that:
    - Accepts `--mode=secondaryPreferred|nearest|primaryPreferred`.
@@ -12,6 +13,7 @@ Push replica-set knowledge with targeted drills. Use disposable replica sets spu
 3. Capture metrics before/after tweaking custom tag sets or latency thresholds.
 
 ## Exercise B · Lag Injection & Alerting
+
 1. Introduce artificial lag by pausing replication on one secondary (`rs.stepDown` alternatives or DB profiling).
 2. Implement a watcher (`lag_watchdog.js`) that:
    - Calls `rs.printSlaveReplicationInfo()`.
@@ -20,6 +22,7 @@ Push replica-set knowledge with targeted drills. Use disposable replica sets spu
 3. Resume replication and ensure alerting stops automatically once lag clears.
 
 ## Exercise C · Multi-Region Failover Drill
+
 1. Simulate three regions by running mongod instances with different logical tags (`region: us-east`, `eu-west`, `ap-south`).
 2. Design a failover runbook:
    - Force the primary to step down.

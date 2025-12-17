@@ -819,6 +819,110 @@ This document provides detailed schema information for all datasets available in
 **Description:** Startup and investment data
 **Collections:** `companies`, `people`, `acquisitions`
 
+### DBEnvyLoad
+**Location:** `data/DBEnvyLoad/`  
+**Description:** BSON dumps used for database load-testing exercises.  
+**Collections:**
+
+- `DBEnvyLoad_customers`
+  ```javascript
+  {
+    _id: Number,
+    CustomerName: String,
+    customerDescription: String,
+    Address: String
+  }
+  ```
+- `DBEnvyLoad_products`
+  ```javascript
+  {
+    _id: Number,
+    ProductName: String,
+    productDescription: String,
+    unitPrice: Number
+  }
+  ```
+- `DBEnvyLoad_orders`
+  ```javascript
+  {
+    _id: Number,
+    CustId: Number,          // references customer _id
+    invoiceDate: Date,
+    lineItems: [
+      {
+        prodId: Number,
+        prodCount: Number,
+        Cost: Number
+      }
+    ],
+    orderStatus: String,
+    statusDate: Date,
+    "orderStatus:": String   // source data includes this additional status field
+  }
+  ```
+
+### GraphTest
+**Location:** `data/GraphTest/`  
+**Description:** Small social graph used to teach graph traversals in MongoDB.  
+**Collections:**
+
+- `GraphTest_smallGTest`
+  ```javascript
+  {
+    _id: ObjectId,
+    person: Number,
+    name: String,
+    friends: [Number]   // Array of person ids the user follows
+  }
+  ```
+
+### Mongomart
+**Location:** `data/mongomart/`  
+**Description:** Subset of the MongoMart sample store (items and carts).  
+**Collections:**
+
+- `mongomart_item`
+  ```javascript
+  {
+    _id: Number,
+    title: String,
+    slogan: String,
+    description: String,
+    stars: Number,
+    category: String,
+    img_url: String,
+    price: Number
+  }
+  ```
+- `mongomart_cart`
+  ```javascript
+  {
+    _id: ObjectId,
+    userId: String,
+    items: [
+      {
+        _id: Number,
+        title: String,
+        slogan: String,
+        description: String,
+        stars: Number,
+        category: String,
+        img_url: String,
+        price: Number,
+        reviews: [
+          {
+            name: String,
+            comment: String,
+            stars: Number,
+            date: Number   // epoch millis
+          }
+        ],
+        quantity: Number
+      }
+    ]
+  }
+  ```
+
 ### Enron
 **Location:** `data/enron/`
 **Description:** Email communications dataset
@@ -838,6 +942,78 @@ This document provides detailed schema information for all datasets available in
 **Location:** `data/wine_quality/`
 **Description:** Wine characteristics and quality ratings
 **Collections:** `red_wines`, `white_wines`
+
+### FoodExpress
+**Location:** `data/food_express/`
+**Description:** Synthetic restaurant catalog plus order history for CRUD demonstrations.
+
+#### `foodexpress_db.restaurants`
+```javascript
+{
+  _id: ObjectId,
+  name: String,
+  type: String, // cuisine
+  rating: Number, // 0-5 scale
+  open: Boolean,
+  address: {
+    street: String,
+    city: String,
+    postalCode: String
+  },
+  menu: [
+    {
+      category: String,
+      item: String,
+      price: Number
+    }
+  ]
+}
+```
+
+#### `foodexpress_db.orders`
+```javascript
+{
+  _id: ObjectId,
+  orderNumber: String,        // e.g., ORD-1001
+  restaurantId: ObjectId,     // references foodexpress_db.restaurants
+  items: [
+    {
+      name: String,
+      qty: Number,
+      unitPrice: Number
+    }
+  ],
+  totalPrice: Number,
+  status: String,             // pending, preparing, delivered, cancelled
+  createdAt: Date
+}
+```
+
+### Airbnb City Snapshots
+**Location:** `data/airbnb_data/`
+**Description:** Curated Lisbon and Porto listing slices used for download validation and geo-query practice.
+
+#### `sample_lisbon_listings` / `sample_porto_listings`
+```javascript
+{
+  id: Number,
+  name: String,
+  neighbourhood: String,
+  room_type: String,
+  accommodates: Number,
+  bedrooms: Number,
+  beds: Number,
+  minimum_nights: Number,
+  price: String,               // e.g., "€80"
+  number_of_reviews: Number,
+  review_scores_rating: Number,
+  availability_365: Number,
+  latitude: Number,
+  longitude: Number,
+  host_id: Number,
+  host_name: String
+}
+```
 
 ---
 

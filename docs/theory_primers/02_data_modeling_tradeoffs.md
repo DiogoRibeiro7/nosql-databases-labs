@@ -19,6 +19,7 @@ graph TD
 ### When to Embed
 
 Embed when you have:
+
 - **One-to-One relationships**
 - **One-to-Few relationships** (< 100 subdocuments)
 - **Data accessed together**
@@ -59,12 +60,14 @@ Embed when you have:
 ```
 
 ### Benefits of Embedding
+
 ✅ **Atomicity**: Update entire document atomically
 ✅ **Performance**: Single query retrieves all data
 ✅ **Locality**: Related data stored together on disk
 ✅ **Simplicity**: No joins required
 
 ### Drawbacks of Embedding
+
 ❌ **Document Size**: 16MB limit in MongoDB
 ❌ **Duplication**: Same data repeated across documents
 ❌ **Working Set**: Large documents increase memory usage
@@ -75,6 +78,7 @@ Embed when you have:
 ### When to Reference
 
 Reference when you have:
+
 - **One-to-Many relationships** (unbounded)
 - **Many-to-Many relationships**
 - **Frequently accessed independently**
@@ -118,12 +122,14 @@ Reference when you have:
 ```
 
 ### Benefits of Referencing
+
 ✅ **Flexibility**: Update referenced data once
 ✅ **Smaller Documents**: Each document stays focused
 ✅ **Unbounded Growth**: No limit on relationships
 ✅ **Independent Access**: Query each collection separately
 
 ### Drawbacks of Referencing
+
 ❌ **Multiple Queries**: Need joins ($lookup) to get full data
 ❌ **No Atomicity**: Updates across documents not atomic (without transactions)
 ❌ **Complexity**: Application must handle relationships
@@ -329,23 +335,24 @@ flowchart TD
 
 ### Read Performance
 
-| Pattern | Single Doc Read | Related Data Read | Query Complexity |
-|---------|----------------|-------------------|------------------|
-| Embedded | ⚡ Fastest | ⚡ Fastest | Simple |
-| Referenced | ⚡ Fastest | 🐌 Multiple queries | Complex ($lookup) |
-| Hybrid | ⚡ Fast | ⚡ Fast for subset | Moderate |
+| Pattern    | Single Doc Read | Related Data Read   | Query Complexity  |
+| ---------- | --------------- | ------------------- | ----------------- |
+| Embedded   | ⚡ Fastest      | ⚡ Fastest          | Simple            |
+| Referenced | ⚡ Fastest      | 🐌 Multiple queries | Complex ($lookup) |
+| Hybrid     | ⚡ Fast         | ⚡ Fast for subset  | Moderate          |
 
 ### Write Performance
 
-| Pattern | Update Speed | Write Amplification | Concurrency |
-|---------|-------------|---------------------|-------------|
-| Embedded | 🐌 Slower | High (rewrites doc) | Lower |
-| Referenced | ⚡ Faster | Low (update one doc) | Higher |
-| Hybrid | ⚡ Fast | Moderate | Moderate |
+| Pattern    | Update Speed | Write Amplification  | Concurrency |
+| ---------- | ------------ | -------------------- | ----------- |
+| Embedded   | 🐌 Slower    | High (rewrites doc)  | Lower       |
+| Referenced | ⚡ Faster    | Low (update one doc) | Higher      |
+| Hybrid     | ⚡ Fast      | Moderate             | Moderate    |
 
 ## Anti-Patterns to Avoid
 
 ### ❌ Unbounded Arrays
+
 ```javascript
 // BAD: Comments array grows forever
 {
@@ -364,6 +371,7 @@ flowchart TD
 ```
 
 ### ❌ Massive Embedded Documents
+
 ```javascript
 // BAD: Embedding entire product catalog
 {
@@ -383,6 +391,7 @@ flowchart TD
 ```
 
 ### ❌ Too Much Referencing
+
 ```javascript
 // BAD: Over-normalized like relational
 {
@@ -421,7 +430,8 @@ When you need to change your model:
 ---
 
 **Next Steps:**
+
 - [Lab 02: Data Modeling](../../labs/lab02_modeling/README.md)
 - [Theory Primer: Indexing Strategies](03_indexing_strategies.md)
 
-*Last Updated: December 2024*
+_Last Updated: December 2024_

@@ -115,25 +115,25 @@ Build a Twitter/X-like social media analytics platform using MongoDB to handle p
 
 ```javascript
 // Users Collection
-db.users.createIndex({ username: 1 }, { unique: true })
-db.users.createIndex({ email: 1 }, { unique: true })
-db.users.createIndex({ "profile.displayName": "text" })
+db.users.createIndex({ username: 1 }, { unique: true });
+db.users.createIndex({ email: 1 }, { unique: true });
+db.users.createIndex({ "profile.displayName": "text" });
 
 // Posts Collection
-db.posts.createIndex({ userId: 1, createdAt: -1 })
-db.posts.createIndex({ "content.hashtags": 1 })
-db.posts.createIndex({ "content.text": "text" })
-db.posts.createIndex({ createdAt: -1 })
-db.posts.createIndex({ "engagement.likes": -1 })
+db.posts.createIndex({ userId: 1, createdAt: -1 });
+db.posts.createIndex({ "content.hashtags": 1 });
+db.posts.createIndex({ "content.text": "text" });
+db.posts.createIndex({ createdAt: -1 });
+db.posts.createIndex({ "engagement.likes": -1 });
 
 // Interactions Collection
-db.interactions.createIndex({ userId: 1, type: 1, createdAt: -1 })
-db.interactions.createIndex({ postId: 1, type: 1 })
-db.interactions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 2592000 }) // 30 days TTL
+db.interactions.createIndex({ userId: 1, type: 1, createdAt: -1 });
+db.interactions.createIndex({ postId: 1, type: 1 });
+db.interactions.createIndex({ createdAt: 1 }, { expireAfterSeconds: 2592000 }); // 30 days TTL
 
 // Follows Collection
-db.follows.createIndex({ followerId: 1, followingId: 1 }, { unique: true })
-db.follows.createIndex({ followingId: 1 })
+db.follows.createIndex({ followerId: 1, followingId: 1 }, { unique: true });
+db.follows.createIndex({ followingId: 1 });
 ```
 
 #### 2.3 Key Aggregation Pipelines
@@ -144,28 +144,28 @@ db.posts.aggregate([
   {
     $match: {
       userId: { $in: followedUserIds },
-      createdAt: { $gte: new Date(Date.now() - 24*60*60*1000) }
-    }
+      createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+    },
   },
   {
     $lookup: {
       from: "users",
       localField: "userId",
       foreignField: "_id",
-      as: "author"
-    }
+      as: "author",
+    },
   },
   { $unwind: "$author" },
   { $sort: { createdAt: -1 } },
-  { $limit: 50 }
-])
+  { $limit: 50 },
+]);
 
 // Trending Hashtags
 db.posts.aggregate([
   {
     $match: {
-      createdAt: { $gte: new Date(Date.now() - 60*60*1000) } // Last hour
-    }
+      createdAt: { $gte: new Date(Date.now() - 60 * 60 * 1000) }, // Last hour
+    },
   },
   { $unwind: "$content.hashtags" },
   {
@@ -173,20 +173,20 @@ db.posts.aggregate([
       _id: "$content.hashtags",
       count: { $sum: 1 },
       uniqueUsers: { $addToSet: "$userId" },
-      topPost: { $first: "$_id" }
-    }
+      topPost: { $first: "$_id" },
+    },
   },
   {
     $project: {
       hashtag: "$_id",
       count: 1,
       uniqueUsers: { $size: "$uniqueUsers" },
-      topPost: 1
-    }
+      topPost: 1,
+    },
   },
   { $sort: { count: -1 } },
-  { $limit: 10 }
-])
+  { $limit: 10 },
+]);
 ```
 
 ### Implementation Requirements
@@ -218,23 +218,23 @@ db.posts.aggregate([
 
 1. **Schema Design Document** (DESIGN.md)
 
-  - Justify embedding vs reference decisions
-  - Explain index strategy
-  - Discuss scalability considerations
+- Justify embedding vs reference decisions
+- Explain index strategy
+- Discuss scalability considerations
 
 2. **Implementation**
 
-  - Data generation scripts
-  - All required queries with examples
-  - Performance benchmarking script
-  - Basic CLI or web interface for testing
+- Data generation scripts
+- All required queries with examples
+- Performance benchmarking script
+- Basic CLI or web interface for testing
 
 3. **Analysis Report**
 
-  - Performance metrics for each query type
-  - Scalability analysis
-  - Optimization strategies employed
-  - Lessons learned
+- Performance metrics for each query type
+- Scalability analysis
+- Optimization strategies employed
+- Lessons learned
 
 ### Bonus Challenges
 
@@ -243,7 +243,7 @@ db.posts.aggregate([
 - Implement post recommendations using collaborative filtering
 - Design sharding strategy for horizontal scaling
 
---------------------------------------------------------------------------------
+---
 
 ## Project 2: E-Commerce Recommendation Engine
 
@@ -462,21 +462,21 @@ db.orders.aggregate([
   // Find users who bought the same products
   {
     $match: {
-      "items.productId": { $in: userPurchasedProducts }
-    }
+      "items.productId": { $in: userPurchasedProducts },
+    },
   },
   { $unwind: "$items" },
   {
     $group: {
       _id: "$items.productId",
       purchaseCount: { $sum: 1 },
-      buyers: { $addToSet: "$userId" }
-    }
+      buyers: { $addToSet: "$userId" },
+    },
   },
   {
     $match: {
-      _id: { $nin: userPurchasedProducts }
-    }
+      _id: { $nin: userPurchasedProducts },
+    },
   },
   { $sort: { purchaseCount: -1 } },
   { $limit: 10 },
@@ -485,49 +485,41 @@ db.orders.aggregate([
       from: "products",
       localField: "_id",
       foreignField: "_id",
-      as: "product"
-    }
-  }
-])
+      as: "product",
+    },
+  },
+]);
 
 // Faceted Search
 db.products.aggregate([
   {
     $match: {
       $text: { $search: searchQuery },
-      status: "active"
-    }
+      status: "active",
+    },
   },
   {
     $facet: {
-      products: [
-        { $skip: skip },
-        { $limit: limit }
-      ],
+      products: [{ $skip: skip }, { $limit: limit }],
       categories: [
         { $group: { _id: "$category.main", count: { $sum: 1 } } },
-        { $sort: { count: -1 } }
+        { $sort: { count: -1 } },
       ],
-      brands: [
-        { $group: { _id: "$brand", count: { $sum: 1 } } },
-        { $sort: { count: -1 } }
-      ],
+      brands: [{ $group: { _id: "$brand", count: { $sum: 1 } } }, { $sort: { count: -1 } }],
       priceRanges: [
         {
           $bucket: {
             groupBy: "$variants.price.regular",
             boundaries: [0, 25, 50, 100, 200, 500, 1000],
             default: "1000+",
-            output: { count: { $sum: 1 } }
-          }
-        }
+            output: { count: { $sum: 1 } },
+          },
+        },
       ],
-      totalCount: [
-        { $count: "total" }
-      ]
-    }
-  }
-])
+      totalCount: [{ $count: "total" }],
+    },
+  },
+]);
 ```
 
 ### Implementation Requirements
@@ -536,38 +528,38 @@ db.products.aggregate([
 
 1. **Product Management**
 
-  - CRUD operations for products
-  - Bulk import from CSV/JSON
-  - Variant management
-  - Inventory tracking
+- CRUD operations for products
+- Bulk import from CSV/JSON
+- Variant management
+- Inventory tracking
 
 2. **Search & Discovery**
 
-  - Full-text search
-  - Faceted filtering
-  - Sort by price, rating, popularity
-  - Category browsing
+- Full-text search
+- Faceted filtering
+- Sort by price, rating, popularity
+- Category browsing
 
 3. **Recommendations**
 
-  - "Customers who bought this also bought"
-  - "Based on your browsing history"
-  - "Trending in your preferred categories"
-  - "Similar products" (content-based)
+- "Customers who bought this also bought"
+- "Based on your browsing history"
+- "Trending in your preferred categories"
+- "Similar products" (content-based)
 
 4. **Cart & Checkout**
 
-  - Add/remove items with inventory check
-  - Price calculations
-  - Order placement with transaction
-  - Inventory reservation
+- Add/remove items with inventory check
+- Price calculations
+- Order placement with transaction
+- Inventory reservation
 
 5. **Analytics Queries**
 
-  - Best selling products
-  - Category performance
-  - User segmentation
-  - Conversion funnel
+- Best selling products
+- Category performance
+- User segmentation
+- Conversion funnel
 
 #### 3.2 Transaction Requirements
 
@@ -594,24 +586,24 @@ try {
 
 1. **Data Model Documentation**
 
-  - Entity relationship diagrams
-  - Denormalization decisions
-  - Index strategy
+- Entity relationship diagrams
+- Denormalization decisions
+- Index strategy
 
 2. **Implementation**
 
-  - Product catalog with 10,000 products
-  - Order processing system
-  - Three recommendation algorithms
-  - Search with facets
-  - Performance test suite
+- Product catalog with 10,000 products
+- Order processing system
+- Three recommendation algorithms
+- Search with facets
+- Performance test suite
 
 3. **Analytics Dashboard**
 
-  - Sales metrics
-  - Popular products
-  - User behavior patterns
-  - Inventory alerts
+- Sales metrics
+- Popular products
+- User behavior patterns
+- Inventory alerts
 
 ### Bonus Challenges
 
@@ -620,7 +612,7 @@ try {
 - Build recommendation A/B testing framework
 - Implement distributed cart for scalability
 
---------------------------------------------------------------------------------
+---
 
 ## Project 3: IoT Sensor Data Management System
 
@@ -780,14 +772,14 @@ db.createCollection("sensor_data", {
   timeseries: {
     timeField: "timestamp",
     metaField: "metadata",
-    granularity: "seconds"
+    granularity: "seconds",
   },
-  expireAfterSeconds: 604800 // 7 days
-})
+  expireAfterSeconds: 604800, // 7 days
+});
 
 // Indexes for time-series collection
-db.sensor_data.createIndex({ "metadata.sensorId": 1, timestamp: -1 })
-db.sensor_data.createIndex({ "metadata.type": 1, timestamp: -1 })
+db.sensor_data.createIndex({ "metadata.sensorId": 1, timestamp: -1 });
+db.sensor_data.createIndex({ "metadata.type": 1, timestamp: -1 });
 ```
 
 #### 2.3 Complex Aggregations
@@ -798,8 +790,8 @@ db.sensor_data.aggregate([
   {
     $match: {
       "metadata.sensorId": sensorId,
-      timestamp: { $gte: new Date(Date.now() - 5*60*1000) }
-    }
+      timestamp: { $gte: new Date(Date.now() - 5 * 60 * 1000) },
+    },
   },
   {
     $setWindowFields: {
@@ -810,31 +802,31 @@ db.sensor_data.aggregate([
           $avg: "$value",
           window: {
             range: [-300, 0],
-            unit: "second"
-          }
-        }
-      }
-    }
-  }
-])
+            unit: "second",
+          },
+        },
+      },
+    },
+  },
+]);
 
 // Anomaly detection using statistical analysis
 db.sensor_data.aggregate([
   {
     $match: {
-      timestamp: { $gte: new Date(Date.now() - 60*60*1000) }
-    }
+      timestamp: { $gte: new Date(Date.now() - 60 * 60 * 1000) },
+    },
   },
   {
     $group: {
       _id: "$metadata.sensorId",
       values: { $push: "$value" },
       avg: { $avg: "$value" },
-      stdDev: { $stdDevPop: "$value" }
-    }
+      stdDev: { $stdDevPop: "$value" },
+    },
   },
   {
-    $unwind: "$values"
+    $unwind: "$values",
   },
   {
     $project: {
@@ -843,22 +835,16 @@ db.sensor_data.aggregate([
       avg: 1,
       stdDev: 1,
       zScore: {
-        $divide: [
-          { $subtract: ["$values", "$avg"] },
-          "$stdDev"
-        ]
-      }
-    }
+        $divide: [{ $subtract: ["$values", "$avg"] }, "$stdDev"],
+      },
+    },
   },
   {
     $match: {
-      $or: [
-        { zScore: { $gt: 3 } },
-        { zScore: { $lt: -3 } }
-      ]
-    }
-  }
-])
+      $or: [{ zScore: { $gt: 3 } }, { zScore: { $lt: -3 } }],
+    },
+  },
+]);
 
 // Geospatial query for sensors in area
 db.sensors.aggregate([
@@ -867,8 +853,8 @@ db.sensors.aggregate([
       near: { type: "Point", coordinates: [lon, lat] },
       distanceField: "distance",
       maxDistance: 1000, // meters
-      spherical: true
-    }
+      spherical: true,
+    },
   },
   {
     $lookup: {
@@ -878,16 +864,16 @@ db.sensors.aggregate([
         {
           $match: {
             $expr: { $eq: ["$metadata.sensorId", "$$sensorId"] },
-            timestamp: { $gte: new Date(Date.now() - 60*1000) }
-          }
+            timestamp: { $gte: new Date(Date.now() - 60 * 1000) },
+          },
         },
         { $sort: { timestamp: -1 } },
-        { $limit: 1 }
+        { $limit: 1 },
       ],
-      as: "latestReading"
-    }
-  }
-])
+      as: "latestReading",
+    },
+  },
+]);
 ```
 
 ### Implementation Requirements
@@ -896,33 +882,33 @@ db.sensors.aggregate([
 
 1. **Simulator Script**
 
-  - Generate realistic sensor data
-  - Support multiple sensor types
-  - Introduce anomalies and patterns
-  - Variable data rates
+- Generate realistic sensor data
+- Support multiple sensor types
+- Introduce anomalies and patterns
+- Variable data rates
 
 2. **Bulk Ingestion**
 
-  - Batch inserts for efficiency
-  - Handle out-of-order data
-  - Data validation
-  - Error handling and retry logic
+- Batch inserts for efficiency
+- Handle out-of-order data
+- Data validation
+- Error handling and retry logic
 
 #### 3.2 Data Processing Pipeline
 
 1. **Real-time Processing**
 
-  - Anomaly detection
-  - Threshold monitoring
-  - Alert generation
-  - Moving averages
+- Anomaly detection
+- Threshold monitoring
+- Alert generation
+- Moving averages
 
 2. **Batch Processing**
 
-  - Hourly aggregations
-  - Daily rollups
-  - Data quality metrics
-  - Trend analysis
+- Hourly aggregations
+- Daily rollups
+- Data quality metrics
+- Trend analysis
 
 #### 3.3 Query Requirements
 
@@ -938,25 +924,25 @@ db.sensors.aggregate([
 
 1. **Architecture Document**
 
-  - Data flow diagram
-  - Collection design rationale
-  - Scaling strategy
-  - Data retention implementation
+- Data flow diagram
+- Collection design rationale
+- Scaling strategy
+- Data retention implementation
 
 2. **Implementation**
 
-  - Sensor data simulator
-  - Ingestion pipeline
-  - Real-time analytics
-  - Alert system
-  - Performance benchmarks
+- Sensor data simulator
+- Ingestion pipeline
+- Real-time analytics
+- Alert system
+- Performance benchmarks
 
 3. **Visualization**
 
-  - Real-time dashboard mockup
-  - Historical trend analysis
-  - Anomaly detection interface
-  - Geospatial visualization
+- Real-time dashboard mockup
+- Historical trend analysis
+- Anomaly detection interface
+- Geospatial visualization
 
 ### Bonus Challenges
 
@@ -966,7 +952,7 @@ db.sensors.aggregate([
 - Data compression strategies
 - Implement change streams for real-time updates
 
---------------------------------------------------------------------------------
+---
 
 ## Project 4: Healthcare Patient Records System
 
@@ -1269,33 +1255,33 @@ const encryption = {
   keyVaultNamespace: "encryption.__dataKeys",
   kmsProviders: {
     local: {
-      key: Buffer.from(process.env.MASTER_KEY, "base64")
-    }
+      key: Buffer.from(process.env.MASTER_KEY, "base64"),
+    },
   },
   schemaMap: {
     "healthcare.patients": {
       bsonType: "object",
       encryptMetadata: {
-        keyId: [UUID] // Reference to data key
+        keyId: [UUID], // Reference to data key
       },
       properties: {
         "demographics.firstName": {
           encrypt: {
             bsonType: "string",
-            algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic"
-          }
+            algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic",
+          },
         },
         "demographics.ssn": {
           encrypt: {
             bsonType: "string",
-            algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random"
-          }
-        }
+            algorithm: "AEAD_AES_256_CBC_HMAC_SHA_512-Random",
+          },
+        },
         // ... other encrypted fields
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 
 // Role-based access control
 const roles = {
@@ -1303,26 +1289,26 @@ const roles = {
     read: ["patients", "encounters", "labs", "medications"],
     write: ["encounters", "medications"],
     restrictions: {
-      patients: { filter: { "providers": "$$USER_ID" } }
-    }
+      patients: { filter: { providers: "$$USER_ID" } },
+    },
   },
   nurse: {
     read: ["patients", "encounters", "vitals"],
     write: ["vitals"],
     restrictions: {
-      encounters: { fields: { "billing": 0 } }
-    }
+      encounters: { fields: { billing: 0 } },
+    },
   },
   billing: {
     read: ["patients.insurance", "encounters.billing"],
-    write: ["encounters.billing"]
+    write: ["encounters.billing"],
   },
   admin: {
     read: ["*"],
     write: ["providers", "facilities"],
-    audit: true
-  }
-}
+    audit: true,
+  },
+};
 ```
 
 #### 2.3 Complex Queries
@@ -1339,14 +1325,14 @@ db.patients.aggregate([
         {
           $match: {
             $expr: { $eq: ["$patientId", "$$patientId"] },
-            dateTime: { $gte: new Date(Date.now() - 90*24*60*60*1000) }
-          }
+            dateTime: { $gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000) },
+          },
         },
         { $sort: { dateTime: -1 } },
-        { $limit: 5 }
+        { $limit: 5 },
       ],
-      as: "recentEncounters"
-    }
+      as: "recentEncounters",
+    },
   },
   {
     $lookup: {
@@ -1356,15 +1342,15 @@ db.patients.aggregate([
         {
           $match: {
             $expr: { $eq: ["$patientId", "$$patientId"] },
-            resultDate: { $gte: new Date(Date.now() - 30*24*60*60*1000) }
-          }
+            resultDate: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
+          },
         },
-        { $sort: { resultDate: -1 } }
+        { $sort: { resultDate: -1 } },
       ],
-      as: "recentLabs"
-    }
-  }
-])
+      as: "recentLabs",
+    },
+  },
+]);
 
 // Population health analytics
 db.patients.aggregate([
@@ -1377,14 +1363,14 @@ db.patients.aggregate([
         {
           $match: {
             $expr: { $eq: ["$patientId", "$$patientId"] },
-            "tests.name": "Hemoglobin A1c"
-          }
+            "tests.name": "Hemoglobin A1c",
+          },
         },
         { $sort: { resultDate: -1 } },
-        { $limit: 1 }
+        { $limit: 1 },
       ],
-      as: "latestA1c"
-    }
+      as: "latestA1c",
+    },
   },
   {
     $group: {
@@ -1393,15 +1379,15 @@ db.patients.aggregate([
           $cond: [
             { $lte: [{ $first: "$latestA1c.tests.value" }, 7] },
             "controlled",
-            "uncontrolled"
-          ]
-        }
+            "uncontrolled",
+          ],
+        },
       },
       count: { $sum: 1 },
-      avgA1c: { $avg: { $first: "$latestA1c.tests.value" } }
-    }
-  }
-])
+      avgA1c: { $avg: { $first: "$latestA1c.tests.value" } },
+    },
+  },
+]);
 ```
 
 ### Implementation Requirements
@@ -1410,31 +1396,31 @@ db.patients.aggregate([
 
 1. **Patient Management**
 
-  - Complete medical records
-  - Document versioning
-  - Merge duplicate records
-  - Demographics updates with audit
+- Complete medical records
+- Document versioning
+- Merge duplicate records
+- Demographics updates with audit
 
 2. **Clinical Documentation**
 
-  - SOAP notes
-  - Order entry (labs, imaging, referrals)
-  - e-Prescribing
-  - Clinical decision support
+- SOAP notes
+- Order entry (labs, imaging, referrals)
+- e-Prescribing
+- Clinical decision support
 
 3. **Access Control**
 
-  - Role-based permissions
-  - Break-glass emergency access
-  - Consent-based sharing
-  - Provider collaboration
+- Role-based permissions
+- Break-glass emergency access
+- Consent-based sharing
+- Provider collaboration
 
 4. **Analytics & Reporting**
 
-  - Quality measures
-  - Population health metrics
-  - Clinical analytics
-  - Billing reports
+- Quality measures
+- Population health metrics
+- Clinical analytics
+- Billing reports
 
 #### 3.2 Compliance Features
 
@@ -1448,25 +1434,25 @@ db.patients.aggregate([
 
 1. **Design Documentation**
 
-  - HIPAA compliance matrix
-  - Security architecture
-  - Data flow diagrams
-  - Access control matrix
+- HIPAA compliance matrix
+- Security architecture
+- Data flow diagrams
+- Access control matrix
 
 2. **Implementation**
 
-  - Schema with encryption
-  - RBAC implementation
-  - Audit system
-  - 10 complex medical queries
-  - Sample data generator (synthetic patients)
+- Schema with encryption
+- RBAC implementation
+- Audit system
+- 10 complex medical queries
+- Sample data generator (synthetic patients)
 
 3. **Compliance Report**
 
-  - Security measures implemented
-  - Audit trail demonstration
-  - Performance impact of encryption
-  - Backup and recovery strategy
+- Security measures implemented
+- Audit trail demonstration
+- Performance impact of encryption
+- Backup and recovery strategy
 
 ### Bonus Challenges
 
@@ -1475,7 +1461,7 @@ db.patients.aggregate([
 - Clinical decision support rules engine
 - Natural language processing for clinical notes
 
---------------------------------------------------------------------------------
+---
 
 ## Project 5: Multi-Model Game Leaderboard System
 
@@ -1769,9 +1755,9 @@ async function updateLeaderboard(gameType, playerId, score) {
       {
         $inc: {
           [`stats.${gameType}.totalScore`]: score,
-          [`stats.${gameType}.matches`]: 1
+          [`stats.${gameType}.matches`]: 1,
         },
-        $max: { [`stats.${gameType}.bestScore`]: score }
+        $max: { [`stats.${gameType}.bestScore`]: score },
       },
       { session }
     );
@@ -1779,11 +1765,11 @@ async function updateLeaderboard(gameType, playerId, score) {
     // Update multiple leaderboards
     const updates = [
       // Global daily
-      updateLeaderboardBucket('global', 'daily', gameType, playerId, score),
-      // Regional weekly  
-      updateLeaderboardBucket('regional', 'weekly', gameType, playerId, score),
+      updateLeaderboardBucket("global", "daily", gameType, playerId, score),
+      // Regional weekly
+      updateLeaderboardBucket("regional", "weekly", gameType, playerId, score),
       // Friends
-      updateFriendsLeaderboard(playerId, gameType, score)
+      updateFriendsLeaderboard(playerId, gameType, score),
     ];
 
     await Promise.all(updates);
@@ -1803,40 +1789,40 @@ db.leaderboards.aggregate([
       type: "global",
       gameType: gameType,
       "period.type": "daily",
-      "period.start": todayStart
-    }
+      "period.start": todayStart,
+    },
   },
   {
-    $unwind: "$entries"
+    $unwind: "$entries",
   },
   {
     $setWindowFields: {
       sortBy: { "entries.score": -1 },
       output: {
         "entries.rank": {
-          $rank: {}
+          $rank: {},
         },
         "entries.percentile": {
           $percentile: {
             input: "$entries.score",
-            p: [0.99, 0.90, 0.75, 0.50]
-          }
-        }
-      }
-    }
+            p: [0.99, 0.9, 0.75, 0.5],
+          },
+        },
+      },
+    },
   },
   {
     $group: {
       _id: "$_id",
-      entries: { $push: "$entries" }
-    }
-  }
-])
+      entries: { $push: "$entries" },
+    },
+  },
+]);
 
 // Friend leaderboard with user data
 db.players.aggregate([
   {
-    $match: { _id: playerId }
+    $match: { _id: playerId },
   },
   {
     $lookup: {
@@ -1845,26 +1831,26 @@ db.players.aggregate([
       pipeline: [
         {
           $match: {
-            $expr: { $in: ["$_id", "$$friendIds"] }
-          }
+            $expr: { $in: ["$_id", "$$friendIds"] },
+          },
         },
         {
           $project: {
             playerId: "$_id",
             username: 1,
             avatar: "$avatar.url",
-            score: `$stats.${gameType}.weeklyScore`
-          }
-        }
+            score: `$stats.${gameType}.weeklyScore`,
+          },
+        },
       ],
-      as: "friendScores"
-    }
+      as: "friendScores",
+    },
   },
   {
-    $unwind: "$friendScores"
+    $unwind: "$friendScores",
   },
   {
-    $sort: { "friendScores.score": -1 }
+    $sort: { "friendScores.score": -1 },
   },
   {
     $group: {
@@ -1872,12 +1858,12 @@ db.players.aggregate([
       leaderboard: {
         $push: {
           rank: { $add: [{ $indexOfArray: ["$friendScores", "$friendScores"] }, 1] },
-          player: "$friendScores"
-        }
-      }
-    }
-  }
-])
+          player: "$friendScores",
+        },
+      },
+    },
+  },
+]);
 ```
 
 #### 2.3 Analytics Queries
@@ -1888,9 +1874,9 @@ db.players.aggregate([
   {
     $match: {
       "account.createdAt": {
-        $gte: new Date(Date.now() - 30*24*60*60*1000)
-      }
-    }
+        $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+      },
+    },
   },
   {
     $group: {
@@ -1898,52 +1884,51 @@ db.players.aggregate([
         cohortWeek: {
           $dateToString: {
             format: "%Y-W%V",
-            date: "$account.createdAt"
-          }
-        }
+            date: "$account.createdAt",
+          },
+        },
       },
       totalPlayers: { $sum: 1 },
       day1Retention: {
         $sum: {
-          $cond: [{
-            $gte: [
-              "$account.lastLogin",
-              { $add: ["$account.createdAt", 24*60*60*1000] }
-            ]
-          }, 1, 0]
-        }
+          $cond: [
+            {
+              $gte: ["$account.lastLogin", { $add: ["$account.createdAt", 24 * 60 * 60 * 1000] }],
+            },
+            1,
+            0,
+          ],
+        },
       },
       day7Retention: {
         $sum: {
-          $cond: [{
-            $gte: [
-              "$account.lastLogin",
-              { $add: ["$account.createdAt", 7*24*60*60*1000] }
-            ]
-          }, 1, 0]
-        }
-      }
-    }
+          $cond: [
+            {
+              $gte: [
+                "$account.lastLogin",
+                { $add: ["$account.createdAt", 7 * 24 * 60 * 60 * 1000] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
   },
   {
     $project: {
       cohort: "$_id.cohortWeek",
       totalPlayers: 1,
       day1Rate: {
-        $multiply: [
-          { $divide: ["$day1Retention", "$totalPlayers"] },
-          100
-        ]
+        $multiply: [{ $divide: ["$day1Retention", "$totalPlayers"] }, 100],
       },
       day7Rate: {
-        $multiply: [
-          { $divide: ["$day7Retention", "$totalPlayers"] },
-          100
-        ]
-      }
-    }
-  }
-])
+        $multiply: [{ $divide: ["$day7Retention", "$totalPlayers"] }, 100],
+      },
+    },
+  },
+]);
 
 // Matchmaking balance analysis
 db.matches.aggregate([
@@ -1951,26 +1936,26 @@ db.matches.aggregate([
     $match: {
       gameType: "battle_royale",
       "metadata.ranked": true,
-      startTime: { $gte: new Date(Date.now() - 24*60*60*1000) }
-    }
+      startTime: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+    },
   },
   {
-    $unwind: "$players"
+    $unwind: "$players",
   },
   {
     $lookup: {
       from: "players",
       localField: "players.playerId",
       foreignField: "_id",
-      as: "playerData"
-    }
+      as: "playerData",
+    },
   },
   {
     $group: {
       _id: "$_id",
       avgLevel: { $avg: { $first: "$playerData.level.current" } },
-      levelStdDev: { $stdDevPop: { $first: "$playerData.level.current" } }
-    }
+      levelStdDev: { $stdDevPop: { $first: "$playerData.level.current" } },
+    },
   },
   {
     $bucket: {
@@ -1978,11 +1963,11 @@ db.matches.aggregate([
       boundaries: [0, 5, 10, 15, 20, 100],
       output: {
         count: { $sum: 1 },
-        avgStdDev: { $avg: "$levelStdDev" }
-      }
-    }
-  }
-])
+        avgStdDev: { $avg: "$levelStdDev" },
+      },
+    },
+  },
+]);
 ```
 
 ### Implementation Requirements
@@ -1991,38 +1976,38 @@ db.matches.aggregate([
 
 1. **Player Management**
 
-  - Registration and profiles
-  - Friend system
-  - Achievement tracking
-  - Progression system
+- Registration and profiles
+- Friend system
+- Achievement tracking
+- Progression system
 
 2. **Match System**
 
-  - Matchmaking queues
-  - Result processing
-  - Replay storage
-  - Anti-cheat checks
+- Matchmaking queues
+- Result processing
+- Replay storage
+- Anti-cheat checks
 
 3. **Leaderboard Engine**
 
-  - Real-time updates
-  - Multiple views (global, friends, regional)
-  - Historical snapshots
-  - Reward distribution
+- Real-time updates
+- Multiple views (global, friends, regional)
+- Historical snapshots
+- Reward distribution
 
 4. **Social Features**
 
-  - Friend invites
-  - Team/guild management
-  - Chat system (references)
-  - Activity feed
+- Friend invites
+- Team/guild management
+- Chat system (references)
+- Activity feed
 
 5. **Analytics Dashboard**
 
-  - Player metrics
-  - Game balance
-  - Revenue analytics
-  - Churn prediction
+- Player metrics
+- Game balance
+- Revenue analytics
+- Churn prediction
 
 #### 3.2 Performance Requirements
 
@@ -2035,25 +2020,25 @@ db.matches.aggregate([
 
 1. **System Design**
 
-  - Architecture diagram
-  - Schema design rationale
-  - Scaling strategy
-  - Caching approach
+- Architecture diagram
+- Schema design rationale
+- Scaling strategy
+- Caching approach
 
 2. **Implementation**
 
-  - Data models for 3+ game types
-  - Leaderboard system
-  - Achievement engine
-  - Matchmaking simulator
-  - 20+ analytics queries
+- Data models for 3+ game types
+- Leaderboard system
+- Achievement engine
+- Matchmaking simulator
+- 20+ analytics queries
 
 3. **Performance Analysis**
 
-  - Load testing results
-  - Query optimization report
-  - Bottleneck identification
-  - Scaling recommendations
+- Load testing results
+- Query optimization report
+- Bottleneck identification
+- Scaling recommendations
 
 ### Bonus Challenges
 
@@ -2063,7 +2048,7 @@ db.matches.aggregate([
 - Implement anti-cheat detection patterns
 - Add recommendation engine for friends/content
 
---------------------------------------------------------------------------------
+---
 
 ## General Project Guidelines
 

@@ -9,6 +9,7 @@ Use these challenges after completing the baseline modeling tasks. They emphasiz
 **Scenario:** The product team wants to support multiple client organizations inside one deployment (aka multi-tenancy) while preserving data isolation.
 
 ### Tasks
+
 1. Extend your conceptual model to include a `tenant` (or `organization`) entity.
 2. Evaluate three strategies:
    - **Database-per-tenant**
@@ -27,6 +28,7 @@ Use these challenges after completing the baseline modeling tasks. They emphasiz
 **Goal:** Prioritize indexes when you can only afford three “premium” indexes in production.
 
 ### Tasks
+
 1. List at least six candidate indexes covering different query patterns (e.g., “orders by status + date”, “products by category + price”).
 2. Score each candidate on:
    - Read benefit (1–5)
@@ -43,6 +45,7 @@ Use these challenges after completing the baseline modeling tasks. They emphasiz
 **Scenario:** You must migrate from an existing relational schema into your proposed NoSQL model without downtime longer than 10 minutes.
 
 ### Tasks
+
 1. Sketch the relational source tables (brief schemas).
 2. Map each table to your target collections, noting transformations (denormalization, embedding, computed fields).
 3. Design a migration workflow:

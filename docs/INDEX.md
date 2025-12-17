@@ -7,17 +7,20 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 ## 🚀 Quick Start Guides
 
 ### For Students
+
 - [**Main README**](../README.md) - Repository overview and quick start
 - [**Setup Guide**](SETUP_GUIDE.md) - Choose your setup path (Docker, Local, Cloud)
 - [**Troubleshooting**](../TROUBLESHOOTING.md) - Common issues and solutions
 - [**Learning Paths**](self_paced_paths.md) - Self-paced learning progressions
 
 ### For Instructors
+
 - [**Instructor Guide**](INSTRUCTOR_GUIDE.md) - Course customization and grading
 - [**Syllabus**](../syllabus.md) - Course structure and objectives
 - [**Group Work Guide**](../group-work/README.md) - Managing team assignments
 
 ### For Contributors
+
 - [**Contributing Guide**](../CONTRIBUTING.md) - How to contribute
 - [**Code of Conduct**](../CODE_OF_CONDUCT.md) - Community guidelines
 - [**Extending Framework**](extending_lab_framework.md) - Adding new content
@@ -27,6 +30,7 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 ## 📖 Learning Resources
 
 ### Theory & Concepts
+
 - [**Theory Primers**](theory_primers/) - Visual guides to core concepts
   - [Document Databases](theory_primers/01_document_databases.md)
   - [Data Modeling](theory_primers/02_data_modeling_tradeoffs.md)
@@ -35,6 +39,7 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
   - [Replication Architecture](theory_primers/05_replication_architecture.md)
 
 ### Practical Guides
+
 - [**Real-World Scenarios**](real_world_scenarios.md) - Business use cases
 - [**Skills Matrix**](skills_matrix.md) - Skills developed per lab
 - [**Learning Map**](learning_map.json) - Prerequisites and progression
@@ -44,6 +49,7 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 ## 🧪 Lab Documentation
 
 ### Core Labs (Required)
+
 1. [**Lab 01: Introduction**](../labs/lab01_intro/README.md)
    - Basic CRUD operations
    - Data import/export
@@ -75,6 +81,7 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
    - [Solutions](../exercises/solutions/lab05_replication.md)
 
 ### Advanced Labs (Optional)
+
 - [**Modern Features Lab**](../labs/lab_modern_features/README.md)
   - Change Streams
   - Time-Series Collections
@@ -85,6 +92,7 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
   - [Integration Guide](modern_features_integration.md)
 
 ### Extra Labs
+
 - [**Transactions**](../exercises/lab_extra.md#transactions-track)
 - [**Sharding**](../exercises/lab_extra.md#sharding-track)
 - [**Advanced Indexing**](../exercises/lab_extra.md#indexing-track)
@@ -94,16 +102,19 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 ## 🛠️ Technical Documentation
 
 ### Setup & Configuration
+
 - [**Docker Setup**](../DOCKER_SETUP.md) - Containerized environment
 - [**Environment Variables**](../.env.template) - Configuration template
 - [**MongoDB Atlas Integration**](mongodb_atlas_integration.md) - Cloud deployment
 
 ### Data & Schemas
+
 - [**Data Dictionary**](../data/DATA_DICTIONARY.md) - Dataset schemas
 - [**Sample Data README**](../data/README.md) - Available datasets
 - [**Schema Documentation**](../data/schemas/) - Field-level documentation
 
 ### Testing & Validation
+
 - [**Testing Framework**](testing_framework.md) - Test architecture
 - [**Testing Strategy**](testing_strategy.md) - Coverage goals
 - [**Test Patterns**](../tests/TEST_PATTERNS.md) - Best practices
@@ -114,11 +125,13 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 ## 📊 Project Management
 
 ### Development
+
 - [**Improvements Roadmap**](../IMPROVEMENTS.md) - Planned enhancements
 - [**Lab Manifest**](../labs/MANIFEST.json) - Lab metadata registry
 - [**Scripts Documentation**](../scripts/README.md) - Utility scripts
 
 ### Group Work
+
 - [**Group Submission Validator**](../group-work/scripts/README.md#submission-validator)
 - [**Auto-Grader**](../group-work/scripts/README.md#auto-grader)
 - [**Deadline Tracker**](../group-work/scripts/README.md#deadline-tracker)
@@ -128,11 +141,13 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 ## 🔍 Quick References
 
 ### Frequently Used
+
 - [**FAQ**](FAQ.md) - Frequently asked questions
 - [**Glossary**](glossary.md) - MongoDB terminology
 - [**Commands Cheatsheet**](cheatsheet.md) - Common MongoDB commands
 
 ### Integration Guides
+
 - [**VS Code Setup**](../.vscode/README.md) - Editor configuration
 - [**Git Workflow**](git_workflow.md) - Version control best practices
 - [**CI/CD Pipeline**](../.github/workflows/README.md) - Automation
@@ -156,5 +171,5 @@ Welcome to the comprehensive documentation hub for the MongoDB NoSQL Databases L
 
 ---
 
-*Last Updated: December 2024*
-*Version: 2.0.0*
+_Last Updated: December 2024_
+_Version: 2.0.0_

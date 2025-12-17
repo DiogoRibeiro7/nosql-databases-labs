@@ -10,7 +10,7 @@ Connect to a running MongoDB instance and use a database named `mongo_practice`.
 
 ```js
 use mongo_practice
-````
+```
 
 ---
 
@@ -38,7 +38,7 @@ db.movies.insert({
   title: "Fight Club",
   writer: "Chuck Palahniuk",
   year: "1999",
-  actors: ["Brad Pitt", "Edward Norton"]
+  actors: ["Brad Pitt", "Edward Norton"],
 });
 ```
 
@@ -64,7 +64,7 @@ db.movies.insert({
   title: "Pulp Fiction",
   writer: "Quentin Tarantino",
   year: "2009",
-  actors: ["John Travolta", "Uma Thurman"]
+  actors: ["John Travolta", "Uma Thurman"],
 });
 ```
 
@@ -91,7 +91,7 @@ db.movies.insert({
   title: "Inglorious Basterds",
   writer: "Quentin Tarantino",
   year: "2009",
-  actors: ["Brad Pitt", "Diane Kruger", "Eli Roth"]
+  actors: ["Brad Pitt", "Diane Kruger", "Eli Roth"],
 });
 ```
 
@@ -115,7 +115,7 @@ db.movies.insert({
   title: "The Hobbit: An unexpected Journey",
   writer: "J.R.R. Tolkein",
   year: "2012",
-  franchise: "The Hobbit"
+  franchise: "The Hobbit",
 });
 ```
 
@@ -139,7 +139,7 @@ db.movies.insert({
   title: "The Hobbit: The Desolation of Smaug",
   writer: "J.R.R Tolkien",
   year: "2013",
-  franchise: "The Hobbit"
+  franchise: "The Hobbit",
 });
 ```
 
@@ -167,7 +167,8 @@ db.movies.insert({
   writer: "J.R.R Tolkien",
   year: "2002",
   franchise: "The Hobbit",
-  synopsis: "Bilbo and Company are forced to engage in a war against an array of combatants and keep the Lonely Mountain from falling into the hands of a rising darkness."
+  synopsis:
+    "Bilbo and Company are forced to engage in a war against an array of combatants and keep the Lonely Mountain from falling into the hands of a rising darkness.",
 });
 ```
 
@@ -185,7 +186,7 @@ title: Pee Wee Herman's Big Adventure
 
 ```js
 db.movies.insert({
-  title: "Pee Wee Herman's Big Adventures"
+  title: "Pee Wee Herman's Big Adventures",
 });
 ```
 
@@ -245,10 +246,7 @@ db.movies.find({ year: { $gt: "1990", $lt: "2000" } });
 
 ```js
 db.movies.find({
-  $or: [
-    { year: { $gt: "2010" } },
-    { year: { $lt: "2000" } }
-  ]
+  $or: [{ year: { $gt: "2010" } }, { year: { $lt: "2000" } }],
 });
 ```
 
@@ -267,8 +265,9 @@ db.movies.update(
   { _id: ObjectId("5c9f98e5e5c2dfe9b3729bfe") },
   {
     $set: {
-      synopsis: "A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug."
-    }
+      synopsis:
+        "A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug.",
+    },
   }
 );
 ```
@@ -284,8 +283,9 @@ db.movies.update(
   { _id: ObjectId("5c9fa42ae5c2dfe9b3729c03") },
   {
     $set: {
-      synopsis: "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."
-    }
+      synopsis:
+        "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.",
+    },
   }
 );
 ```
@@ -319,10 +319,7 @@ db.movies.find({ synopsis: { $regex: "Gandalf" } });
 
 ```js
 db.movies.find({
-  $and: [
-    { synopsis: { $regex: "Bilbo" } },
-    { synopsis: { $not: /Gandalf/ } }
-  ]
+  $and: [{ synopsis: { $regex: "Bilbo" } }, { synopsis: { $not: /Gandalf/ } }],
 });
 ```
 
@@ -330,10 +327,7 @@ db.movies.find({
 
 ```js
 db.movies.find({
-  $or: [
-    { synopsis: { $regex: "dwarves" } },
-    { synopsis: { $regex: "hobbit" } }
-  ]
+  $or: [{ synopsis: { $regex: "dwarves" } }, { synopsis: { $regex: "hobbit" } }],
 });
 ```
 
@@ -341,10 +335,7 @@ db.movies.find({
 
 ```js
 db.movies.find({
-  $and: [
-    { synopsis: { $regex: "gold" } },
-    { synopsis: { $regex: "dragon" } }
-  ]
+  $and: [{ synopsis: { $regex: "gold" } }, { synopsis: { $regex: "dragon" } }],
 });
 ```
 
@@ -392,7 +383,11 @@ full_name:
 ```
 
 ```js
-db.users.insert({ _id: 2, username: "ScumbagSteve", fullname: { first: "Scumbag", last: "Steve" } });
+db.users.insert({
+  _id: 2,
+  username: "ScumbagSteve",
+  fullname: { first: "Scumbag", last: "Steve" },
+});
 ```
 
 ---
@@ -408,7 +403,11 @@ body: Wakes up early and cleans house
 ```
 
 ```js
-db.posts.insert({ username: "GoodGuyGreg", title: "Passes out at Party", body: "Raises your credit score" });
+db.posts.insert({
+  username: "GoodGuyGreg",
+  title: "Passes out at Party",
+  body: "Raises your credit score",
+});
 ```
 
 ```yaml
@@ -418,7 +417,11 @@ body: Raises your credit score
 ```
 
 ```js
-db.posts.insert({ username: "GoodGuyGreg", title: "Steals your identity", body: "Raises your credit score" });
+db.posts.insert({
+  username: "GoodGuyGreg",
+  title: "Steals your identity",
+  body: "Raises your credit score",
+});
 ```
 
 ```yaml
@@ -428,7 +431,11 @@ body: Sends you a Pull Request
 ```
 
 ```js
-db.posts.insert({ username: "GoodGuyGreg", title: "Reports a bug in your code", body: "Sends you a pull request" });
+db.posts.insert({
+  username: "GoodGuyGreg",
+  title: "Reports a bug in your code",
+  body: "Sends you a pull request",
+});
 ```
 
 #### ScumbagSteve posts
@@ -460,7 +467,11 @@ body: Sets to private
 ```
 
 ```js
-db.posts.insert({ username: "ScumbagSteve", title: "Forks your repo on github", body: "Sets to private" });
+db.posts.insert({
+  username: "ScumbagSteve",
+  title: "Forks your repo on github",
+  body: "Sets to private",
+});
 ```
 
 ---
@@ -479,7 +490,7 @@ post: [post_obj_id]
 db.comments.insert({
   username: "GoodGuyGreg",
   comment: "Hope you got a good deal!",
-  post: ObjectId("5ca0b7e96435f98b5901f463")
+  post: ObjectId("5ca0b7e96435f98b5901f463"),
 });
 ```
 
@@ -495,7 +506,7 @@ post: [post_obj_id]
 db.comments.insert({
   username: "GoodGuyGreg",
   comment: "What's mine is yours!",
-  post: ObjectId("5ca0b9706435f98b5901f46a")
+  post: ObjectId("5ca0b9706435f98b5901f46a"),
 });
 ```
 
@@ -511,7 +522,7 @@ post: [post_obj_id]
 db.comments.insert({
   username: "GoodGuyGreg",
   comment: "Don't violate the licensing agreement!",
-  post: ObjectId("5ca0b8766435f98b5901f467")
+  post: ObjectId("5ca0b8766435f98b5901f467"),
 });
 ```
 
@@ -527,7 +538,7 @@ post: [post_obj_id]
 db.comments.insert({
   username: "ScumbagSteve",
   comment: "It still isn't clean",
-  post: ObjectId("5ca0b8546435f98b5901f466")
+  post: ObjectId("5ca0b8546435f98b5901f466"),
 });
 ```
 
@@ -543,7 +554,7 @@ post: [post_obj_id]
 db.comments.insert({
   username: "ScumbagSteve",
   comment: "Denied your PR cause I found a hack",
-  post: ObjectId("5ca0b9256435f98b5901f469")
+  post: ObjectId("5ca0b9256435f98b5901f469"),
 });
 ```
 
@@ -641,10 +652,7 @@ mongoimport --db <database_name> --collection <collection_name> --file <drag fil
 ### 1) Show name and population of cities where population > 10000
 
 ```js
-db.docs.find(
-  { city: { $exists: true }, pop: { $gt: 10000 } },
-  { _id: 0, city: 1, pop: 1 }
-);
+db.docs.find({ city: { $exists: true }, pop: { $gt: 10000 } }, { _id: 0, city: 1, pop: 1 });
 ```
 
 ### 2) Show the name and population of each state based on the cities shown
@@ -652,7 +660,7 @@ db.docs.find(
 ```js
 db.docs.aggregate([
   { $match: { city: { $exists: true } } },
-  { $group: { _id: "$state", "Total Pop": { $sum: "$pop" } } }
+  { $group: { _id: "$state", "Total Pop": { $sum: "$pop" } } },
 ]);
 ```
 
@@ -661,15 +669,12 @@ db.docs.aggregate([
 ```js
 db.docs.aggregate([
   { $match: { state: "NY" } },
-  { $group: { _id: "$state", "Total Pop": { $sum: "$pop" } } }
+  { $group: { _id: "$state", "Total Pop": { $sum: "$pop" } } },
 ]);
 ```
 
-### 4) Show the _id, city, and capital name of each city with population > 20,000
+### 4) Show the \_id, city, and capital name of each city with population > 20,000
 
 ```js
-db.docs.find(
-  { city: { $exists: true }, pop: { $gt: 20000 } },
-  { city: 1, "capital.name": 1 }
-);
+db.docs.find({ city: { $exists: true }, pop: { $gt: 20000 } }, { city: 1, "capital.name": 1 });
 ```

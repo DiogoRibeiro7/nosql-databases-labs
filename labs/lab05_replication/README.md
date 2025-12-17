@@ -69,6 +69,7 @@ flowchart TB
 ### 2.2. Port Requirements
 
 This lab uses the following ports (ensure they're available):
+
 - 27017 (Primary)
 - 27018 (Secondary 1)
 - 27019 (Secondary 2)
@@ -155,6 +156,7 @@ node read_preferences.js
 ```
 
 Understand these modes:
+
 - `primary`: All reads from primary (default)
 - `primaryPreferred`: Primary if available, else secondary
 - `secondary`: All reads from secondaries
@@ -369,16 +371,16 @@ If you can repeat these steps without referencing the instructions, you've inter
 
 ```javascript
 // Check replica set health
-rs.status()
+rs.status();
 
 // Check replication lag
-rs.printSlaveReplicationInfo()
+rs.printSlaveReplicationInfo();
 
 // Force reconfiguration
-rs.reconfig(cfg, {force: true})
+rs.reconfig(cfg, { force: true });
 
 // Check connections
-db.adminCommand({connPoolStats: 1})
+db.adminCommand({ connPoolStats: 1 });
 ```
 
 ---

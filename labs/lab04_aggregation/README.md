@@ -33,6 +33,7 @@ labs/lab04_aggregation/starter/data/customers.json
 ```
 
 This dataset represents:
+
 - **sales**: 1000+ sales transactions with dates, amounts, products, customers
 - **products**: Product catalog with categories, prices, costs, suppliers
 - **customers**: Customer profiles with demographics, segments, lifetime value
@@ -59,6 +60,7 @@ mongoimport --db lab04_analytics \
 ```
 
 Verify:
+
 ```javascript
 use lab04_analytics
 db.sales.countDocuments()
@@ -101,6 +103,7 @@ Build aggregation pipelines to analyze sales data:
    - Identify most profitable products
 
 Save your pipelines in:
+
 ```text
 labs/lab04_aggregation/sales_analytics.js
 ```
@@ -140,6 +143,7 @@ Build pipelines to analyze customer behavior:
    - Identify most valuable regions
 
 Save your pipelines in:
+
 ```text
 labs/lab04_aggregation/customer_analytics.js
 ```
@@ -179,6 +183,7 @@ Analyze product performance and inventory:
    - Identify discount impact on revenue
 
 Save your pipelines in:
+
 ```text
 labs/lab04_aggregation/product_analytics.js
 ```
@@ -248,6 +253,7 @@ Use advanced aggregation features:
    - Configure cursor timeout
 
 Save your pipelines in:
+
 ```text
 labs/lab04_aggregation/advanced_techniques.js
 ```
@@ -258,12 +264,12 @@ labs/lab04_aggregation/advanced_techniques.js
 
 Inside `labs/lab04_aggregation/`, you should have:
 
-* `sales_analytics.js` – Sales analysis pipelines (Task 1)
-* `customer_analytics.js` – Customer analysis pipelines (Task 2)
-* `product_analytics.js` – Product analysis pipelines (Task 3)
-* `advanced_techniques.js` – Advanced aggregation techniques (Task 4)
-* `NOTES.md` – Explanations, insights, and optimization notes
-* Optional: `dashboard_queries.js` – Pre-built queries for a dashboard
+- `sales_analytics.js` – Sales analysis pipelines (Task 1)
+- `customer_analytics.js` – Customer analysis pipelines (Task 2)
+- `product_analytics.js` – Product analysis pipelines (Task 3)
+- `advanced_techniques.js` – Advanced aggregation techniques (Task 4)
+- `NOTES.md` – Explanations, insights, and optimization notes
+- Optional: `dashboard_queries.js` – Pre-built queries for a dashboard
 
 Follow the submission guidelines in
 [`instructions/submission_guide.md`](../../instructions/submission_guide.md).
@@ -284,10 +290,10 @@ The repository-level guide in [`docs/testing_framework.md`](../../docs/testing_f
 
 Before moving on, make sure you can demonstrate:
 
-* **Task 1 – Sales Analytics**: Pipelines return sensible revenue/volume numbers and are documented in `sales_analytics.js`.
-* **Task 2 – Customer Analytics**: Your RFM/cohort logic is explained and reproducible.
-* **Task 3 – Product Analytics**: Cross-sell or inventory insights include the aggregation stages used to derive them.
-* **Task 4 – Advanced Techniques**: At least one pipeline uses window functions or performance tweaks with recorded metrics.
+- **Task 1 – Sales Analytics**: Pipelines return sensible revenue/volume numbers and are documented in `sales_analytics.js`.
+- **Task 2 – Customer Analytics**: Your RFM/cohort logic is explained and reproducible.
+- **Task 3 – Product Analytics**: Cross-sell or inventory insights include the aggregation stages used to derive them.
+- **Task 4 – Advanced Techniques**: At least one pipeline uses window functions or performance tweaks with recorded metrics.
 
 If any item feels shaky, revisit the corresponding section or practice pipeline before proceeding.
 
@@ -306,15 +312,17 @@ If any item feels shaky, revisit the corresponding section or practice pipeline 
 ### 6.2. Common Patterns
 
 #### Pattern 1: Group and Reshape
+
 ```javascript
 db.collection.aggregate([
   { $group: { _id: "$field", total: { $sum: "$value" } } },
   { $project: { _id: 0, field: "$_id", total: 1 } },
-  { $sort: { total: -1 } }
+  { $sort: { total: -1 } },
 ]);
 ```
 
 #### Pattern 2: Conditional Aggregation
+
 ```javascript
 {
   $group: {
@@ -326,6 +334,7 @@ db.collection.aggregate([
 ```
 
 #### Pattern 3: Date Grouping
+
 ```javascript
 {
   $group: {

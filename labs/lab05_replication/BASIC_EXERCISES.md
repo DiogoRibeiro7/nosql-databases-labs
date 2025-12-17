@@ -9,7 +9,7 @@ If you are new to replica sets, complete these quick drills (~30 minutes) before
 1. Run the provided setup script.
 2. Connect to port 27017 and execute:
    ```javascript
-   rs.status().members.map(m => ({ name: m.name, stateStr: m.stateStr }))
+   rs.status().members.map((m) => ({ name: m.name, stateStr: m.stateStr }));
    ```
 3. Paste the output into `NOTES.md` to document initial state.
 
@@ -29,8 +29,8 @@ If you are new to replica sets, complete these quick drills (~30 minutes) before
 
 1. Using the MongoDB driver or `mongosh`, run:
    ```javascript
-   db.getMongo().setReadPref("secondaryPreferred")
-   db.test.find().limit(1)
+   db.getMongo().setReadPref("secondaryPreferred");
+   db.test.find().limit(1);
    ```
 2. Use `db.runCommand({ connectionStatus: 1 })` to confirm which host served the query.
 

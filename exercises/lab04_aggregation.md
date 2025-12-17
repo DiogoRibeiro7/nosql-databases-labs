@@ -5,6 +5,7 @@ Tackle small analytics use-cases using custom collections so you can refine aggr
 ---
 
 ## Exercise A · Subscription Revenue Cohorts
+
 1. Build a synthetic `subscriptions_practice` collection with:
    - `userId`, `plan`, `price`, `startedAt`, `renewedAt`, `canceledAt`.
 2. Pipeline requirements:
@@ -14,6 +15,7 @@ Tackle small analytics use-cases using custom collections so you can refine aggr
 3. Store results in `subscriptions_reports` via `$merge`.
 
 ## Exercise B · Retail Basket Analysis
+
 1. Create `orders_practice` documents with `items: [{ sku, quantity, price }]`.
 2. Pipeline tasks:
    - Explode items and compute gross revenue per SKU.
@@ -21,6 +23,7 @@ Tackle small analytics use-cases using custom collections so you can refine aggr
    - Identify the top-5 SKU combinations appearing together (market-basket style). Hint: `$unwind`, `$group`, and self-join logic.
 
 ## Exercise C · Uptime Monitoring
+
 1. Store heartbeats in `uptime_practice` with `service`, `region`, `status`, `latencyMs`, `timestamp`.
 2. Build a pipeline that:
    - Aggregates 5-minute windows (use `$dateTrunc`).

@@ -58,6 +58,7 @@ logs/
 
 # MongoDB
 dump/
+labs/lab03_queries/starter/data/mongoimport/
 
 # Docker
 .docker/
@@ -82,6 +83,7 @@ outputs/*.csv
 
 # Large data files
 *.zip
+!people.zip
 *.tar.gz
 *.7z
 data/*.json

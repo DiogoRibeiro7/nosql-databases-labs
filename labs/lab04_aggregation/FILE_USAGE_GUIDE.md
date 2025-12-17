@@ -54,6 +54,7 @@ These files should be run with Node.js using the `node` command:
   node import_data.js
   node test_lab04.js
   ```
+
 ## Setup Scripts
 
 - **setup_database.bat** - Windows batch script to set up the database

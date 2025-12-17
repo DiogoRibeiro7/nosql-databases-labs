@@ -11,33 +11,28 @@ This document outlines identified improvements for the NoSQL Databases Labs repo
 The repository now contains 5 main labs that cover the essential NoSQL concepts:
 
 - [x] **Lab 01: Introduction to NoSQL**
-
   - Basic MongoDB concepts
   - CRUD operations
   - Document-oriented database fundamentals
 
 - [x] **Lab 02: Data Modeling**
-
   - Schema design patterns
   - Embedded vs referenced documents
   - Data relationships in NoSQL
 
 - [x] **Lab 03: Advanced Queries**
-
   - Complex query operators
   - Working with arrays and nested documents
   - Query optimization techniques
   - Performance considerations
 
 - [x] **Lab 04: Aggregation Pipeline**
-
   - Basic aggregation operations ($match, $group, $sort)
   - Complex pipelines with multiple stages
   - Working with arrays and embedded documents
   - Performance considerations for aggregations
 
 - [x] **Lab 05: Replication**
-
   - Setting up replica sets
   - Failover and recovery scenarios
   - Read preferences
@@ -48,21 +43,18 @@ The repository now contains 5 main labs that cover the essential NoSQL concepts:
 The repository now ships with three optional labs for advanced students or extended courses:
 
 - [x] **Lab Extra 1: Consistency Patterns & Transactions**
-
   - ACID transactions in MongoDB
   - Read/write concerns
   - Consistency patterns for distributed systems
   - Handling eventual consistency
 
 - [x] **Lab Extra 2: Sharding & Horizontal Scaling**
-
   - Sharding concepts and strategies
   - Choosing shard keys
   - Balancing and chunk migration
   - Monitoring sharded clusters
 
 - [x] **Lab Extra 3: Indexing Strategies & Advanced Performance**
-
   - Creating and managing indexes
   - Index types (single field, compound, multikey, text)
   - Query optimization with explain()
@@ -184,15 +176,15 @@ Currently 12 groups with minimal content:
 
 ## Repository Statistics (Current State)
 
-Metric                | Current | Target
---------------------- | ------- | -------------
-Core Lab Count        | 5       | 5 ✓
-Extra Labs (Optional) | 3       | 3 ✓
-Test Coverage         | ~30%    | >80%
-Documentation Files   | 48      | 60+
-Automated Validations | Basic   | Comprehensive
-Setup Time            | 30 min  | 5 min
-Dataset Documentation | 0%      | 100%
+| Metric                | Current | Target        |
+| --------------------- | ------- | ------------- |
+| Core Lab Count        | 5       | 5 ✓           |
+| Extra Labs (Optional) | 3       | 3 ✓           |
+| Test Coverage         | ~30%    | >80%          |
+| Documentation Files   | 48      | 60+           |
+| Automated Validations | Basic   | Comprehensive |
+| Setup Time            | 30 min  | 5 min         |
+| Dataset Documentation | 0%      | 100%          |
 
 ## Contributing
 

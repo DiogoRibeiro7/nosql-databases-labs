@@ -28,9 +28,9 @@ Start here if you need a gentler on-ramp before attempting the main Lab 01 deliv
 Run and record results for:
 
 ```javascript
-db.customers.findOne()
-db.customers.find({ city: { $exists: true } }).limit(3)
-db.customers.distinct("country")
+db.customers.findOne();
+db.customers.find({ city: { $exists: true } }).limit(3);
+db.customers.distinct("country");
 ```
 
 Mention any surprising observations (duplicate cities, missing data, etc.) in `NOTES.md`.

@@ -23,13 +23,13 @@ The `explain()` method is your primary tool for understanding query performance:
 
 ```javascript
 // Basic explain
-db.collection.find({status: "active"}).explain()
+db.collection.find({ status: "active" }).explain();
 
 // Detailed execution statistics
-db.collection.find({status: "active"}).explain("executionStats")
+db.collection.find({ status: "active" }).explain("executionStats");
 
 // All plans considered by optimizer
-db.collection.find({status: "active"}).explain("allPlansExecution")
+db.collection.find({ status: "active" }).explain("allPlansExecution");
 ```
 
 ### Key Metrics to Watch
@@ -60,67 +60,71 @@ db.collection.find({status: "active"}).explain("allPlansExecution")
 ### Types of Indexes
 
 #### 1. Single Field Index
+
 ```javascript
 // Basic single field index
-db.users.createIndex({email: 1})
+db.users.createIndex({ email: 1 });
 
 // Descending index
-db.posts.createIndex({createdAt: -1})
+db.posts.createIndex({ createdAt: -1 });
 ```
 
 #### 2. Compound Index
+
 ```javascript
 // Order matters! Index on (status, createdAt)
-db.orders.createIndex({status: 1, createdAt: -1})
+db.orders.createIndex({ status: 1, createdAt: -1 });
 
 // This query uses the index
-db.orders.find({status: "pending"}).sort({createdAt: -1})
+db.orders.find({ status: "pending" }).sort({ createdAt: -1 });
 
 // This query also uses the index (prefix)
-db.orders.find({status: "pending"})
+db.orders.find({ status: "pending" });
 
 // This query CANNOT use the index efficiently
-db.orders.find({createdAt: {$gte: new Date("2025-01-01")}})
+db.orders.find({ createdAt: { $gte: new Date("2025-01-01") } });
 ```
 
 #### 3. Multikey Index (Arrays)
+
 ```javascript
 // Index on array field
-db.products.createIndex({tags: 1})
+db.products.createIndex({ tags: 1 });
 
 // Efficiently finds documents where tags array contains "electronics"
-db.products.find({tags: "electronics"})
+db.products.find({ tags: "electronics" });
 ```
 
 #### 4. Text Index
+
 ```javascript
 // Create text index
-db.articles.createIndex({title: "text", content: "text"})
+db.articles.createIndex({ title: "text", content: "text" });
 
 // Text search
-db.articles.find({$text: {$search: "mongodb optimization"}})
+db.articles.find({ $text: { $search: "mongodb optimization" } });
 
 // With score
-db.articles.find(
-  {$text: {$search: "mongodb optimization"}},
-  {score: {$meta: "textScore"}}
-).sort({score: {$meta: "textScore"}})
+db.articles
+  .find({ $text: { $search: "mongodb optimization" } }, { score: { $meta: "textScore" } })
+  .sort({ score: { $meta: "textScore" } });
 ```
 
 #### 5. Geospatial Index
+
 ```javascript
 // 2dsphere index for GeoJSON
-db.locations.createIndex({coordinates: "2dsphere"})
+db.locations.createIndex({ coordinates: "2dsphere" });
 
 // Find nearby locations
 db.locations.find({
   coordinates: {
     $near: {
-      $geometry: {type: "Point", coordinates: [-73.97, 40.77]},
-      $maxDistance: 1000
-    }
-  }
-})
+      $geometry: { type: "Point", coordinates: [-73.97, 40.77] },
+      $maxDistance: 1000,
+    },
+  },
+});
 ```
 
 ### Index Selection Strategy
@@ -145,29 +149,31 @@ db.collection.aggregate([
 
 ```javascript
 // Optimal compound index for this query:
-db.products.find({
-  category: "electronics",        // Equality
-  status: "active",               // Equality
-  price: {$gte: 100, $lte: 500}  // Range
-}).sort({popularity: -1})         // Sort
+db.products
+  .find({
+    category: "electronics", // Equality
+    status: "active", // Equality
+    price: { $gte: 100, $lte: 500 }, // Range
+  })
+  .sort({ popularity: -1 }); // Sort
 
 // Create index following ESR rule:
 db.products.createIndex({
-  category: 1,     // Equality fields first
-  status: 1,       // Equality fields first
-  popularity: -1,  // Sort fields second
-  price: 1        // Range fields last
-})
+  category: 1, // Equality fields first
+  status: 1, // Equality fields first
+  popularity: -1, // Sort fields second
+  price: 1, // Range fields last
+});
 ```
 
 ### Index Hints
 
 ```javascript
 // Force specific index usage
-db.collection.find({field: value}).hint({field: 1})
+db.collection.find({ field: value }).hint({ field: 1 });
 
 // Force collection scan (for testing)
-db.collection.find({field: value}).hint({$natural: 1})
+db.collection.find({ field: value }).hint({ $natural: 1 });
 ```
 
 ---
@@ -178,73 +184,67 @@ db.collection.find({field: value}).hint({$natural: 1})
 
 ```javascript
 // Bad: Fetching entire document
-db.users.find({status: "active"})
+db.users.find({ status: "active" });
 
 // Good: Only fetch needed fields
-db.users.find(
-  {status: "active"},
-  {name: 1, email: 1, _id: 0}
-)
+db.users.find({ status: "active" }, { name: 1, email: 1, _id: 0 });
 ```
 
 ### 2. Limit Results
 
 ```javascript
 // Always use limit for queries that don't need all results
-db.posts.find({author: "john"}).limit(10)
+db.posts.find({ author: "john" }).limit(10);
 
 // Use skip sparingly (it's inefficient for large offsets)
-db.posts.find().skip(10000).limit(10)  // Bad
+db.posts.find().skip(10000).limit(10); // Bad
 
 // Better: Use range queries
-db.posts.find({_id: {$gt: lastId}}).limit(10)  // Good
+db.posts.find({ _id: { $gt: lastId } }).limit(10); // Good
 ```
 
 ### 3. Covered Queries
 
 ```javascript
 // Index covers all fields in query and projection
-db.users.createIndex({email: 1, name: 1, status: 1})
+db.users.createIndex({ email: 1, name: 1, status: 1 });
 
 // This query is "covered" - no document fetch needed
-db.users.find(
-  {email: "user@example.com"},
-  {name: 1, status: 1, _id: 0}
-)
+db.users.find({ email: "user@example.com" }, { name: 1, status: 1, _id: 0 });
 ```
 
 ### 4. Avoid Negation Operators
 
 ```javascript
 // Bad: Negation operators often can't use indexes
-db.users.find({status: {$ne: "inactive"}})
-db.users.find({age: {$nin: [25, 30, 35]}})
+db.users.find({ status: { $ne: "inactive" } });
+db.users.find({ age: { $nin: [25, 30, 35] } });
 
 // Good: Use positive conditions
-db.users.find({status: {$in: ["active", "pending"]}})
+db.users.find({ status: { $in: ["active", "pending"] } });
 ```
 
 ### 5. Regex Optimization
 
 ```javascript
 // Bad: Starts with wildcard (can't use index)
-db.users.find({name: /.*john/})
+db.users.find({ name: /.*john/ });
 
 // Good: Anchored regex (can use index)
-db.users.find({name: /^john/})
+db.users.find({ name: /^john/ });
 
 // For case-insensitive, create a lowercase field
-db.users.find({nameLower: "john"})  // With index on nameLower
+db.users.find({ nameLower: "john" }); // With index on nameLower
 ```
 
 ### 6. Use $exists Carefully
 
 ```javascript
 // Bad: $exists queries can be slow
-db.users.find({phoneNumber: {$exists: true}})
+db.users.find({ phoneNumber: { $exists: true } });
 
 // Good: Store a flag field
-db.users.find({hasPhoneNumber: true})
+db.users.find({ hasPhoneNumber: true });
 ```
 
 ---
@@ -274,10 +274,10 @@ db.orders.aggregate([
 ```javascript
 // $match and $sort at the beginning can use indexes
 db.sales.aggregate([
-  {$match: {date: {$gte: startDate}}},  // Uses index
-  {$sort: {date: -1}},                  // Uses index
-  {$group: {_id: "$product", total: {$sum: "$amount"}}}
-])
+  { $match: { date: { $gte: startDate } } }, // Uses index
+  { $sort: { date: -1 } }, // Uses index
+  { $group: { _id: "$product", total: { $sum: "$amount" } } },
+]);
 ```
 
 ### 3. Limit Pipeline Results Early
@@ -285,16 +285,18 @@ db.sales.aggregate([
 ```javascript
 // Use $limit after $sort when possible
 db.posts.aggregate([
-  {$match: {category: "tech"}},
-  {$sort: {views: -1}},
-  {$limit: 100},  // Limit before expensive operations
-  {$lookup: {
-    from: "comments",
-    localField: "_id",
-    foreignField: "postId",
-    as: "comments"
-  }}
-])
+  { $match: { category: "tech" } },
+  { $sort: { views: -1 } },
+  { $limit: 100 }, // Limit before expensive operations
+  {
+    $lookup: {
+      from: "comments",
+      localField: "_id",
+      foreignField: "postId",
+      as: "comments",
+    },
+  },
+]);
 ```
 
 ### 4. Use $project to Reduce Data
@@ -302,15 +304,17 @@ db.posts.aggregate([
 ```javascript
 // Remove unnecessary fields early
 db.users.aggregate([
-  {$match: {status: "active"}},
-  {$project: {
-    name: 1,
-    email: 1,
-    age: 1
-    // Large fields like 'profile' not included
-  }},
-  {$group: {_id: "$age", count: {$sum: 1}}}
-])
+  { $match: { status: "active" } },
+  {
+    $project: {
+      name: 1,
+      email: 1,
+      age: 1,
+      // Large fields like 'profile' not included
+    },
+  },
+  { $group: { _id: "$age", count: { $sum: 1 } } },
+]);
 ```
 
 ### 5. Optimize $lookup
@@ -318,18 +322,22 @@ db.users.aggregate([
 ```javascript
 // Use pipeline syntax for more control
 db.orders.aggregate([
-  {$lookup: {
-    from: "inventory",
-    let: {item: "$item"},
-    pipeline: [
-      {$match: {
-        $expr: {$eq: ["$sku", "$$item"]}
-      }},
-      {$project: {name: 1, price: 1}}  // Limit fields
-    ],
-    as: "itemDetails"
-  }}
-])
+  {
+    $lookup: {
+      from: "inventory",
+      let: { item: "$item" },
+      pipeline: [
+        {
+          $match: {
+            $expr: { $eq: ["$sku", "$$item"] },
+          },
+        },
+        { $project: { name: 1, price: 1 } }, // Limit fields
+      ],
+      as: "itemDetails",
+    },
+  },
+]);
 ```
 
 ---
@@ -420,16 +428,16 @@ db.orders.aggregate([
 
 ```javascript
 // Enable profiling for slow queries (>100ms)
-db.setProfilingLevel(1, {slowms: 100})
+db.setProfilingLevel(1, { slowms: 100 });
 
 // Profile all queries (use carefully in production)
-db.setProfilingLevel(2)
+db.setProfilingLevel(2);
 
 // Check profiling status
-db.getProfilingStatus()
+db.getProfilingStatus();
 
 // View profiled queries
-db.system.profile.find().limit(5).sort({ts: -1}).pretty()
+db.system.profile.find().limit(5).sort({ ts: -1 }).pretty();
 ```
 
 ### Key Metrics to Monitor
@@ -437,43 +445,47 @@ db.system.profile.find().limit(5).sort({ts: -1}).pretty()
 ```javascript
 // Current operations
 db.currentOp({
-  "active": true,
-  "secs_running": {$gt: 3}
-})
+  active: true,
+  secs_running: { $gt: 3 },
+});
 
 // Kill long-running operation
-db.killOp(opid)
+db.killOp(opid);
 
 // Collection statistics
-db.collection.stats()
+db.collection.stats();
 
 // Index usage statistics
-db.collection.aggregate([{$indexStats: {}}])
+db.collection.aggregate([{ $indexStats: {} }]);
 ```
 
 ### Performance Monitoring Queries
 
 ```javascript
 // Find slow queries from profile
-db.system.profile.find({
-  millis: {$gt: 100}
-}).sort({ts: -1})
+db.system.profile
+  .find({
+    millis: { $gt: 100 },
+  })
+  .sort({ ts: -1 });
 
 // Find queries not using indexes
 db.system.profile.find({
-  "planSummary": "COLLSCAN"
-})
+  planSummary: "COLLSCAN",
+});
 
 // Find most frequent queries
 db.system.profile.aggregate([
-  {$group: {
-    _id: "$command.filter",
-    count: {$sum: 1},
-    avgMillis: {$avg: "$millis"}
-  }},
-  {$sort: {count: -1}},
-  {$limit: 10}
-])
+  {
+    $group: {
+      _id: "$command.filter",
+      count: { $sum: 1 },
+      avgMillis: { $avg: "$millis" },
+    },
+  },
+  { $sort: { count: -1 } },
+  { $limit: 10 },
+]);
 ```
 
 ---
@@ -484,10 +496,10 @@ db.system.profile.aggregate([
 
 ```javascript
 // Bad: Sorting without index
-db.large_collection.find().sort({field: 1})
+db.large_collection.find().sort({ field: 1 });
 
 // Solution: Create index
-db.large_collection.createIndex({field: 1})
+db.large_collection.createIndex({ field: 1 });
 ```
 
 ### 2. Unbounded Arrays
@@ -511,27 +523,24 @@ db.large_collection.createIndex({field: 1})
 
 ```javascript
 // Bad: Regex for case-insensitive
-db.users.find({email: /^john@example.com$/i})
+db.users.find({ email: /^john@example.com$/i });
 
 // Good: Store lowercase version
-db.users.createIndex({emailLower: 1})
-db.users.find({emailLower: "john@example.com"})
+db.users.createIndex({ emailLower: 1 });
+db.users.find({ emailLower: "john@example.com" });
 ```
 
 ### 4. Using count() on Large Collections
 
 ```javascript
 // Bad: Exact count on large collection
-db.large_collection.count()
+db.large_collection.count();
 
 // Good: Use estimatedDocumentCount()
-db.large_collection.estimatedDocumentCount()
+db.large_collection.estimatedDocumentCount();
 
 // Or maintain counters
-db.stats.findOneAndUpdate(
-  {_id: "collection_count"},
-  {$inc: {count: 1}}
-)
+db.stats.findOneAndUpdate({ _id: "collection_count" }, { $inc: { count: 1 } });
 ```
 
 ---
@@ -545,11 +554,11 @@ db.stats.findOneAndUpdate(
 function perfTest(iterations) {
   const times = [];
 
-  for(let i = 0; i < iterations; i++) {
+  for (let i = 0; i < iterations; i++) {
     const start = new Date();
 
     // Your query here
-    db.collection.find({field: "value"}).toArray();
+    db.collection.find({ field: "value" }).toArray();
 
     const end = new Date();
     times.push(end - start);
@@ -572,13 +581,11 @@ perfTest(100);
 function compareIndexPerformance() {
   // Without index
   db.test.dropIndexes();
-  const withoutIndex = db.test.find({field: "value"})
-    .explain("executionStats").executionStats;
+  const withoutIndex = db.test.find({ field: "value" }).explain("executionStats").executionStats;
 
   // With index
-  db.test.createIndex({field: 1});
-  const withIndex = db.test.find({field: "value"})
-    .explain("executionStats").executionStats;
+  db.test.createIndex({ field: 1 });
+  const withIndex = db.test.find({ field: "value" }).explain("executionStats").executionStats;
 
   print("Without Index:");
   print(`  Time: ${withoutIndex.executionTimeMillis}ms`);
@@ -611,19 +618,19 @@ function compareIndexPerformance() {
 
 ```javascript
 // Show all indexes
-db.collection.getIndexes()
+db.collection.getIndexes();
 
 // Show index sizes
-db.collection.stats().indexSizes
+db.collection.stats().indexSizes;
 
 // Rebuild indexes
-db.collection.reIndex()
+db.collection.reIndex();
 
 // Validate collection
-db.collection.validate()
+db.collection.validate();
 
 // Compact collection
-db.runCommand({compact: "collection"})
+db.runCommand({ compact: "collection" });
 ```
 
 ---
@@ -637,4 +644,4 @@ db.runCommand({compact: "collection"})
 
 ---
 
-*Last updated: December 2025*
+_Last updated: December 2025_

@@ -14,11 +14,11 @@ MongoDB, a leading NoSQL database, offers flexible schema design and robust quer
   "title": "String",
   "genre": "String",
   "release_year": "Number",
-  "duration": "Number",  // in minutes
-  "ratings": "Number",   // Average rating between 0 and 5
+  "duration": "Number", // in minutes
+  "ratings": "Number", // Average rating between 0 and 5
   "actors": ["Array of Actor Names"]
 }
-````
+```
 
 ### 2) Theaters Collection
 
@@ -52,12 +52,12 @@ MongoDB, a leading NoSQL database, offers flexible schema design and robust quer
 ```json
 {
   "booking_id": "UUID",
-  "user_id": "UUID",              // Reference to Users collection
-  "movie_id": "UUID",             // Reference to Movies collection
-  "theater_id": "UUID",           // Reference to Theaters collection
-  "seats_booked": "Number",       // Number of seats booked
-  "total_price": "Number",        // Total price for the booking
-  "booking_date": "Date"          // Date and time of the booking
+  "user_id": "UUID", // Reference to Users collection
+  "movie_id": "UUID", // Reference to Movies collection
+  "theater_id": "UUID", // Reference to Theaters collection
+  "seats_booked": "Number", // Number of seats booked
+  "total_price": "Number", // Total price for the booking
+  "booking_date": "Date" // Date and time of the booking
 }
 ```
 
@@ -69,13 +69,13 @@ MongoDB, a leading NoSQL database, offers flexible schema design and robust quer
 
 ```js
 db.movies.insertOne({
-  "movie_id": "1",
-  "title": "Inception",
-  "genre": "Sci-Fi",
-  "release_year": 2010,
-  "duration": 148,
-  "ratings": 4.8,
-  "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"]
+  movie_id: "1",
+  title: "Inception",
+  genre: "Sci-Fi",
+  release_year: 2010,
+  duration: 148,
+  ratings: 4.8,
+  actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"],
 });
 ```
 
@@ -97,19 +97,19 @@ db.movies.insertOne({
 ```js
 db.users.insertMany([
   {
-    "user_id": "1",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "date_of_birth": ISODate("1985-04-23"),
-    "loyalty_points": 120
+    user_id: "1",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    date_of_birth: ISODate("1985-04-23"),
+    loyalty_points: 120,
   },
   {
-    "user_id": "2",
-    "name": "Jane Smith",
-    "email": "jane.smith@example.com",
-    "date_of_birth": ISODate("1990-07-12"),
-    "loyalty_points": 50
-  }
+    user_id: "2",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    date_of_birth: ISODate("1990-07-12"),
+    loyalty_points: 50,
+  },
 ]);
 ```
 
@@ -132,7 +132,7 @@ db.users.insertMany([
 ## Q3. Find all movies in the "Action" genre.
 
 ```js
-db.movies.find({ "genre": "Action" });
+db.movies.find({ genre: "Action" });
 ```
 
 **Output:**
@@ -164,10 +164,7 @@ db.theaters.find({ "location.city": "New York" });
 ## Q5. Update the seating capacity of a theater with ID "1".
 
 ```js
-db.theaters.updateOne(
-  { "theater_id": "1" },
-  { $set: { "seating_capacity": 300 } }
-);
+db.theaters.updateOne({ theater_id: "1" }, { $set: { seating_capacity: 300 } });
 ```
 
 **Output:**
@@ -187,7 +184,7 @@ db.theaters.updateOne(
 ## Q6. Delete a movie by its title.
 
 ```js
-db.movies.deleteOne({ "title": "Inception" });
+db.movies.deleteOne({ title: "Inception" });
 ```
 
 **Output:**
@@ -206,7 +203,7 @@ db.movies.deleteOne({ "title": "Inception" });
 ## Q7. Retrieve all bookings made by the user with ID "2".
 
 ```js
-db.bookings.find({ "user_id": "2" });
+db.bookings.find({ user_id: "2" });
 ```
 
 **Output:**
@@ -222,10 +219,7 @@ db.bookings.find({ "user_id": "2" });
 ## Q8. Find a movie by its title and display only the title and genre fields.
 
 ```js
-db.movies.find(
-  { "title": "Inception" },
-  { "title": 1, "genre": 1, "_id": 0 }
-);
+db.movies.find({ title: "Inception" }, { title: 1, genre: 1, _id: 0 });
 ```
 
 **Output:**
@@ -241,7 +235,7 @@ db.movies.find(
 ## Q9. Find users who have more than 100 loyalty points.
 
 ```js
-db.users.find({ "loyalty_points": { $gt: 100 } });
+db.users.find({ loyalty_points: { $gt: 100 } });
 ```
 
 **Output:**
@@ -249,13 +243,13 @@ db.users.find({ "loyalty_points": { $gt: 100 } });
 ```js
 [
   {
-    "user_id": "1",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "date_of_birth": ISODate("1985-04-23"),
-    "loyalty_points": 120
-  }
-]
+    user_id: "1",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    date_of_birth: ISODate("1985-04-23"),
+    loyalty_points: 120,
+  },
+];
 ```
 
 **Explanation:** John Doe has 120 points.
@@ -266,13 +260,13 @@ db.users.find({ "loyalty_points": { $gt: 100 } });
 
 ```js
 db.bookings.insertOne({
-  "booking_id": "1",
-  "user_id": "1",
-  "movie_id": "1",
-  "theater_id": "1",
-  "seats_booked": 2,
-  "total_price": 30,
-  "booking_date": ISODate("2023-09-10")
+  booking_id: "1",
+  user_id: "1",
+  movie_id: "1",
+  theater_id: "1",
+  seats_booked: 2,
+  total_price: 30,
+  booking_date: ISODate("2023-09-10"),
 });
 ```
 
@@ -292,7 +286,7 @@ db.bookings.insertOne({
 ## Q11. Find all users born after 1990.
 
 ```js
-db.users.find({ "date_of_birth": { $gt: ISODate("1990-01-01") } });
+db.users.find({ date_of_birth: { $gt: ISODate("1990-01-01") } });
 ```
 
 **Output:**
@@ -300,13 +294,13 @@ db.users.find({ "date_of_birth": { $gt: ISODate("1990-01-01") } });
 ```js
 [
   {
-    "user_id": "2",
-    "name": "Jane Smith",
-    "email": "jane.smith@example.com",
-    "date_of_birth": ISODate("1990-07-12"),
-    "loyalty_points": 50
-  }
-]
+    user_id: "2",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    date_of_birth: ISODate("1990-07-12"),
+    loyalty_points: 50,
+  },
+];
 ```
 
 **Explanation:** Jane Smith was born after 1990-01-01.
@@ -316,10 +310,7 @@ db.users.find({ "date_of_birth": { $gt: ISODate("1990-01-01") } });
 ## Q12. Update the ratings of the movie "Inception" to 4.9.
 
 ```js
-db.movies.updateOne(
-  { "title": "Inception" },
-  { $set: { "ratings": 4.9 } }
-);
+db.movies.updateOne({ title: "Inception" }, { $set: { ratings: 4.9 } });
 ```
 
 **Output:**
@@ -339,7 +330,7 @@ db.movies.updateOne(
 ## Q13. Find all movies released in or after 2015.
 
 ```js
-db.movies.find({ "release_year": { $gte: 2015 } });
+db.movies.find({ release_year: { $gte: 2015 } });
 ```
 
 **Output:**
@@ -371,7 +362,7 @@ db.theaters.find({ "location.state": "California" });
 ## Q15. Delete all bookings for the movie "Inception".
 
 ```js
-db.bookings.deleteMany({ "movie_id": "1" });
+db.bookings.deleteMany({ movie_id: "1" });
 ```
 
 **Output:**
@@ -391,10 +382,10 @@ db.bookings.deleteMany({ "movie_id": "1" });
 
 ```js
 db.theaters.insertOne({
-  "theater_id": "2",
-  "name": "Regal Cinemas",
-  "location": { "city": "San Francisco", "state": "California", "country": "USA" },
-  "seating_capacity": 400
+  theater_id: "2",
+  name: "Regal Cinemas",
+  location: { city: "San Francisco", state: "California", country: "USA" },
+  seating_capacity: 400,
 });
 ```
 
@@ -414,7 +405,7 @@ db.theaters.insertOne({
 ## Q17. Find the first 5 movies sorted by release year in descending order.
 
 ```js
-db.movies.find().sort({ "release_year": -1 }).limit(5);
+db.movies.find().sort({ release_year: -1 }).limit(5);
 ```
 
 **Output:**
@@ -430,7 +421,7 @@ db.movies.find().sort({ "release_year": -1 }).limit(5);
 ## Q18. Count how many movies are in the "Sci-Fi" genre.
 
 ```js
-db.movies.countDocuments({ "genre": "Sci-Fi" });
+db.movies.countDocuments({ genre: "Sci-Fi" });
 ```
 
 **Output:**
@@ -446,7 +437,7 @@ db.movies.countDocuments({ "genre": "Sci-Fi" });
 ## Q19. Find all users who have exactly 50 loyalty points.
 
 ```js
-db.users.find({ "loyalty_points": 50 });
+db.users.find({ loyalty_points: 50 });
 ```
 
 **Output:**
@@ -454,13 +445,13 @@ db.users.find({ "loyalty_points": 50 });
 ```js
 [
   {
-    "user_id": "2",
-    "name": "Jane Smith",
-    "email": "jane.smith@example.com",
-    "date_of_birth": ISODate("1990-07-12"),
-    "loyalty_points": 50
-  }
-]
+    user_id: "2",
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+    date_of_birth: ISODate("1990-07-12"),
+    loyalty_points: 50,
+  },
+];
 ```
 
 **Explanation:** Jane Smith has exactly 50 points.
@@ -470,10 +461,7 @@ db.users.find({ "loyalty_points": 50 });
 ## Q20. Update the name of the user with ID "1" to "Johnny Doe".
 
 ```js
-db.users.updateOne(
-  { "user_id": "1" },
-  { $set: { "name": "Johnny Doe" } }
-);
+db.users.updateOne({ user_id: "1" }, { $set: { name: "Johnny Doe" } });
 ```
 
 **Output:**
@@ -494,7 +482,7 @@ db.users.updateOne(
 ## Q1. Find all movies where "Leonardo DiCaprio" is one of the actors.
 
 ```js
-db.movies.find({ "actors": "Leonardo DiCaprio" });
+db.movies.find({ actors: "Leonardo DiCaprio" });
 ```
 
 **Output:**
@@ -502,15 +490,15 @@ db.movies.find({ "actors": "Leonardo DiCaprio" });
 ```js
 [
   {
-    "movie_id": "1",
-    "title": "Inception",
-    "genre": "Sci-Fi",
-    "release_year": 2010,
-    "duration": 148,
-    "ratings": 4.9,
-    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"]
-  }
-]
+    movie_id: "1",
+    title: "Inception",
+    genre: "Sci-Fi",
+    release_year: 2010,
+    duration: 148,
+    ratings: 4.9,
+    actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"],
+  },
+];
 ```
 
 **Explanation:** Finds movies where "Leonardo DiCaprio" appears in the `actors` array.
@@ -520,10 +508,7 @@ db.movies.find({ "actors": "Leonardo DiCaprio" });
 ## Q2. Add a new actor to the "Inception" movie.
 
 ```js
-db.movies.updateOne(
-  { "title": "Inception" },
-  { $push: { "actors": "Tom Hardy" } }
-);
+db.movies.updateOne({ title: "Inception" }, { $push: { actors: "Tom Hardy" } });
 ```
 
 **Output:**
@@ -544,10 +529,10 @@ db.movies.updateOne(
 
 ```js
 db.bookings.find({
-  "booking_date": {
+  booking_date: {
     $gte: ISODate("2023-09-01"),
-    $lt: ISODate("2023-10-01")
-  }
+    $lt: ISODate("2023-10-01"),
+  },
 });
 ```
 
@@ -556,33 +541,33 @@ db.bookings.find({
 ```js
 [
   {
-    "booking_id": "1",
-    "user_id": "1",
-    "movie_id": "1",
-    "theater_id": "1",
-    "seats_booked": 2,
-    "total_price": 30,
-    "booking_date": ISODate("2023-09-10")
+    booking_id: "1",
+    user_id: "1",
+    movie_id: "1",
+    theater_id: "1",
+    seats_booked: 2,
+    total_price: 30,
+    booking_date: ISODate("2023-09-10"),
   },
   {
-    "booking_id": "2",
-    "user_id": "2",
-    "movie_id": "3",
-    "theater_id": "2",
-    "seats_booked": 4,
-    "total_price": 60,
-    "booking_date": ISODate("2023-09-11")
+    booking_id: "2",
+    user_id: "2",
+    movie_id: "3",
+    theater_id: "2",
+    seats_booked: 4,
+    total_price: 60,
+    booking_date: ISODate("2023-09-11"),
   },
   {
-    "booking_id": "3",
-    "user_id": "3",
-    "movie_id": "1",
-    "theater_id": "1",
-    "seats_booked": 1,
-    "total_price": 15,
-    "booking_date": ISODate("2023-09-12")
-  }
-]
+    booking_id: "3",
+    user_id: "3",
+    movie_id: "1",
+    theater_id: "1",
+    seats_booked: 1,
+    total_price: 15,
+    booking_date: ISODate("2023-09-12"),
+  },
+];
 ```
 
 **Explanation:** Retrieves bookings with `booking_date` inside September 2023.
@@ -593,17 +578,15 @@ db.bookings.find({
 
 ```js
 db.bookings.aggregate([
-  { $match: { "user_id": "1" } },
-  { $group: { _id: null, total: { $sum: "$total_price" } } }
+  { $match: { user_id: "1" } },
+  { $group: { _id: null, total: { $sum: "$total_price" } } },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": null, "total": 30 }
-]
+[{ _id: null, total: 30 }];
 ```
 
 **Explanation:** Sums `total_price` for user "1".
@@ -613,7 +596,7 @@ db.bookings.aggregate([
 ## Q5. Delete all users who have less than 10 loyalty points.
 
 ```js
-db.users.deleteMany({ "loyalty_points": { $lt: 10 } });
+db.users.deleteMany({ loyalty_points: { $lt: 10 } });
 ```
 
 **Output:**
@@ -632,7 +615,7 @@ db.users.deleteMany({ "loyalty_points": { $lt: 10 } });
 ## Q6. Find all movies that are either in the "Action" or "Adventure" genres.
 
 ```js
-db.movies.find({ "genre": { $in: ["Action", "Adventure"] } });
+db.movies.find({ genre: { $in: ["Action", "Adventure"] } });
 ```
 
 **Output:**
@@ -650,23 +633,23 @@ db.movies.find({ "genre": { $in: ["Action", "Adventure"] } });
 ```js
 db.bookings.insertMany([
   {
-    "booking_id": "2",
-    "user_id": "2",
-    "movie_id": "3",
-    "theater_id": "2",
-    "seats_booked": 4,
-    "total_price": 60,
-    "booking_date": ISODate("2023-09-11")
+    booking_id: "2",
+    user_id: "2",
+    movie_id: "3",
+    theater_id: "2",
+    seats_booked: 4,
+    total_price: 60,
+    booking_date: ISODate("2023-09-11"),
   },
   {
-    "booking_id": "3",
-    "user_id": "3",
-    "movie_id": "1",
-    "theater_id": "1",
-    "seats_booked": 1,
-    "total_price": 15,
-    "booking_date": ISODate("2023-09-12")
-  }
+    booking_id: "3",
+    user_id: "3",
+    movie_id: "1",
+    theater_id: "1",
+    seats_booked: 1,
+    total_price: 15,
+    booking_date: ISODate("2023-09-12"),
+  },
 ]);
 ```
 
@@ -689,7 +672,7 @@ db.bookings.insertMany([
 ## Q8. Find the total number of bookings made for the movie with ID "1".
 
 ```js
-db.bookings.countDocuments({ "movie_id": "1" });
+db.bookings.countDocuments({ movie_id: "1" });
 ```
 
 **Output:**
@@ -707,7 +690,7 @@ db.bookings.countDocuments({ "movie_id": "1" });
 ```js
 db.theaters.find({
   "location.country": "USA",
-  "seating_capacity": { $gt: 300 }
+  seating_capacity: { $gt: 300 },
 });
 ```
 
@@ -716,16 +699,16 @@ db.theaters.find({
 ```js
 [
   {
-    "theater_id": "2",
-    "name": "Regal Cinemas",
-    "location": {
-      "city": "San Francisco",
-      "state": "California",
-      "country": "USA"
+    theater_id: "2",
+    name: "Regal Cinemas",
+    location: {
+      city: "San Francisco",
+      state: "California",
+      country: "USA",
     },
-    "seating_capacity": 400
-  }
-]
+    seating_capacity: 400,
+  },
+];
 ```
 
 **Explanation:** Filters by country and capacity.
@@ -735,24 +718,23 @@ db.theaters.find({
 ## Q10. Update loyalty points for users who have booked more than 3 seats (add 10 points).
 
 ```js
-db.bookings.aggregate([
-  { $group: { _id: "$user_id", total_seats: { $sum: "$seats_booked" } } },
-  { $match: { total_seats: { $gt: 3 } } }
-]).forEach(function(user) {
-  db.users.updateOne(
-    { "user_id": user._id },
-    { $inc: { "loyalty_points": 10 } }
-  );
-});
+db.bookings
+  .aggregate([
+    { $group: { _id: "$user_id", total_seats: { $sum: "$seats_booked" } } },
+    { $match: { total_seats: { $gt: 3 } } },
+  ])
+  .forEach(function (user) {
+    db.users.updateOne({ user_id: user._id }, { $inc: { loyalty_points: 10 } });
+  });
 ```
 
 **Output:**
 
 ```js
 [
-  { "acknowledged": true, "matchedCount": 1, "modifiedCount": 1 },
-  { "acknowledged": true, "matchedCount": 1, "modifiedCount": 1 }
-]
+  { acknowledged: true, matchedCount: 1, modifiedCount: 1 },
+  { acknowledged: true, matchedCount: 1, modifiedCount: 1 },
+];
 ```
 
 **Explanation:** Users with more than 3 total seats get +10 points.
@@ -762,7 +744,7 @@ db.bookings.aggregate([
 ## Q11. Find all movies where the genre is not "Comedy".
 
 ```js
-db.movies.find({ "genre": { $ne: "Comedy" } });
+db.movies.find({ genre: { $ne: "Comedy" } });
 ```
 
 **Output:**
@@ -770,15 +752,15 @@ db.movies.find({ "genre": { $ne: "Comedy" } });
 ```js
 [
   {
-    "movie_id": "1",
-    "title": "Inception",
-    "genre": "Sci-Fi",
-    "release_year": 2010,
-    "duration": 148,
-    "ratings": 4.9,
-    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"]
-  }
-]
+    movie_id: "1",
+    title: "Inception",
+    genre: "Sci-Fi",
+    release_year: 2010,
+    duration: 148,
+    ratings: 4.9,
+    actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"],
+  },
+];
 ```
 
 **Explanation:** Uses `$ne` to exclude "Comedy".
@@ -788,18 +770,16 @@ db.movies.find({ "genre": { $ne: "Comedy" } });
 ## Q12. Find the number of seats booked for each movie.
 
 ```js
-db.bookings.aggregate([
-  { $group: { _id: "$movie_id", total_seats: { $sum: "$seats_booked" } } }
-]);
+db.bookings.aggregate([{ $group: { _id: "$movie_id", total_seats: { $sum: "$seats_booked" } } }]);
 ```
 
 **Output:**
 
 ```js
 [
-  { "_id": "1", "total_seats": 3 },
-  { "_id": "3", "total_seats": 4 }
-]
+  { _id: "1", total_seats: 3 },
+  { _id: "3", total_seats: 4 },
+];
 ```
 
 **Explanation:** Groups by `movie_id` and sums seats.
@@ -810,20 +790,24 @@ db.bookings.aggregate([
 
 ```js
 db.bookings.aggregate([
-  { $lookup: { from: "theaters", localField: "theater_id", foreignField: "theater_id", as: "theater_info" } },
+  {
+    $lookup: {
+      from: "theaters",
+      localField: "theater_id",
+      foreignField: "theater_id",
+      as: "theater_info",
+    },
+  },
   { $unwind: "$theater_info" },
   { $match: { "theater_info.location.state": "California" } },
-  { $group: { _id: "$user_id" } }
+  { $group: { _id: "$user_id" } },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": "1" },
-  { "_id": "2" }
-]
+[{ _id: "1" }, { _id: "2" }];
 ```
 
 **Explanation:** Joins bookings with theaters, filters by state, then extracts unique user IDs.
@@ -833,10 +817,7 @@ db.bookings.aggregate([
 ## Q14. Increase the ticket price for all bookings made after 2023-09-10 by 5%.
 
 ```js
-db.theaters.updateMany(
-  { "location.state": "California" },
-  { $set: { "seating_capacity": 500 } }
-);
+db.theaters.updateMany({ "location.state": "California" }, { $set: { seating_capacity: 500 } });
 ```
 
 **Output:**
@@ -857,17 +838,15 @@ db.theaters.updateMany(
 
 ```js
 db.movies.aggregate([
-  { $match: { "genre": "Sci-Fi" } },
-  { $group: { _id: null, avg_rating: { $avg: "$ratings" } } }
+  { $match: { genre: "Sci-Fi" } },
+  { $group: { _id: null, avg_rating: { $avg: "$ratings" } } },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": null, "avg_rating": 4.9 }
-]
+[{ _id: null, avg_rating: 4.9 }];
 ```
 
 **Explanation:** Filters Sci-Fi movies and averages `ratings`.
@@ -878,8 +857,8 @@ db.movies.aggregate([
 
 ```js
 db.movies.aggregate([
-  { $match: { "genre": "Sci-Fi" } },
-  { $group: { _id: null, avg_duration: { $avg: "$duration" } } }
+  { $match: { genre: "Sci-Fi" } },
+  { $group: { _id: null, avg_duration: { $avg: "$duration" } } },
 ]);
 ```
 
@@ -888,15 +867,15 @@ db.movies.aggregate([
 ```js
 [
   {
-    "movie_id": "1",
-    "title": "Inception",
-    "genre": "Sci-Fi",
-    "release_year": 2010,
-    "duration": 148,
-    "ratings": 4.9,
-    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"]
-  }
-]
+    movie_id: "1",
+    title: "Inception",
+    genre: "Sci-Fi",
+    release_year: 2010,
+    duration: 148,
+    ratings: 4.9,
+    actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"],
+  },
+];
 ```
 
 **Explanation:** (As written in the exercise text.)
@@ -906,7 +885,7 @@ db.movies.aggregate([
 ## Q17. Find all bookings where the user booked more than 2 seats.
 
 ```js
-db.bookings.find({ "seats_booked": { $gt: 2 } });
+db.bookings.find({ seats_booked: { $gt: 2 } });
 ```
 
 **Output:**
@@ -914,15 +893,15 @@ db.bookings.find({ "seats_booked": { $gt: 2 } });
 ```js
 [
   {
-    "booking_id": "2",
-    "user_id": "2",
-    "movie_id": "3",
-    "theater_id": "2",
-    "seats_booked": 4,
-    "total_price": 60,
-    "booking_date": ISODate("2023-09-11")
-  }
-]
+    booking_id: "2",
+    user_id: "2",
+    movie_id: "3",
+    theater_id: "2",
+    seats_booked: 4,
+    total_price: 60,
+    booking_date: ISODate("2023-09-11"),
+  },
+];
 ```
 
 **Explanation:** Filters bookings where `seats_booked > 2`.
@@ -932,7 +911,7 @@ db.bookings.find({ "seats_booked": { $gt: 2 } });
 ## Q18. Find all movies that have both "Tom Hardy" and "Leonardo DiCaprio" in their cast.
 
 ```js
-db.movies.find({ "actors": { $all: ["Tom Hardy", "Leonardo DiCaprio"] } });
+db.movies.find({ actors: { $all: ["Tom Hardy", "Leonardo DiCaprio"] } });
 ```
 
 **Output:**
@@ -940,15 +919,15 @@ db.movies.find({ "actors": { $all: ["Tom Hardy", "Leonardo DiCaprio"] } });
 ```js
 [
   {
-    "movie_id": "1",
-    "title": "Inception",
-    "genre": "Sci-Fi",
-    "release_year": 2010,
-    "duration": 148,
-    "ratings": 4.9,
-    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"]
-  }
-]
+    movie_id: "1",
+    title: "Inception",
+    genre: "Sci-Fi",
+    release_year: 2010,
+    duration: 148,
+    ratings: 4.9,
+    actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"],
+  },
+];
 ```
 
 **Explanation:** Uses `$all` for "must contain both" semantics.
@@ -958,7 +937,7 @@ db.movies.find({ "actors": { $all: ["Tom Hardy", "Leonardo DiCaprio"] } });
 ## Q19. Find all users who have not made any bookings.
 
 ```js
-db.users.find({ "user_id": { $nin: db.bookings.distinct("user_id") } });
+db.users.find({ user_id: { $nin: db.bookings.distinct("user_id") } });
 ```
 
 **Output:**
@@ -966,11 +945,11 @@ db.users.find({ "user_id": { $nin: db.bookings.distinct("user_id") } });
 ```js
 [
   {
-    "user_id": "4",
-    "name": "Eve",
-    "loyalty_points": 15
-  }
-]
+    user_id: "4",
+    name: "Eve",
+    loyalty_points: 15,
+  },
+];
 ```
 
 **Explanation:** Excludes users whose IDs appear in bookings.
@@ -980,7 +959,7 @@ db.users.find({ "user_id": { $nin: db.bookings.distinct("user_id") } });
 ## Q20. Delete all movies that have less than 3 stars in ratings.
 
 ```js
-db.movies.deleteMany({ "ratings": { $lt: 3 } });
+db.movies.deleteMany({ ratings: { $lt: 3 } });
 ```
 
 **Output:**
@@ -1004,7 +983,7 @@ db.movies.deleteMany({ "ratings": { $lt: 3 } });
 db.bookings.aggregate([
   { $group: { _id: "$user_id", total_spent: { $sum: "$total_price" } } },
   { $sort: { total_spent: -1 } },
-  { $limit: 3 }
+  { $limit: 3 },
 ]);
 ```
 
@@ -1012,10 +991,10 @@ db.bookings.aggregate([
 
 ```js
 [
-  { "_id": "2", "total_spent": 150 },
-  { "_id": "1", "total_spent": 90 },
-  { "_id": "3", "total_spent": 80 }
-]
+  { _id: "2", total_spent: 150 },
+  { _id: "1", total_spent: 90 },
+  { _id: "3", total_spent: 80 },
+];
 ```
 
 **Explanation:** Groups by user, sums spending, sorts descending, limits to top 3.
@@ -1028,16 +1007,14 @@ db.bookings.aggregate([
 db.bookings.aggregate([
   { $group: { _id: { movie_id: "$movie_id", theater_id: "$theater_id" } } },
   { $group: { _id: "$_id.movie_id", theater_count: { $sum: 1 } } },
-  { $match: { theater_count: { $gt: 2 } } }
+  { $match: { theater_count: { $gt: 2 } } },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": "3", "theater_count": 3 }
-]
+[{ _id: "3", theater_count: 3 }];
 ```
 
 **Explanation:** Counts distinct theater IDs per movie.
@@ -1050,16 +1027,14 @@ db.bookings.aggregate([
 db.bookings.aggregate([
   { $group: { _id: "$theater_id", total_seats: { $sum: "$seats_booked" } } },
   { $sort: { total_seats: -1 } },
-  { $limit: 1 }
+  { $limit: 1 },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": "1", "total_seats": 8 }
-]
+[{ _id: "1", total_seats: 8 }];
 ```
 
 **Explanation:** Sums seats per theater and returns the top one.
@@ -1070,21 +1045,26 @@ db.bookings.aggregate([
 
 ```js
 db.bookings.aggregate([
-  { $lookup: { from: "theaters", localField: "theater_id", foreignField: "theater_id", as: "theater_info" } },
+  {
+    $lookup: {
+      from: "theaters",
+      localField: "theater_id",
+      foreignField: "theater_id",
+      as: "theater_info",
+    },
+  },
   { $unwind: "$theater_info" },
   { $match: { "theater_info.location.state": "California" } },
   { $lookup: { from: "users", localField: "user_id", foreignField: "user_id", as: "user_info" } },
   { $unwind: "$user_info" },
-  { $group: { _id: null, avg_loyalty_points: { $avg: "$user_info.loyalty_points" } } }
+  { $group: { _id: null, avg_loyalty_points: { $avg: "$user_info.loyalty_points" } } },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": null, "avg_loyalty_points": 25 }
-]
+[{ _id: null, avg_loyalty_points: 25 }];
 ```
 
 **Explanation:** Joins theaters and users, filters by California, then averages loyalty points.
@@ -1094,7 +1074,7 @@ db.bookings.aggregate([
 ## Q5. Create an index on the booking_date field in Bookings.
 
 ```js
-db.bookings.createIndex({ "booking_date": 1 });
+db.bookings.createIndex({ booking_date: 1 });
 ```
 
 **Output:**
@@ -1119,7 +1099,7 @@ db.movies.aggregate([
   { $unwind: "$actors" },
   { $group: { _id: "$actors", movie_count: { $sum: 1 } } },
   { $sort: { movie_count: -1 } },
-  { $limit: 5 }
+  { $limit: 5 },
 ]);
 ```
 
@@ -1127,10 +1107,10 @@ db.movies.aggregate([
 
 ```js
 [
-  { "_id": "Leonardo DiCaprio", "movie_count": 3 },
-  { "_id": "Tom Hardy", "movie_count": 2 },
-  { "_id": "Joseph Gordon-Levitt", "movie_count": 2 }
-]
+  { _id: "Leonardo DiCaprio", movie_count: 3 },
+  { _id: "Tom Hardy", movie_count: 2 },
+  { _id: "Joseph Gordon-Levitt", movie_count: 2 },
+];
 ```
 
 **Explanation:** Unwinds actors arrays, counts appearances, sorts descending, limits to top 5.
@@ -1141,19 +1121,17 @@ db.movies.aggregate([
 
 ```js
 db.bookings.aggregate([
-  { $match: { "booking_date": { $gte: ISODate("2023-09-01"), $lt: ISODate("2023-10-01") } } },
+  { $match: { booking_date: { $gte: ISODate("2023-09-01"), $lt: ISODate("2023-10-01") } } },
   { $group: { _id: "$user_id", total_seats: { $sum: "$seats_booked" } } },
   { $sort: { total_seats: -1 } },
-  { $limit: 1 }
+  { $limit: 1 },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "_id": "2", "total_seats": 8 }
-]
+[{ _id: "2", total_seats: 8 }];
 ```
 
 **Explanation:** Filters by month, sums seats per user, returns the maximum.
@@ -1164,7 +1142,7 @@ db.bookings.aggregate([
 
 ```js
 db.movies.find({
-  "movie_id": { $nin: db.bookings.distinct("movie_id") }
+  movie_id: { $nin: db.bookings.distinct("movie_id") },
 });
 ```
 
@@ -1173,12 +1151,12 @@ db.movies.find({
 ```js
 [
   {
-    "movie_id": "5",
-    "title": "Uncharted",
-    "genre": "Adventure",
-    "release_year": 2022
-  }
-]
+    movie_id: "5",
+    title: "Uncharted",
+    genre: "Adventure",
+    release_year: 2022,
+  },
+];
 ```
 
 **Explanation:** Excludes movies that appear in bookings.
@@ -1188,7 +1166,7 @@ db.movies.find({
 ## Q9. Create a compound index on genre and release_year in Movies.
 
 ```js
-db.movies.createIndex({ "genre": 1, "release_year": -1 });
+db.movies.createIndex({ genre: 1, release_year: -1 });
 ```
 
 **Output:**
@@ -1210,20 +1188,18 @@ db.movies.createIndex({ "genre": 1, "release_year": -1 });
 
 ```js
 db.bookings.aggregate([
-  { $sort: { "booking_date": 1 } },
+  { $sort: { booking_date: 1 } },
   { $limit: 1 },
   { $lookup: { from: "users", localField: "user_id", foreignField: "user_id", as: "user_info" } },
   { $unwind: "$user_info" },
-  { $project: { name: "$user_info.name", email: "$user_info.email" } }
+  { $project: { name: "$user_info.name", email: "$user_info.email" } },
 ]);
 ```
 
 **Output:**
 
 ```js
-[
-  { "name": "Alice", "email": "alice@example.com" }
-]
+[{ name: "Alice", email: "alice@example.com" }];
 ```
 
 **Explanation:** Sorts bookings by date ascending, picks first, then joins users to project name and email.

@@ -105,7 +105,7 @@ brew services start mongodb-community  # macOS
 Create a `docker-compose.yml` file:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   mongodb:
@@ -196,7 +196,7 @@ client = MongoClient('mongodb://username:password@host:port/')
 
 ```javascript
 // JavaScript
-const uri = 'mongodb://username:password@host:port/';
+const uri = "mongodb://username:password@host:port/";
 ```
 
 ## 📊 Data Models
@@ -300,13 +300,15 @@ const uri = 'mongodb://username:password@host:port/';
   "orderId": "uuid",
   "userId": "user_id_reference",
   "status": "pending|processing|shipped|delivered|cancelled",
-  "items": [{
-    "productSku": "string",
-    "productName": "string",
-    "quantity": "number",
-    "unitPrice": "number",
-    "total": "number"
-  }],
+  "items": [
+    {
+      "productSku": "string",
+      "productName": "string",
+      "quantity": "number",
+      "unitPrice": "number",
+      "total": "number"
+    }
+  ],
   "payment": {
     "method": "credit_card|debit_card|paypal|mbway|bank_transfer",
     "status": "pending|completed|failed",
@@ -370,14 +372,14 @@ Both scripts include example queries that demonstrate:
 ```javascript
 // Find premium users from Porto
 db.users.find({
-  'account.type': 'premium',
-  'profile.address.city': 'Porto'
-})
+  "account.type": "premium",
+  "profile.address.city": "Porto",
+});
 
 // High-rated products
 db.products.find({
-  'ratings.average': { $gte: 4.5 }
-})
+  "ratings.average": { $gte: 4.5 },
+});
 ```
 
 ### Aggregation Pipeline
@@ -385,21 +387,25 @@ db.products.find({
 ```javascript
 // Sales by category
 db.transactions.aggregate([
-  { $unwind: '$items' },
-  { $lookup: {
-      from: 'products',
-      localField: 'items.productSku',
-      foreignField: 'sku',
-      as: 'product'
-  }},
-  { $unwind: '$product' },
-  { $group: {
-      _id: '$product.category',
-      totalSales: { $sum: '$items.total' },
-      count: { $sum: 1 }
-  }},
-  { $sort: { totalSales: -1 }}
-])
+  { $unwind: "$items" },
+  {
+    $lookup: {
+      from: "products",
+      localField: "items.productSku",
+      foreignField: "sku",
+      as: "product",
+    },
+  },
+  { $unwind: "$product" },
+  {
+    $group: {
+      _id: "$product.category",
+      totalSales: { $sum: "$items.total" },
+      count: { $sum: 1 },
+    },
+  },
+  { $sort: { totalSales: -1 } },
+]);
 ```
 
 ### Geospatial Query
@@ -407,16 +413,16 @@ db.transactions.aggregate([
 ```javascript
 // Find users within 50km of Porto
 db.users.find({
-  'profile.address.coordinates': {
+  "profile.address.coordinates": {
     $near: {
       $geometry: {
-        type: 'Point',
-        coordinates: [-8.611, 41.1496]  // Porto coordinates
+        type: "Point",
+        coordinates: [-8.611, 41.1496], // Porto coordinates
       },
-      $maxDistance: 50000  // 50km in meters
-    }
-  }
-})
+      $maxDistance: 50000, // 50km in meters
+    },
+  },
+});
 ```
 
 ### Text Search
@@ -424,8 +430,8 @@ db.users.find({
 ```javascript
 // Search products by text
 db.products.find({
-  $text: { $search: "electronics laptop" }
-})
+  $text: { $search: "electronics laptop" },
+});
 ```
 
 ## 🎨 Customization
@@ -440,8 +446,8 @@ products = generate_products(1000)  # Generate 1000 products
 
 ```javascript
 // JavaScript - modify function calls
-const users = generateUsers(200);  // Generate 200 users
-const products = generateProducts(1000);  // Generate 1000 products
+const users = generateUsers(200); // Generate 200 users
+const products = generateProducts(1000); // Generate 1000 products
 ```
 
 ### Changing Locale
@@ -455,9 +461,9 @@ fake = Faker('fr_FR')  # French
 
 ```javascript
 // JavaScript
-faker.locale = 'en_US';  // US English
-faker.locale = 'es_ES';  // Spanish
-faker.locale = 'fr_FR';  // French
+faker.locale = "en_US"; // US English
+faker.locale = "es_ES"; // Spanish
+faker.locale = "fr_FR"; // French
 ```
 
 ### Adding Custom Fields
@@ -470,7 +476,7 @@ user['score'] = fake.random_int(0, 100)
 
 ```javascript
 // JavaScript - add to generation functions
-user.customField = faker.helpers.arrayElement(['A', 'B', 'C']);
+user.customField = faker.helpers.arrayElement(["A", "B", "C"]);
 user.score = faker.number.int({ min: 0, max: 100 });
 ```
 

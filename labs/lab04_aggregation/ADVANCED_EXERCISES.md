@@ -9,6 +9,7 @@ Push beyond the required pipelines with these optional exercises. They encourage
 **Goal:** leverage window functions to detect anomalies in sales velocity.
 
 ### Tasks
+
 1. Build a pipeline that:
    - Groups sales by day.
    - Computes 7-day moving averages and standard deviation using `$setWindowFields`.
@@ -25,6 +26,7 @@ Push beyond the required pipelines with these optional exercises. They encourage
 **Goal:** avoid copy/paste by building small, composable pipeline snippets.
 
 ### Tasks
+
 1. Create `pipeline_library/` with modules such as:
    - `projection.js` – reusable `$project` objects for customer/product fields.
    - `lookup_helpers.js` – functions that return `$lookup` stages with parameters.
@@ -39,6 +41,7 @@ Push beyond the required pipelines with these optional exercises. They encourage
 **Goal:** measure how pipeline changes affect performance.
 
 ### Tasks
+
 1. Write `benchmark_pipelines.js` that:
    - Runs at least three pipelines (baseline, optimized, experimental).
    - Captures `executionStats` via `.explain("executionStats")`.

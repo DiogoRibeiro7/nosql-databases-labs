@@ -2,288 +2,295 @@
 
 ## Overview
 
-This document provides a comprehensive data dictionary for all sample datasets used in the NoSQL Databases Labs repository. Each dataset is documented with its schema, field descriptions, data types, constraints, and usage information.
+This document catalogs the datasets bundled with the repository. Each entry highlights the real fields you will find in the JSON/NDJSON sources, the labs that rely on the dataset, recommended indexes, and a direct link to the source file so you can inspect it before importing.
 
 ## Table of Contents
 
 1. [Core Datasets](#core-datasets)
+    - [Books](#books-dataset)
+    - [Products](#products-dataset)
+    - [Students](#students-dataset)
+    - [Companies](#companies-dataset)
 2. [Lab-Specific Datasets](#lab-specific-datasets)
-3. [External Datasets](#external-datasets)
-4. [Data Types Reference](#data-types-reference)
-5. [Version Information](#version-information)
+    - [Orders](#orders-dataset)
+    - [Customers](#customers-dataset)
+    - [FoodExpress Restaurants](#foodexpress-restaurants)
+    - [FoodExpress Orders](#foodexpress-orders)
+3. [Supplemental City Snapshots](#supplemental-city-snapshots)
+4. [External Datasets](#external-datasets)
+5. [Data Types Reference](#data-types-reference)
+6. [Version Information](#version-information)
+7. [Usage Guidelines](#usage-guidelines)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ---
 
 ## Core Datasets
 
-### 1. Books Collection (`data/datasets/books.json`)
+### Books Dataset
 
-**Description**: Collection of book information including titles, authors, and publication details.
+> Labs: Lab 01 (CRUD warm-up) and Lab 03 (projection/aggregation practice)  - Source: [datasets/books.json](datasets/books.json)
 
-| Field | Type | Description | Constraints | Example |
-|-------|------|-------------|-------------|---------|
-| _id | ObjectId | Unique identifier | Required, Unique | "507f1f77bcf86cd799439011" |
-| title | String | Book title | Required, Max 500 chars | "The Great Gatsby" |
-| author | String | Author name | Required | "F. Scott Fitzgerald" |
-| isbn | String | ISBN number | Pattern: /^\d{10}(\d{3})?$/ | "9780743273565" |
-| pages | Number | Number of pages | Min: 1, Max: 10000 | 180 |
-| year | Number | Publication year | Min: 1000, Max: current year | 1925 |
-| publisher | String | Publisher name | Max 200 chars | "Scribner" |
-| categories | Array[String] | Book categories | Max 10 items | ["Fiction", "Classic"] |
-| language | String | Language code | ISO 639-1 | "en" |
-| rating | Number | Average rating | Min: 0, Max: 5 | 4.5 |
-| stock | Number | Stock quantity | Min: 0 | 15 |
+Line-delimited JSON with one document per line.
 
-**Indexes**:
-- `title` (text index)
-- `author` (ascending)
-- `isbn` (unique)
-- `categories` (multikey)
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | Number | Sequential identifier (1..n) |
+| `title` | String | Book title |
+| `isbn` | String | 10/13-digit ISBN |
+| `pageCount` | Number | 0 indicates unknown |
+| `publishedDate` | Object | Stored as `{ "$date": "<ISO 8601>" }` |
+| `thumbnailUrl` | String | HTTP URL to cover image (optional) |
+| `shortDescription` | String | Short synopsis (optional) |
+| `longDescription` | String | Full synopsis (optional) |
+| `status` | String | `"PUBLISH"` or `"MEAP"` |
+| `authors` | Array\<String> | One or more author names |
+| `categories` | Array\<String> | Subject tags |
 
-**Used in Labs**: Lab 01 (Introduction), Lab 03 (Advanced Queries)
+**Suggested indexes**
 
----
-
-### 2. Products Collection (`data/datasets/products.json`)
-
-**Description**: E-commerce product catalog with pricing and inventory information.
-
-| Field | Type | Description | Constraints | Example |
-|-------|------|-------------|-------------|---------|
-| _id | ObjectId | Unique identifier | Required, Unique | "507f1f77bcf86cd799439012" |
-| product_id | String | Product SKU | Required, Pattern: /^PROD\d{3,}$/ | "PROD001" |
-| name | String | Product name | Required, Max 200 chars | "Wireless Mouse" |
-| description | String | Product description | Max 2000 chars | "Ergonomic wireless mouse..." |
-| category | String | Product category | Required, Enum | "Electronics" |
-| subcategory | String | Product subcategory | Max 100 chars | "Computer Accessories" |
-| price | Number | Price in USD | Required, Min: 0.01 | 29.99 |
-| cost | Number | Cost in USD | Min: 0 | 15.00 |
-| stock_quantity | Number | Available stock | Required, Min: 0 | 150 |
-| manufacturer | String | Manufacturer name | Max 100 chars | "TechCorp" |
-| tags | Array[String] | Product tags | Max 20 items | ["wireless", "ergonomic"] |
-| specifications | Object | Technical specs | Nested object | {"color": "black", "weight": "100g"} |
-| ratings | Object | Rating summary | See nested schema | {"average": 4.5, "count": 234} |
-| created_at | Date | Creation date | Required | "2024-01-15T10:00:00Z" |
-| updated_at | Date | Last update date | Auto-updated | "2024-01-20T15:30:00Z" |
-
-**Nested Schema - Ratings**:
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| average | Number | Average rating | Min: 0, Max: 5 |
-| count | Number | Number of ratings | Min: 0 |
-| distribution | Object | Rating distribution | {"5": 120, "4": 80, "3": 20, "2": 10, "1": 4} |
-
-**Indexes**:
-- `product_id` (unique)
-- `category, subcategory` (compound)
-- `name` (text)
-- `price` (ascending)
-
-**Used in Labs**: Lab 02 (Data Modeling), Lab 04 (Aggregation)
+- `db.books.createIndex({ title: "text", shortDescription: "text", longDescription: "text" })` for search labs.
+- `db.books.createIndex({ authors: 1 })` to filter by author.
+- `db.books.createIndex({ categories: 1 })` for dashboard drill-downs.
 
 ---
 
-### 3. Students Collection (`data/datasets/students.json`)
+### Products Dataset
 
-**Description**: Student records with academic information and grades.
+> Labs: Lab 02 (modeling) and Lab 04 (aggregations)  - Source: [datasets/products.json](datasets/products.json)
 
-| Field | Type | Description | Constraints | Example |
-|-------|------|-------------|-------------|---------|
-| _id | ObjectId | Unique identifier | Required, Unique | "507f1f77bcf86cd799439013" |
-| student_id | String | Student ID | Required, Pattern: /^STU\d{6}$/ | "STU123456" |
-| first_name | String | First name | Required, Max 50 chars | "John" |
-| last_name | String | Last name | Required, Max 50 chars | "Doe" |
-| email | String | Email address | Required, Email format | "john.doe@university.edu" |
-| date_of_birth | Date | Birth date | Required | "2000-05-15" |
-| enrollment_date | Date | Enrollment date | Required | "2020-09-01" |
-| major | String | Major field | Required, Enum | "Computer Science" |
-| year | Number | Academic year | Min: 1, Max: 6 | 3 |
-| gpa | Number | Grade point average | Min: 0, Max: 4.0 | 3.75 |
-| courses | Array[Object] | Enrolled courses | See nested schema | See below |
-| address | Object | Home address | See nested schema | See below |
-| status | String | Enrollment status | Enum: ["active", "inactive", "graduated"] | "active" |
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | String or ObjectId | Either an ACME SKU or a BSON ObjectId |
+| `name` | String | Product name |
+| `brand` | String | Present on select documents |
+| `type` | String or Array\<String> | Product types (e.g., `"phone"` or `["accessory","charger"]`) |
+| `price` | Number | Unit price |
+| `rating` | Number | Average star rating (0--"5) |
+| `warranty_years` | Number | Warranty duration; decimals for partial years |
+| `available` | Boolean | In-stock flag |
+| `color` | String | Accessories only |
+| `for` | Array\<String> | Compatible SKU list |
+| `reviews` | Array\<Object> | Optional reviewer documents `{ name, stars, comment, date }` |
 
-**Nested Schema - Courses**:
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| course_id | String | Course identifier | Required |
-| name | String | Course name | Required |
-| credits | Number | Credit hours | Min: 1, Max: 6 |
-| grade | String | Letter grade | Enum: ["A", "B", "C", "D", "F"] |
-| semester | String | Semester taken | Pattern: /^(Fall|Spring|Summer) \d{4}$/ |
+**Suggested indexes**
 
-**Indexes**:
-- `student_id` (unique)
-- `email` (unique)
-- `last_name, first_name` (compound)
-- `major` (ascending)
-
-**Used in Labs**: Lab 03 (Advanced Queries), Lab 04 (Aggregation)
+- `db.products.createIndex({ type: 1, price: 1 })` --" supports catalog filters and price sorting.
+- `db.products.createIndex({ available: 1, warranty_years: 1 })` --" used in Lab 02 validation queries.
+- `db.products.createIndex({ "reviews.name": 1 })` --" enables reviewer lookups when practicing multikey indexes.
 
 ---
 
-### 4. Companies Collection (`data/datasets/companies.json`)
+### Students Dataset
 
-**Description**: Company information for business analytics.
+> Labs: Lab 03 (array operators) and Lab 04 (score aggregation)  - Source: [datasets/students.json](datasets/students.json)
 
-| Field | Type | Description | Constraints | Example |
-|-------|------|-------------|-------------|---------|
-| _id | ObjectId | Unique identifier | Required, Unique | "507f1f77bcf86cd799439014" |
-| name | String | Company name | Required, Max 200 chars | "Tech Innovations Inc" |
-| founded_year | Number | Year founded | Min: 1800, Max: current year | 2010 |
-| industry | String | Industry sector | Required, Enum | "Technology" |
-| employees | Number | Number of employees | Min: 1 | 5000 |
-| revenue | Number | Annual revenue (USD) | Min: 0 | 50000000 |
-| headquarters | Object | HQ location | See nested schema | See below |
-| website | String | Company website | URL format | "https://techinnovations.com" |
-| stock_symbol | String | Stock ticker | Pattern: /^[A-Z]{1,5}$/ | "TECH" |
-| subsidiaries | Array[String] | Subsidiary companies | Max 50 items | ["TechLabs", "InnoSoft"] |
-| founded_by | Array[String] | Founders | Max 10 items | ["Jane Smith", "Bob Johnson"] |
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | Number | Sequential integer |
+| `name` | String | Lowercase/mixed-case student name |
+| `scores` | Array\<Object> | `{ "type": "exam" | "quiz" | "homework", "score": Number }` triples |
 
-**Nested Schema - Headquarters**:
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| city | String | City name | Required |
-| state | String | State/Province | Max 100 chars |
-| country | String | Country name | Required |
-| coordinates | Object | GPS coordinates | {"lat": Number, "lng": Number} |
+**Suggested indexes**
 
-**Used in Labs**: Lab 04 (Aggregation), Lab 05 (Replication)
+- `db.students.createIndex({ name: 1 })` --" quick lookup for targeted updates.
+- `db.students.createIndex({ "scores.type": 1, "scores.score": -1 })` --" used when grading per score type.
+
+---
+
+### Companies Dataset
+
+> Labs: Lab 04 (multi-stage aggregation) and Lab 05 (replication rehearsal)  - Source: [datasets/companies.json](datasets/companies.json)
+
+Large JSON array with Crunchbase-style documents.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | ObjectId | BSON identifier |
+| `name` | String | Company name |
+| `permalink`, `crunchbase_url`, `homepage_url` | Strings | URL references |
+| `category_code` | String | Industry |
+| `number_of_employees` | Number | Headcount |
+| `founded_year`/`month`/`day` | Number | Nullable founding info |
+| `total_money_raised` | String | Human-readable totals |
+| `products`, `relationships`, `competitions` | Array\<Object> | Nested relationship docs |
+| `funding_rounds` | Array\<Object> | Round data (code, amount, investors) |
+| `offices` | Array\<Object> | Office metadata plus lat/long |
+| `milestones`, `acquisition`, `acquisitions` | Array/Object | Key lifecycle events |
+
+**Suggested indexes**
+
+- `db.companies.createIndex({ category_code: 1, founded_year: 1 })` for timeline dashboards.
+- `db.companies.createIndex({ "offices.country_code": 1, "offices.city": 1 })` when geo-filtering.
+- `db.companies.createIndex({ "funding_rounds.raised_amount": -1 })` for capital analysis.
 
 ---
 
 ## Lab-Specific Datasets
 
-### 5. Orders Collection (`labs/lab02_modeling/starter/data/orders.json`)
+### Orders Dataset
 
-**Description**: E-commerce order data for modeling exercises.
+> Labs: Lab 02 (embedding vs. referencing)  - Source: [../labs/lab02_modeling/starter/data/orders.json](../labs/lab02_modeling/starter/data/orders.json)
 
-| Field | Type | Description | Constraints | Example |
-|-------|------|-------------|-------------|---------|
-| order_id | String | Order identifier | Required, Pattern: /^ORD\d{3,}$/ | "ORD001" |
-| customer_id | String | Customer reference | Required, Pattern: /^CUST\d{3,}$/ | "CUST001" |
-| order_date | Date | Order placement date | Required | "2024-01-15T14:30:00Z" |
-| status | String | Order status | Enum: ["pending", "processing", "shipped", "delivered", "cancelled"] | "shipped" |
-| items | Array[Object] | Order line items | Required, Min 1 item | See nested schema |
-| shipping_address | Object | Delivery address | Required | See address schema |
-| payment | Object | Payment information | Required | See payment schema |
-| subtotal | Number | Subtotal amount | Required, Min: 0 | 99.99 |
-| tax_amount | Number | Tax amount | Required, Min: 0 | 10.00 |
-| shipping_cost | Number | Shipping cost | Required, Min: 0 | 5.99 |
-| total_amount | Number | Total amount | Required, Min: 0.01 | 115.98 |
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | ObjectId | Unique BSON id |
+| `order_id` | String | Pattern `ORD###` |
+| `customer_id` | String | Matches `CUST###` from customers dataset |
+| `order_date` | Object | `{ "$date": ... }` |
+| `status` | String | `pending`, `processing`, `shipped`, `delivered`, `cancelled` |
+| `items` | Array\<Object> | `{ product_id, product_name, quantity, unit_price, subtotal }` |
+| `shipping_address` / `billing_address` | Object | `{ street, city, state, zip, country }` |
+| `payment_method` | String | e.g., `credit_card` |
+| `subtotal`, `tax`, `shipping_cost`, `total` | Number | Monetary fields |
+| `tracking_number` | String | Nullable |
+| `estimated_delivery`, `actual_delivery` | Object | Nullable ISO date wrappers |
 
-**Nested Schema - Items**:
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| product_id | String | Product reference | Required |
-| product_name | String | Product name (denormalized) | Required |
-| quantity | Number | Quantity ordered | Required, Min: 1 |
-| unit_price | Number | Price per unit | Required, Min: 0.01 |
-| discount | Number | Discount percentage | Min: 0, Max: 100 |
+**Suggested indexes**
 
-**Used in Labs**: Lab 02 (Data Modeling)
+- `db.orders.createIndex({ customer_id: 1, order_date: -1 })` --" used for --oerecent orders per customer.--
+- `db.orders.createIndex({ status: 1, order_date: -1 })` --" supports operational dashboards.
+- `db.orders.createIndex({ "items.product_id": 1 })` --" resolves line-item lookups during aggregations.
 
 ---
 
-### 6. Customers Collection (`labs/lab02_modeling/starter/data/customers.json`)
+### Customers Dataset
 
-**Description**: Customer information for e-commerce platform.
+> Labs: Lab 02 (data modeling)  - Source: [../labs/lab02_modeling/starter/data/customers.json](../labs/lab02_modeling/starter/data/customers.json)
 
-| Field | Type | Description | Constraints | Example |
-|-------|------|-------------|-------------|---------|
-| customer_id | String | Customer identifier | Required, Pattern: /^CUST\d{3,}$/ | "CUST001" |
-| name | String | Full name | Required, Max 100 chars | "Alice Johnson" |
-| email | String | Email address | Required, Email format, Unique | "alice@example.com" |
-| phone | String | Phone number | Pattern: /^\+?[\d\s\-()]+$/ | "+1-555-123-4567" |
-| address | Object | Customer address | Required | See address schema |
-| registration_date | Date | Account creation date | Required | "2023-01-15T10:00:00Z" |
-| last_login | Date | Last login timestamp | Auto-updated | "2024-01-20T09:15:00Z" |
-| order_count | Number | Total orders placed | Min: 0 | 15 |
-| total_spent | Number | Total amount spent | Min: 0 | 1250.50 |
-| loyalty_points | Number | Loyalty program points | Min: 0 | 500 |
-| preferences | Object | Customer preferences | Optional | {"newsletter": true, "sms": false} |
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | ObjectId | BSON id |
+| `customer_id` | String | Pattern `CUST###` |
+| `name` | String | Full name |
+| `email` | String | Unique login email |
+| `password_hash` | String | Bcrypt placeholder |
+| `phone` | String | International format |
+| `address` | Object | `{ street, city, state, zip, country }` |
+| `loyalty_points` | Number | Running tally |
+| `created_at` | Object | ISO date wrapper |
 
-**Used in Labs**: Lab 02 (Data Modeling)
+**Suggested indexes**
+
+- `db.customers.createIndex({ customer_id: 1 })`
+- `db.customers.createIndex({ email: 1 }, { unique: true })`
+
+---
+
+### FoodExpress Restaurants
+
+> Labs: Instructor demos and future CRUD extensions  - Source: [food_express/foodexpress_db.restaurants.json](food_express/foodexpress_db.restaurants.json)
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | ObjectId | BSON id |
+| `name` | String | Restaurant name |
+| `type` | String | Cuisine |
+| `rating` | Number | Typical MongoDB rating scale (0--"5) |
+| `open` | Boolean | Whether the restaurant currently accepts orders |
+| `address` | Object | `{ street, city, postalCode }` |
+| `menu` | Array\<Object> | `{ category, item, price }` menu entries |
+
+**Suggested indexes**
+
+- `db.restaurants.createIndex({ name: 1 })`
+- `db.restaurants.createIndex({ "address.city": 1, open: 1 })` --" helps availability searches.
+
+---
+
+### FoodExpress Orders
+
+> Labs: Instructor demos and future CRUD extensions  - Source: [food_express/foodexpress_db.orders.json](food_express/foodexpress_db.orders.json)
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `_id` | ObjectId | BSON id |
+| `orderNumber` | String | Format `ORD-####` |
+| `restaurantId` | ObjectId | References a FoodExpress restaurant |
+| `items` | Array\<Object> | `{ name, qty, unitPrice }` |
+| `totalPrice` | Number | Calculated total |
+| `status` | String | `pending`, `preparing`, `delivered`, etc. |
+| `createdAt` | Object | ISO date wrapper |
+
+**Suggested indexes**
+
+- `db.orders.createIndex({ restaurantId: 1, createdAt: -1 })`
+- `db.orders.createIndex({ status: 1, createdAt: -1 })`
+
+---
+
+## Supplemental City Snapshots
+
+> Labs: Data exploration exercises and download helper validation  - Sources: [airbnb_data/sample_lisbon_listings.json](airbnb_data/sample_lisbon_listings.json), [airbnb_data/sample_porto_listings.json](airbnb_data/sample_porto_listings.json)
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | Number | Listing id |
+| `name` | String | Listing title |
+| `neighbourhood` | String | District within the city |
+| `room_type` | String | `Entire home/apt`, `Private room`, etc. |
+| `accommodates`, `bedrooms`, `beds` | Number | Capacity information |
+| `minimum_nights` | Number | Booking policy |
+| `price` | String | Includes currency symbol (`-'45`, `-'80`) |
+| `number_of_reviews` | Number | Total reviews |
+| `review_scores_rating` | Number | 0--"5 style rating |
+| `availability_365` | Number | Available days in a year |
+| `latitude`, `longitude` | Number | Coordinates |
+| `host_id` | Number | Synthetic host reference |
+| `host_name` | String | Host display name |
+
+**Suggested indexes**
+
+- `db.listings.createIndex({ neighbourhood: 1, room_type: 1 })`
+- `db.listings.createIndex({ price: 1 })` after normalizing price to numeric values inside exercises.
 
 ---
 
 ## External Datasets
 
-### 7. Crunchbase Companies (`data/crunchbase/crunchbase_database.json`)
+### Crunchbase Database
 
-**Description**: Startup and company data from Crunchbase.
+> Labs: Advanced aggregation + replication demos  - Source: [crunchbase/crunchbase_database.json](crunchbase/crunchbase_database.json)
 
-| Field | Type | Description | Source |
-|-------|------|-------------|--------|
-| name | String | Company name | Crunchbase |
-| permalink | String | Unique URL slug | Crunchbase |
-| category_code | String | Industry category | Crunchbase |
-| founded_year | Number | Year founded | Crunchbase |
-| total_money_raised | String | Funding raised | Crunchbase |
-| offices | Array[Object] | Office locations | Crunchbase |
-| funding_rounds | Array[Object] | Funding history | Crunchbase |
+Schema mirrors the --oeCompanies Dataset-- core entry above but retains the original Crunchbase document layout. Use the same indexes when loading the entire dump for benchmarking.
 
-**License**: Crunchbase Open Data License
-**Last Updated**: Check data_versions.json
+### Enron Email Dataset
 
----
+> Labs: Text processing and graph exploration  - Source: [enron/enron_messages.json](enron/enron_messages.json)
 
-### 8. Enron Email Dataset (`data/enron/enron_messages.json`)
+| Field | Type | Notes |
+| --- | --- | --- |
+| `message_id` | String | Unique identifier |
+| `date` | Object | `{ "$date": ... }` |
+| `from` | String | Sender |
+| `to` | Array\<String> | Recipients |
+| `subject` | String | Raw subject line |
+| `body` | String | Plain-text message |
+| `folder` | String | Source mailbox folder |
 
-**Description**: Email communications from the Enron investigation.
-
-| Field | Type | Description | Notes |
-|-------|------|-------------|-------|
-| message_id | String | Unique message ID | Original dataset |
-| date | Date | Email timestamp | Parsed from headers |
-| from | String | Sender email | Anonymized where needed |
-| to | Array[String] | Recipients | May be empty |
-| subject | String | Email subject | May contain encoding issues |
-| body | String | Email content | Text only |
-| folder | String | Mail folder | User's folder structure |
-
-**License**: Public Domain
-**Ethical Note**: This dataset is for educational purposes only
+**Suggested indexes:** `{ date: -1 }`, `{ "to": 1 }`, `{ folder: 1, date: -1 }`
 
 ---
 
 ## Data Types Reference
 
-### Standard MongoDB Types
+| Type | Description | JSON Representation |
+| --- | --- | --- |
+| `ObjectId` | 12-byte BSON identifier | `{ "$oid": "507f1f77bcf86cd799439011" }` |
+| `String` | UTF-8 string | `"Hello World"` |
+| `Number` | 64-bit floating point | `42.5` |
+| `Boolean` | `true` or `false` | `true` |
+| `Date` | UTC datetime | `{ "$date": "2024-01-15T10:00:00Z" }` |
+| `Array` | Ordered sequence | `[ "a", "b", "c" ]` |
+| `Object` | Nested document | `{ "key": "value" }` |
+| `Null` | Null value | `null` |
 
-| Type | Description | Example | JSON Representation |
-|------|-------------|---------|---------------------|
-| ObjectId | 12-byte identifier | ObjectId("507f1f77bcf86cd799439011") | {"$oid": "507f1f77bcf86cd799439011"} |
-| String | UTF-8 string | "Hello World" | "Hello World" |
-| Number | 64-bit floating point | 42.5 | 42.5 |
-| Boolean | True/False | true | true |
-| Date | UTC datetime | ISODate("2024-01-15T10:00:00Z") | {"$date": "2024-01-15T10:00:00Z"} |
-| Array | Ordered list | ["a", "b", "c"] | ["a", "b", "c"] |
-| Object | Nested document | {"key": "value"} | {"key": "value"} |
-| Null | Null value | null | null |
+**Common patterns**
 
-### Common Patterns
-
-**Address Schema**:
-```json
-{
-  "street": "123 Main St",
-  "city": "Springfield",
-  "state": "IL",
-  "zip": "62701",
-  "country": "USA"
-}
-```
-
-**Timestamp Fields**:
-- `created_at`: Record creation time (immutable)
-- `updated_at`: Last modification time (auto-updated)
-- `deleted_at`: Soft deletion timestamp (nullable)
-
-**Status Enums**:
-- Orders: `["pending", "processing", "shipped", "delivered", "cancelled"]`
-- Users: `["active", "inactive", "suspended", "deleted"]`
-- Products: `["available", "out_of_stock", "discontinued"]`
+- Address objects use `{ street, city, state, zip, country }`.
+- Timestamp fields follow `created_at`, `updated_at`, `deleted_at`.
+- Status enums differ per dataset: Orders (`pending`-+'`delivered`), Products (`available`, `out_of_stock`, `discontinued`), Users (`active`, `inactive`, `suspended`, `deleted`).
 
 ---
 
@@ -291,83 +298,50 @@ This document provides a comprehensive data dictionary for all sample datasets u
 
 ### Versioning Scheme
 
-All datasets follow semantic versioning (MAJOR.MINOR.PATCH):
-
-- **MAJOR**: Incompatible schema changes
-- **MINOR**: Backwards-compatible additions
-- **PATCH**: Backwards-compatible fixes
+- **MAJOR** --" Breaking schema change.
+- **MINOR** --" Backward-compatible field additions.
+- **PATCH** --" Data corrections without schema changes.
 
 ### Freshness Indicators
 
-| Status | Description | Action Required |
-|--------|-------------|-----------------|
-| ✓ Fresh | Updated within 30 days | None |
-| ⚠️ Stale | Not updated for 30+ days | Review for updates |
-| ❌ Expired | Past expiration date | Update required |
+| Status | Description | Action |
+| --- | --- | --- |
+| Fresh | Updated within 30 days | None |
+| Stale | No updates for 30+ days | Review before labs |
+| Expired | Out of date | Refresh from upstream source |
 
-### Update Tracking
-
-To check the current version and freshness of all datasets:
-
-```bash
-node data/data_version_tracker.js --check-freshness
-```
-
-To update version tracking after modifying datasets:
-
-```bash
-node data/data_version_tracker.js --update
-```
+Run `node data/data_version_tracker.js --check-freshness` to see the current status, and `--update` after modifying datasets.
 
 ---
 
 ## Usage Guidelines
 
-### Best Practices
+1. **Validate before import.** Use `npm run test:data` or `node scripts/data-smoke-test.js`.
+2. **Check compatibility.** Labs reference specific fields--"keep schema changes additive.
+3. **Import with indexes in mind.** Create indexes that match the query plans listed above.
+4. **Respect file size.** Some datasets exceed 50-- MB; filter subsets if needed.
+5. **Document new datasets.** Update this dictionary and `data/SCHEMAS.md` with every addition.
 
-1. **Always validate data** before importing into MongoDB
-2. **Check version compatibility** with lab requirements
-3. **Use appropriate indexes** based on query patterns
-4. **Consider data size** when choosing datasets for exercises
-5. **Respect data licenses** and attribution requirements
+Common import command:
 
-### Data Import
-
-Standard import command:
 ```bash
 mongoimport --db <database> --collection <collection> --file <path/to/file.json> --jsonArray
-```
-
-With validation:
-```bash
-node scripts/import_with_validation.js --file <path> --collection <name> --validate
-```
-
-### Data Export
-
-Standard export command:
-```bash
-mongoexport --db <database> --collection <collection> --out <path/to/output.json> --jsonArray --pretty
 ```
 
 ---
 
 ## Contributing
 
-To add or update dataset documentation:
-
-1. Update this data dictionary with schema information
-2. Add validation schema in `data/validation_schemas/`
-3. Run version tracking: `node data/data_version_tracker.js --update`
-4. Submit PR with changes
+1. Update this data dictionary when adding or modifying datasets.
+2. Provide validation schemas in `data/validation_schemas/` when possible.
+3. Run `node data/data_version_tracker.js --update` to refresh metadata.
+4. Include references to the labs that depend on the new/changed data.
 
 ---
 
 ## License
 
-Individual datasets may have different licenses. Check the specific dataset documentation or metadata files for license information.
+Dataset licenses vary by source. Consult each dataset folder (README, LICENSE, or metadata files) for attribution requirements before redistributing.
 
----
 
-*Last Updated: 2024-01-20*
-*Version: 1.0.0*
+

@@ -26,12 +26,14 @@ docker-compose ps
 ```
 
 This starts:
+
 - **MongoDB** on port 27017
 - **Mongo Express** (web UI) on port 8081
 
 ### 2. Access the Services
 
 #### MongoDB Connection
+
 - **Host:** localhost
 - **Port:** 27017
 - **Admin Username:** admin
@@ -41,6 +43,7 @@ This starts:
 - **Lab Password:** labpass123
 
 #### Mongo Express Web UI
+
 - **URL:** http://localhost:8081
 - No authentication required (disabled for development)
 
@@ -60,6 +63,7 @@ docker exec -it nosql-labs-mongodb mongosh -u labuser -p labpass123 nosql_labs <
 ## Working with Different Labs
 
 ### Lab 01-04: Basic MongoDB
+
 The default setup is sufficient for Labs 1-4:
 
 ```bash
@@ -67,6 +71,7 @@ docker-compose up -d
 ```
 
 ### Lab 05: Replication
+
 For the replication lab, start the replica set:
 
 ```bash
@@ -90,11 +95,13 @@ docker exec -it nosql-labs-mongodb-replica-1 mongosh --eval "rs.status()"
 ```
 
 Replica set members are available on:
+
 - Primary: localhost:27018
 - Secondary 1: localhost:27019
 - Secondary 2: localhost:27020
 
 ### Development Environment
+
 For Python development and testing:
 
 ```bash
@@ -167,9 +174,11 @@ docker exec nosql-labs-mongodb mongoimport -u labuser -p labpass123 --authentica
 ## Troubleshooting
 
 ### Port Already in Use
+
 If port 27017 is already in use:
 
 1. Stop any local MongoDB service:
+
    ```bash
    # Windows
    net stop MongoDB
@@ -184,33 +193,41 @@ If port 27017 is already in use:
 2. Or change the port in docker-compose.yml:
    ```yaml
    ports:
-     - "27018:27017"  # Change 27018 to any free port
+     - "27018:27017" # Change 27018 to any free port
    ```
 
 ### Container Won't Start
+
 Check logs for errors:
+
 ```bash
 docker-compose logs mongodb
 ```
 
 Common issues:
+
 - Insufficient disk space: Free up space or run `docker system prune`
 - Corrupted data: Remove volumes with `docker-compose down -v`
 
 ### Connection Refused
+
 Ensure the service is healthy:
+
 ```bash
 docker-compose ps
 docker exec nosql-labs-mongodb mongosh --eval "db.adminCommand('ping')"
 ```
 
 ### Permission Denied
+
 On Linux, you might need to run Docker commands with sudo:
+
 ```bash
 sudo docker-compose up -d
 ```
 
 Or add your user to the docker group:
+
 ```bash
 sudo usermod -aG docker $USER
 # Log out and log back in
@@ -233,10 +250,12 @@ sudo usermod -aG docker $USER
 ## VS Code Integration
 
 If using VS Code, install these extensions:
+
 - Docker (ms-azuretools.vscode-docker)
 - MongoDB for VS Code (mongodb.mongodb-vscode)
 
 Connect to MongoDB in VS Code:
+
 1. Open MongoDB extension
 2. Add connection: `mongodb://labuser:labpass123@localhost:27017/nosql_labs`
 3. Browse collections and run queries directly
@@ -251,6 +270,7 @@ Connect to MongoDB in VS Code:
 ## Support
 
 If you encounter issues:
+
 1. Check the troubleshooting section above
 2. Review container logs: `docker-compose logs`
 3. Ensure Docker Desktop is running and updated

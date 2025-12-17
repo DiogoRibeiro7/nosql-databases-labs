@@ -36,7 +36,6 @@ brew install mongosh
 brew install mongodb-database-tools
 ```
 
-
 ## Setup Methods
 
 ### Method 1: Using the Setup Script (Recommended)
@@ -44,12 +43,14 @@ brew install mongodb-database-tools
 We provide automated setup scripts for both Windows and Unix systems:
 
 #### Windows
+
 ```cmd
 cd labs/lab01_intro
 setup_database.bat
 ```
 
 #### Linux/macOS
+
 ```bash
 cd labs/lab01_intro
 chmod +x setup_database.sh
@@ -91,6 +92,7 @@ load('import_data.js')
 ```
 
 Or run directly from command line:
+
 ```bash
 mongosh --file import_data.js
 ```
@@ -145,24 +147,26 @@ You can also copy and paste queries from `queries.js` directly into the mongosh 
 
 ## Key Differences: mongosh vs mongo
 
-| Feature | Old (mongo) | New (mongosh) |
-|---------|------------|---------------|
-| **Syntax Highlighting** | No | Yes |
-| **Autocomplete** | Basic | Advanced |
-| **Error Messages** | Basic | Detailed |
-| **Node.js Integration** | No | Yes |
-| **Async/Await** | No | Yes |
-| **npm Packages** | No | Yes |
+| Feature                 | Old (mongo) | New (mongosh) |
+| ----------------------- | ----------- | ------------- |
+| **Syntax Highlighting** | No          | Yes           |
+| **Autocomplete**        | Basic       | Advanced      |
+| **Error Messages**      | Basic       | Detailed      |
+| **Node.js Integration** | No          | Yes           |
+| **Async/Await**         | No          | Yes           |
+| **npm Packages**        | No          | Yes           |
 
 ### New Features in mongosh
 
 1. **Better Output Formatting**
+
    ```javascript
    // Automatically formats output
-   db.customers.find()
+   db.customers.find();
    ```
 
 2. **Improved Scripting**
+
    ```javascript
    // Can use modern JavaScript
    const results = await db.customers.find().toArray();
@@ -172,7 +176,7 @@ You can also copy and paste queries from `queries.js` directly into the mongosh 
 3. **Better Error Messages**
    ```javascript
    // Clear error messages with suggestions
-   db.customers.fnd()  // Typo - will suggest 'find()'
+   db.customers.fnd(); // Typo - will suggest 'find()'
    ```
 
 ## Troubleshooting

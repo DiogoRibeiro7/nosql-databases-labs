@@ -9,8 +9,8 @@ Warm up with these short pipelines (≈30 minutes total) before building the ful
 ```javascript
 db.sales.aggregate([
   { $match: { status: "Completed" } },
-  { $group: { _id: null, totalOrders: { $sum: 1 }, totalRevenue: { $sum: "$amount" } } }
-])
+  { $group: { _id: null, totalOrders: { $sum: 1 }, totalRevenue: { $sum: "$amount" } } },
+]);
 ```
 
 1. Run the pipeline, note the totals in `NOTES.md`.

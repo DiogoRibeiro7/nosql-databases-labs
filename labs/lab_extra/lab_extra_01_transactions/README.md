@@ -48,7 +48,7 @@ Run the setup script to initialize the database:
 setup_database.bat
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 2\. Understanding Transactions
 
@@ -70,7 +70,7 @@ Transactions are essential for:
 - Order processing
 - Any operation requiring multiple document updates
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. Basic Transactions
 
@@ -79,43 +79,38 @@ Transactions are essential for:
 ```javascript
 // Transfer money between accounts
 async function transferFunds(fromAccountId, toAccountId, amount) {
-    const session = client.startSession();
+  const session = client.startSession();
 
-    try {
-        await session.withTransaction(async () => {
-            // Debit from account
-            await accounts.updateOne(
-                { _id: fromAccountId },
-                { $inc: { balance: -amount } },
-                { session }
-            );
+  try {
+    await session.withTransaction(async () => {
+      // Debit from account
+      await accounts.updateOne({ _id: fromAccountId }, { $inc: { balance: -amount } }, { session });
 
-            // Credit to account
-            await accounts.updateOne(
-                { _id: toAccountId },
-                { $inc: { balance: amount } },
-                { session }
-            );
+      // Credit to account
+      await accounts.updateOne({ _id: toAccountId }, { $inc: { balance: amount } }, { session });
 
-            // Log transaction
-            await transactions.insertOne({
-                from: fromAccountId,
-                to: toAccountId,
-                amount: amount,
-                timestamp: new Date()
-            }, { session });
-        });
+      // Log transaction
+      await transactions.insertOne(
+        {
+          from: fromAccountId,
+          to: toAccountId,
+          amount: amount,
+          timestamp: new Date(),
+        },
+        { session }
+      );
+    });
 
-        console.log("Transaction completed successfully");
-    } catch (error) {
-        console.error("Transaction failed:", error);
-    } finally {
-        await session.endSession();
-    }
+    console.log("Transaction completed successfully");
+  } catch (error) {
+    console.error("Transaction failed:", error);
+  } finally {
+    await session.endSession();
+  }
 }
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Read/Write Concerns
 
@@ -126,15 +121,15 @@ Control durability guarantees:
 ```javascript
 // Majority write concern
 await collection.insertOne(
-    { name: "Important Document" },
-    { writeConcern: { w: "majority", j: true } }
+  { name: "Important Document" },
+  { writeConcern: { w: "majority", j: true } }
 );
 
 // Custom write concern
 await collection.updateOne(
-    { _id: docId },
-    { $set: { status: "critical" } },
-    { writeConcern: { w: 2, wtimeout: 5000 } }
+  { _id: docId },
+  { $set: { status: "critical" } },
+  { writeConcern: { w: 2, wtimeout: 5000 } }
 );
 ```
 
@@ -144,18 +139,13 @@ Control consistency of read operations:
 
 ```javascript
 // Read with snapshot isolation
-await collection.find({})
-    .readConcern("snapshot")
-    .toArray();
+await collection.find({}).readConcern("snapshot").toArray();
 
 // Read with linearizable consistency
-await collection.findOne(
-    { _id: docId },
-    { readConcern: { level: "linearizable" } }
-);
+await collection.findOne({ _id: docId }, { readConcern: { level: "linearizable" } });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Consistency Patterns
 
@@ -165,20 +155,14 @@ Maintain read-your-writes consistency:
 
 ```javascript
 const session = client.startSession({
-    causalConsistency: true
+  causalConsistency: true,
 });
 
 // Write operation
-await collection.insertOne(
-    { data: "value" },
-    { session }
-);
+await collection.insertOne({ data: "value" }, { session });
 
 // Subsequent read sees the write
-const result = await collection.findOne(
-    { data: "value" },
-    { session }
-);
+const result = await collection.findOne({ data: "value" }, { session });
 ```
 
 ### 5.2 Eventual Consistency
@@ -187,13 +171,10 @@ Handle eventual consistency in distributed systems:
 
 ```javascript
 // Read from secondary with eventual consistency
-await collection.find({})
-    .readPreference("secondary")
-    .readConcern("local")
-    .toArray();
+await collection.find({}).readPreference("secondary").readConcern("local").toArray();
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Advanced Transaction Patterns
 
@@ -203,45 +184,45 @@ Implement long-running transactions with compensating actions:
 
 ```javascript
 class OrderSaga {
-    async execute(orderData) {
-        const steps = [];
+  async execute(orderData) {
+    const steps = [];
 
-        try {
-            // Step 1: Reserve inventory
-            const inventoryReservation = await this.reserveInventory(orderData.items);
-            steps.push({ action: 'reserveInventory', data: inventoryReservation });
+    try {
+      // Step 1: Reserve inventory
+      const inventoryReservation = await this.reserveInventory(orderData.items);
+      steps.push({ action: "reserveInventory", data: inventoryReservation });
 
-            // Step 2: Process payment
-            const payment = await this.processPayment(orderData.payment);
-            steps.push({ action: 'processPayment', data: payment });
+      // Step 2: Process payment
+      const payment = await this.processPayment(orderData.payment);
+      steps.push({ action: "processPayment", data: payment });
 
-            // Step 3: Create order
-            const order = await this.createOrder(orderData);
-            steps.push({ action: 'createOrder', data: order });
+      // Step 3: Create order
+      const order = await this.createOrder(orderData);
+      steps.push({ action: "createOrder", data: order });
 
-            return order;
-        } catch (error) {
-            // Compensate in reverse order
-            await this.compensate(steps.reverse());
-            throw error;
-        }
+      return order;
+    } catch (error) {
+      // Compensate in reverse order
+      await this.compensate(steps.reverse());
+      throw error;
     }
+  }
 
-    async compensate(steps) {
-        for (const step of steps) {
-            switch(step.action) {
-                case 'reserveInventory':
-                    await this.releaseInventory(step.data);
-                    break;
-                case 'processPayment':
-                    await this.refundPayment(step.data);
-                    break;
-                case 'createOrder':
-                    await this.cancelOrder(step.data);
-                    break;
-            }
-        }
+  async compensate(steps) {
+    for (const step of steps) {
+      switch (step.action) {
+        case "reserveInventory":
+          await this.releaseInventory(step.data);
+          break;
+        case "processPayment":
+          await this.refundPayment(step.data);
+          break;
+        case "createOrder":
+          await this.cancelOrder(step.data);
+          break;
+      }
     }
+  }
 }
 ```
 
@@ -251,32 +232,32 @@ Implement distributed transactions:
 
 ```javascript
 class TwoPhaseCommit {
-    async execute(transaction) {
-        const participants = [];
+  async execute(transaction) {
+    const participants = [];
 
-        // Phase 1: Prepare
-        for (const operation of transaction.operations) {
-            const prepared = await this.prepare(operation);
-            participants.push(prepared);
-        }
-
-        // Check if all prepared successfully
-        if (participants.every(p => p.status === 'prepared')) {
-            // Phase 2: Commit
-            for (const participant of participants) {
-                await this.commit(participant);
-            }
-        } else {
-            // Rollback
-            for (const participant of participants) {
-                await this.rollback(participant);
-            }
-        }
+    // Phase 1: Prepare
+    for (const operation of transaction.operations) {
+      const prepared = await this.prepare(operation);
+      participants.push(prepared);
     }
+
+    // Check if all prepared successfully
+    if (participants.every((p) => p.status === "prepared")) {
+      // Phase 2: Commit
+      for (const participant of participants) {
+        await this.commit(participant);
+      }
+    } else {
+      // Rollback
+      for (const participant of participants) {
+        await this.rollback(participant);
+      }
+    }
+  }
 }
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Error Handling & Retry Logic
 
@@ -284,22 +265,22 @@ class TwoPhaseCommit {
 
 ```javascript
 async function withRetry(operation, maxRetries = 3) {
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-            return await operation();
-        } catch (error) {
-            if (error.hasErrorLabel("TransientTransactionError") && attempt < maxRetries) {
-                console.log(`Retrying transaction (attempt ${attempt + 1})`);
-                await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 100));
-            } else {
-                throw error;
-            }
-        }
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (error.hasErrorLabel("TransientTransactionError") && attempt < maxRetries) {
+        console.log(`Retrying transaction (attempt ${attempt + 1})`);
+        await new Promise((resolve) => setTimeout(resolve, Math.pow(2, attempt) * 100));
+      } else {
+        throw error;
+      }
     }
+  }
 }
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 8\. Exercises
 
@@ -310,17 +291,17 @@ Implement a banking system with transactions:
 ```javascript
 // TODO: Implement these functions
 async function createAccount(name, initialBalance) {
-    // Create account with initial balance
+  // Create account with initial balance
 }
 
 async function transfer(fromAccount, toAccount, amount) {
-    // Transfer with transaction
-    // Check sufficient balance
-    // Handle concurrent transfers
+  // Transfer with transaction
+  // Check sufficient balance
+  // Handle concurrent transfers
 }
 
 async function getAccountHistory(accountId) {
-    // Get transaction history with causal consistency
+  // Get transaction history with causal consistency
 }
 ```
 
@@ -348,7 +329,7 @@ Implement a distributed lock using transactions:
 // - Prevent deadlocks
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 9\. Testing Your Implementation
 
@@ -364,7 +345,7 @@ Individual test files:
 - `test_consistency.js` - Consistency pattern tests
 - `test_saga.js` - Saga pattern tests
 
---------------------------------------------------------------------------------
+---
 
 ## 10\. Best Practices
 
@@ -374,7 +355,7 @@ Individual test files:
 4. **Monitor performance** - Track transaction metrics
 5. **Test failure scenarios** - Ensure proper rollback
 
---------------------------------------------------------------------------------
+---
 
 ## Additional Resources
 

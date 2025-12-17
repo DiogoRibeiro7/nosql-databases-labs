@@ -82,7 +82,7 @@ erDiagram
     CUSTOMER ||--o{ REVIEW : writes
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 2\. NoSQL Logical Model (MongoDB)
 
@@ -125,7 +125,7 @@ erDiagram
 - Unique index on `email` (for login)
 - Index on `customer_id` (for lookups)
 
---------------------------------------------------------------------------------
+---
 
 ### 2.2\. Collection: `products`
 
@@ -180,7 +180,7 @@ erDiagram
 - Compound index on `category, price` (for category + price filter)
 - Text index on `name, description` (for search)
 
---------------------------------------------------------------------------------
+---
 
 ### 2.3\. Collection: `orders`
 
@@ -189,19 +189,16 @@ erDiagram
 **Reasoning**:
 
 - **Why embed order items**:
-
   - Order items are never queried independently
   - They always belong to exactly one order
   - Embedding allows atomic updates and retrieval in one query
 
 - **Why denormalize product info** (name, price):
-
   - Products may change over time (price, name)
   - Order should reflect historical data at time of purchase
   - Prevents orphaned references if products are deleted
 
 - **Why reference customer**:
-
   - Customer data may update (address, phone)
   - Reference keeps order size smaller
   - Customer may have many orders (referencing avoids duplication)
@@ -265,7 +262,7 @@ erDiagram
 - Compound index on `customer_id, order_date` (for customer order history)
 - Index on `status` (for admin queries on pending/processing orders)
 
---------------------------------------------------------------------------------
+---
 
 ### 2.4\. Collection: `reviews`
 
@@ -274,18 +271,15 @@ erDiagram
 **Reasoning**:
 
 - **Why separate collection**:
-
   - Reviews can be numerous (thousands per popular product)
   - Embedding in products would create large documents
   - Allows querying reviews independently (e.g., "all reviews by user")
 
 - **Why denormalize product_name and customer_name**:
-
   - Avoids extra lookups when displaying reviews
   - Names rarely change, and if they do, historical reviews are fine
 
 - **Why reference IDs**:
-
   - Allows linking back to products and customers if needed
   - Keeps review documents reasonably sized
 
@@ -317,20 +311,20 @@ erDiagram
 - Compound index on `product_id, created_at` (for recent reviews)
 - Index on `rating` (for filtering)
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. Embedding vs Referencing Decisions
 
 ### 3.1\. Summary Table
 
-Relationship                    | Strategy                            | Reasoning
-------------------------------- | ----------------------------------- | --------------------------------------------------------
-Customer → Address              | **Embed**                           | Address is always needed with customer, not shared
-Order → Order Items             | **Embed**                           | Items never queried separately, belong to one order only
-Order → Customer                | **Reference**                       | Customer data may update, customer has many orders
-Order → Product Info            | **Denormalize**                     | Preserve historical prices/names at time of purchase
-Product → Reviews               | **Reference** (separate collection) | Too many reviews, would create huge documents
-Review → Product/Customer Names | **Denormalize**                     | Avoid extra lookups, names rarely change
+| Relationship                    | Strategy                            | Reasoning                                                |
+| ------------------------------- | ----------------------------------- | -------------------------------------------------------- |
+| Customer → Address              | **Embed**                           | Address is always needed with customer, not shared       |
+| Order → Order Items             | **Embed**                           | Items never queried separately, belong to one order only |
+| Order → Customer                | **Reference**                       | Customer data may update, customer has many orders       |
+| Order → Product Info            | **Denormalize**                     | Preserve historical prices/names at time of purchase     |
+| Product → Reviews               | **Reference** (separate collection) | Too many reviews, would create huge documents            |
+| Review → Product/Customer Names | **Denormalize**                     | Avoid extra lookups, names rarely change                 |
 
 ### 3.2\. Detailed Justification
 
@@ -355,7 +349,7 @@ Review → Product/Customer Names | **Denormalize**                     | Avoid 
 3. Want to **avoid extra queries** for frequently accessed data
 4. Accept **eventual consistency** for read performance
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Trade-offs and Considerations
 
@@ -369,12 +363,12 @@ Review → Product/Customer Names | **Denormalize**                     | Avoid 
 
 ### 4.2\. Disadvantages and Mitigations
 
-Issue                                                  | Mitigation
------------------------------------------------------- | ------------------------------------------------------------------------
-**Denormalized data may become stale**                 | For reviews, names changing is rare. If needed, run batch update
-**Product rating summary needs updates**               | Use background job or trigger to recompute after new reviews
-**Order items don't link back to products**            | Keep `product_id` reference for analytics, just denormalize display data
-**Cannot easily update all orders if product deleted** | Keep `product_id`, use it to mark items as "product no longer available"
+| Issue                                                  | Mitigation                                                               |
+| ------------------------------------------------------ | ------------------------------------------------------------------------ |
+| **Denormalized data may become stale**                 | For reviews, names changing is rare. If needed, run batch update         |
+| **Product rating summary needs updates**               | Use background job or trigger to recompute after new reviews             |
+| **Order items don't link back to products**            | Keep `product_id` reference for analytics, just denormalize display data |
+| **Cannot easily update all orders if product deleted** | Keep `product_id`, use it to mark items as "product no longer available" |
 
 ### 4.3\. Alternative Designs
 
@@ -390,7 +384,7 @@ Issue                                                  | Mitigation
 - **Downside**: Documents grow unbounded, may hit 16MB limit
 - **Use case**: Only for very small-scale applications
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Indexes and Performance
 
@@ -414,7 +408,7 @@ db.orders.createIndex({ customer_id: 1 });
 db.orders.createIndex({ order_date: -1 });
 db.orders.createIndex({ customer_id: 1, order_date: -1 });
 db.orders.createIndex({ status: 1 });
-db.orders.createIndex({ "items.product_id": 1 });  // For analytics
+db.orders.createIndex({ "items.product_id": 1 }); // For analytics
 
 // Reviews collection
 db.reviews.createIndex({ review_id: 1 }, { unique: true });
@@ -440,7 +434,7 @@ db.reviews.createIndex({ rating: 1 });
 
 **Recommendation**: Start with essential indexes (IDs, foreign keys), add others based on query patterns.
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Scalability Considerations
 
@@ -459,7 +453,7 @@ As the application grows, we may need to shard collections:
 - **Write-heavy**: Orders (use replica sets for read scaling)
 - **Balanced**: Customers (moderate reads and writes)
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Conclusion
 

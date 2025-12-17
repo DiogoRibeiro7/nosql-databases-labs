@@ -9,6 +9,7 @@ These optional advanced exercises extend Lab 03 with more complex scenarios, per
 ## Advanced Exercise 0: Diagnostics & Resilience Drills (Bonus Track)
 
 ### Objective
+
 Practice real operational workflows: profiling workloads, surviving index outages, and safeguarding data quality.
 
 ### Tasks
@@ -47,6 +48,7 @@ Treat this track as ~45–60 minutes of extra credit; partial results are still 
 ## Advanced Exercise 1: Query Pattern Analysis
 
 ### Objective
+
 Analyze real-world query patterns and optimize for specific use cases.
 
 ### Tasks
@@ -54,6 +56,7 @@ Analyze real-world query patterns and optimize for specific use cases.
 1. **Create a Query Profiler**
 
    Build a script that profiles different query patterns:
+
    ```javascript
    // Enable profiling
    db.setProfilingLevel(2, { slowms: 1 });
@@ -62,13 +65,15 @@ Analyze real-world query patterns and optimize for specific use cases.
 
    // Analyze profile collection
    db.system.profile.aggregate([
-     { $group: {
-       _id: { ns: "$ns", op: "$op" },
-       count: { $sum: 1 },
-       avgTime: { $avg: "$millis" },
-       maxTime: { $max: "$millis" }
-     }},
-     { $sort: { "avgTime": -1 } }
+     {
+       $group: {
+         _id: { ns: "$ns", op: "$op" },
+         count: { $sum: 1 },
+         avgTime: { $avg: "$millis" },
+         maxTime: { $max: "$millis" },
+       },
+     },
+     { $sort: { avgTime: -1 } },
    ]);
    ```
 
@@ -90,6 +95,7 @@ Analyze real-world query patterns and optimize for specific use cases.
    ```
 
 ### Expected Output
+
 Create `query_analysis.js` with your profiler and recommendation engine.
 
 ---
@@ -97,33 +103,34 @@ Create `query_analysis.js` with your profiler and recommendation engine.
 ## Advanced Exercise 2: Partial and Sparse Indexes
 
 ### Objective
+
 Optimize storage and performance using partial and sparse indexes.
 
 ### Scenario
+
 The movie collection has many optional fields. Create efficient indexes that only include relevant documents.
 
 ### Tasks
 
 1. **Partial Index for Recent Movies**
+
    ```javascript
    // Index only movies from last 5 years
    db.movies.createIndex(
      { "imdb.rating": -1 },
      {
        partialFilterExpression: {
-         year: { $gte: 2019 }
-       }
+         year: { $gte: 2019 },
+       },
      }
    );
    ```
 
 2. **Sparse Index for Awards**
+
    ```javascript
    // Index only movies with awards
-   db.movies.createIndex(
-     { "awards.wins": -1 },
-     { sparse: true }
-   );
+   db.movies.createIndex({ "awards.wins": -1 }, { sparse: true });
    ```
 
 3. **Compare Performance**
@@ -137,6 +144,7 @@ The movie collection has many optional fields. Create efficient indexes that onl
    - Long movies with good ratings (runtime > 150, rating > 7)
 
 ### Deliverable
+
 Document findings in `partial_indexes.md` with performance comparisons.
 
 ---
@@ -144,11 +152,13 @@ Document findings in `partial_indexes.md` with performance comparisons.
 ## Advanced Exercise 3: Index Intersection vs. Compound Indexes
 
 ### Objective
+
 Understand when MongoDB uses index intersection and compare with compound indexes.
 
 ### Tasks
 
 1. **Create Multiple Single-Field Indexes**
+
    ```javascript
    db.movies.createIndex({ year: 1 });
    db.movies.createIndex({ "imdb.rating": 1 });
@@ -156,21 +166,25 @@ Understand when MongoDB uses index intersection and compare with compound indexe
    ```
 
 2. **Test Index Intersection**
+
    ```javascript
    // Query that could use index intersection
-   db.movies.find({
-     year: 2015,
-     "imdb.rating": { $gte: 8 },
-     genres: "Action"
-   }).explain("executionStats");
+   db.movies
+     .find({
+       year: 2015,
+       "imdb.rating": { $gte: 8 },
+       genres: "Action",
+     })
+     .explain("executionStats");
    ```
 
 3. **Create Equivalent Compound Index**
+
    ```javascript
    db.movies.createIndex({
      year: 1,
      "imdb.rating": 1,
-     genres: 1
+     genres: 1,
    });
    ```
 
@@ -181,6 +195,7 @@ Understand when MongoDB uses index intersection and compare with compound indexe
    - Determine best practice guidelines
 
 ### Analysis Questions
+
 - When does MongoDB use index intersection?
 - What are the performance trade-offs?
 - When should you use compound indexes instead?
@@ -190,28 +205,34 @@ Understand when MongoDB uses index intersection and compare with compound indexe
 ## Advanced Exercise 4: Aggregation Pipeline Optimization
 
 ### Objective
+
 Optimize complex aggregation pipelines for performance.
 
 ### Challenge Pipeline
+
 ```javascript
 // Inefficient pipeline - optimize this!
 db.movies.aggregate([
   { $unwind: "$cast" },
   { $unwind: "$genres" },
-  { $lookup: {
-    from: "users",
-    localField: "_id",
-    foreignField: "watchedMovies",
-    as: "viewers"
-  }},
+  {
+    $lookup: {
+      from: "users",
+      localField: "_id",
+      foreignField: "watchedMovies",
+      as: "viewers",
+    },
+  },
   { $match: { year: { $gte: 2010 } } },
-  { $group: {
-    _id: { actor: "$cast", genre: "$genres" },
-    avgRating: { $avg: "$imdb.rating" },
-    viewerCount: { $sum: { $size: "$viewers" } }
-  }},
+  {
+    $group: {
+      _id: { actor: "$cast", genre: "$genres" },
+      avgRating: { $avg: "$imdb.rating" },
+      viewerCount: { $sum: { $size: "$viewers" } },
+    },
+  },
   { $sort: { viewerCount: -1 } },
-  { $limit: 100 }
+  { $limit: 100 },
 ]);
 ```
 
@@ -235,6 +256,7 @@ db.movies.aggregate([
    - Use materialized views
 
 ### Performance Targets
+
 - Reduce execution time by 50%
 - Reduce documents examined by 75%
 
@@ -243,46 +265,49 @@ db.movies.aggregate([
 ## Advanced Exercise 5: Text Search Optimization
 
 ### Objective
+
 Implement advanced text search features with performance optimization.
 
 ### Tasks
 
 1. **Weighted Text Index**
+
    ```javascript
    db.movies.createIndex(
      {
        title: "text",
        plot: "text",
-       "awards.text": "text"
+       "awards.text": "text",
      },
      {
        weights: {
          title: 10,
          plot: 5,
-         "awards.text": 1
-       }
+         "awards.text": 1,
+       },
      }
    );
    ```
 
 2. **Language-Specific Search**
+
    ```javascript
    // Search with language override
    db.movies.find({
      $text: {
        $search: "amour",
-       $language: "french"
-     }
+       $language: "french",
+     },
    });
    ```
 
 3. **Search Score Optimization**
+
    ```javascript
    // Use text score for ranking
-   db.movies.find(
-     { $text: { $search: "space war alien" } },
-     { score: { $meta: "textScore" } }
-   ).sort({ score: { $meta: "textScore" } });
+   db.movies
+     .find({ $text: { $search: "space war alien" } }, { score: { $meta: "textScore" } })
+     .sort({ score: { $meta: "textScore" } });
    ```
 
 4. **Implement Search Features**
@@ -292,6 +317,7 @@ Implement advanced text search features with performance optimization.
    - Search result highlighting
 
 ### Challenge
+
 Build a search API that returns relevant results in <10ms for common queries.
 
 ---
@@ -299,19 +325,23 @@ Build a search API that returns relevant results in <10ms for common queries.
 ## Advanced Exercise 6: Real-Time Analytics with Change Streams
 
 ### Objective
+
 Implement real-time analytics using change streams and optimized queries.
 
 ### Setup
+
 ```javascript
 // Create a change stream
 const changeStream = db.movies.watch([
-  { $match: {
-    "fullDocument.imdb.rating": { $gte: 8.0 }
-  }}
+  {
+    $match: {
+      "fullDocument.imdb.rating": { $gte: 8.0 },
+    },
+  },
 ]);
 
 // Process changes
-changeStream.forEach(change => {
+changeStream.forEach((change) => {
   // Update analytics
 });
 ```
@@ -338,24 +368,30 @@ changeStream.forEach(change => {
 ## Advanced Exercise 7: Geospatial Queries
 
 ### Objective
+
 Implement location-based features for theaters.
 
 ### Tasks
 
 1. **Add Geospatial Data**
+
    ```javascript
    // Add location to theaters
-   db.theaters.updateMany({}, {
-     $set: {
-       location: {
-         type: "Point",
-         coordinates: [longitude, latitude]
-       }
+   db.theaters.updateMany(
+     {},
+     {
+       $set: {
+         location: {
+           type: "Point",
+           coordinates: [longitude, latitude],
+         },
+       },
      }
-   });
+   );
    ```
 
 2. **Create 2dsphere Index**
+
    ```javascript
    db.theaters.createIndex({ location: "2dsphere" });
    ```
@@ -376,10 +412,13 @@ Implement location-based features for theaters.
 ## Advanced Exercise 8: Write Performance Optimization
 
 ### Objective
+
 Balance read and write performance with strategic indexing.
 
 ### Scenario
+
 The system needs to handle:
+
 - 1000 reads/second
 - 100 writes/second
 - Real-time analytics
@@ -387,6 +426,7 @@ The system needs to handle:
 ### Tasks
 
 1. **Measure Write Impact**
+
    ```javascript
    function measureWritePerformance(indexes) {
      // Bulk insert test
@@ -404,6 +444,7 @@ The system needs to handle:
    - Implement lazy indexing
 
 3. **Bulk Operation Optimization**
+
    ```javascript
    // Optimized bulk operations
    const bulk = db.movies.initializeUnorderedBulkOp();
@@ -421,11 +462,13 @@ The system needs to handle:
 ## Advanced Exercise 9: Query Plan Cache Management
 
 ### Objective
+
 Understand and optimize MongoDB's query plan cache.
 
 ### Tasks
 
 1. **Analyze Plan Cache**
+
    ```javascript
    // View cached plans
    db.movies.getPlanCache().list();
@@ -435,6 +478,7 @@ Understand and optimize MongoDB's query plan cache.
    ```
 
 2. **Force Plan Revaluation**
+
    ```javascript
    // Add hint to force specific index
    db.movies.find(query).hint({ year: 1 });
@@ -450,28 +494,34 @@ Understand and optimize MongoDB's query plan cache.
 ## Advanced Exercise 10: Custom Scoring and Ranking
 
 ### Objective
+
 Implement custom scoring algorithms for movie recommendations.
 
 ### Tasks
 
 1. **Create Scoring Function**
+
    ```javascript
    db.movies.aggregate([
-     { $addFields: {
-       customScore: {
-         $add: [
-           { $multiply: ["$imdb.rating", 10] },
-           { $multiply: ["$imdb.votes", 0.001] },
-           { $cond: {
-             if: { $gte: ["$year", 2020] },
-             then: 20,
-             else: 0
-           }},
-           { $size: { $ifNull: ["$awards.wins", []] } }
-         ]
-       }
-     }},
-     { $sort: { customScore: -1 } }
+     {
+       $addFields: {
+         customScore: {
+           $add: [
+             { $multiply: ["$imdb.rating", 10] },
+             { $multiply: ["$imdb.votes", 0.001] },
+             {
+               $cond: {
+                 if: { $gte: ["$year", 2020] },
+                 then: 20,
+                 else: 0,
+               },
+             },
+             { $size: { $ifNull: ["$awards.wins", []] } },
+           ],
+         },
+       },
+     },
+     { $sort: { customScore: -1 } },
    ]);
    ```
 

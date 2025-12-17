@@ -7,28 +7,33 @@ This guide shows how to enhance your existing labs with MongoDB's modern feature
 Transform the basic CRUD operations into a real-time reactive application.
 
 ### Before (Basic CRUD)
+
 ```javascript
 // Simple insert operation
 db.customers.insertOne({
   name: "John Doe",
   email: "john@example.com",
-  balance: 1000
+  balance: 1000,
 });
 ```
 
 ### After (With Change Streams)
+
 ```javascript
 // Real-time customer activity monitoring
-const customerStream = db.customers.watch([
-  {
-    $match: {
-      $or: [
-        { "operationType": "insert" },
-        { "updateDescription.updatedFields.balance": { $exists: true } }
-      ]
-    }
-  }
-], { fullDocument: "updateLookup" });
+const customerStream = db.customers.watch(
+  [
+    {
+      $match: {
+        $or: [
+          { operationType: "insert" },
+          { "updateDescription.updatedFields.balance": { $exists: true } },
+        ],
+      },
+    },
+  ],
+  { fullDocument: "updateLookup" }
+);
 
 customerStream.on("change", (change) => {
   console.log("Customer activity detected:");
@@ -51,12 +56,13 @@ customerStream.on("change", (change) => {
 const resumeToken = getStoredResumeToken();
 if (resumeToken) {
   const resumedStream = db.customers.watch([], {
-    resumeAfter: resumeToken
+    resumeAfter: resumeToken,
   });
 }
 ```
 
 ### Integration Benefits
+
 - ✅ Real-time dashboards
 - ✅ Instant notifications
 - ✅ Audit logging
@@ -69,15 +75,17 @@ if (resumeToken) {
 Enhance your data models with MongoDB's JSON Schema validation.
 
 ### Before (No Validation)
+
 ```javascript
 // Any structure accepted
 db.products.insertOne({
   name: "Laptop",
-  price: "expensive"  // Wrong type!
+  price: "expensive", // Wrong type!
 });
 ```
 
 ### After (With JSON Schema Validation)
+
 ```javascript
 // Define and enforce schema
 db.runCommand({
@@ -89,48 +97,48 @@ db.runCommand({
       properties: {
         name: {
           bsonType: "string",
-          description: "Product name is required"
+          description: "Product name is required",
         },
         price: {
           bsonType: "number",
           minimum: 0,
-          description: "Price must be a positive number"
+          description: "Price must be a positive number",
         },
         category: {
           enum: ["Electronics", "Clothing", "Books", "Home"],
-          description: "Category must be from predefined list"
+          description: "Category must be from predefined list",
         },
         sku: {
           bsonType: "string",
           pattern: "^[A-Z]{3}-[0-9]{4}$",
-          description: "SKU must match pattern XXX-0000"
+          description: "SKU must match pattern XXX-0000",
         },
         inventory: {
           bsonType: "object",
           required: ["available", "reserved"],
           properties: {
             available: { bsonType: "int", minimum: 0 },
-            reserved: { bsonType: "int", minimum: 0 }
-          }
+            reserved: { bsonType: "int", minimum: 0 },
+          },
         },
         attributes: {
           bsonType: "object",
-          additionalProperties: true  // Flexible for product variants
-        }
-      }
-    }
+          additionalProperties: true, // Flexible for product variants
+        },
+      },
+    },
   },
-  validationLevel: "moderate",  // Validate inserts and updates
-  validationAction: "error"     // Reject invalid documents
+  validationLevel: "moderate", // Validate inserts and updates
+  validationAction: "error", // Reject invalid documents
 });
 
 // Test validation
 try {
   db.products.insertOne({
     name: "Laptop",
-    price: "expensive",  // Will fail validation!
+    price: "expensive", // Will fail validation!
     category: "Electronics",
-    sku: "LAP-0001"
+    sku: "LAP-0001",
   });
 } catch (e) {
   console.log("Validation error:", e.message);
@@ -144,6 +152,7 @@ try {
 Transform regular collections into optimized time-series storage.
 
 ### Before (Regular Collection)
+
 ```javascript
 // Inefficient for time-series data
 db.sensor_readings.insertMany([
@@ -154,27 +163,32 @@ db.sensor_readings.insertMany([
 
 // Slow aggregation on large dataset
 db.sensor_readings.aggregate([
-  { $match: {
-    sensorId: "temp_01",
-    timestamp: { $gte: startDate, $lt: endDate }
-  }},
-  { $group: {
-    _id: null,
-    avgTemp: { $avg: "$value" }
-  }}
+  {
+    $match: {
+      sensorId: "temp_01",
+      timestamp: { $gte: startDate, $lt: endDate },
+    },
+  },
+  {
+    $group: {
+      _id: null,
+      avgTemp: { $avg: "$value" },
+    },
+  },
 ]);
 ```
 
 ### After (Time-Series Collection)
+
 ```javascript
 // Create optimized time-series collection
 db.createCollection("sensor_readings_ts", {
   timeseries: {
     timeField: "timestamp",
     metaField: "metadata",
-    granularity: "seconds"
+    granularity: "seconds",
   },
-  expireAfterSeconds: 2592000  // 30 days retention
+  expireAfterSeconds: 2592000, // 30 days retention
 });
 
 // Insert with metadata
@@ -184,11 +198,11 @@ db.sensor_readings_ts.insertMany([
     metadata: {
       sensorId: "temp_01",
       location: "warehouse_a",
-      type: "temperature"
+      type: "temperature",
     },
     temperature: 22.5,
-    humidity: 45
-  }
+    humidity: 45,
+  },
 ]);
 
 // Optimized time-window aggregations
@@ -198,24 +212,24 @@ db.sensor_readings_ts.aggregate([
       "metadata.sensorId": "temp_01",
       timestamp: {
         $gte: ISODate("2024-01-15T00:00:00Z"),
-        $lt: ISODate("2024-01-16T00:00:00Z")
-      }
-    }
+        $lt: ISODate("2024-01-16T00:00:00Z"),
+      },
+    },
   },
   {
     $group: {
       _id: {
         $dateTrunc: {
           date: "$timestamp",
-          unit: "hour"
-        }
+          unit: "hour",
+        },
       },
       avgTemp: { $avg: "$temperature" },
       maxTemp: { $max: "$temperature" },
       minTemp: { $min: "$temperature" },
-      readings: { $sum: 1 }
-    }
-  }
+      readings: { $sum: 1 },
+    },
+  },
 ]);
 
 // Advanced: Window functions on time-series
@@ -228,23 +242,24 @@ db.sensor_readings_ts.aggregate([
         movingAverage: {
           $avg: "$temperature",
           window: {
-            range: [-300, 0],  // 5 minutes
-            unit: "second"
-          }
+            range: [-300, 0], // 5 minutes
+            unit: "second",
+          },
         },
         temperatureChange: {
           $derivative: {
             input: "$temperature",
-            unit: "minute"
-          }
-        }
-      }
-    }
-  }
+            unit: "minute",
+          },
+        },
+      },
+    },
+  },
 ]);
 ```
 
 ### Benefits
+
 - ✅ 10x storage compression
 - ✅ 5x faster queries
 - ✅ Automatic data expiration
@@ -257,6 +272,7 @@ db.sensor_readings_ts.aggregate([
 Enhance aggregation with full-text search capabilities.
 
 ### Before (Basic Text Search)
+
 ```javascript
 // Limited text search
 db.products.createIndex({ name: "text", description: "text" });
@@ -264,6 +280,7 @@ db.products.find({ $text: { $search: "laptop" } });
 ```
 
 ### After (Atlas Search)
+
 ```javascript
 // Create Atlas Search index (in Atlas UI or API)
 {
@@ -387,14 +404,16 @@ db.products.aggregate([
 Enhance replication lab with AI-powered similarity search.
 
 ### Before (Keyword Search Only)
+
 ```javascript
 // Traditional text matching
 db.articles.find({
-  $text: { $search: "mongodb database" }
+  $text: { $search: "mongodb database" },
 });
 ```
 
 ### After (Vector Search for Semantic Similarity)
+
 ```javascript
 // Generate embeddings using OpenAI/Hugging Face
 async function generateEmbedding(text) {
@@ -496,25 +515,23 @@ db.articles.aggregate([
 Store and retrieve large files efficiently.
 
 ### Implementation
+
 ```javascript
-const { GridFSBucket } = require('mongodb');
-const fs = require('fs');
+const { GridFSBucket } = require("mongodb");
+const fs = require("fs");
 
 // Initialize GridFS
 const bucket = new GridFSBucket(db, {
-  bucketName: 'uploads'
+  bucketName: "uploads",
 });
 
 // Upload large file
 async function uploadFile(filePath, metadata) {
-  const uploadStream = bucket.openUploadStream(
-    path.basename(filePath),
-    { metadata }
-  );
+  const uploadStream = bucket.openUploadStream(path.basename(filePath), { metadata });
 
   fs.createReadStream(filePath)
     .pipe(uploadStream)
-    .on('finish', () => {
+    .on("finish", () => {
       console.log(`File uploaded: ${uploadStream.id}`);
     });
 }
@@ -524,23 +541,20 @@ async function downloadFile(fileId, outputPath) {
   const downloadStream = bucket.openDownloadStream(fileId);
   const fileStream = fs.createWriteStream(outputPath);
 
-  downloadStream.pipe(fileStream)
-    .on('finish', () => {
-      console.log('File downloaded');
-    });
+  downloadStream.pipe(fileStream).on("finish", () => {
+    console.log("File downloaded");
+  });
 }
 
 // Stream to HTTP response
-app.get('/file/:id', (req, res) => {
-  const downloadStream = bucket.openDownloadStream(
-    ObjectId(req.params.id)
-  );
+app.get("/file/:id", (req, res) => {
+  const downloadStream = bucket.openDownloadStream(ObjectId(req.params.id));
 
-  downloadStream.on('data', (chunk) => {
+  downloadStream.on("data", (chunk) => {
     res.write(chunk);
   });
 
-  downloadStream.on('end', () => {
+  downloadStream.on("end", () => {
     res.end();
   });
 });
@@ -548,7 +562,7 @@ app.get('/file/:id', (req, res) => {
 // Search files by metadata
 async function findFilesByTag(tag) {
   const cursor = bucket.find({
-    'metadata.tags': tag
+    "metadata.tags": tag,
   });
 
   const files = await cursor.toArray();
@@ -563,6 +577,7 @@ async function findFilesByTag(tag) {
 Visualize data from any lab.
 
 ### Setup
+
 1. Enable Charts in Atlas
 2. Connect to your cluster
 3. Create dashboard
@@ -570,6 +585,7 @@ Visualize data from any lab.
 ### Example Dashboards
 
 #### Lab 01: Customer Analytics
+
 ```javascript
 // Prepare data for charts
 db.customers.aggregate([
@@ -577,20 +593,22 @@ db.customers.aggregate([
     $group: {
       _id: "$city",
       avgBalance: { $avg: "$balance" },
-      customerCount: { $sum: 1 }
-    }
+      customerCount: { $sum: 1 },
+    },
   },
-  { $out: "customer_analytics" }
+  { $out: "customer_analytics" },
 ]);
 ```
 
 Charts to create:
+
 - Bar chart: Customers by city
 - Line chart: Balance trends
 - Pie chart: Customer segments
 - Number charts: KPIs
 
 #### Lab 04: Sales Dashboard
+
 ```javascript
 // Time-series sales data
 db.sales.aggregate([
@@ -598,14 +616,14 @@ db.sales.aggregate([
     $group: {
       _id: {
         year: { $year: "$date" },
-        month: { $month: "$date" }
+        month: { $month: "$date" },
       },
       revenue: { $sum: "$total" },
-      orders: { $sum: 1 }
-    }
+      orders: { $sum: 1 },
+    },
   },
   { $sort: { "_id.year": 1, "_id.month": 1 } },
-  { $out: "monthly_sales" }
+  { $out: "monthly_sales" },
 ]);
 ```
 
@@ -614,21 +632,25 @@ db.sales.aggregate([
 ## 🔄 Progressive Enhancement Strategy
 
 ### Phase 1: Foundation (Week 1-2)
+
 - Complete Labs 1-3 with basic features
 - Understand core MongoDB concepts
 - Build solid query skills
 
 ### Phase 2: Enhancement (Week 3-4)
+
 - Add change streams to Lab 1
 - Implement schema validation in Lab 2
 - Integrate Atlas Search in Lab 3
 
 ### Phase 3: Advanced (Week 5-6)
+
 - Implement time-series for metrics
 - Add vector search for recommendations
 - Create Charts dashboards
 
 ### Phase 4: Production (Week 7-8)
+
 - Combine all features
 - Performance optimization
 - Security hardening
@@ -681,23 +703,23 @@ db.sales.aggregate([
 
 ### Metrics Improvements
 
-| Feature | Storage | Query Speed | Write Speed | Complexity |
-|---------|---------|-------------|-------------|------------|
-| Change Streams | No change | No change | -5% | Medium |
-| Time-Series | -70% | +400% | +20% | Low |
-| Atlas Search | +20% | +500% | No change | Medium |
-| Vector Search | +30% | +300% | -10% | High |
-| GridFS | Separate | N/A | Good | Low |
+| Feature        | Storage   | Query Speed | Write Speed | Complexity |
+| -------------- | --------- | ----------- | ----------- | ---------- |
+| Change Streams | No change | No change   | -5%         | Medium     |
+| Time-Series    | -70%      | +400%       | +20%        | Low        |
+| Atlas Search   | +20%      | +500%       | No change   | Medium     |
+| Vector Search  | +30%      | +300%       | -10%        | High       |
+| GridFS         | Separate  | N/A         | Good        | Low        |
 
 ### Resource Requirements
 
-| Feature | RAM | CPU | Network | Storage |
-|---------|-----|-----|---------|---------|
-| Change Streams | Low | Low | Medium | None |
-| Time-Series | Medium | Low | Low | Compressed |
-| Atlas Search | High | Medium | Low | +20% |
-| Vector Search | High | High | Medium | +30% |
-| GridFS | Low | Low | High | Separate |
+| Feature        | RAM    | CPU    | Network | Storage    |
+| -------------- | ------ | ------ | ------- | ---------- |
+| Change Streams | Low    | Low    | Medium  | None       |
+| Time-Series    | Medium | Low    | Low     | Compressed |
+| Atlas Search   | High   | Medium | Low     | +20%       |
+| Vector Search  | High   | High   | Medium  | +30%       |
+| GridFS         | Low    | Low    | High    | Separate   |
 
 ---
 
@@ -730,6 +752,7 @@ db.sales.aggregate([
 ## 📚 Additional Resources
 
 ### Documentation
+
 - [Change Streams Guide](https://docs.mongodb.com/manual/changeStreams/)
 - [Time-Series Collections](https://docs.mongodb.com/manual/core/timeseries-collections/)
 - [Atlas Search](https://docs.atlas.mongodb.com/atlas-search/)
@@ -738,12 +761,13 @@ db.sales.aggregate([
 - [MongoDB Charts](https://www.mongodb.com/products/charts)
 
 ### Sample Applications
+
 - [Real-time Dashboard](https://github.com/mongodb/change-streams-demo)
 - [E-commerce Search](https://github.com/mongodb/atlas-search-demo)
 - [AI Chatbot](https://github.com/mongodb/vector-search-demo)
 
 ---
 
-*By integrating these modern features, you transform the basic labs into production-ready applications that leverage MongoDB's full capabilities.*
+_By integrating these modern features, you transform the basic labs into production-ready applications that leverage MongoDB's full capabilities._
 
-*Last Updated: December 2024*
+_Last Updated: December 2024_

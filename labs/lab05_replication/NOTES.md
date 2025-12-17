@@ -1,6 +1,7 @@
 # Lab 05 - Replication and High Availability Notes
 
 ## Student Information
+
 - **Lab**: Lab 05 - Replication and High Availability
 - **Database**: MongoDB Replica Set
 - **Focus**: High availability, failover, read/write distribution
@@ -11,6 +12,7 @@
 ## 1. Overview
 
 This lab provides hands-on experience with MongoDB replica sets, demonstrating:
+
 - **Automatic failover** and high availability
 - **Read preference strategies** for scaling reads
 - **Write concern levels** for durability guarantees
@@ -54,11 +56,13 @@ labs/lab05_replication/
 ### 3.1. Prerequisites
 
 1. **MongoDB installed** (version 6.0+)
+
    ```bash
    mongod --version  # Verify installation
    ```
 
 2. **Ports available**: 27017, 27018, 27019
+
    ```bash
    # Check if ports are free
    lsof -i :27017  # Mac/Linux
@@ -66,6 +70,7 @@ labs/lab05_replication/
    ```
 
 3. **Node.js** with mongodb driver installed
+
    ```bash
    npm install mongodb
    ```
@@ -170,13 +175,13 @@ flowchart TB
 
 ### 4.3. Read Preferences Detailed
 
-| Mode | Use Case | Consistency | Availability | Example Query |
-|------|----------|-------------|--------------|---------------|
-| **primary** | Financial transactions | Strong | Lower | `db.accounts.find().readPref("primary")` |
-| **primaryPreferred** | Default for most apps | Strong when possible | Higher | `db.products.find().readPref("primaryPreferred")` |
-| **secondary** | Analytics, reporting | Eventual | Scale-out | `db.logs.find().readPref("secondary")` |
-| **secondaryPreferred** | Read-heavy workloads | Eventual | Higher | `db.analytics.find().readPref("secondaryPreferred")` |
-| **nearest** | Geo-distributed apps | Eventual | Lowest latency | `db.cache.find().readPref("nearest")` |
+| Mode                   | Use Case               | Consistency          | Availability   | Example Query                                        |
+| ---------------------- | ---------------------- | -------------------- | -------------- | ---------------------------------------------------- |
+| **primary**            | Financial transactions | Strong               | Lower          | `db.accounts.find().readPref("primary")`             |
+| **primaryPreferred**   | Default for most apps  | Strong when possible | Higher         | `db.products.find().readPref("primaryPreferred")`    |
+| **secondary**          | Analytics, reporting   | Eventual             | Scale-out      | `db.logs.find().readPref("secondary")`               |
+| **secondaryPreferred** | Read-heavy workloads   | Eventual             | Higher         | `db.analytics.find().readPref("secondaryPreferred")` |
+| **nearest**            | Geo-distributed apps   | Eventual             | Lowest latency | `db.cache.find().readPref("nearest")`                |
 
 #### Read Preference with Tags
 
@@ -184,45 +189,42 @@ flowchart TB
 // Read from specific datacenter
 db.collection.find().readPref(
   "secondary",
-  [{ "dc": "east" }, { "dc": "west" }]  // Preference order
-)
+  [{ dc: "east" }, { dc: "west" }] // Preference order
+);
 
 // Read from analytics nodes
-db.collection.find().readPref(
-  "secondary",
-  [{ "role": "analytics" }]
-)
+db.collection.find().readPref("secondary", [{ role: "analytics" }]);
 
 // Configure member tags
-cfg = rs.conf()
-cfg.members[1].tags = { "dc": "east", "role": "analytics" }
-rs.reconfig(cfg)
+cfg = rs.conf();
+cfg.members[1].tags = { dc: "east", role: "analytics" };
+rs.reconfig(cfg);
 ```
 
 ### 4.4. Write Concerns Detailed
 
-| Level | Durability | Performance | Use Case | Code Example |
-|-------|------------|-------------|----------|--------------|
-| **w:0** | None | Fastest (~1ms) | Logging, metrics | `db.logs.insert({}, {writeConcern: {w: 0}})` |
-| **w:1** | Primary only | Fast (~5ms) | Default operations | `db.users.insert({}, {writeConcern: {w: 1}})` |
-| **w:majority** | Majority of members | Slower (~15ms) | Critical data | `db.orders.insert({}, {writeConcern: {w: "majority"}})` |
-| **w:all** | All members | Slowest (~25ms) | Maximum durability | `db.payments.insert({}, {writeConcern: {w: 3}})` |
-| **j:true** | Journaled | Slower | Crash recovery | `db.audit.insert({}, {writeConcern: {w: 1, j: true}})` |
+| Level          | Durability          | Performance     | Use Case           | Code Example                                            |
+| -------------- | ------------------- | --------------- | ------------------ | ------------------------------------------------------- |
+| **w:0**        | None                | Fastest (~1ms)  | Logging, metrics   | `db.logs.insert({}, {writeConcern: {w: 0}})`            |
+| **w:1**        | Primary only        | Fast (~5ms)     | Default operations | `db.users.insert({}, {writeConcern: {w: 1}})`           |
+| **w:majority** | Majority of members | Slower (~15ms)  | Critical data      | `db.orders.insert({}, {writeConcern: {w: "majority"}})` |
+| **w:all**      | All members         | Slowest (~25ms) | Maximum durability | `db.payments.insert({}, {writeConcern: {w: 3}})`        |
+| **j:true**     | Journaled           | Slower          | Crash recovery     | `db.audit.insert({}, {writeConcern: {w: 1, j: true}})`  |
 
 #### Custom Write Concerns
 
 ```javascript
 // Define custom write concern
-cfg = rs.conf()
+cfg = rs.conf();
 cfg.settings = {
-  getLastErrorDefaults: { w: "majority", wtimeout: 5000 }
-}
-rs.reconfig(cfg)
+  getLastErrorDefaults: { w: "majority", wtimeout: 5000 },
+};
+rs.reconfig(cfg);
 
 // Create tagged write concern
 cfg.settings.getLastErrorModes = {
-  "multiDC": { "dc": 2 }  // Write to at least 2 datacenters
-}
+  multiDC: { dc: 2 }, // Write to at least 2 datacenters
+};
 ```
 
 ---
@@ -254,7 +256,7 @@ rs.printSecondaryReplicationInfo()
 
 ```javascript
 // Test different read preference modes
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 
 async function testReadPreferences() {
   const uri = "mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=lab05-rs";
@@ -287,18 +289,14 @@ async function testWriteConcerns() {
 
   // Test w:0 (fire and forget)
   const w0Start = Date.now();
-  await db.collection("test").insertOne(
-    { test: "w0" },
-    { writeConcern: { w: 0 } }
-  );
+  await db.collection("test").insertOne({ test: "w0" }, { writeConcern: { w: 0 } });
   console.log(`w:0 write: ${Date.now() - w0Start}ms`);
 
   // Test w:majority
   const wMajStart = Date.now();
-  await db.collection("test").insertOne(
-    { test: "majority" },
-    { writeConcern: { w: "majority", wtimeout: 5000 } }
-  );
+  await db
+    .collection("test")
+    .insertOne({ test: "majority" }, { writeConcern: { w: "majority", wtimeout: 5000 } });
   console.log(`w:majority write: ${Date.now() - wMajStart}ms`);
 }
 ```
@@ -308,7 +306,7 @@ async function testWriteConcerns() {
 ```javascript
 // Kill primary process
 // Option 1: From mongosh
-db.adminCommand({ shutdown: 1 })
+db.adminCommand({ shutdown: 1 });
 
 // Option 2: From system
 // Linux/Mac: kill -9 <pid>
@@ -317,12 +315,12 @@ db.adminCommand({ shutdown: 1 })
 // Watch election in real-time
 while (true) {
   let status = rs.status();
-  print(`Primary: ${status.members.find(m => m.stateStr === "PRIMARY")?.name || "NONE"}`);
+  print(`Primary: ${status.members.find((m) => m.stateStr === "PRIMARY")?.name || "NONE"}`);
   sleep(1000);
 }
 
 // Force election
-rs.stepDown(60)  // Step down for 60 seconds
+rs.stepDown(60); // Step down for 60 seconds
 ```
 
 ### Task 5: Monitoring
@@ -385,19 +383,19 @@ db.system.replset.remove({})
 
 ```javascript
 // Method 1: Enable secondary reads in session
-rs.secondaryOk()
+rs.secondaryOk();
 // or
-db.getMongo().setSecondaryOk()
+db.getMongo().setSecondaryOk();
 
 // Method 2: Use read preference
-db.collection.find().readPref("secondary")
+db.collection.find().readPref("secondary");
 
 // Method 3: Connection string
-"mongodb://host/?readPreference=secondary"
+("mongodb://host/?readPreference=secondary");
 
 // Method 4: In application code
 const options = {
-  readPreference: ReadPreference.SECONDARY
+  readPreference: ReadPreference.SECONDARY,
 };
 ```
 
@@ -409,19 +407,19 @@ const options = {
 
 ```javascript
 // Check lag
-rs.printSecondaryReplicationInfo()
+rs.printSecondaryReplicationInfo();
 
 // Identify slow operations
-db.currentOp({ "secs_running": { $gt: 10 } })
+db.currentOp({ secs_running: { $gt: 10 } });
 
 // Increase oplog size
 db.adminCommand({
   replSetResizeOplog: 1,
-  size: 50000  // MB
-})
+  size: 50000, // MB
+});
 
 // Check write load
-db.serverStatus().opcounters
+db.serverStatus().opcounters;
 
 // Solutions by cause:
 // 1. Heavy writes: Batch operations
@@ -438,20 +436,20 @@ db.serverStatus().opcounters
 
 ```javascript
 // Adjust election timeout (careful!)
-cfg = rs.conf()
-cfg.settings = cfg.settings || {}
-cfg.settings.electionTimeoutMillis = 5000  // 5 seconds
-rs.reconfig(cfg)
+cfg = rs.conf();
+cfg.settings = cfg.settings || {};
+cfg.settings.electionTimeoutMillis = 5000; // 5 seconds
+rs.reconfig(cfg);
 
 // Set member priorities
-cfg = rs.conf()
-cfg.members[0].priority = 2  // Prefer this member
-cfg.members[1].priority = 1
-cfg.members[2].priority = 0.5
-rs.reconfig(cfg)
+cfg = rs.conf();
+cfg.members[0].priority = 2; // Prefer this member
+cfg.members[1].priority = 1;
+cfg.members[2].priority = 0.5;
+rs.reconfig(cfg);
 
 // Add arbiter for better elections
-rs.addArb("localhost:27020")
+rs.addArb("localhost:27020");
 ```
 
 ### 6.5. Split Brain Scenario
@@ -462,14 +460,14 @@ rs.addArb("localhost:27020")
 
 ```javascript
 // Ensure odd number of voting members
-cfg = rs.conf()
-cfg.members.forEach(m => print(`Member ${m._id}: votes=${m.votes}`))
+cfg = rs.conf();
+cfg.members.forEach((m) => print(`Member ${m._id}: votes=${m.votes}`));
 
 // Use write concern majority
-db.collection.insert({}, { writeConcern: { w: "majority" } })
+db.collection.insert({}, { writeConcern: { w: "majority" } });
 
 // Configure proper priorities
-cfg.members[0].priority = 2  // Preferred primary
+cfg.members[0].priority = 2; // Preferred primary
 ```
 
 ---
@@ -488,10 +486,7 @@ async function benchmarkReads() {
   for (const pref of ["primary", "secondary", "nearest"]) {
     const start = Date.now();
     for (let i = 0; i < iterations; i++) {
-      await db.collection("test")
-        .find({})
-        .readPreference(pref)
-        .toArray();
+      await db.collection("test").find({}).readPreference(pref).toArray();
     }
     results[pref] = (Date.now() - start) / iterations;
   }
@@ -502,11 +497,11 @@ async function benchmarkReads() {
 
 **Typical Results**:
 
-| Read Preference | Avg Latency | Throughput | CPU Usage |
-|-----------------|-------------|------------|-----------|
-| Primary | 2ms | 500 ops/sec | 40% |
-| Secondary | 2ms | 1000 ops/sec (distributed) | 20% each |
-| Nearest | 1ms | 1000 ops/sec | Varies |
+| Read Preference | Avg Latency | Throughput                 | CPU Usage |
+| --------------- | ----------- | -------------------------- | --------- |
+| Primary         | 2ms         | 500 ops/sec                | 40%       |
+| Secondary       | 2ms         | 1000 ops/sec (distributed) | 20% each  |
+| Nearest         | 1ms         | 1000 ops/sec               | Varies    |
 
 ### 7.2. Write Performance Analysis
 
@@ -517,18 +512,10 @@ async function benchmarkWrites() {
   const iterations = 100;
   const results = {};
 
-  for (const concern of [
-    { w: 0 },
-    { w: 1 },
-    { w: "majority" },
-    { w: 3, j: true }
-  ]) {
+  for (const concern of [{ w: 0 }, { w: 1 }, { w: "majority" }, { w: 3, j: true }]) {
     const start = Date.now();
     for (let i = 0; i < iterations; i++) {
-      await db.collection("test").insertOne(
-        { ...testDoc, i },
-        { writeConcern: concern }
-      );
+      await db.collection("test").insertOne({ ...testDoc, i }, { writeConcern: concern });
     }
     results[JSON.stringify(concern)] = (Date.now() - start) / iterations;
   }
@@ -539,12 +526,12 @@ async function benchmarkWrites() {
 
 **Performance Impact Table**:
 
-| Write Concern | Avg Latency | Throughput | Durability | Data Loss Risk |
-|---------------|-------------|------------|------------|----------------|
-| w:0 | ~1ms | 1000+ ops/sec | None | High |
-| w:1 | ~5ms | 200 ops/sec | Primary | Medium |
-| w:majority | ~15ms | 65 ops/sec | Majority | Low |
-| w:all, j:true | ~30ms | 33 ops/sec | Maximum | Minimal |
+| Write Concern | Avg Latency | Throughput    | Durability | Data Loss Risk |
+| ------------- | ----------- | ------------- | ---------- | -------------- |
+| w:0           | ~1ms        | 1000+ ops/sec | None       | High           |
+| w:1           | ~5ms        | 200 ops/sec   | Primary    | Medium         |
+| w:majority    | ~15ms       | 65 ops/sec    | Majority   | Low            |
+| w:all, j:true | ~30ms       | 33 ops/sec    | Maximum    | Minimal        |
 
 ### 7.3. Failover Timing Analysis
 
@@ -555,7 +542,7 @@ async function measureFailover() {
     lastSuccessfulWrite: null,
     failureDetected: null,
     firstSuccessfulWriteAfter: null,
-    totalDowntime: 0
+    totalDowntime: 0,
   };
 
   // Continuous write loop
@@ -563,7 +550,7 @@ async function measureFailover() {
     try {
       const result = await db.collection("failover").insertOne({
         timestamp: new Date(),
-        marker: "failover-test"
+        marker: "failover-test",
       });
 
       if (!results.firstSuccessfulWriteAfter && results.failureDetected) {
@@ -580,7 +567,7 @@ async function measureFailover() {
       }
     }
 
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 100));
   }
 
   return results;
@@ -589,12 +576,12 @@ async function measureFailover() {
 
 **Typical Failover Timeline**:
 
-| Phase | Duration | Cumulative | Impact |
-|-------|----------|------------|--------|
-| Failure occurs | 0s | 0s | Writes start failing |
-| Detection | 2-10s | 2-10s | Heartbeat timeout |
-| Election | 5-15s | 7-25s | Choosing new primary |
-| Recovery | 1-5s | 8-30s | Clients reconnect |
+| Phase          | Duration | Cumulative | Impact               |
+| -------------- | -------- | ---------- | -------------------- |
+| Failure occurs | 0s       | 0s         | Writes start failing |
+| Detection      | 2-10s    | 2-10s      | Heartbeat timeout    |
+| Election       | 5-15s    | 7-25s      | Choosing new primary |
+| Recovery       | 1-5s     | 8-30s      | Clients reconnect    |
 
 ---
 
@@ -632,8 +619,9 @@ async function robustInsert(doc, maxRetries = 3) {
     try {
       return await db.collection("data").insertOne(doc);
     } catch (error) {
-      if (error.code === 11600) {  // Interrupted due to replication state change
-        await new Promise(r => setTimeout(r, 1000 * Math.pow(2, i)));
+      if (error.code === 11600) {
+        // Interrupted due to replication state change
+        await new Promise((r) => setTimeout(r, 1000 * Math.pow(2, i)));
         continue;
       }
       throw error;
@@ -642,12 +630,13 @@ async function robustInsert(doc, maxRetries = 3) {
 }
 
 // Connection string best practices
-const uri = "mongodb://host1,host2,host3/?replicaSet=rs0" +
-           "&w=majority" +           // Default write concern
-           "&readPreference=primaryPreferred" +
-           "&maxPoolSize=100" +       // Connection pool
-           "&retryWrites=true" +      // Automatic retry
-           "&retryReads=true";        // Read retry
+const uri =
+  "mongodb://host1,host2,host3/?replicaSet=rs0" +
+  "&w=majority" + // Default write concern
+  "&readPreference=primaryPreferred" +
+  "&maxPoolSize=100" + // Connection pool
+  "&retryWrites=true" + // Automatic retry
+  "&retryReads=true"; // Read retry
 ```
 
 ### 8.3. Maintenance Procedures
@@ -670,7 +659,7 @@ async function performMaintenance() {
       // ... restart mongod ...
 
       // 4. Wait for sync
-      while (!rs.status().members.find(m => m.name === member.name)?.stateStr === "SECONDARY") {
+      while (!rs.status().members.find((m) => m.name === member.name)?.stateStr === "SECONDARY") {
         sleep(1000);
       }
     }
@@ -691,15 +680,15 @@ async function performMaintenance() {
 // Sizing calculator
 function calculateRequirements(workload) {
   const requirements = {
-    members: 3,  // Base
+    members: 3, // Base
     storage: 0,
     memory: 0,
-    iops: 0
+    iops: 0,
   };
 
   // Adjust for workload
   if (workload.writes > 1000) requirements.members = 5;
-  if (workload.reads > 10000) requirements.members += 2;  // Read replicas
+  if (workload.reads > 10000) requirements.members += 2; // Read replicas
 
   // Storage = working set * replication factor * growth
   requirements.storage = workload.dataSize * requirements.members * 1.5;
@@ -708,7 +697,7 @@ function calculateRequirements(workload) {
   requirements.memory = (workload.workingSet + workload.indexSize) * 1.2;
 
   // IOPS = writes * members + reads
-  requirements.iops = (workload.writes * requirements.members) + workload.reads;
+  requirements.iops = workload.writes * requirements.members + workload.reads;
 
   return requirements;
 }
@@ -716,12 +705,12 @@ function calculateRequirements(workload) {
 
 ### 9.2. Network Requirements
 
-| Metric | Requirement | Impact if Not Met |
-|--------|-------------|-------------------|
-| **Latency** | < 2ms average | Increased replication lag |
-| **Bandwidth** | 10x oplog size/sec | Falling behind on replication |
-| **Packet Loss** | < 0.1% | Frequent re-elections |
-| **Jitter** | < 5ms | Inconsistent performance |
+| Metric          | Requirement        | Impact if Not Met             |
+| --------------- | ------------------ | ----------------------------- |
+| **Latency**     | < 2ms average      | Increased replication lag     |
+| **Bandwidth**   | 10x oplog size/sec | Falling behind on replication |
+| **Packet Loss** | < 0.1%             | Frequent re-elections         |
+| **Jitter**      | < 5ms              | Inconsistent performance      |
 
 ### 9.3. Security Configuration
 
@@ -758,23 +747,23 @@ const metrics = {
   "Replication Lag": {
     query: "rs.printSecondaryReplicationInfo()",
     threshold: "< 1 second",
-    alert: "Critical if > 10 seconds"
+    alert: "Critical if > 10 seconds",
   },
   "Oplog Window": {
     query: "rs.printReplicationInfo()",
     threshold: "> 24 hours",
-    alert: "Warning if < 8 hours"
+    alert: "Warning if < 8 hours",
   },
   "Member Health": {
     query: "rs.status().members",
     threshold: "All members healthy",
-    alert: "Any member down"
+    alert: "Any member down",
   },
-  "Elections": {
+  Elections: {
     query: "db.serverStatus().metrics.repl.election",
     threshold: "< 1 per day",
-    alert: "Multiple elections per hour"
-  }
+    alert: "Multiple elections per hour",
+  },
 };
 ```
 
@@ -802,26 +791,26 @@ rs.addArb("localhost:27020")
 
 ```javascript
 // Configure hidden member for backups
-cfg = rs.conf()
+cfg = rs.conf();
 cfg.members[3] = {
   _id: 3,
   host: "localhost:27021",
   priority: 0,
   hidden: true,
-  slaveDelay: 3600  // 1 hour delay
-}
-rs.reconfig(cfg)
+  slaveDelay: 3600, // 1 hour delay
+};
+rs.reconfig(cfg);
 ```
 
 ### 10.3. Read Concern Levels
 
 ```javascript
 // Different read concern levels
-db.collection.find().readConcern("local")      // Default, may read uncommitted
-db.collection.find().readConcern("available")  // Similar to local
-db.collection.find().readConcern("majority")   // Only majority-committed data
-db.collection.find().readConcern("linearizable") // Strictest, ensures latest
-db.collection.find().readConcern("snapshot")   // Point-in-time consistency
+db.collection.find().readConcern("local"); // Default, may read uncommitted
+db.collection.find().readConcern("available"); // Similar to local
+db.collection.find().readConcern("majority"); // Only majority-committed data
+db.collection.find().readConcern("linearizable"); // Strictest, ensures latest
+db.collection.find().readConcern("snapshot"); // Point-in-time consistency
 ```
 
 ### 10.4. Change Streams
@@ -829,7 +818,7 @@ db.collection.find().readConcern("snapshot")   // Point-in-time consistency
 ```javascript
 // Monitor replication events
 const changeStream = db.watch([], {
-  fullDocument: "updateLookup"
+  fullDocument: "updateLookup",
 });
 
 changeStream.on("change", (change) => {
@@ -843,13 +832,13 @@ changeStream.on("change", (change) => {
 
 ### Problem-Solution Matrix
 
-| Issue | Symptoms | Diagnosis | Solution |
-|-------|----------|-----------|----------|
-| **Stuck in RECOVERING** | Member won't become secondary | Check `rs.status()` | Resync: `rs.syncFrom()` |
-| **Frequent Elections** | Primary changes often | Network issues | Check latency, adjust timeout |
-| **Slow Queries** | High latency on reads | Wrong read preference | Review and adjust preferences |
-| **Write Timeout** | `wtimeout` errors | Slow replication | Reduce write concern or fix lag |
-| **Oplog Too Small** | Members fall too far behind | Check oplog size | Resize: `replSetResizeOplog` |
+| Issue                   | Symptoms                      | Diagnosis             | Solution                        |
+| ----------------------- | ----------------------------- | --------------------- | ------------------------------- |
+| **Stuck in RECOVERING** | Member won't become secondary | Check `rs.status()`   | Resync: `rs.syncFrom()`         |
+| **Frequent Elections**  | Primary changes often         | Network issues        | Check latency, adjust timeout   |
+| **Slow Queries**        | High latency on reads         | Wrong read preference | Review and adjust preferences   |
+| **Write Timeout**       | `wtimeout` errors             | Slow replication      | Reduce write concern or fix lag |
+| **Oplog Too Small**     | Members fall too far behind   | Check oplog size      | Resize: `replSetResizeOplog`    |
 
 ---
 
@@ -887,6 +876,7 @@ This lab has demonstrated that MongoDB replica sets provide:
 ## 13. Further Reading & Resources
 
 ### Official Documentation
+
 - [MongoDB Replication Guide](https://docs.mongodb.com/manual/replication/)
 - [Replica Set Configuration](https://docs.mongodb.com/manual/reference/replica-configuration/)
 - [Read Preference Reference](https://docs.mongodb.com/manual/core/read-preference/)
@@ -894,17 +884,20 @@ This lab has demonstrated that MongoDB replica sets provide:
 - [Production Notes](https://docs.mongodb.com/manual/administration/production-notes/)
 
 ### Advanced Topics
+
 - [Deployment Patterns](https://docs.mongodb.com/manual/core/replica-set-architectures/)
 - [Elections and Rollbacks](https://docs.mongodb.com/manual/core/replica-set-elections/)
 - [Oplog Details](https://docs.mongodb.com/manual/core/replica-set-oplog/)
 - [Sync and Initial Sync](https://docs.mongodb.com/manual/core/replica-set-sync/)
 
 ### Tools & Monitoring
+
 - [MongoDB Ops Manager](https://docs.opsmanager.mongodb.com/)
 - [MongoDB Cloud Manager](https://docs.cloudmanager.mongodb.com/)
 - [Percona Monitoring and Management](https://www.percona.com/doc/percona-monitoring-and-management/)
 
 ### Community Resources
+
 - [MongoDB University - Replication Course](https://university.mongodb.com/)
 - [Production Checklist](https://docs.mongodb.com/manual/administration/production-checklist-operations/)
 - [Stack Overflow - MongoDB Replication](https://stackoverflow.com/questions/tagged/mongodb-replica-set)

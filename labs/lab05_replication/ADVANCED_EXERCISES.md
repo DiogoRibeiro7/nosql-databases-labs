@@ -9,6 +9,7 @@ These optional challenges simulate production incidents and operational runbooks
 **Goal:** Observe how elections behave under network instability and configuration tweaks.
 
 ### Tasks
+
 1. Extend the replica set to include an arbiter or delayed secondary (use the starter scripts as a template).
 2. Write `scripts/flaky_network.js` that:
    - Randomly disconnects a node (`rs.stepDown()` or OS-level firewall rules if available).
@@ -24,6 +25,7 @@ These optional challenges simulate production incidents and operational runbooks
 **Goal:** Validate that read preference policies route traffic as expected.
 
 ### Tasks
+
 1. Build a workload script (`read_pref_tester.js`) that:
    - Issues concurrent read operations using the MongoDB driver.
    - Iterates through read preferences (`primary`, `primaryPreferred`, `secondary`, `nearest`).
@@ -38,6 +40,7 @@ These optional challenges simulate production incidents and operational runbooks
 **Goal:** Detect replication lag and stalled secondaries before they cause incidents.
 
 ### Tasks
+
 1. Write `oplog_watchdog.js` that:
    - Connects to each replica set member.
    - Reads the latest entries from `local.oplog.rs`.
