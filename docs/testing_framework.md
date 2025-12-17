@@ -100,13 +100,13 @@ If you only have a standalone MongoDB instance, the lab tests are skipped automa
 
 ## CI/CD Integration
 
-The GitHub Actions workflow (`.github/workflows/ci.yml`) runs:
+Multiple GitHub Actions workflows keep the repository healthy:
 
-- Labs 01–04 tests on every push/pull request
-- Group submission validation scripts
-- Data integrity and benchmark jobs (best-effort, non-blocking)
+- `.github/workflows/ci.yml`: full pipeline with Python quality gates, MongoDB lab tests, benchmarks, and submission validators.
+- `.github/workflows/quick-node-quality.yml`: fast feedback on linting, formatting, and dataset smoke tests for JavaScript-heavy changes.
+- `.github/workflows/dataset-consistency.yml`: scheduled/nightly dataset validation plus automatic runs whenever files under `data/` change.
 
-Review the workflow file if you need to add additional suites.
+Review these workflow files if you need to add additional suites.
 
 ---
 
