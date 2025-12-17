@@ -1,7 +1,7 @@
-/* eslint-env mongo */
-/* eslint-disable no-global-assign */
-db = db.getSiblingDB("exercises");
-/* eslint-enable no-global-assign */
+/* global db */
+
+const exercisesDb = db.getSiblingDB("exercises");
+const nyse = exercisesDb.nyse;
 
 /* ---
 nyse collection loaded with data from nyse.json
@@ -20,20 +20,20 @@ example:
 --- */
 
 //1 Calculate the number of entries for each stock_symbol
-db.nyse.aggregate([
+nyse.aggregate([
     { $group: { _id: "$stock_symbol", entries: { $sum: 1 } } },
     { $sort: { _id: 1 } }
 ])
 
 //2 Calculate the maximum stock_price_close for each stock_symbol
-db.nyse.aggregate([
+nyse.aggregate([
     { $group: { _id: "$stock_symbol", maxClose: { $max: "$stock_price_close" } } },
     { $sort: { _id: 1 } }
 ])
 
 // 3 Calculate the maximum stock_price_close and the date on which this 
 // stock_price_close was reached, for each stock_symbol
-db.nyse.aggregate([
+nyse.aggregate([
     { $sort: { stock_symbol: 1, stock_price_close: -1, date: 1 } },
     {
         $group: {

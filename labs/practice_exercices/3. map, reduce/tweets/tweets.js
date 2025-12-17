@@ -1,7 +1,7 @@
-/* eslint-env mongo */
-/* eslint-disable no-global-assign */
-db = db.getSiblingDB("exercises");
-/* eslint-enable no-global-assign */
+/* global db */
+
+const exercisesDb = db.getSiblingDB("exercises");
+const tweets = exercisesDb.tweets;
 
 /*---
 tweets collection loaded with json data from tweets.json
@@ -10,7 +10,7 @@ tweets collection loaded with json data from tweets.json
 
 // We want to know which hashtags are trending. Make a list of how often each hashtag occurs. There is no
 // difference between small letters and capital letters. The list is ordered from high to low. 
-db.tweets.aggregate([
+tweets.aggregate([
     {
         $project: {
             hashtags: {
