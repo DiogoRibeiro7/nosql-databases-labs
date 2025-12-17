@@ -10,7 +10,7 @@
     "format:check": "prettier --check \"labs/**/*.js\" \"scripts/**/*.js\"",
     "docs:lint": "markdownlint README.md CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md TROUBLESHOOTING.md docs/**/*.md --config .markdownlint.json",
     "test:data": "node scripts/data-smoke-test.js",
-    "test:unit": "node --test \"tests/unit/**/*.test.js\"",
+    "test:unit": "node --test tests/unit",
     "test": "yarn lint && yarn test:data && yarn test:unit",
     "test:labs": "node scripts/run_lab_tests.js",
     "verify:setup": "node scripts/setup_verification.js",
