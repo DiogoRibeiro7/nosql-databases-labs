@@ -22,6 +22,18 @@ This document contains the official member listings for all groups in the NoSQL 
 - Linda Silva
 - Manuel Teixeira
 
+## Group 04
+
+- Pedro Rodrigues
+- Mariana Ferreira
+- Miguel Caldas
+
+## Group 05
+
+- João Oliveira
+- Miguel Neto
+- Miguel Basso
+
 ## Group 06
 
 - Pedro Castro
