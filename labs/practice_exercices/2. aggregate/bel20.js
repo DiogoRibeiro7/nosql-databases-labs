@@ -1,4 +1,7 @@
-use exercises
+/* eslint-env mongo */
+/* eslint-disable no-global-assign */
+db = db.getSiblingDB("exercises");
+/* eslint-enable no-global-assign */
 
 db.bel20.insert({name: "KBC", date:ISODate("2013-11-26"), price: {open: 40.51, high: 40.84, low: 40.35, end: 40.71}, number: 2280300});
 db.bel20.insert({name: "KBC", date:ISODate("2013-11-25"), price: {open: 40, high: 40.56, low: 39.97, end: 40.28}, number: 829500});

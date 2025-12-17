@@ -1,4 +1,7 @@
-use exercises
+/* eslint-env mongo */
+/* eslint-disable no-global-assign */
+db = db.getSiblingDB("exercises");
+/* eslint-enable no-global-assign */
 
 db.users.insert({ _id: "jane", joined: ISODate("2011-03-02"), likes: ["golf", "racquetball"] })
 db.users.insert({ _id: "joe", joined: ISODate("2012-07-02"), likes: ["tennis", "golf", "swimming"] })

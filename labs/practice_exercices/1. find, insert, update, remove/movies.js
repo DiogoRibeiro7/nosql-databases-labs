@@ -1,7 +1,10 @@
+/* eslint-env mongo */
+/* eslint-disable no-global-assign */
+db = db.getSiblingDB("movies");
+/* eslint-enable no-global-assign */
+
 /* Click IntelliShell to open a new shell */
 /* To begin creating a new database, first execute the use command to switch to a new database. At this moment, you won't see any new database yet */
-
-use movies
 
 db.comedy.drop()
 
@@ -447,6 +450,5 @@ db.comedy.drop()
 /* How do you drop a database? */
 use movies
 db.dropDatabase()
-
 
 

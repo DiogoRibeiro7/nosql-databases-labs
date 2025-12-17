@@ -5,10 +5,7 @@ on:
     branches:
       - develop
       - main
-      - general_improvements
-  pull_request:
-    branches:
-      - '*'
+    
   workflow_dispatch:
 
 env:

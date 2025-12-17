@@ -1,4 +1,7 @@
-use exercises
+/* eslint-env mongo */
+/* eslint-disable no-global-assign */
+db = db.getSiblingDB("exercises");
+/* eslint-enable no-global-assign */
 
 db.laptops.drop()
 
@@ -33,7 +36,6 @@ db.laptops.find({
     {LanguageOS: "Dutch"}
     ]
 })
-
 
 
 

@@ -1,4 +1,7 @@
-use exercises
+/* eslint-env mongo */
+/* eslint-disable no-global-assign */
+db = db.getSiblingDB("exercises");
+/* eslint-enable no-global-assign */
 
 db.cheeses.insert({ factory: 'Belgomilk', name: 'Brugge', properties: { taste: 'Salty', cheesetype: 'hard cheese' }, variants: ['Brugge Oud', 'Brugge Blomme', 'Brugge Belegen'], comments: [{ by: 'Aline', score: 8.5, text: 'Very fine' }, { by: 'Thomas', score: 7.5, text: 'Very tasteful' }] });
 db.cheeses.insert({ factory: 'Lindenhof', name: 'Affligem', properties: { taste: 'Soft', cheesetype: 'abbeycheese' }, variants: ['Affligem Traditie', 'Affligem Jong belegen'], comments: [{ by: 'Albert', score: 9, text: 'Very good choice' }, { by: 'Thamara', score: 7.5, text: 'Positif' }] });

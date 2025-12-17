@@ -1,4 +1,7 @@
-use exercises
+/* eslint-env mongo */
+/* eslint-disable no-global-assign */
+db = db.getSiblingDB("exercises");
+/* eslint-enable no-global-assign */
 
 /*---
 tweets collection loaded with json data from tweets.json
