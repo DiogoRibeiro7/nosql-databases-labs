@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"labs/**/*.js\" \"scripts/**/*.js\"",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "eslint \"labs/**/*.js\" \"scripts/**/*.js\" --fix",
     "format": "prettier --write \"labs/**/*.js\" \"scripts/**/*.js\"",
     "format:check": "prettier --check \"labs/**/*.js\" \"scripts/**/*.js\"",
+    "docs:lint": "markdownlint README.md CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md TROUBLESHOOTING.md docs/**/*.md --config .markdownlint.json",
     "test:data": "node scripts/data-smoke-test.js",
-    "test": "npm run lint && npm run test:data",
+    "test": "yarn lint && yarn test:data",
     "test:labs": "node scripts/run_lab_tests.js",
     "verify:setup": "node scripts/setup_verification.js",
     "standardize:groups": "node scripts/standardize_group_folders.js",
@@ -23,7 +24,7 @@
     "test:lab03": "node tests/test_lab03.js",
     "test:lab04": "node tests/test_lab04.js",
     "test:lab05": "node tests/test_lab05.js",
-    "test:coverage": "c8 npm run test:labs",
+    "test:coverage": "c8 yarn test:labs",
     "help": "node scripts/help.js"
   },
   "repository": {
@@ -44,6 +45,7 @@
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
+    "markdownlint-cli": "^0.47.0",
     "prettier": "^3.7.4"
   },
   "dependencies": {

@@ -103,8 +103,12 @@ If you only have a standalone MongoDB instance, the lab tests are skipped automa
 Multiple GitHub Actions workflows keep the repository healthy:
 
 - `.github/workflows/ci.yml`: full pipeline with Python quality gates, MongoDB lab tests, benchmarks, and submission validators.
-- `.github/workflows/quick-node-quality.yml`: fast feedback on linting, formatting, and dataset smoke tests for JavaScript-heavy changes.
-- `.github/workflows/dataset-consistency.yml`: scheduled/nightly dataset validation plus automatic runs whenever files under `data/` change.
+- `.github/workflows/quick-node-quality.yml`: Yarn-powered lint matrix plus format/data smoke checks for JS-heavy diffs.
+- `.github/workflows/dataset-consistency.yml`: scheduled/nightly dataset validation plus automatic runs when files under `data/` change.
+- `.github/workflows/docs-lint.yml`: markdownlint enforcement for every README/guide update (runs nightly as well).
+- `.github/workflows/mongo-compat.yml`: nightly matrix that replays `yarn test:labs` against MongoDB 6.0 and 7.0 containers.
+- `.github/workflows/security-scans.yml`: combines GitHub CodeQL analysis with a `yarn audit` gate.
+- `.github/workflows/aggregation-artifacts.yml`: spins up MongoDB, runs Lab 04 aggregation tests with coverage, and publishes the resulting artifact on every PR touching that lab.
 
 Review these workflow files if you need to add additional suites.
 

@@ -39,7 +39,6 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-**/yarn.lock
 settings.local.json
 
 # Database files
@@ -107,3 +106,6 @@ data/*.json
 *.toc
 *.vrb
 *.xdv
+# Ignore nested Yarn lockfiles but track the root file
+**/yarn.lock
+!/yarn.lock
