@@ -96,40 +96,20 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Resolve MongoDB container id
-        id: mongo-cid
-        shell: bash
-        run: |
-          set -euo pipefail
-          # Try common patterns first, then fall back to ancestor image.
-          cid="$(docker ps --filter "name=mongodb" --format "{{.ID}}" | head -n1 || true)"
-          if [ -z "${cid}" ]; then
-            cid="$(docker ps --filter "ancestor=mongo:7.0" --format "{{.ID}}" | head -n1 || true)"
-          fi
-          if [ -z "${cid}" ]; then
-            echo "Could not resolve MongoDB container id" >&2
-            docker ps -a >&2 || true
-            exit 1
-          fi
-          echo "cid=${cid}" >> "$GITHUB_OUTPUT"
-
-      - name: Wait for MongoDB (mongosh inside container)
+      - name: Wait for MongoDB
         env:
-          WAIT_TIMEOUT: 120
-          MONGO_CID: ${{ steps.mongo-cid.outputs.cid }}
+          WAIT_TIMEOUT: 240
         shell: bash
         run: |
           set -euo pipefail
-          timeout="${WAIT_TIMEOUT:-120}"
+          timeout="${WAIT_TIMEOUT:-240}"
           start="$(date +%s)"
 
-          until docker exec "${MONGO_CID}" mongosh --quiet --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1; do
+          until mongosh --host 127.0.0.1 --quiet --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1; do
             now="$(date +%s)"
             elapsed="$((now - start))"
             if [ "${elapsed}" -ge "${timeout}" ]; then
               echo "MongoDB did not become ready in time (${timeout}s)" >&2
-              echo "---- docker logs (mongodb) ----" >&2
-              docker logs "${MONGO_CID}" >&2 || true
               exit 1
             fi
             echo "Waiting for MongoDB..."
@@ -141,24 +121,10 @@ jobs:
       - name: Prepare coverage directory
         run: mkdir -p ${{ matrix.coverageDir }}
 
-      - name: Seed dataset (mongosh)
+      - name: Seed dataset
         env:
-          MONGO_CID: ${{ steps.mongo-cid.outputs.cid }}
-          # Inside the mongo container, connect to localhost
-          MONGOSH_URI: "mongodb://127.0.0.1:27017/?directConnection=true"
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          script="${{ matrix.seedScript }}"
-          if [ ! -f "${script}" ]; then
-            echo "Seed script not found: ${script}" >&2
-            exit 1
-          fi
-
-          # Runs the script through mongosh via stdin.
-          # IMPORTANT: this assumes import_data.js is a Mongo Shell script (not Node driver code).
-          docker exec -i "${MONGO_CID}" mongosh --quiet "${MONGOSH_URI}" < "${script}"
+          MONGODB_URI: ${{ env.MONGODB_URI }}
+        run: node ${{ matrix.seedScript }}
 
       - name: Run lab tests with coverage
         env:

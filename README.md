@@ -2,6 +2,12 @@
 
 # NoSQL Databases - Practical Labs (`nosql-databases-labs`)
 
+[![CI](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/ci.yml)
+[![Quick Node Quality](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/quick-node-quality.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/quick-node-quality.yml)
+[![Dataset Consistency](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/dataset-consistency.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/dataset-consistency.yml)
+[![Lab Artifacts](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/lab-artifacts.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/lab-artifacts.yml)
+[![Codecov](https://codecov.io/gh/diogoribeiro7/nosql-databases-labs/branch/main/graph/badge.svg)](https://codecov.io/gh/diogoribeiro7/nosql-databases-labs)
+
 Hands-on home for the NoSQL Databases course. Clone the repo, run the mongosh-first lab scripts, and document your findings inside each lab folder. Every lab ships with import scripts, tests, and optional practice exercises. Use this README as your quick reference while lab READMEs dive into specifics.
 
 > **Quick Navigation**
