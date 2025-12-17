@@ -9,7 +9,7 @@
 // NOTE: If you get duplicate key errors, the data already exists.
 // To reset the database, run: mongosh --file reset_database.js
 
-db = db.getSiblingDB("lab01_student")
+db = db.getSiblingDB("lab01_student");
 
 // ========================================
 // 1. INSERT OPERATIONS
@@ -19,35 +19,38 @@ db = db.getSiblingDB("lab01_student")
 print("Attempting to insert additional customers...");
 try {
   // ordered:false keeps inserting remaining docs even if one violates the unique email index.
-  db.customers.insertMany([
-    {
-      customer_id: 6,
-      name: "Frank Miller",
-      email: "frank.miller@example.com",
-      city: "Toronto",
-      country: "Canada",
-      age: 45,
-      balance: 4200.30
-    },
-    {
-      customer_id: 7,
-      name: "Grace Lee",
-      email: "grace.lee@example.com",
-      city: "Seoul",
-      country: "South Korea",
-      age: 26,
-      balance: 1800.90
-    },
-    {
-      customer_id: 8,
-      name: "Henry Davis",
-      email: "henry.davis@example.com",
-      city: "New York",
-      country: "USA",
-      age: 38,
-      balance: 3100.45
-    }
-  ], { ordered: false });  // Continue inserting even if some fail
+  db.customers.insertMany(
+    [
+      {
+        customer_id: 6,
+        name: "Frank Miller",
+        email: "frank.miller@example.com",
+        city: "Toronto",
+        country: "Canada",
+        age: 45,
+        balance: 4200.3,
+      },
+      {
+        customer_id: 7,
+        name: "Grace Lee",
+        email: "grace.lee@example.com",
+        city: "Seoul",
+        country: "South Korea",
+        age: 26,
+        balance: 1800.9,
+      },
+      {
+        customer_id: 8,
+        name: "Henry Davis",
+        email: "henry.davis@example.com",
+        city: "New York",
+        country: "USA",
+        age: 38,
+        balance: 3100.45,
+      },
+    ],
+    { ordered: false }
+  ); // Continue inserting even if some fail
   print("✓ Successfully inserted new customers");
 } catch (e) {
   if (e.code === 11000) {
@@ -71,26 +74,20 @@ db.customers.find().pretty();
 db.customers.find({ city: "New York" });
 
 // 2.4. Find customers from a specific city with projection (only name and email)
-db.customers.find(
-  { city: "New York" },
-  { name: 1, email: 1, city: 1, _id: 0 }
-);
+db.customers.find({ city: "New York" }, { name: 1, email: 1, city: 1, _id: 0 });
 
 // 2.5. Find customers whose age is greater than 30
 db.customers.find({ age: { $gt: 30 } });
 
 // 2.6. Find customers whose age is greater than 30 (formatted)
-db.customers.find(
-  { age: { $gt: 30 } },
-  { name: 1, age: 1, city: 1, _id: 0 }
-).sort({ age: 1 });
+db.customers.find({ age: { $gt: 30 } }, { name: 1, age: 1, city: 1, _id: 0 }).sort({ age: 1 });
 
 // 2.7. Find customers whose balance is greater than 2000
 db.customers.find({ balance: { $gt: 2000 } });
 
 // 2.8. Find customers from USA or UK
 db.customers.find({
-  country: { $in: ["USA", "UK"] }
+  country: { $in: ["USA", "UK"] },
 });
 
 // ========================================
@@ -98,10 +95,7 @@ db.customers.find({
 // ========================================
 
 // 3.1. Update a single customer's balance
-db.customers.updateOne(
-  { customer_id: 1 },
-  { $set: { balance: 1500.00 } }
-);
+db.customers.updateOne({ customer_id: 1 }, { $set: { balance: 1500.0 } });
 
 // 3.2. Update multiple customers - increase balance by 10% for age > 30
 db.customers.updateMany(
@@ -129,13 +123,13 @@ db.customers.aggregate([
   {
     $group: {
       _id: "$country",
-      count: { $sum: 1 }
-    }
+      count: { $sum: 1 },
+    },
   },
   // Sorting puts the biggest customer bases first.
   {
-    $sort: { count: -1 }
-  }
+    $sort: { count: -1 },
+  },
 ]);
 
 // 4.3. Compute the average age of all customers
@@ -143,9 +137,9 @@ db.customers.aggregate([
   {
     $group: {
       _id: null,
-      averageAge: { $avg: "$age" }
-    }
-  }
+      averageAge: { $avg: "$age" },
+    },
+  },
 ]);
 
 // 4.4. Compute the average balance of all customers
@@ -157,9 +151,9 @@ db.customers.aggregate([
       averageBalance: { $avg: "$balance" },
       totalBalance: { $sum: "$balance" },
       minBalance: { $min: "$balance" },
-      maxBalance: { $max: "$balance" }
-    }
-  }
+      maxBalance: { $max: "$balance" },
+    },
+  },
 ]);
 
 // 4.5. Get statistics per country (count, avg age, avg balance)
@@ -171,12 +165,12 @@ db.customers.aggregate([
       customerCount: { $sum: 1 },
       avgAge: { $avg: "$age" },
       avgBalance: { $avg: "$balance" },
-      totalBalance: { $sum: "$balance" }
-    }
+      totalBalance: { $sum: "$balance" },
+    },
   },
   {
-    $sort: { totalBalance: -1 }
-  }
+    $sort: { totalBalance: -1 },
+  },
 ]);
 
 // 4.6. Find customers by age group
@@ -190,10 +184,10 @@ db.customers.aggregate([
       output: {
         count: { $sum: 1 },
         customers: { $push: "$name" },
-        avgBalance: { $avg: "$balance" }
-      }
-    }
-  }
+        avgBalance: { $avg: "$balance" },
+      },
+    },
+  },
 ]);
 
 // ========================================
@@ -229,10 +223,9 @@ db.customers.getIndexes();
 db.customers.find({ city: "New York" }).explain("executionStats");
 
 // 6.7. Explain aggregation execution plan
-db.customers.aggregate([
-  { $match: { country: "USA" } },
-  { $group: { _id: "$city", count: { $sum: 1 } } }
-]).explain("executionStats");
+db.customers
+  .aggregate([{ $match: { country: "USA" } }, { $group: { _id: "$city", count: { $sum: 1 } } }])
+  .explain("executionStats");
 
 // ========================================
 // 7. ADVANCED QUERIES
@@ -252,12 +245,12 @@ db.customers.aggregate([
   {
     $group: {
       _id: "$city",
-      count: { $sum: 1 }
-    }
+      count: { $sum: 1 },
+    },
   },
   {
-    $sort: { count: -1 }
-  }
+    $sort: { count: -1 },
+  },
 ]);
 
 // 7.5. Find customers with name containing "John"
@@ -265,7 +258,7 @@ db.customers.find({ name: { $regex: /John/i } });
 
 // 7.6. Find customers aged between 25 and 35
 db.customers.find({
-  age: { $gte: 25, $lte: 35 }
+  age: { $gte: 25, $lte: 35 },
 });
 
 // ========================================

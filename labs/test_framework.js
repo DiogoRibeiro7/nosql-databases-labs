@@ -5,18 +5,18 @@
  * automated validation, performance testing, and reporting.
  */
 
-const { MongoClient } = require('mongodb');
-const assert = require('assert');
-const fs = require('fs').promises;
+const { MongoClient } = require("mongodb");
+const assert = require("assert");
+const fs = require("fs").promises;
 
 class LabTestFramework {
   constructor(config = {}) {
     this.config = {
-      mongoUri: config.mongoUri || 'mongodb://localhost:27017',
-      database: config.database || 'nosql_labs_test',
+      mongoUri: config.mongoUri || "mongodb://localhost:27017",
+      database: config.database || "nosql_labs_test",
       timeout: config.timeout || 30000,
       verbose: config.verbose || false,
-      ...config
+      ...config,
     };
 
     this.client = null;
@@ -53,18 +53,15 @@ class LabTestFramework {
     });
 
     try {
-      await Promise.race([
-        testFn(),
-        timeoutPromise
-      ]);
+      await Promise.race([testFn(), timeoutPromise]);
 
       const duration = Date.now() - startTime;
 
       this.results.push({
         test: name,
-        status: 'PASSED',
+        status: "PASSED",
         duration,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       if (this.config.verbose) {
@@ -77,10 +74,10 @@ class LabTestFramework {
 
       this.results.push({
         test: name,
-        status: 'FAILED',
+        status: "FAILED",
         error: error.message,
         duration,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       if (this.config.verbose) {
@@ -95,9 +92,9 @@ class LabTestFramework {
    * Test suite runner
    */
   async runSuite(suiteName, tests) {
-    console.log(`\n${'='.repeat(60)}`);
+    console.log(`\n${"=".repeat(60)}`);
     console.log(`Test Suite: ${suiteName}`);
-    console.log('='.repeat(60));
+    console.log("=".repeat(60));
 
     const suiteStart = Date.now();
     const suiteResults = [];
@@ -108,8 +105,8 @@ class LabTestFramework {
     }
 
     const suiteDuration = Date.now() - suiteStart;
-    const passed = suiteResults.filter(r => r.success).length;
-    const failed = suiteResults.filter(r => !r.success).length;
+    const passed = suiteResults.filter((r) => r.success).length;
+    const failed = suiteResults.filter((r) => !r.success).length;
 
     console.log(`\nSuite Results: ${passed} passed, ${failed} failed (${suiteDuration}ms)`);
 
@@ -119,7 +116,7 @@ class LabTestFramework {
       failed,
       total: tests.length,
       duration: suiteDuration,
-      results: suiteResults
+      results: suiteResults,
     };
   }
 
@@ -158,7 +155,7 @@ class LabTestFramework {
       p95: p95.toFixed(2),
       p99: p99.toFixed(2),
       min: sorted[0].toFixed(2),
-      max: sorted[sorted.length - 1].toFixed(2)
+      max: sorted[sorted.length - 1].toFixed(2),
     };
   }
 
@@ -170,20 +167,20 @@ class LabTestFramework {
     assert(collections.length > 0, `Collection ${collectionName} does not exist`);
   }
 
-  async assertDocumentCount(collectionName, expectedCount, operator = '==') {
+  async assertDocumentCount(collectionName, expectedCount, operator = "==") {
     const count = await this.db.collection(collectionName).countDocuments();
 
     switch (operator) {
-      case '>':
+      case ">":
         assert(count > expectedCount, `Expected > ${expectedCount}, got ${count}`);
         break;
-      case '>=':
+      case ">=":
         assert(count >= expectedCount, `Expected >= ${expectedCount}, got ${count}`);
         break;
-      case '<':
+      case "<":
         assert(count < expectedCount, `Expected < ${expectedCount}, got ${count}`);
         break;
-      case '<=':
+      case "<=":
         assert(count <= expectedCount, `Expected <= ${expectedCount}, got ${count}`);
         break;
       default:
@@ -193,7 +190,7 @@ class LabTestFramework {
 
   async assertIndexExists(collectionName, indexName) {
     const indexes = await this.db.collection(collectionName).listIndexes().toArray();
-    const indexNames = indexes.map(idx => idx.name);
+    const indexNames = indexes.map((idx) => idx.name);
     assert(indexNames.includes(indexName), `Index ${indexName} not found in ${collectionName}`);
   }
 
@@ -216,8 +213,8 @@ class LabTestFramework {
     for (const [field, type] of Object.entries(schema)) {
       assert(field in sample, `Field ${field} not found`);
 
-      if (type !== 'any') {
-        const actualType = Array.isArray(sample[field]) ? 'array' : typeof sample[field];
+      if (type !== "any") {
+        const actualType = Array.isArray(sample[field]) ? "array" : typeof sample[field];
         assert.equal(actualType, type, `Field ${field} type mismatch`);
       }
     }
@@ -227,8 +224,8 @@ class LabTestFramework {
    * Generate test report
    */
   generateReport() {
-    const passed = this.results.filter(r => r.status === 'PASSED').length;
-    const failed = this.results.filter(r => r.status === 'FAILED').length;
+    const passed = this.results.filter((r) => r.status === "PASSED").length;
+    const failed = this.results.filter((r) => r.status === "FAILED").length;
     const totalDuration = this.results.reduce((sum, r) => sum + r.duration, 0);
 
     const report = {
@@ -236,12 +233,12 @@ class LabTestFramework {
         total: this.results.length,
         passed,
         failed,
-        successRate: ((passed / this.results.length) * 100).toFixed(2) + '%',
-        totalDuration: totalDuration + 'ms',
-        averageDuration: (totalDuration / this.results.length).toFixed(2) + 'ms'
+        successRate: ((passed / this.results.length) * 100).toFixed(2) + "%",
+        totalDuration: totalDuration + "ms",
+        averageDuration: (totalDuration / this.results.length).toFixed(2) + "ms",
       },
       tests: this.results,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     return report;
@@ -262,9 +259,9 @@ class LabTestFramework {
   printSummary() {
     const report = this.generateReport();
 
-    console.log('\n' + '='.repeat(60));
-    console.log('TEST SUMMARY');
-    console.log('='.repeat(60));
+    console.log("\n" + "=".repeat(60));
+    console.log("TEST SUMMARY");
+    console.log("=".repeat(60));
     console.log(`Total Tests: ${report.summary.total}`);
     console.log(`Passed: ${report.summary.passed}`);
     console.log(`Failed: ${report.summary.failed}`);
@@ -273,10 +270,10 @@ class LabTestFramework {
     console.log(`Average Duration: ${report.summary.averageDuration}`);
 
     if (report.summary.failed > 0) {
-      console.log('\nFailed Tests:');
+      console.log("\nFailed Tests:");
       this.results
-        .filter(r => r.status === 'FAILED')
-        .forEach(r => {
+        .filter((r) => r.status === "FAILED")
+        .forEach((r) => {
           console.log(`  ❌ ${r.test}: ${r.error}`);
         });
     }
@@ -295,14 +292,14 @@ class TestDataGenerator {
         email: `user${i}@example.com`,
         age: 18 + Math.floor(Math.random() * 50),
         created_at: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000),
-        active: Math.random() > 0.2
+        active: Math.random() > 0.2,
       });
     }
     return users;
   }
 
   static generateProducts(count) {
-    const categories = ['Electronics', 'Books', 'Clothing', 'Food', 'Sports'];
+    const categories = ["Electronics", "Books", "Clothing", "Food", "Sports"];
     const products = [];
 
     for (let i = 0; i < count; i++) {
@@ -312,8 +309,7 @@ class TestDataGenerator {
         price: parseFloat((10 + Math.random() * 990).toFixed(2)),
         stock: Math.floor(Math.random() * 100),
         rating: parseFloat((1 + Math.random() * 4).toFixed(1)),
-        tags: Array.from({ length: Math.floor(Math.random() * 5) + 1 },
-                        (_, j) => `tag${j}`)
+        tags: Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, j) => `tag${j}`),
       });
     }
     return products;
@@ -330,7 +326,7 @@ class TestDataGenerator {
         items.push({
           product_id: productIds[Math.floor(Math.random() * productIds.length)],
           quantity: 1 + Math.floor(Math.random() * 5),
-          price: parseFloat((10 + Math.random() * 200).toFixed(2))
+          price: parseFloat((10 + Math.random() * 200).toFixed(2)),
         });
       }
 
@@ -339,8 +335,8 @@ class TestDataGenerator {
         user_id: userIds[Math.floor(Math.random() * userIds.length)],
         items,
         total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-        status: ['pending', 'processing', 'shipped', 'delivered'][Math.floor(Math.random() * 4)],
-        created_at: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000)
+        status: ["pending", "processing", "shipped", "delivered"][Math.floor(Math.random() * 4)],
+        created_at: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000),
       });
     }
 

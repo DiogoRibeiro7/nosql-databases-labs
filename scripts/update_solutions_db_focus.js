@@ -4,12 +4,14 @@
  * Update solution.md files to focus on database operations only
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const GROUPS_DIR = path.join(__dirname, '..', 'group-work');
+const GROUPS_DIR = path.join(__dirname, "..", "group-work");
 
-const generateDatabaseSolution = (groupNum) => `# MongoDB Database Operations - Group ${groupNum} Solution
+const generateDatabaseSolution = (
+  groupNum
+) => `# MongoDB Database Operations - Group ${groupNum} Solution
 
 ## Database Setup
 
@@ -584,15 +586,18 @@ All operations are designed to work directly with MongoDB through the shell or d
 `;
 
 // Get all group directories
-const groups = fs.readdirSync(GROUPS_DIR)
-  .filter(dir => dir.startsWith('group_') && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory());
+const groups = fs
+  .readdirSync(GROUPS_DIR)
+  .filter(
+    (dir) => dir.startsWith("group_") && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory()
+  );
 
 console.log(`Updating solution.md files for ${groups.length} groups with database-only focus...`);
 
-groups.forEach(group => {
-  const groupNum = group.replace('group_', '');
+groups.forEach((group) => {
+  const groupNum = group.replace("group_", "");
   const groupPath = path.join(GROUPS_DIR, group);
-  const solutionPath = path.join(groupPath, 'solution.md');
+  const solutionPath = path.join(groupPath, "solution.md");
 
   // Generate and write the database-focused solution
   const solutionContent = generateDatabaseSolution(groupNum);
@@ -600,4 +605,4 @@ groups.forEach(group => {
   console.log(`✓ Updated solution.md for ${group} with database operations focus`);
 });
 
-console.log('\n✓ All solution files updated to focus on database operations only');
+console.log("\n✓ All solution files updated to focus on database operations only");

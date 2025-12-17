@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const analyticsDb = process.env.CHARTS_DATABASE || 'modern_features_charts';
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const analyticsDb = process.env.CHARTS_DATABASE || "modern_features_charts";
 
 class ChartsStarter {
   constructor(connectionString = uri) {
@@ -45,7 +45,7 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().catch(error => {
+  main().catch((error) => {
     console.error(error);
     process.exit(1);
   });

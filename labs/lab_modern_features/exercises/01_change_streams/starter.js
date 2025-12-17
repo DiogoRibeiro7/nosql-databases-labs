@@ -5,8 +5,8 @@
  * Fill in the TODO blocks to experiment before peeking at solution.js.
  */
 
-const { MongoClient } = require('mongodb');
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const { MongoClient } = require("mongodb");
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 class ChangeStreamsStarter {
   constructor(connectionString = uri) {
@@ -18,8 +18,8 @@ class ChangeStreamsStarter {
   async connect() {
     this.client = new MongoClient(this.connectionString);
     await this.client.connect();
-    this.db = this.client.db('modern_features_lab');
-    console.log('Connected to MongoDB (starter)');
+    this.db = this.client.db("modern_features_lab");
+    console.log("Connected to MongoDB (starter)");
   }
 
   async basicChangeStream() {
@@ -52,7 +52,7 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().catch(error => {
+  main().catch((error) => {
     console.error(error);
     process.exit(1);
   });

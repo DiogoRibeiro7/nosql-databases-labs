@@ -4,43 +4,43 @@
  * Help Command - Display available npm scripts and their descriptions
  */
 
-const { readFileSync } = require('fs');
-const { join } = require('path');
+const { readFileSync } = require("fs");
+const { join } = require("path");
 
 // Read package.json
-const packageJson = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf8'));
+const packageJson = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf8"));
 
 const scriptDescriptions = {
   // Linting and Formatting
-  'lint': 'Run ESLint on all JavaScript files',
-  'lint:fix': 'Run ESLint and automatically fix issues',
-  'format': 'Format code with Prettier',
-  'format:check': 'Check if code is formatted correctly',
+  lint: "Run ESLint on all JavaScript files",
+  "lint:fix": "Run ESLint and automatically fix issues",
+  format: "Format code with Prettier",
+  "format:check": "Check if code is formatted correctly",
 
   // Testing
-  'test': 'Run linting and data smoke tests',
-  'test:data': 'Run data integrity smoke tests',
-  'test:labs': 'Run all lab tests',
-  'test:lab01': 'Test Lab 01 - Introduction',
-  'test:lab02': 'Test Lab 02 - Data Modeling',
-  'test:lab03': 'Test Lab 03 - Advanced Queries',
-  'test:lab04': 'Test Lab 04 - Aggregation',
-  'test:lab05': 'Test Lab 05 - Replication',
-  'test:coverage': 'Run tests with code coverage',
+  test: "Run linting and data smoke tests",
+  "test:data": "Run data integrity smoke tests",
+  "test:labs": "Run all lab tests",
+  "test:lab01": "Test Lab 01 - Introduction",
+  "test:lab02": "Test Lab 02 - Data Modeling",
+  "test:lab03": "Test Lab 03 - Advanced Queries",
+  "test:lab04": "Test Lab 04 - Aggregation",
+  "test:lab05": "Test Lab 05 - Replication",
+  "test:coverage": "Run tests with code coverage",
 
   // Setup and Verification
-  'verify:setup': 'Verify MongoDB environment setup',
-  'standardize:groups': 'Standardize group folder naming',
-  'standardize:groups:dry': 'Preview group folder renaming (dry run)',
+  "verify:setup": "Verify MongoDB environment setup",
+  "standardize:groups": "Standardize group folder naming",
+  "standardize:groups:dry": "Preview group folder renaming (dry run)",
 
   // Grading (for instructors)
-  'grade:all': 'Grade all group submissions',
-  'grade:group': 'Grade specific group submission',
-  'grade:report': 'Generate grading report',
-  'monitor:progress': 'Monitor student progress',
+  "grade:all": "Grade all group submissions",
+  "grade:group": "Grade specific group submission",
+  "grade:report": "Generate grading report",
+  "monitor:progress": "Monitor student progress",
 
   // Help
-  'help': 'Show this help message'
+  help: "Show this help message",
 };
 
 console.log(`
@@ -53,9 +53,11 @@ Usage: npm run <command>
 SETUP & VERIFICATION
 ────────────────────`);
 
-['verify:setup', 'standardize:groups', 'standardize:groups:dry'].forEach(script => {
+["verify:setup", "standardize:groups", "standardize:groups:dry"].forEach((script) => {
   if (packageJson.scripts[script]) {
-    console.log(`  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || 'No description'}`);
+    console.log(
+      `  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || "No description"}`
+    );
   }
 });
 
@@ -64,18 +66,22 @@ TESTING
 ───────`);
 
 Object.keys(packageJson.scripts)
-  .filter(s => s.startsWith('test'))
-  .forEach(script => {
-    console.log(`  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || 'No description'}`);
+  .filter((s) => s.startsWith("test"))
+  .forEach((script) => {
+    console.log(
+      `  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || "No description"}`
+    );
   });
 
 console.log(`
 CODE QUALITY
 ────────────`);
 
-['lint', 'lint:fix', 'format', 'format:check'].forEach(script => {
+["lint", "lint:fix", "format", "format:check"].forEach((script) => {
   if (packageJson.scripts[script]) {
-    console.log(`  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || 'No description'}`);
+    console.log(
+      `  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || "No description"}`
+    );
   }
 });
 
@@ -83,9 +89,11 @@ console.log(`
 GRADING & MONITORING (Instructors)
 ──────────────────────────────────`);
 
-['grade:all', 'grade:group', 'grade:report', 'monitor:progress'].forEach(script => {
+["grade:all", "grade:group", "grade:report", "monitor:progress"].forEach((script) => {
   if (packageJson.scripts[script]) {
-    console.log(`  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || 'No description'}`);
+    console.log(
+      `  npm run ${script.padEnd(25)} # ${scriptDescriptions[script] || "No description"}`
+    );
   }
 });
 

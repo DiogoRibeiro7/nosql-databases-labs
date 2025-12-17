@@ -5,10 +5,10 @@
  * This creates minimal README.md and solution.md files for testing
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const GROUPS_DIR = path.join(__dirname, '..', 'group-work');
+const GROUPS_DIR = path.join(__dirname, "..", "group-work");
 
 const sampleReadme = `# Group Project
 
@@ -265,15 +265,18 @@ All queries have been tested with sample data and perform within acceptable time
 `;
 
 // Get all group directories
-const groups = fs.readdirSync(GROUPS_DIR)
-  .filter(dir => dir.startsWith('group_') && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory());
+const groups = fs
+  .readdirSync(GROUPS_DIR)
+  .filter(
+    (dir) => dir.startsWith("group_") && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory()
+  );
 
 console.log(`Found ${groups.length} group directories`);
 
-groups.forEach(group => {
+groups.forEach((group) => {
   const groupPath = path.join(GROUPS_DIR, group);
-  const readmePath = path.join(groupPath, 'README.md');
-  const solutionPath = path.join(groupPath, 'solution.md');
+  const readmePath = path.join(groupPath, "README.md");
+  const solutionPath = path.join(groupPath, "solution.md");
 
   // Create README if it doesn't exist
   if (!fs.existsSync(readmePath)) {
@@ -292,4 +295,4 @@ groups.forEach(group => {
   }
 });
 
-console.log('\n✓ Group sample files setup complete');
+console.log("\n✓ Group sample files setup complete");

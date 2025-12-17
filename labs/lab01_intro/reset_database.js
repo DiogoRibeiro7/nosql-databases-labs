@@ -3,7 +3,7 @@
 // Run with: mongosh --file reset_database.js
 
 // Connect to the lab01_student database
-db = db.getSiblingDB('lab01_student');
+db = db.getSiblingDB("lab01_student");
 
 print("=================================");
 print("Resetting Lab 01 Database");
@@ -18,55 +18,57 @@ print("✓ Collection dropped\n");
 print("Inserting fresh sample data...");
 const customers = [
   {
-    "customer_id": 1,
-    "name": "Alice Johnson",
-    "email": "alice@example.com",
-    "city": "New York",
-    "country": "USA",
-    "age": 28,
-    "balance": 1250.50
+    customer_id: 1,
+    name: "Alice Johnson",
+    email: "alice@example.com",
+    city: "New York",
+    country: "USA",
+    age: 28,
+    balance: 1250.5,
   },
   {
-    "customer_id": 2,
-    "name": "Bob Smith",
-    "email": "bob.smith@example.com",
-    "city": "London",
-    "country": "UK",
-    "age": 35,
-    "balance": 2100.00
+    customer_id: 2,
+    name: "Bob Smith",
+    email: "bob.smith@example.com",
+    city: "London",
+    country: "UK",
+    age: 35,
+    balance: 2100.0,
   },
   {
-    "customer_id": 3,
-    "name": "Charlie Davis",
-    "email": "charlie.d@example.com",
-    "city": "Paris",
-    "country": "France",
-    "age": 42,
-    "balance": 3200.75
+    customer_id: 3,
+    name: "Charlie Davis",
+    email: "charlie.d@example.com",
+    city: "Paris",
+    country: "France",
+    age: 42,
+    balance: 3200.75,
   },
   {
-    "customer_id": 4,
-    "name": "Diana Chen",
-    "email": "diana.chen@example.com",
-    "city": "Tokyo",
-    "country": "Japan",
-    "age": 31,
-    "balance": 1800.25
+    customer_id: 4,
+    name: "Diana Chen",
+    email: "diana.chen@example.com",
+    city: "Tokyo",
+    country: "Japan",
+    age: 31,
+    balance: 1800.25,
   },
   {
-    "customer_id": 5,
-    "name": "Edward Brown",
-    "email": "ed.brown@example.com",
-    "city": "Sydney",
-    "country": "Australia",
-    "age": 29,
-    "balance": 2500.00
-  }
+    customer_id: 5,
+    name: "Edward Brown",
+    email: "ed.brown@example.com",
+    city: "Sydney",
+    country: "Australia",
+    age: 29,
+    balance: 2500.0,
+  },
 ];
 
 // Insert the baseline dataset so every student starts with identical rows.
 const result = db.customers.insertMany(customers);
-print(`✓ Inserted ${result.insertedIds ? Object.keys(result.insertedIds).length : customers.length} documents\n`);
+print(
+  `✓ Inserted ${result.insertedIds ? Object.keys(result.insertedIds).length : customers.length} documents\n`
+);
 
 // Re-create indexes
 print("Creating indexes...");

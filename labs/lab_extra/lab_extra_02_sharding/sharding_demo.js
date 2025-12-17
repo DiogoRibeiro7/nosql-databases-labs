@@ -2,13 +2,13 @@
 const { MongoClient } = require("mongodb");
 
 class ShardingManager {
-  constructor (mongosUri = "mongodb://localhost:27017") {
+  constructor(mongosUri = "mongodb://localhost:27017") {
     this.mongosUri = mongosUri;
     this.client = null;
     this.adminDb = null;
   }
 
-  async connect () {
+  async connect() {
     this.client = new MongoClient(this.mongosUri);
     await this.client.connect();
     this.adminDb = this.client.db("admin");
@@ -16,14 +16,14 @@ class ShardingManager {
     return this;
   }
 
-  async disconnect () {
+  async disconnect() {
     if (this.client) {
       await this.client.close();
     }
   }
 
   // Get sharding status
-  async getStatus () {
+  async getStatus() {
     try {
       const result = await this.adminDb.command({ listShards: 1 });
       return result.shards;
@@ -34,7 +34,7 @@ class ShardingManager {
   }
 
   // Enable sharding on database
-  async enableSharding (dbName) {
+  async enableSharding(dbName) {
     try {
       const result = await this.adminDb.command({
         enableSharding: dbName,
@@ -51,7 +51,7 @@ class ShardingManager {
   }
 
   // Shard a collection
-  async shardCollection (namespace, shardKey, options = {}) {
+  async shardCollection(namespace, shardKey, options = {}) {
     try {
       const command = {
         shardCollection: namespace,
@@ -72,7 +72,7 @@ class ShardingManager {
   }
 
   // Get shard distribution for a collection
-  async getShardDistribution (dbName, collectionName) {
+  async getShardDistribution(dbName, collectionName) {
     const db = this.client.db(dbName);
     const collection = db.collection(collectionName);
 
@@ -110,7 +110,7 @@ class ShardingManager {
   }
 
   // Pre-split chunks for better initial distribution
-  async preSplitChunks (namespace, splitPoints) {
+  async preSplitChunks(namespace, splitPoints) {
     const results = [];
 
     for (const point of splitPoints) {
@@ -129,7 +129,7 @@ class ShardingManager {
   }
 
   // Move chunk to different shard
-  async moveChunk (namespace, findKey, toShard) {
+  async moveChunk(namespace, findKey, toShard) {
     try {
       const result = await this.adminDb.command({
         moveChunk: namespace,
@@ -145,7 +145,7 @@ class ShardingManager {
   }
 
   // Balancer management
-  async getBalancerState () {
+  async getBalancerState() {
     try {
       const result = await this.adminDb.command({ balancerStatus: 1 });
       return result;
@@ -160,7 +160,7 @@ class ShardingManager {
     }
   }
 
-  async stopBalancer () {
+  async stopBalancer() {
     try {
       const result = await this.adminDb.command({ balancerStop: 1 });
       console.log("Balancer stopped");
@@ -171,7 +171,7 @@ class ShardingManager {
     }
   }
 
-  async startBalancer () {
+  async startBalancer() {
     try {
       const result = await this.adminDb.command({ balancerStart: 1 });
       console.log("Balancer started");
@@ -183,7 +183,7 @@ class ShardingManager {
   }
 
   // Add shard zone
-  async addShardZone (shardName, zoneName) {
+  async addShardZone(shardName, zoneName) {
     try {
       const result = await this.adminDb.command({
         addShardToZone: shardName,
@@ -198,7 +198,7 @@ class ShardingManager {
   }
 
   // Update zone key range
-  async updateZoneKeyRange (namespace, min, max, zone) {
+  async updateZoneKeyRange(namespace, min, max, zone) {
     try {
       const result = await this.adminDb.command({
         updateZoneKeyRange: namespace,
@@ -215,7 +215,7 @@ class ShardingManager {
   }
 
   // Analyze query targeting
-  async analyzeQuery (dbName, collectionName, query) {
+  async analyzeQuery(dbName, collectionName, query) {
     const db = this.client.db(dbName);
     const collection = db.collection(collectionName);
 
@@ -251,12 +251,12 @@ class ShardingManager {
 
 // Demo data generator
 class ShardingDataGenerator {
-  constructor (db) {
+  constructor(db) {
     this.db = db;
   }
 
   // Generate user data for sharding demo
-  async generateUsers (count = 10000) {
+  async generateUsers(count = 10000) {
     const users = [];
     const regions = ["NA", "EU", "APAC", "SA", "AF"];
 
@@ -280,7 +280,7 @@ class ShardingDataGenerator {
   }
 
   // Generate order data
-  async generateOrders (count = 50000) {
+  async generateOrders(count = 50000) {
     const orders = [];
     const userCount = 10000;
 
@@ -303,7 +303,7 @@ class ShardingDataGenerator {
   }
 
   // Generate time-series data
-  async generateMetrics (count = 100000) {
+  async generateMetrics(count = 100000) {
     const metrics = [];
     const servers = ["server1", "server2", "server3", "server4", "server5"];
     const now = Date.now();
@@ -328,12 +328,12 @@ class ShardingDataGenerator {
 
 // Query performance tester
 class ShardingPerformanceTester {
-  constructor (db) {
+  constructor(db) {
     this.db = db;
   }
 
   // Test targeted vs scatter-gather queries
-  async compareQueryPerformance () {
+  async compareQueryPerformance() {
     const results = {};
     const collection = this.db.collection("orders");
 
@@ -382,7 +382,7 @@ class ShardingPerformanceTester {
   }
 
   // Test write distribution
-  async testWriteDistribution (iterations = 1000) {
+  async testWriteDistribution(iterations = 1000) {
     const collection = this.db.collection("orders");
     const writeStart = Date.now();
 

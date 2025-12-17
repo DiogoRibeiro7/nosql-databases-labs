@@ -2,7 +2,7 @@
 // Database: lab03_movies
 // Collection: movies, theaters, users
 
-use('lab03_movies');
+use("lab03_movies");
 
 // ========================================
 // TASK 3: INDEX DESIGN AND OPTIMIZATION
@@ -23,7 +23,6 @@ db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } }).explain("executionSt
 // Query 3: Find movies by director (BEFORE index)
 db.movies.find({ directors: "Christopher Nolan" }).explain("executionStats");
 
-
 // ========================================
 // SINGLE-FIELD INDEXES
 // ========================================
@@ -35,7 +34,7 @@ db.movies.createIndex({ genres: 1 });
 db.movies.createIndex({ year: 1 });
 
 // 3. Index on IMDb rating (for rating filtering and sorting)
-db.movies.createIndex({ "imdb.rating": -1 });  // Descending for common sort order
+db.movies.createIndex({ "imdb.rating": -1 }); // Descending for common sort order
 
 // 4. Index on directors (for director queries)
 db.movies.createIndex({ directors: 1 });
@@ -75,14 +74,14 @@ db.movies.createIndex({ genres: 1, year: -1, "imdb.rating": -1 });
 db.movies.createIndex(
   {
     title: "text",
-    plot: "text"
+    plot: "text",
   },
   {
     weights: {
-      title: 10,    // Title matches are more important
-      plot: 5
+      title: 10, // Title matches are more important
+      plot: 5,
     },
-    name: "movie_text_index"
+    name: "movie_text_index",
   }
 );
 
@@ -143,15 +142,12 @@ db.movies.createIndex(
   { "imdb.rating": -1 },
   {
     partialFilterExpression: { "imdb.rating": { $gte: 8.0 } },
-    name: "high_rated_movies_idx"
+    name: "high_rated_movies_idx",
   }
 );
 
 // 25. Sparse index: Only index documents with a specific field
-db.movies.createIndex(
-  { "box_office": -1 },
-  { sparse: true, name: "box_office_sparse_idx" }
-);
+db.movies.createIndex({ box_office: -1 }, { sparse: true, name: "box_office_sparse_idx" });
 
 // 26. TTL index for temporary data (example: user sessions)
 // Note: This is just an example - not applicable to our current collections
@@ -165,10 +161,9 @@ db.movies.createIndex(
 db.movies.createIndex({ title: 1, year: 1, "imdb.rating": 1 });
 
 // This query will be covered (no document reads, only index reads)
-db.movies.find(
-  { title: "Inception" },
-  { title: 1, year: 1, "imdb.rating": 1, _id: 0 }
-).explain("executionStats");
+db.movies
+  .find({ title: "Inception" }, { title: 1, year: 1, "imdb.rating": 1, _id: 0 })
+  .explain("executionStats");
 
 // ========================================
 // VIEW ALL INDEXES
@@ -225,16 +220,14 @@ db.movies.find({ $text: { $search: "space adventure" } }).explain("executionStat
 // ========================================
 
 // Non-covered query (needs to read documents)
-db.movies.find(
-  { title: "Inception" },
-  { title: 1, year: 1, "imdb.rating": 1, plot: 1, _id: 0 }
-).explain("executionStats");
+db.movies
+  .find({ title: "Inception" }, { title: 1, year: 1, "imdb.rating": 1, plot: 1, _id: 0 })
+  .explain("executionStats");
 
 // Covered query (all data from index)
-db.movies.find(
-  { title: "Inception" },
-  { title: 1, year: 1, "imdb.rating": 1, _id: 0 }
-).explain("executionStats");
+db.movies
+  .find({ title: "Inception" }, { title: 1, year: 1, "imdb.rating": 1, _id: 0 })
+  .explain("executionStats");
 
 // ========================================
 // EXAMPLE: ESR RULE (Equality, Sort, Range)
@@ -247,10 +240,13 @@ db.movies.find(
 db.movies.createIndex({ genres: 1, year: -1, "imdb.rating": -1 });
 
 // Query that uses the index efficiently
-db.movies.find({
-  genres: "Action",
-  "imdb.rating": { $gt: 7.0 }
-}).sort({ year: -1 }).explain("executionStats");
+db.movies
+  .find({
+    genres: "Action",
+    "imdb.rating": { $gt: 7.0 },
+  })
+  .sort({ year: -1 })
+  .explain("executionStats");
 
 // ========================================
 // DROP REDUNDANT INDEXES (if needed)
@@ -274,7 +270,7 @@ db.movies.find({
 // ========================================
 
 // Enable profiling to capture slow queries
-db.setProfilingLevel(1, { slowms: 100 });  // Log queries slower than 100ms
+db.setProfilingLevel(1, { slowms: 100 }); // Log queries slower than 100ms
 
 // View slow queries
 db.system.profile.find().sort({ ts: -1 }).limit(10).pretty();

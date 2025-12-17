@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 
-const atlasUri = process.env.MONGODB_ATLAS_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const atlasUri =
+  process.env.MONGODB_ATLAS_URI || process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 class VectorSearchStarter {
   constructor(connectionString = atlasUri) {
@@ -14,13 +15,16 @@ class VectorSearchStarter {
   async connect() {
     this.client = new MongoClient(this.connectionString);
     await this.client.connect();
-    this.db = this.client.db('modern_features_lab');
-    console.log('Connected to MongoDB (vector search starter)');
+    this.db = this.client.db("modern_features_lab");
+    console.log("Connected to MongoDB (vector search starter)");
   }
 
   async generateEmbedding(text) {
     // TODO: plug in a real embedding model; for now return dummy numbers
-    return text.split('').map(char => (char.charCodeAt(0) % 10) / 10).slice(0, 8);
+    return text
+      .split("")
+      .map((char) => (char.charCodeAt(0) % 10) / 10)
+      .slice(0, 8);
   }
 
   async insertSampleProducts() {
@@ -44,14 +48,14 @@ async function main() {
   try {
     await exercise.connect();
     await exercise.insertSampleProducts();
-    await exercise.findSimilarProducts('wireless headphones');
+    await exercise.findSimilarProducts("wireless headphones");
   } finally {
     await exercise.cleanup();
   }
 }
 
 if (require.main === module) {
-  main().catch(error => {
+  main().catch((error) => {
     console.error(error);
     process.exit(1);
   });

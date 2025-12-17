@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 
-const localUri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const localUri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const atlasUri = process.env.MONGODB_ATLAS_URI || localUri;
 
 class AtlasSearchStarter {
@@ -15,8 +15,10 @@ class AtlasSearchStarter {
   async connect() {
     this.client = new MongoClient(this.connectionString);
     await this.client.connect();
-    this.db = this.client.db('modern_features_lab');
-    console.log(`Connected to MongoDB (${this.connectionString.includes('mongodb+srv://') ? 'Atlas' : 'local'})`);
+    this.db = this.client.db("modern_features_lab");
+    console.log(
+      `Connected to MongoDB (${this.connectionString.includes("mongodb+srv://") ? "Atlas" : "local"})`
+    );
   }
 
   async prepareData() {
@@ -49,7 +51,7 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().catch(error => {
+  main().catch((error) => {
     console.error(error);
     process.exit(1);
   });

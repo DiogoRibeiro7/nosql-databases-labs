@@ -11,13 +11,18 @@
  * - Documentation generation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { MongoClient } = require('mongodb');
-const DataVersionTracker = require('../data/data_version_tracker');
-const { schemas, validateDocument, applySchema, validateCollection } = require('../data/validation_schemas/dataset_schemas');
+const fs = require("fs");
+const path = require("path");
+const { MongoClient } = require("mongodb");
+const DataVersionTracker = require("../data/data_version_tracker");
+const {
+  schemas,
+  validateDocument,
+  applySchema,
+  validateCollection,
+} = require("../data/validation_schemas/dataset_schemas");
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 class DataManager {
   constructor() {
@@ -29,24 +34,24 @@ class DataManager {
    * Run all data management tasks
    */
   async runAll() {
-    console.log('\n' + '='.repeat(60));
-    console.log('COMPREHENSIVE DATA MANAGEMENT');
-    console.log('='.repeat(60));
+    console.log("\n" + "=".repeat(60));
+    console.log("COMPREHENSIVE DATA MANAGEMENT");
+    console.log("=".repeat(60));
 
     // 1. Version tracking
-    console.log('\n📊 Updating version tracking...');
+    console.log("\n📊 Updating version tracking...");
     this.versionTracker.trackAllDatasets();
 
     // 2. Freshness check
-    console.log('\n🔍 Checking data freshness...');
+    console.log("\n🔍 Checking data freshness...");
     this.versionTracker.checkFreshness();
 
     // 3. Validation
-    console.log('\n✅ Validating datasets...');
+    console.log("\n✅ Validating datasets...");
     await this.validateAllDatasets();
 
     // 4. Generate reports
-    console.log('\n📄 Generating reports...');
+    console.log("\n📄 Generating reports...");
     this.generateReports();
 
     // 5. Summary
@@ -58,12 +63,20 @@ class DataManager {
    */
   async validateAllDatasets() {
     const datasetMappings = [
-      { file: 'data/datasets/books.json', schema: 'books', collection: 'books' },
-      { file: 'data/datasets/products.json', schema: 'products', collection: 'products' },
-      { file: 'data/datasets/students.json', schema: 'students', collection: 'students' },
-      { file: 'data/datasets/companies.json', schema: 'companies', collection: 'companies' },
-      { file: 'labs/lab02_modeling/starter/data/orders.json', schema: 'orders', collection: 'orders' },
-      { file: 'labs/lab02_modeling/starter/data/customers.json', schema: 'customers', collection: 'customers' }
+      { file: "data/datasets/books.json", schema: "books", collection: "books" },
+      { file: "data/datasets/products.json", schema: "products", collection: "products" },
+      { file: "data/datasets/students.json", schema: "students", collection: "students" },
+      { file: "data/datasets/companies.json", schema: "companies", collection: "companies" },
+      {
+        file: "labs/lab02_modeling/starter/data/orders.json",
+        schema: "orders",
+        collection: "orders",
+      },
+      {
+        file: "labs/lab02_modeling/starter/data/customers.json",
+        schema: "customers",
+        collection: "customers",
+      },
     ];
 
     const results = [];
@@ -73,7 +86,7 @@ class DataManager {
         console.log(`\nValidating ${mapping.file}...`);
 
         try {
-          const content = fs.readFileSync(mapping.file, 'utf8');
+          const content = fs.readFileSync(mapping.file, "utf8");
           const data = JSON.parse(content);
           const documents = Array.isArray(data) ? data : [data];
 
@@ -99,20 +112,21 @@ class DataManager {
             total: documents.length,
             valid: validCount,
             invalid: invalidCount,
-            errors: errors
+            errors: errors,
           };
 
           results.push(validationResult);
 
-          console.log(`  ✓ Total: ${documents.length}, Valid: ${validCount}, Invalid: ${invalidCount}`);
+          console.log(
+            `  ✓ Total: ${documents.length}, Valid: ${validCount}, Invalid: ${invalidCount}`
+          );
 
           if (errors.length > 0) {
             console.log(`  ⚠️ Sample errors:`);
-            errors.slice(0, 3).forEach(err => {
+            errors.slice(0, 3).forEach((err) => {
               console.log(`    Document ${err.index}: ${err.errors[0]}`);
             });
           }
-
         } catch (error) {
           console.error(`  ✗ Error validating ${mapping.file}: ${error.message}`);
         }
@@ -132,30 +146,29 @@ class DataManager {
     let client;
 
     try {
-      console.log('\n📝 Applying validation schemas to MongoDB...');
+      console.log("\n📝 Applying validation schemas to MongoDB...");
 
       client = new MongoClient(MONGODB_URI);
       await client.connect();
 
-      const db = client.db('nosql_labs');
+      const db = client.db("nosql_labs");
 
       const schemaApplications = [
-        { collection: 'books', schema: schemas.books },
-        { collection: 'products', schema: schemas.products },
-        { collection: 'students', schema: schemas.students },
-        { collection: 'companies', schema: schemas.companies },
-        { collection: 'orders', schema: schemas.orders },
-        { collection: 'customers', schema: schemas.customers }
+        { collection: "books", schema: schemas.books },
+        { collection: "products", schema: schemas.products },
+        { collection: "students", schema: schemas.students },
+        { collection: "companies", schema: schemas.companies },
+        { collection: "orders", schema: schemas.orders },
+        { collection: "customers", schema: schemas.customers },
       ];
 
       for (const { collection, schema } of schemaApplications) {
         await applySchema(db, collection, schema);
       }
 
-      console.log('\n✓ All schemas applied successfully');
-
+      console.log("\n✓ All schemas applied successfully");
     } catch (error) {
-      console.error('Error applying schemas:', error);
+      console.error("Error applying schemas:", error);
     } finally {
       if (client) {
         await client.close();
@@ -170,20 +183,20 @@ class DataManager {
     let client;
 
     try {
-      console.log('\n🔍 Validating MongoDB collections...');
+      console.log("\n🔍 Validating MongoDB collections...");
 
       client = new MongoClient(MONGODB_URI);
       await client.connect();
 
-      const db = client.db('nosql_labs');
+      const db = client.db("nosql_labs");
 
       const validations = [
-        { collection: 'books', schema: 'books' },
-        { collection: 'products', schema: 'products' },
-        { collection: 'students', schema: 'students' },
-        { collection: 'companies', schema: 'companies' },
-        { collection: 'orders', schema: 'orders' },
-        { collection: 'customers', schema: 'customers' }
+        { collection: "books", schema: "books" },
+        { collection: "products", schema: "products" },
+        { collection: "students", schema: "students" },
+        { collection: "companies", schema: "companies" },
+        { collection: "orders", schema: "orders" },
+        { collection: "customers", schema: "customers" },
       ];
 
       const results = [];
@@ -194,9 +207,8 @@ class DataManager {
       }
 
       return results;
-
     } catch (error) {
-      console.error('Error validating MongoDB:', error);
+      console.error("Error validating MongoDB:", error);
       return [];
     } finally {
       if (client) {
@@ -211,23 +223,23 @@ class DataManager {
   generateReports() {
     // Version report
     const versionReport = this.versionTracker.generateReport();
-    console.log('Version report generated:', versionReport);
+    console.log("Version report generated:", versionReport);
 
     // Data quality report
     const qualityReport = {
       generated: new Date().toISOString(),
       validation: this.validationResults || [],
       freshness: this.extractFreshnessStats(),
-      coverage: this.calculateCoverage()
+      coverage: this.calculateCoverage(),
     };
 
     // Save quality report
-    const qualityReportPath = path.join('data', 'quality_report.json');
+    const qualityReportPath = path.join("data", "quality_report.json");
     fs.writeFileSync(qualityReportPath, JSON.stringify(qualityReport, null, 2));
 
     // Generate markdown summary
     const summaryMd = this.generateMarkdownSummary(qualityReport);
-    const summaryPath = path.join('data', 'DATA_SUMMARY.md');
+    const summaryPath = path.join("data", "DATA_SUMMARY.md");
     fs.writeFileSync(summaryPath, summaryMd);
 
     console.log(`\n📄 Reports generated:`);
@@ -245,12 +257,12 @@ class DataManager {
     const stats = {
       fresh: 0,
       stale: 0,
-      expired: 0
+      expired: 0,
     };
 
     if (this.versionTracker.versions && this.versionTracker.versions.datasets) {
-      Object.values(this.versionTracker.versions.datasets).forEach(dataset => {
-        const status = dataset.freshness?.status || 'unknown';
+      Object.values(this.versionTracker.versions.datasets).forEach((dataset) => {
+        const status = dataset.freshness?.status || "unknown";
         if (status in stats) {
           stats[status]++;
         }
@@ -270,7 +282,7 @@ class DataManager {
       validated: 0,
       versioned: 0,
       percentageDocumented: 0,
-      percentageValidated: 0
+      percentageValidated: 0,
     };
 
     if (this.versionTracker.versions && this.versionTracker.versions.datasets) {
@@ -278,17 +290,22 @@ class DataManager {
       coverage.versioned = coverage.totalDatasets;
 
       // Check documentation (simplified check)
-      coverage.documented = Object.values(this.versionTracker.versions.datasets)
-        .filter(d => d.metadata && d.metadata.description).length;
+      coverage.documented = Object.values(this.versionTracker.versions.datasets).filter(
+        (d) => d.metadata && d.metadata.description
+      ).length;
 
       // Check validation
       if (this.validationResults) {
-        coverage.validated = this.validationResults.filter(r => r.invalid === 0).length;
+        coverage.validated = this.validationResults.filter((r) => r.invalid === 0).length;
       }
 
       if (coverage.totalDatasets > 0) {
-        coverage.percentageDocumented = Math.round((coverage.documented / coverage.totalDatasets) * 100);
-        coverage.percentageValidated = Math.round((coverage.validated / coverage.totalDatasets) * 100);
+        coverage.percentageDocumented = Math.round(
+          (coverage.documented / coverage.totalDatasets) * 100
+        );
+        coverage.percentageValidated = Math.round(
+          (coverage.validated / coverage.totalDatasets) * 100
+        );
       }
     }
 
@@ -325,8 +342,8 @@ This summary provides a comprehensive view of all datasets in the NoSQL Labs rep
 |---------|--------------|-------|---------|--------|
 `;
 
-      report.validation.forEach(v => {
-        const status = v.invalid === 0 ? '✅ Pass' : '❌ Fail';
+      report.validation.forEach((v) => {
+        const status = v.invalid === 0 ? "✅ Pass" : "❌ Fail";
         const filename = path.basename(v.file);
         md += `| ${filename} | ${v.total} | ${v.valid} | ${v.invalid} | ${status} |\n`;
       });
@@ -397,19 +414,19 @@ When adding new datasets:
    * Print summary to console
    */
   printSummary() {
-    console.log('\n' + '='.repeat(60));
-    console.log('DATA MANAGEMENT SUMMARY');
-    console.log('='.repeat(60));
+    console.log("\n" + "=".repeat(60));
+    console.log("DATA MANAGEMENT SUMMARY");
+    console.log("=".repeat(60));
 
     const coverage = this.calculateCoverage();
     const freshness = this.extractFreshnessStats();
 
-    console.log('\n📊 Statistics:');
+    console.log("\n📊 Statistics:");
     console.log(`  Total Datasets: ${coverage.totalDatasets}`);
     console.log(`  Documented: ${coverage.documented} (${coverage.percentageDocumented}%)`);
     console.log(`  Validated: ${coverage.validated} (${coverage.percentageValidated}%)`);
 
-    console.log('\n🔍 Freshness:');
+    console.log("\n🔍 Freshness:");
     console.log(`  Fresh: ${freshness.fresh}`);
     console.log(`  Stale: ${freshness.stale}`);
     console.log(`  Expired: ${freshness.expired}`);
@@ -419,11 +436,11 @@ When adding new datasets:
       if (totalInvalid > 0) {
         console.log(`\n⚠️ Validation Issues: ${totalInvalid} invalid documents found`);
       } else {
-        console.log('\n✅ All datasets passed validation!');
+        console.log("\n✅ All datasets passed validation!");
       }
     }
 
-    console.log('\n✨ Data management tasks completed successfully!');
+    console.log("\n✨ Data management tasks completed successfully!");
   }
 }
 
@@ -455,28 +472,28 @@ Examples:
     `);
   };
 
-  if (args.length === 0 || args.includes('--help')) {
+  if (args.length === 0 || args.includes("--help")) {
     showHelp();
     return;
   }
 
   try {
-    if (args.includes('--all')) {
+    if (args.includes("--all")) {
       await manager.runAll();
     } else {
-      if (args.includes('--version')) {
+      if (args.includes("--version")) {
         manager.versionTracker.trackAllDatasets();
       }
-      if (args.includes('--freshness')) {
+      if (args.includes("--freshness")) {
         manager.versionTracker.checkFreshness();
       }
-      if (args.includes('--validate')) {
+      if (args.includes("--validate")) {
         await manager.validateAllDatasets();
       }
-      if (args.includes('--apply-schemas')) {
+      if (args.includes("--apply-schemas")) {
         await manager.applySchemas();
       }
-      if (args.includes('--validate-mongo')) {
+      if (args.includes("--validate-mongo")) {
         await manager.validateMongoDB();
       }
 
@@ -484,7 +501,7 @@ Examples:
       manager.printSummary();
     }
   } catch (error) {
-    console.error('\n❌ Error:', error.message);
+    console.error("\n❌ Error:", error.message);
     process.exit(1);
   }
 }

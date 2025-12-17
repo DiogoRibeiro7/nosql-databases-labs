@@ -10,4 +10,4 @@
  * the README command `mongosh labs/lab01_intro/solutions.js` works out of the box.
  */
 
-load('./labs/lab01_intro/queries_mongosh.js');
+load("./labs/lab01_intro/queries_mongosh.js");

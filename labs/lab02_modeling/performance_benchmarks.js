@@ -12,10 +12,10 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 // Performance thresholds (in milliseconds)
 const PERFORMANCE_THRESHOLDS = {
-  simple_query: 10,      // Simple indexed queries should complete < 10ms
-  aggregate: 50,         // Aggregation queries should complete < 50ms
-  complex: 100,          // Complex queries should complete < 100ms
-  batch: 500            // Batch operations should complete < 500ms
+  simple_query: 10, // Simple indexed queries should complete < 10ms
+  aggregate: 50, // Aggregation queries should complete < 50ms
+  complex: 100, // Complex queries should complete < 100ms
+  batch: 500, // Batch operations should complete < 500ms
 };
 
 // Benchmark results storage
@@ -64,7 +64,7 @@ async function benchmarkQuery(name, queryFunc, iterations = 10) {
     minTime: minTime.toFixed(2),
     maxTime: maxTime.toFixed(2),
     median: median.toFixed(2),
-    resultCount: Array.isArray(results) ? results.length : 1
+    resultCount: Array.isArray(results) ? results.length : 1,
   };
 
   console.log(`  Average: ${result.avgTime}ms`);
@@ -101,9 +101,8 @@ async function analyzeQueryPlan(db, collection, query, queryName) {
     console.log(`  Execution Time: ${stats.executionTimeMillis}ms`);
 
     // Calculate efficiency
-    const efficiency = stats.nReturned > 0
-      ? (stats.nReturned / stats.totalDocsExamined * 100).toFixed(1)
-      : "N/A";
+    const efficiency =
+      stats.nReturned > 0 ? ((stats.nReturned / stats.totalDocsExamined) * 100).toFixed(1) : "N/A";
     console.log(`  Query Efficiency: ${efficiency}%`);
 
     // Performance warnings
@@ -114,7 +113,9 @@ async function analyzeQueryPlan(db, collection, query, queryName) {
       console.log("  ⚠️  WARNING: Query examining too many documents. Consider optimizing.");
     }
     if (stats.executionTimeMillis > PERFORMANCE_THRESHOLDS.simple_query) {
-      console.log(`  ⚠️  WARNING: Query exceeds performance threshold (${PERFORMANCE_THRESHOLDS.simple_query}ms).`);
+      console.log(
+        `  ⚠️  WARNING: Query exceeds performance threshold (${PERFORMANCE_THRESHOLDS.simple_query}ms).`
+      );
     }
   }
 }
@@ -141,16 +142,14 @@ async function runBenchmarks() {
     // ========================================================================
     // Benchmark 1: Simple indexed query (customer orders)
     // ========================================================================
-    await benchmarkQuery(
-      "Customer Orders Query (indexed)",
-      async () => {
-        return await db.collection("orders")
-          .find({ customer_id: "CUST001" })
-          .sort({ order_date: -1 })
-          .limit(10)
-          .toArray();
-      }
-    );
+    await benchmarkQuery("Customer Orders Query (indexed)", async () => {
+      return await db
+        .collection("orders")
+        .find({ customer_id: "CUST001" })
+        .sort({ order_date: -1 })
+        .limit(10)
+        .toArray();
+    });
 
     await analyzeQueryPlan(
       db,
@@ -162,14 +161,9 @@ async function runBenchmarks() {
     // ========================================================================
     // Benchmark 2: Product category filter
     // ========================================================================
-    await benchmarkQuery(
-      "Product Category Filter (indexed)",
-      async () => {
-        return await db.collection("products")
-          .find({ category: "Electronics" })
-          .toArray();
-      }
-    );
+    await benchmarkQuery("Product Category Filter (indexed)", async () => {
+      return await db.collection("products").find({ category: "Electronics" }).toArray();
+    });
 
     await analyzeQueryPlan(
       db,
@@ -181,46 +175,38 @@ async function runBenchmarks() {
     // ========================================================================
     // Benchmark 3: Complex aggregation (top products)
     // ========================================================================
-    await benchmarkQuery(
-      "Top Products Aggregation",
-      async () => {
-        return await db.collection("orders").aggregate([
+    await benchmarkQuery("Top Products Aggregation", async () => {
+      return await db
+        .collection("orders")
+        .aggregate([
           { $unwind: "$items" },
           {
             $group: {
               _id: "$items.product_id",
               product_name: { $first: "$items.product_name" },
               total_quantity_sold: { $sum: "$items.quantity" },
-              total_revenue: { $sum: { $multiply: ["$items.quantity", "$items.unit_price"] } }
-            }
+              total_revenue: { $sum: { $multiply: ["$items.quantity", "$items.unit_price"] } },
+            },
           },
           { $sort: { total_revenue: -1 } },
-          { $limit: 10 }
-        ]).toArray();
-      }
-    );
+          { $limit: 10 },
+        ])
+        .toArray();
+    });
 
     // ========================================================================
     // Benchmark 4: Order lookup with embedded items
     // ========================================================================
-    await benchmarkQuery(
-      "Order with Embedded Items",
-      async () => {
-        return await db.collection("orders")
-          .findOne({ order_id: "ORD001" });
-      }
-    );
+    await benchmarkQuery("Order with Embedded Items", async () => {
+      return await db.collection("orders").findOne({ order_id: "ORD001" });
+    });
 
     // ========================================================================
     // Benchmark 5: Customer email lookup (unique index)
     // ========================================================================
-    await benchmarkQuery(
-      "Customer Email Lookup (unique)",
-      async () => {
-        return await db.collection("customers")
-          .findOne({ email: "john.doe@example.com" });
-      }
-    );
+    await benchmarkQuery("Customer Email Lookup (unique)", async () => {
+      return await db.collection("customers").findOne({ email: "john.doe@example.com" });
+    });
 
     await analyzeQueryPlan(
       db,
@@ -232,40 +218,36 @@ async function runBenchmarks() {
     // ========================================================================
     // Benchmark 6: Range query (products by price)
     // ========================================================================
-    await benchmarkQuery(
-      "Product Price Range Query",
-      async () => {
-        return await db.collection("products")
-          .find({ price: { $gte: 100, $lte: 500 } })
-          .toArray();
-      }
-    );
+    await benchmarkQuery("Product Price Range Query", async () => {
+      return await db
+        .collection("products")
+        .find({ price: { $gte: 100, $lte: 500 } })
+        .toArray();
+    });
 
     // ========================================================================
     // Benchmark 7: Complex filter (multiple conditions)
     // ========================================================================
-    await benchmarkQuery(
-      "Complex Product Filter",
-      async () => {
-        return await db.collection("products")
-          .find({
-            category: "Electronics",
-            price: { $gte: 50, $lte: 500 },
-            stock_quantity: { $gt: 0 }
-          })
-          .sort({ price: -1 })
-          .limit(20)
-          .toArray();
-      }
-    );
+    await benchmarkQuery("Complex Product Filter", async () => {
+      return await db
+        .collection("products")
+        .find({
+          category: "Electronics",
+          price: { $gte: 50, $lte: 500 },
+          stock_quantity: { $gt: 0 },
+        })
+        .sort({ price: -1 })
+        .limit(20)
+        .toArray();
+    });
 
     // ========================================================================
     // Benchmark 8: Customer order history aggregation
     // ========================================================================
-    await benchmarkQuery(
-      "Customer Order Summary",
-      async () => {
-        return await db.collection("orders").aggregate([
+    await benchmarkQuery("Customer Order Summary", async () => {
+      return await db
+        .collection("orders")
+        .aggregate([
           { $match: { customer_id: "CUST001" } },
           {
             $group: {
@@ -273,24 +255,22 @@ async function runBenchmarks() {
               total_orders: { $sum: 1 },
               total_spent: { $sum: "$total_amount" },
               avg_order_value: { $avg: "$total_amount" },
-              last_order_date: { $max: "$order_date" }
-            }
-          }
-        ]).toArray();
-      }
-    );
+              last_order_date: { $max: "$order_date" },
+            },
+          },
+        ])
+        .toArray();
+    });
 
     // ========================================================================
     // Benchmark 9: Full-text search simulation
     // ========================================================================
-    await benchmarkQuery(
-      "Product Name Search",
-      async () => {
-        return await db.collection("products")
-          .find({ name: { $regex: "Phone", $options: "i" } })
-          .toArray();
-      }
-    );
+    await benchmarkQuery("Product Name Search", async () => {
+      return await db
+        .collection("products")
+        .find({ name: { $regex: "Phone", $options: "i" } })
+        .toArray();
+    });
 
     // ========================================================================
     // Benchmark 10: Batch insert performance
@@ -305,9 +285,9 @@ async function runBenchmarks() {
           product_id: "PROD001",
           product_name: "Test Product",
           quantity: 1,
-          unit_price: 100
-        }
-      ]
+          unit_price: 100,
+        },
+      ],
     }));
 
     await benchmarkQuery(
@@ -316,7 +296,7 @@ async function runBenchmarks() {
         // Insert and then clean up
         const result = await db.collection("orders").insertMany(testOrders);
         await db.collection("orders").deleteMany({
-          order_id: { $regex: "^TEST_ORD_" }
+          order_id: { $regex: "^TEST_ORD_" },
         });
         return result;
       },
@@ -330,11 +310,17 @@ async function runBenchmarks() {
     console.log("PERFORMANCE SUMMARY");
     console.log("=".repeat(60));
 
-    console.log("\n┌─────────────────────────────────────────┬──────────┬──────────┬──────────┬──────────┐");
-    console.log("│ Query                                   │ Avg (ms) │ Min (ms) │ Max (ms) │ Med (ms) │");
-    console.log("├─────────────────────────────────────────┼──────────┼──────────┼──────────┼──────────┤");
+    console.log(
+      "\n┌─────────────────────────────────────────┬──────────┬──────────┬──────────┬──────────┐"
+    );
+    console.log(
+      "│ Query                                   │ Avg (ms) │ Min (ms) │ Max (ms) │ Med (ms) │"
+    );
+    console.log(
+      "├─────────────────────────────────────────┼──────────┼──────────┼──────────┼──────────┤"
+    );
 
-    benchmarkResults.forEach(result => {
+    benchmarkResults.forEach((result) => {
       const name = result.name.padEnd(40).substring(0, 40);
       const avg = result.avgTime.padStart(8);
       const min = result.minTime.padStart(8);
@@ -343,7 +329,9 @@ async function runBenchmarks() {
       console.log(`│ ${name} │ ${avg} │ ${min} │ ${max} │ ${med} │`);
     });
 
-    console.log("└─────────────────────────────────────────┴──────────┴──────────┴──────────┴──────────┘");
+    console.log(
+      "└─────────────────────────────────────────┴──────────┴──────────┴──────────┴──────────┘"
+    );
 
     // Performance Recommendations
     console.log("\n" + "=".repeat(60));
@@ -352,7 +340,7 @@ async function runBenchmarks() {
 
     let recommendationCount = 0;
 
-    benchmarkResults.forEach(result => {
+    benchmarkResults.forEach((result) => {
       const avgTime = parseFloat(result.avgTime);
       let threshold = PERFORMANCE_THRESHOLDS.simple_query;
 
@@ -388,16 +376,19 @@ async function runBenchmarks() {
     const resultsFile = "benchmark_results.json";
     require("fs").writeFileSync(
       resultsFile,
-      JSON.stringify({
-        timestamp: new Date().toISOString(),
-        database: DATABASE_NAME,
-        results: benchmarkResults,
-        thresholds: PERFORMANCE_THRESHOLDS
-      }, null, 2)
+      JSON.stringify(
+        {
+          timestamp: new Date().toISOString(),
+          database: DATABASE_NAME,
+          results: benchmarkResults,
+          thresholds: PERFORMANCE_THRESHOLDS,
+        },
+        null,
+        2
+      )
     );
 
     console.log(`\n✓ Benchmark results exported to ${resultsFile}`);
-
   } catch (error) {
     console.error("\nError during benchmarking:", error);
     process.exit(1);

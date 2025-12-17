@@ -14,10 +14,10 @@
  *   node monitor_replication.js --minutes=5 --interval=5
  */
 
-const { MongoClient } = require('mongodb');
-const fs = require('fs');
-const path = require('path');
-const { REPLICA_SET_NAME, MEMBERS } = require('./setup_replica_set');
+const { MongoClient } = require("mongodb");
+const fs = require("fs");
+const path = require("path");
+const { REPLICA_SET_NAME, MEMBERS } = require("./setup_replica_set");
 
 const argv = process.argv.slice(2);
 
@@ -27,15 +27,15 @@ function parseArgs() {
     minutes: 1,
   };
 
-  argv.forEach(arg => {
-    const [key, raw] = arg.split('=');
-    if (key === '--interval') {
+  argv.forEach((arg) => {
+    const [key, raw] = arg.split("=");
+    if (key === "--interval") {
       args.intervalSec = Number(raw);
     }
-    if (key === '--minutes') {
+    if (key === "--minutes") {
       args.minutes = Number(raw);
     }
-    if (key === '--durationSeconds') {
+    if (key === "--durationSeconds") {
       args.minutes = Number(raw) / 60;
     }
   });
@@ -66,17 +66,19 @@ async function monitorReplicaSet() {
   const client = new MongoClient(uri);
   await client.connect();
 
-  const adminDb = client.db('admin');
+  const adminDb = client.db("admin");
   const metrics = [];
   let electionCount = 0;
   let lastPrimary = null;
 
-  console.log(`Monitoring replica set ${REPLICA_SET_NAME} every ${intervalSec}s for ${minutes} minute(s)...`);
+  console.log(
+    `Monitoring replica set ${REPLICA_SET_NAME} every ${intervalSec}s for ${minutes} minute(s)...`
+  );
 
   const monitor = setInterval(async () => {
     try {
       const status = await adminDb.command({ replSetGetStatus: 1 });
-      const primary = status.members.find(m => m.stateStr === 'PRIMARY');
+      const primary = status.members.find((m) => m.stateStr === "PRIMARY");
       if (primary && primary.name !== lastPrimary) {
         electionCount++;
         lastPrimary = primary.name;
@@ -91,7 +93,7 @@ async function monitorReplicaSet() {
       const row = {
         timestamp: now.toISOString(),
         primary: primary ? { name: primary.name, optimeDate: primary.optimeDate } : null,
-        members: status.members.map(member => {
+        members: status.members.map((member) => {
           const lag = primaryOptime ? formatLag(primaryOptime, member.optimeDate?.getTime()) : null;
           return {
             name: member.name,
@@ -107,16 +109,18 @@ async function monitorReplicaSet() {
 
       metrics.push(row);
       const lagSummary = row.members
-        .filter(m => m.state === 'SECONDARY')
-        .map(m => `${m.name}: ${m.lagSeconds ?? 'N/A'}s`)
-        .join(', ');
-      console.log(`[${now.toLocaleTimeString()}] Primary ${primary?.name ?? 'N/A'} | Lag -> ${lagSummary}`);
+        .filter((m) => m.state === "SECONDARY")
+        .map((m) => `${m.name}: ${m.lagSeconds ?? "N/A"}s`)
+        .join(", ");
+      console.log(
+        `[${now.toLocaleTimeString()}] Primary ${primary?.name ?? "N/A"} | Lag -> ${lagSummary}`
+      );
     } catch (error) {
-      console.error('Monitor error:', error.message);
+      console.error("Monitor error:", error.message);
     }
   }, intervalMs);
 
-  await new Promise(resolve => setTimeout(resolve, durationMs));
+  await new Promise((resolve) => setTimeout(resolve, durationMs));
   clearInterval(monitor);
   await client.close();
 
@@ -129,7 +133,7 @@ async function monitorReplicaSet() {
     metrics,
   };
 
-  const reportPath = path.join(__dirname, 'monitor_report.json');
+  const reportPath = path.join(__dirname, "monitor_report.json");
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
   console.log(`\nMonitoring complete. Report saved to ${reportPath}`);
   console.log(`Elections observed: ${electionCount}`);
@@ -137,8 +141,8 @@ async function monitorReplicaSet() {
 }
 
 if (require.main === module) {
-  monitorReplicaSet().catch(error => {
-    console.error('Monitoring failed:', error);
+  monitorReplicaSet().catch((error) => {
+    console.error("Monitoring failed:", error);
     process.exit(1);
   });
 }

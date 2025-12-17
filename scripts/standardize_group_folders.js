@@ -10,30 +10,26 @@
  * Usage: node scripts/standardize_group_folders.js [--dry-run]
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Configuration
-const GROUP_WORK_DIR = path.join(process.cwd(), 'group-work');
-const DRY_RUN = process.argv.includes('--dry-run');
+const GROUP_WORK_DIR = path.join(process.cwd(), "group-work");
+const DRY_RUN = process.argv.includes("--dry-run");
 
 // Helper functions (without colors for compatibility)
 const log = {
-  success: (msg) => console.log('✓', msg),
-  warning: (msg) => console.log('⚠', msg),
-  error: (msg) => console.log('✗', msg),
-  info: (msg) => console.log('ℹ', msg),
-  change: (from, to) => console.log('→', `${from} → ${to}`)
+  success: (msg) => console.log("✓", msg),
+  warning: (msg) => console.log("⚠", msg),
+  error: (msg) => console.log("✗", msg),
+  info: (msg) => console.log("ℹ", msg),
+  change: (from, to) => console.log("→", `${from} → ${to}`),
 };
 
 // Extract group number from folder name
 function extractGroupNumber(folderName) {
   // Match various patterns: group_01, Group_03, group-09, group01, etc.
-  const patterns = [
-    /group[_\-\s]*(\d+)/i,
-    /Group[_\-\s]*(\d+)/,
-    /g(\d+)/i
-  ];
+  const patterns = [/group[_\-\s]*(\d+)/i, /Group[_\-\s]*(\d+)/, /g(\d+)/i];
 
   for (const pattern of patterns) {
     const match = folderName.match(pattern);
@@ -47,15 +43,15 @@ function extractGroupNumber(folderName) {
 
 // Generate standardized folder name
 function generateStandardName(groupNumber) {
-  return `group_${String(groupNumber).padStart(2, '0')}`;
+  return `group_${String(groupNumber).padStart(2, "0")}`;
 }
 
 // Main function
 async function standardizeGroupFolders() {
-  console.log('\n📁 Standardizing Group Folder Names\n');
+  console.log("\n📁 Standardizing Group Folder Names\n");
 
   if (DRY_RUN) {
-    log.info('Running in DRY-RUN mode (no changes will be made)\n');
+    log.info("Running in DRY-RUN mode (no changes will be made)\n");
   }
 
   // Check if group-work directory exists
@@ -66,7 +62,7 @@ async function standardizeGroupFolders() {
 
   // Get all folders in group-work directory
   const items = fs.readdirSync(GROUP_WORK_DIR);
-  const folders = items.filter(item => {
+  const folders = items.filter((item) => {
     const itemPath = path.join(GROUP_WORK_DIR, item);
     return fs.statSync(itemPath).isDirectory();
   });
@@ -80,7 +76,7 @@ async function standardizeGroupFolders() {
 
   for (const folder of folders) {
     // Skip special folders
-    if (folder === 'scripts' || folder === 'templates' || folder.startsWith('.')) {
+    if (folder === "scripts" || folder === "templates" || folder.startsWith(".")) {
       skipped.push(folder);
       continue;
     }
@@ -100,14 +96,16 @@ async function standardizeGroupFolders() {
     } else {
       // Check for conflicts
       if (conflicts.has(standardName)) {
-        log.error(`Conflict detected: Both "${folder}" and "${conflicts.get(standardName)}" map to "${standardName}"`);
+        log.error(
+          `Conflict detected: Both "${folder}" and "${conflicts.get(standardName)}" map to "${standardName}"`
+        );
         skipped.push(folder);
       } else {
         conflicts.set(standardName, folder);
         renamePlan.push({
           from: folder,
           to: standardName,
-          groupNumber
+          groupNumber,
         });
       }
     }
@@ -115,14 +113,14 @@ async function standardizeGroupFolders() {
 
   // Display rename plan
   if (renamePlan.length > 0) {
-    console.log('\n📋 Rename Plan:\n');
+    console.log("\n📋 Rename Plan:\n");
     renamePlan.sort((a, b) => a.groupNumber - b.groupNumber);
-    renamePlan.forEach(plan => {
+    renamePlan.forEach((plan) => {
       log.change(plan.from, plan.to);
     });
 
     if (!DRY_RUN) {
-      console.log('\n🔄 Executing Renames:\n');
+      console.log("\n🔄 Executing Renames:\n");
 
       // Execute renames in two passes to avoid conflicts
       // Pass 1: Rename to temporary names
@@ -156,24 +154,24 @@ async function standardizeGroupFolders() {
       }
     }
   } else {
-    log.success('\nAll group folders are already standardized!');
+    log.success("\nAll group folders are already standardized!");
   }
 
   // Display skipped folders
   if (skipped.length > 0) {
-    console.log('\n⏭️  Skipped Folders:\n');
-    skipped.forEach(folder => {
+    console.log("\n⏭️  Skipped Folders:\n");
+    skipped.forEach((folder) => {
       log.info(`Skipped: ${folder}`);
     });
   }
 
   // Create missing group folders if needed
-  console.log('\n🔍 Checking for Missing Group Folders:\n');
+  console.log("\n🔍 Checking for Missing Group Folders:\n");
   const existingNumbers = new Set();
 
   // Collect existing group numbers
   const finalFolders = fs.readdirSync(GROUP_WORK_DIR);
-  finalFolders.forEach(folder => {
+  finalFolders.forEach((folder) => {
     const num = extractGroupNumber(folder);
     if (num !== null) {
       existingNumbers.add(num);
@@ -191,25 +189,27 @@ async function standardizeGroupFolders() {
   }
 
   if (missingGroups.length > 0) {
-    log.warning(`Missing group folders: ${missingGroups.map(n => generateStandardName(n)).join(', ')}`);
+    log.warning(
+      `Missing group folders: ${missingGroups.map((n) => generateStandardName(n)).join(", ")}`
+    );
 
     if (!DRY_RUN) {
-      const readline = require('readline').createInterface({
+      const readline = require("readline").createInterface({
         input: process.stdin,
-        output: process.stdout
+        output: process.stdout,
       });
 
-      readline.question('\nCreate missing folders? (y/n): ', (answer) => {
-        if (answer.toLowerCase() === 'y') {
-          missingGroups.forEach(num => {
+      readline.question("\nCreate missing folders? (y/n): ", (answer) => {
+        if (answer.toLowerCase() === "y") {
+          missingGroups.forEach((num) => {
             const folderName = generateStandardName(num);
             const folderPath = path.join(GROUP_WORK_DIR, folderName);
             fs.mkdirSync(folderPath, { recursive: true });
             log.success(`Created: ${folderName}`);
 
             // Create README for the group
-            const readmePath = path.join(folderPath, 'README.md');
-            const readmeContent = `# Group ${String(num).padStart(2, '0')}
+            const readmePath = path.join(folderPath, "README.md");
+            const readmeContent = `# Group ${String(num).padStart(2, "0")}
 
 ## Members
 - TBD
@@ -234,38 +234,39 @@ async function standardizeGroupFolders() {
       generateReport();
     }
   } else {
-    log.success('No missing group folders detected');
+    log.success("No missing group folders detected");
     generateReport();
   }
 }
 
 // Generate summary report
 function generateReport() {
-  console.log('\n📊 Summary Report:\n');
+  console.log("\n📊 Summary Report:\n");
 
-  const finalFolders = fs.readdirSync(GROUP_WORK_DIR)
-    .filter(item => {
+  const finalFolders = fs
+    .readdirSync(GROUP_WORK_DIR)
+    .filter((item) => {
       const itemPath = path.join(GROUP_WORK_DIR, item);
       return fs.statSync(itemPath).isDirectory() && item.match(/^group_\d{2}$/);
     })
     .sort();
 
   log.success(`Standardized group folders: ${finalFolders.length}`);
-  console.log('Final structure:');
-  finalFolders.forEach(folder => {
+  console.log("Final structure:");
+  finalFolders.forEach((folder) => {
     console.log(`  - ${folder}`);
   });
 
   if (DRY_RUN) {
-    console.log('\n📝 This was a dry run. No changes were made.');
-    console.log('Run without --dry-run to apply changes.');
+    console.log("\n📝 This was a dry run. No changes were made.");
+    console.log("Run without --dry-run to apply changes.");
   } else {
-    console.log('\n✅ Group folder standardization complete!');
+    console.log("\n✅ Group folder standardization complete!");
   }
 }
 
 // Run the script
-standardizeGroupFolders().catch(error => {
-  console.error('\n❌ Error:', error);
+standardizeGroupFolders().catch((error) => {
+  console.error("\n❌ Error:", error);
   process.exit(1);
 });

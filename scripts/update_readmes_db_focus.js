@@ -4,12 +4,14 @@
  * Update README files to focus on database operations only (no API)
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const GROUPS_DIR = path.join(__dirname, '..', 'group-work');
+const GROUPS_DIR = path.join(__dirname, "..", "group-work");
 
-const generateDatabaseFocusedReadme = (groupNum) => `# Group ${groupNum} - MongoDB NoSQL Database Project
+const generateDatabaseFocusedReadme = (
+  groupNum
+) => `# Group ${groupNum} - MongoDB NoSQL Database Project
 
 ## Team Members
 
@@ -234,15 +236,18 @@ Group ${groupNum} - ${new Date().getFullYear()}
 `;
 
 // Get all group directories
-const groups = fs.readdirSync(GROUPS_DIR)
-  .filter(dir => dir.startsWith('group_') && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory());
+const groups = fs
+  .readdirSync(GROUPS_DIR)
+  .filter(
+    (dir) => dir.startsWith("group_") && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory()
+  );
 
 console.log(`Updating README files for ${groups.length} groups with database-only focus...`);
 
-groups.forEach(group => {
-  const groupNum = group.replace('group_', '');
+groups.forEach((group) => {
+  const groupNum = group.replace("group_", "");
   const groupPath = path.join(GROUPS_DIR, group);
-  const readmePath = path.join(groupPath, 'README.md');
+  const readmePath = path.join(groupPath, "README.md");
 
   // Generate and write the database-focused README
   const readmeContent = generateDatabaseFocusedReadme(groupNum);
@@ -250,4 +255,4 @@ groups.forEach(group => {
   console.log(`✓ Updated README.md for ${group} with database-only focus`);
 });
 
-console.log('\n✓ All README files updated to focus on database operations only (no API)');
+console.log("\n✓ All README files updated to focus on database operations only (no API)");

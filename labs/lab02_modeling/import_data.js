@@ -21,7 +21,7 @@ const COLLECTIONS = ["customers", "products", "orders", "reviews"];
  * @param {string} filePath - Absolute path to the JSON file.
  * @returns {Promise<object[]>} Parsed JSON contents.
  */
-async function loadJSONFile (filePath) {
+async function loadJSONFile(filePath) {
   try {
     const data = await fs.readFile(filePath, "utf8");
     return JSON.parse(data);
@@ -37,11 +37,8 @@ async function loadJSONFile (filePath) {
  *
  * @returns {Promise<void>}
  */
-function handleConnectionError (error) {
-  if (
-    error?.name === "MongoServerSelectionError" ||
-    error?.message?.includes("ECONNREFUSED")
-  ) {
+function handleConnectionError(error) {
+  if (error?.name === "MongoServerSelectionError" || error?.message?.includes("ECONNREFUSED")) {
     console.error("\n⚠️ Unable to connect to MongoDB at", MONGODB_URI);
     console.error("   • Make sure the mongod service is running");
     console.error("   • If you are using Docker, start the MongoDB container first");
@@ -51,7 +48,7 @@ function handleConnectionError (error) {
   return false;
 }
 
-async function importData () {
+async function importData() {
   let client;
 
   try {
@@ -96,7 +93,7 @@ async function importData () {
         }
 
         // Convert Extended JSON format if needed
-        const processedDocs = documents.map(doc => {
+        const processedDocs = documents.map((doc) => {
           // Convert MongoDB Extended JSON format
           return JSON.parse(JSON.stringify(doc), (key, value) => {
             // Convert $oid to ObjectId
@@ -152,7 +149,7 @@ async function importData () {
  * @param {import("mongodb").Db} db - Active database handle.
  * @returns {Promise<void>}
  */
-async function createIndexes (db) {
+async function createIndexes(db) {
   try {
     // Customers collection indexes
     await db.collection("customers").createIndex({ customer_id: 1 }, { unique: true });

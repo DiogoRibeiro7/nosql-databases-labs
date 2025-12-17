@@ -11,4 +11,4 @@
  * `queries_mongosh.js` directly.
  */
 
-load('./labs/lab02_modeling/queries_mongosh.js');
+load("./labs/lab02_modeling/queries_mongosh.js");

@@ -20,40 +20,40 @@ const testSuites = [
     name: "Basic Query Tests",
     file: "test_queries.js",
     description: "Validates that the data model supports all required operations",
-    required: true
+    required: true,
   },
   {
     name: "Data Integrity Validation",
     file: "data_integrity_validator.js",
     description: "Checks data consistency, referential integrity, and business rules",
-    required: true
+    required: true,
   },
   {
     name: "Performance Benchmarks",
     file: "performance_benchmarks.js",
     description: "Measures query performance and identifies optimization opportunities",
-    required: false
+    required: false,
   },
   {
     name: "Integration Tests",
     file: "integration_tests.js",
     description: "Validates deliverables and overall lab completion",
-    required: true
+    required: true,
   },
   {
     name: "Validation Schemas",
     file: "validation_schemas.js",
     args: ["--test"],
     description: "Tests MongoDB validation schemas",
-    required: false
-  }
+    required: false,
+  },
 ];
 
 // Test results summary
 const results = {
   suites: [],
   totalTime: 0,
-  startTime: new Date()
+  startTime: new Date(),
 };
 
 /**
@@ -80,7 +80,7 @@ function runTestSuite(suite) {
         name: suite.name,
         status: "skipped",
         reason: "File not found",
-        duration: 0
+        duration: 0,
       });
       return;
     }
@@ -89,7 +89,7 @@ function runTestSuite(suite) {
     const args = suite.args || [];
     const child = spawn("node", [suite.file, ...args], {
       stdio: "inherit",
-      env: process.env
+      env: process.env,
     });
 
     child.on("close", (code) => {
@@ -104,7 +104,7 @@ function runTestSuite(suite) {
         name: suite.name,
         status,
         exitCode: code,
-        duration
+        duration,
       });
     });
 
@@ -128,17 +128,14 @@ function generateFinalReport() {
   console.log("\nTest Results:");
   console.log("-".repeat(40));
 
-  const maxNameLength = Math.max(...results.suites.map(s => s.name.length));
+  const maxNameLength = Math.max(...results.suites.map((s) => s.name.length));
 
-  results.suites.forEach(suite => {
-    const icon = suite.status === "passed" ? "✓" :
-                 suite.status === "failed" ? "✗" : "⚠";
+  results.suites.forEach((suite) => {
+    const icon = suite.status === "passed" ? "✓" : suite.status === "failed" ? "✗" : "⚠";
 
     const name = suite.name.padEnd(maxNameLength);
     const status = suite.status.toUpperCase().padEnd(8);
-    const duration = suite.duration > 0
-      ? `(${(suite.duration / 1000).toFixed(2)}s)`
-      : "";
+    const duration = suite.duration > 0 ? `(${(suite.duration / 1000).toFixed(2)}s)` : "";
 
     console.log(`${icon} ${name} - ${status} ${duration}`);
 
@@ -148,9 +145,9 @@ function generateFinalReport() {
   });
 
   // Calculate statistics
-  const passed = results.suites.filter(s => s.status === "passed").length;
-  const failed = results.suites.filter(s => s.status === "failed").length;
-  const skipped = results.suites.filter(s => s.status === "skipped").length;
+  const passed = results.suites.filter((s) => s.status === "passed").length;
+  const failed = results.suites.filter((s) => s.status === "failed").length;
+  const skipped = results.suites.filter((s) => s.status === "skipped").length;
 
   console.log("\nStatistics:");
   console.log("-".repeat(40));
@@ -165,9 +162,9 @@ function generateFinalReport() {
   console.log("OVERALL ASSESSMENT");
   console.log("=".repeat(60));
 
-  const requiredSuites = testSuites.filter(s => s.required);
-  const requiredPassed = results.suites.filter(s => {
-    const suite = requiredSuites.find(rs => rs.name === s.name);
+  const requiredSuites = testSuites.filter((s) => s.required);
+  const requiredPassed = results.suites.filter((s) => {
+    const suite = requiredSuites.find((rs) => rs.name === s.name);
     return suite && s.status === "passed";
   }).length;
 
@@ -186,17 +183,21 @@ function generateFinalReport() {
   const reportFile = "test_summary_report.json";
   fs.writeFileSync(
     reportFile,
-    JSON.stringify({
-      timestamp: new Date().toISOString(),
-      duration: totalDuration,
-      suites: results.suites,
-      statistics: {
-        total: results.suites.length,
-        passed,
-        failed,
-        skipped
-      }
-    }, null, 2)
+    JSON.stringify(
+      {
+        timestamp: new Date().toISOString(),
+        duration: totalDuration,
+        suites: results.suites,
+        statistics: {
+          total: results.suites.length,
+          passed,
+          failed,
+          skipped,
+        },
+      },
+      null,
+      2
+    )
   );
 
   console.log(`\n✓ Test summary saved to ${reportFile}`);
@@ -229,10 +230,10 @@ async function runAllTests() {
   // Filter suites based on mode
   let suitesToRun = testSuites;
   if (quickMode) {
-    suitesToRun = testSuites.filter(s => s.required);
+    suitesToRun = testSuites.filter((s) => s.required);
   }
   if (skipBenchmarks) {
-    suitesToRun = suitesToRun.filter(s => s.name !== "Performance Benchmarks");
+    suitesToRun = suitesToRun.filter((s) => s.name !== "Performance Benchmarks");
   }
 
   // Run test suites sequentially
@@ -252,7 +253,7 @@ async function runAllTests() {
       results.suites.push({
         name: suite.name,
         status: "error",
-        error: error.message
+        error: error.message,
       });
 
       if (suite.required && !args.includes("--continue")) {
@@ -295,7 +296,7 @@ if (process.argv.includes("--help")) {
 }
 
 // Run all tests
-runAllTests().catch(error => {
+runAllTests().catch((error) => {
   console.error("\nFatal error:", error);
   process.exit(1);
 });

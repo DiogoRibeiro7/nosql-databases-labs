@@ -10,71 +10,72 @@
  *        node scripts/setup_verification.js
  */
 
-const { MongoClient } = require('mongodb');
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-const colors = require('colors/safe');
+const { MongoClient } = require("mongodb");
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const colors = require("colors/safe");
 
 // Configuration
 const checks = {
   passed: [],
   warnings: [],
-  failed: []
+  failed: [],
 };
 
 // Helper functions
 const log = {
-  success: (msg) => console.log(colors.green('✓'), msg),
-  warning: (msg) => console.log(colors.yellow('⚠'), msg),
-  error: (msg) => console.log(colors.red('✗'), msg),
-  info: (msg) => console.log(colors.blue('ℹ'), msg),
-  header: (msg) => console.log(colors.cyan('\n' + '='.repeat(60) + '\n' + msg + '\n' + '='.repeat(60)))
+  success: (msg) => console.log(colors.green("✓"), msg),
+  warning: (msg) => console.log(colors.yellow("⚠"), msg),
+  error: (msg) => console.log(colors.red("✗"), msg),
+  info: (msg) => console.log(colors.blue("ℹ"), msg),
+  header: (msg) =>
+    console.log(colors.cyan("\n" + "=".repeat(60) + "\n" + msg + "\n" + "=".repeat(60))),
 };
 
 // Check Node.js version
 async function checkNodeVersion() {
-  log.header('Checking Node.js Version');
+  log.header("Checking Node.js Version");
 
   try {
     const nodeVersion = process.version;
-    const majorVersion = parseInt(nodeVersion.split('.')[0].substring(1));
+    const majorVersion = parseInt(nodeVersion.split(".")[0].substring(1));
 
     if (majorVersion >= 16) {
       log.success(`Node.js version ${nodeVersion} is supported`);
-      checks.passed.push('Node.js version');
+      checks.passed.push("Node.js version");
     } else {
       log.warning(`Node.js version ${nodeVersion} is older than recommended (v16+)`);
-      checks.warnings.push('Node.js version (old but may work)');
+      checks.warnings.push("Node.js version (old but may work)");
     }
   } catch (error) {
     log.error(`Failed to check Node.js version: ${error.message}`);
-    checks.failed.push('Node.js version check');
+    checks.failed.push("Node.js version check");
   }
 }
 
 // Check npm dependencies
 async function checkDependencies() {
-  log.header('Checking NPM Dependencies');
+  log.header("Checking NPM Dependencies");
 
   try {
-    const packageJsonPath = path.join(process.cwd(), 'package.json');
-    const nodeModulesPath = path.join(process.cwd(), 'node_modules');
+    const packageJsonPath = path.join(process.cwd(), "package.json");
+    const nodeModulesPath = path.join(process.cwd(), "node_modules");
 
     if (!fs.existsSync(packageJsonPath)) {
-      log.error('package.json not found');
-      checks.failed.push('package.json missing');
+      log.error("package.json not found");
+      checks.failed.push("package.json missing");
       return;
     }
 
     if (!fs.existsSync(nodeModulesPath)) {
       log.warning('node_modules not found - run "npm install"');
-      checks.warnings.push('Dependencies not installed');
+      checks.warnings.push("Dependencies not installed");
       return;
     }
 
     // Check for critical dependencies
-    const criticalDeps = ['mongodb', 'dotenv', 'colors'];
+    const criticalDeps = ["mongodb", "dotenv", "colors"];
     const missingDeps = [];
 
     for (const dep of criticalDeps) {
@@ -85,31 +86,31 @@ async function checkDependencies() {
     }
 
     if (missingDeps.length > 0) {
-      log.warning(`Missing dependencies: ${missingDeps.join(', ')}`);
+      log.warning(`Missing dependencies: ${missingDeps.join(", ")}`);
       log.info('Run "npm install" to install missing dependencies');
-      checks.warnings.push('Some dependencies missing');
+      checks.warnings.push("Some dependencies missing");
     } else {
-      log.success('All critical dependencies installed');
-      checks.passed.push('NPM dependencies');
+      log.success("All critical dependencies installed");
+      checks.passed.push("NPM dependencies");
     }
   } catch (error) {
     log.error(`Failed to check dependencies: ${error.message}`);
-    checks.failed.push('Dependencies check');
+    checks.failed.push("Dependencies check");
   }
 }
 
 // Check MongoDB connectivity
 async function checkMongoDB() {
-  log.header('Checking MongoDB Connectivity');
+  log.header("Checking MongoDB Connectivity");
 
   // Load environment variables if .env exists
-  const envPath = path.join(process.cwd(), '.env');
+  const envPath = path.join(process.cwd(), ".env");
   if (fs.existsSync(envPath)) {
-    require('dotenv').config();
-    log.info('Loaded .env file');
+    require("dotenv").config();
+    log.info("Loaded .env file");
   }
 
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+  const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
   const client = new MongoClient(uri);
 
   try {
@@ -127,20 +128,24 @@ async function checkMongoDB() {
     // Check if it's a replica set
     try {
       const replStatus = await admin.command({ replSetGetStatus: 1 });
-      log.success(`Replica set "${replStatus.set}" is configured with ${replStatus.members.length} members`);
-      checks.passed.push('MongoDB replica set');
+      log.success(
+        `Replica set "${replStatus.set}" is configured with ${replStatus.members.length} members`
+      );
+      checks.passed.push("MongoDB replica set");
     } catch (err) {
-      log.info(`MongoDB is running in standalone mode (replica set not configured): ${err.message}`);
-      checks.passed.push('MongoDB standalone');
+      log.info(
+        `MongoDB is running in standalone mode (replica set not configured): ${err.message}`
+      );
+      checks.passed.push("MongoDB standalone");
     }
 
-    checks.passed.push('MongoDB connectivity');
+    checks.passed.push("MongoDB connectivity");
   } catch (error) {
     log.error(`Failed to connect to MongoDB: ${error.message}`);
-    log.info('Make sure MongoDB is running:');
-    log.info('  - Docker: docker-compose up -d');
-    log.info('  - Local: mongod --dbpath /path/to/data');
-    checks.failed.push('MongoDB connectivity');
+    log.info("Make sure MongoDB is running:");
+    log.info("  - Docker: docker-compose up -d");
+    log.info("  - Local: mongod --dbpath /path/to/data");
+    checks.failed.push("MongoDB connectivity");
   } finally {
     await client.close();
   }
@@ -148,56 +153,51 @@ async function checkMongoDB() {
 
 // Check environment configuration
 async function checkEnvironment() {
-  log.header('Checking Environment Configuration');
+  log.header("Checking Environment Configuration");
 
-  const envPath = path.join(process.cwd(), '.env');
-  const envTemplatePath = path.join(process.cwd(), '.env.template');
+  const envPath = path.join(process.cwd(), ".env");
+  const envTemplatePath = path.join(process.cwd(), ".env.template");
 
   if (fs.existsSync(envPath)) {
-    log.success('.env file exists');
-    checks.passed.push('Environment file');
+    log.success(".env file exists");
+    checks.passed.push("Environment file");
 
     // Check for required variables
-    require('dotenv').config();
-    const requiredVars = ['MONGODB_URI', 'MONGODB_DB_NAME'];
-    const missingVars = requiredVars.filter(v => !process.env[v]);
+    require("dotenv").config();
+    const requiredVars = ["MONGODB_URI", "MONGODB_DB_NAME"];
+    const missingVars = requiredVars.filter((v) => !process.env[v]);
 
     if (missingVars.length > 0) {
-      log.warning(`Missing environment variables: ${missingVars.join(', ')}`);
-      checks.warnings.push('Some environment variables missing');
+      log.warning(`Missing environment variables: ${missingVars.join(", ")}`);
+      checks.warnings.push("Some environment variables missing");
     } else {
-      log.success('All required environment variables set');
+      log.success("All required environment variables set");
     }
   } else if (fs.existsSync(envTemplatePath)) {
-    log.warning('.env file not found, but .env.template exists');
-    log.info('Copy .env.template to .env and update values:');
-    log.info('  cp .env.template .env');
-    checks.warnings.push('.env file missing');
+    log.warning(".env file not found, but .env.template exists");
+    log.info("Copy .env.template to .env and update values:");
+    log.info("  cp .env.template .env");
+    checks.warnings.push(".env file missing");
   } else {
-    log.warning('No .env or .env.template file found');
-    log.info('Using default MongoDB connection (mongodb://localhost:27017)');
-    checks.warnings.push('Environment configuration missing');
+    log.warning("No .env or .env.template file found");
+    log.info("Using default MongoDB connection (mongodb://localhost:27017)");
+    checks.warnings.push("Environment configuration missing");
   }
 }
 
 // Check data files
 async function checkDataFiles() {
-  log.header('Checking Data Files');
+  log.header("Checking Data Files");
 
-  const dataPath = path.join(process.cwd(), 'data');
+  const dataPath = path.join(process.cwd(), "data");
 
   if (!fs.existsSync(dataPath)) {
-    log.error('Data directory not found');
-    checks.failed.push('Data directory missing');
+    log.error("Data directory not found");
+    checks.failed.push("Data directory missing");
     return;
   }
 
-  const expectedFiles = [
-    'customers_data.json',
-    'movies.json',
-    'sales.json',
-    'sakila_films.json'
-  ];
+  const expectedFiles = ["customers_data.json", "movies.json", "sales.json", "sakila_films.json"];
 
   const missingFiles = [];
   let totalSize = 0;
@@ -213,33 +213,35 @@ async function checkDataFiles() {
   }
 
   if (missingFiles.length > 0) {
-    log.warning(`Missing data files: ${missingFiles.join(', ')}`);
-    checks.warnings.push('Some data files missing');
+    log.warning(`Missing data files: ${missingFiles.join(", ")}`);
+    checks.warnings.push("Some data files missing");
   } else {
-    log.success(`All expected data files present (${(totalSize / 1024 / 1024).toFixed(2)} MB total)`);
-    checks.passed.push('Data files');
+    log.success(
+      `All expected data files present (${(totalSize / 1024 / 1024).toFixed(2)} MB total)`
+    );
+    checks.passed.push("Data files");
   }
 }
 
 // Check lab directories
 async function checkLabStructure() {
-  log.header('Checking Lab Structure');
+  log.header("Checking Lab Structure");
 
-  const labsPath = path.join(process.cwd(), 'labs');
+  const labsPath = path.join(process.cwd(), "labs");
 
   if (!fs.existsSync(labsPath)) {
-    log.error('Labs directory not found');
-    checks.failed.push('Labs directory missing');
+    log.error("Labs directory not found");
+    checks.failed.push("Labs directory missing");
     return;
   }
 
   const expectedLabs = [
-    'lab01_intro',
-    'lab02_modeling',
-    'lab03_queries',
-    'lab04_aggregation',
-    'lab05_replication',
-    'lab_modern_features'
+    "lab01_intro",
+    "lab02_modeling",
+    "lab03_queries",
+    "lab04_aggregation",
+    "lab05_replication",
+    "lab_modern_features",
   ];
 
   const missingLabs = [];
@@ -252,57 +254,57 @@ async function checkLabStructure() {
   }
 
   if (missingLabs.length > 0) {
-    log.error(`Missing lab directories: ${missingLabs.join(', ')}`);
-    checks.failed.push('Lab directories incomplete');
+    log.error(`Missing lab directories: ${missingLabs.join(", ")}`);
+    checks.failed.push("Lab directories incomplete");
   } else {
-    log.success('All lab directories present');
-    checks.passed.push('Lab structure');
+    log.success("All lab directories present");
+    checks.passed.push("Lab structure");
   }
 }
 
 // Check mongosh availability
 async function checkMongosh() {
-  log.header('Checking MongoDB Shell (mongosh)');
+  log.header("Checking MongoDB Shell (mongosh)");
 
   try {
-    const mongoshVersion = execSync('mongosh --version', { encoding: 'utf-8' });
+    const mongoshVersion = execSync("mongosh --version", { encoding: "utf-8" });
     log.success(`mongosh is installed: ${mongoshVersion.trim()}`);
-    checks.passed.push('mongosh installation');
+    checks.passed.push("mongosh installation");
   } catch (error) {
     log.warning(`mongosh not found in PATH: ${error.message}`);
-    log.info('Install mongosh from: https://www.mongodb.com/try/download/shell');
-    checks.warnings.push('mongosh not installed');
+    log.info("Install mongosh from: https://www.mongodb.com/try/download/shell");
+    checks.warnings.push("mongosh not installed");
   }
 }
 
 // Check Docker (optional)
 async function checkDocker() {
-  log.header('Checking Docker (Optional)');
+  log.header("Checking Docker (Optional)");
 
   try {
-    const dockerVersion = execSync('docker --version', { encoding: 'utf-8' });
+    const dockerVersion = execSync("docker --version", { encoding: "utf-8" });
     log.success(`Docker is installed: ${dockerVersion.trim()}`);
 
     // Check if docker-compose file exists
-    const dockerComposePath = path.join(process.cwd(), 'docker-compose.yml');
+    const dockerComposePath = path.join(process.cwd(), "docker-compose.yml");
     if (fs.existsSync(dockerComposePath)) {
-      log.success('docker-compose.yml file found');
+      log.success("docker-compose.yml file found");
 
       // Check if containers are running
       try {
-        const psOutput = execSync('docker ps --format "table {{.Names}}"', { encoding: 'utf-8' });
-        if (psOutput.includes('mongodb')) {
-          log.success('MongoDB Docker container is running');
+        const psOutput = execSync('docker ps --format "table {{.Names}}"', { encoding: "utf-8" });
+        if (psOutput.includes("mongodb")) {
+          log.success("MongoDB Docker container is running");
         } else {
-          log.info('MongoDB Docker container not running');
-          log.info('Start with: docker-compose up -d');
+          log.info("MongoDB Docker container not running");
+          log.info("Start with: docker-compose up -d");
         }
       } catch (err) {
         log.warning(`Could not check Docker container status: ${err.message}`);
       }
     }
 
-    checks.passed.push('Docker setup');
+    checks.passed.push("Docker setup");
   } catch (error) {
     log.info(`Docker not installed (optional for local MongoDB): ${error.message}`);
   }
@@ -310,31 +312,31 @@ async function checkDocker() {
 
 // Generate summary report
 function generateSummary() {
-  log.header('Setup Verification Summary');
+  log.header("Setup Verification Summary");
 
   const totalChecks = checks.passed.length + checks.warnings.length + checks.failed.length;
   const successRate = ((checks.passed.length / totalChecks) * 100).toFixed(1);
 
-  console.log('\n' + colors.bold('Results:'));
+  console.log("\n" + colors.bold("Results:"));
   console.log(colors.green(`  Passed:   ${checks.passed.length}/${totalChecks}`));
   console.log(colors.yellow(`  Warnings: ${checks.warnings.length}/${totalChecks}`));
   console.log(colors.red(`  Failed:   ${checks.failed.length}/${totalChecks}`));
   console.log(colors.cyan(`  Success Rate: ${successRate}%`));
 
   if (checks.failed.length > 0) {
-    console.log('\n' + colors.red.bold('Critical Issues (Must Fix):'));
-    checks.failed.forEach(item => console.log(`  - ${item}`));
+    console.log("\n" + colors.red.bold("Critical Issues (Must Fix):"));
+    checks.failed.forEach((item) => console.log(`  - ${item}`));
   }
 
   if (checks.warnings.length > 0) {
-    console.log('\n' + colors.yellow.bold('Warnings (Recommended to Fix):'));
-    checks.warnings.forEach(item => console.log(`  - ${item}`));
+    console.log("\n" + colors.yellow.bold("Warnings (Recommended to Fix):"));
+    checks.warnings.forEach((item) => console.log(`  - ${item}`));
   }
 
   if (checks.failed.length === 0) {
-    console.log('\n' + colors.green.bold('✅ Environment is ready for MongoDB labs!'));
+    console.log("\n" + colors.green.bold("✅ Environment is ready for MongoDB labs!"));
   } else {
-    console.log('\n' + colors.red.bold('❌ Please fix critical issues before proceeding.'));
+    console.log("\n" + colors.red.bold("❌ Please fix critical issues before proceeding."));
   }
 
   // Generate report file
@@ -344,34 +346,36 @@ function generateSummary() {
       passed: checks.passed.length,
       warnings: checks.warnings.length,
       failed: checks.failed.length,
-      successRate: successRate
+      successRate: successRate,
     },
     details: checks,
-    recommendations: []
+    recommendations: [],
   };
 
-  if (checks.failed.includes('MongoDB connectivity')) {
-    report.recommendations.push('Install and start MongoDB');
+  if (checks.failed.includes("MongoDB connectivity")) {
+    report.recommendations.push("Install and start MongoDB");
   }
-  if (checks.warnings.includes('Dependencies not installed')) {
+  if (checks.warnings.includes("Dependencies not installed")) {
     report.recommendations.push('Run "npm install" to install dependencies');
   }
-  if (checks.warnings.includes('.env file missing')) {
-    report.recommendations.push('Create .env file from template');
+  if (checks.warnings.includes(".env file missing")) {
+    report.recommendations.push("Create .env file from template");
   }
 
-  const reportPath = path.join(process.cwd(), 'setup-verification-report.json');
+  const reportPath = path.join(process.cwd(), "setup-verification-report.json");
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
   log.info(`\nDetailed report saved to: ${reportPath}`);
 }
 
 // Main execution
 async function main() {
-  console.log(colors.bold.cyan(`
+  console.log(
+    colors.bold.cyan(`
 ╔══════════════════════════════════════════════════════════╗
 ║     MongoDB NoSQL Labs - Environment Verification       ║
 ╚══════════════════════════════════════════════════════════╝
-  `));
+  `)
+  );
 
   try {
     await checkNodeVersion();
@@ -385,7 +389,7 @@ async function main() {
 
     generateSummary();
   } catch (error) {
-    console.error(colors.red('\nUnexpected error during verification:'), error);
+    console.error(colors.red("\nUnexpected error during verification:"), error);
     process.exit(1);
   }
 

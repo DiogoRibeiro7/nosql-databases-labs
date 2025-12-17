@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 const uri = "mongodb://localhost:27017";
 const dbName = "lab_extra_transactions";
 
-async function setupDatabase () {
+async function setupDatabase() {
   const client = new MongoClient(uri);
 
   try {

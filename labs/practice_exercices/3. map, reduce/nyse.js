@@ -20,27 +20,24 @@ example:
 --- */
 
 //1 Calculate the number of entries for each stock_symbol
-nyse.aggregate([
-    { $group: { _id: "$stock_symbol", entries: { $sum: 1 } } },
-    { $sort: { _id: 1 } }
-])
+nyse.aggregate([{ $group: { _id: "$stock_symbol", entries: { $sum: 1 } } }, { $sort: { _id: 1 } }]);
 
 //2 Calculate the maximum stock_price_close for each stock_symbol
 nyse.aggregate([
-    { $group: { _id: "$stock_symbol", maxClose: { $max: "$stock_price_close" } } },
-    { $sort: { _id: 1 } }
-])
+  { $group: { _id: "$stock_symbol", maxClose: { $max: "$stock_price_close" } } },
+  { $sort: { _id: 1 } },
+]);
 
-// 3 Calculate the maximum stock_price_close and the date on which this 
+// 3 Calculate the maximum stock_price_close and the date on which this
 // stock_price_close was reached, for each stock_symbol
 nyse.aggregate([
-    { $sort: { stock_symbol: 1, stock_price_close: -1, date: 1 } },
-    {
-        $group: {
-            _id: "$stock_symbol",
-            maxClose: { $first: "$stock_price_close" },
-            date: { $first: "$date" }
-        }
+  { $sort: { stock_symbol: 1, stock_price_close: -1, date: 1 } },
+  {
+    $group: {
+      _id: "$stock_symbol",
+      maxClose: { $first: "$stock_price_close" },
+      date: { $first: "$date" },
     },
-    { $sort: { _id: 1 } }
-])
+  },
+  { $sort: { _id: 1 } },
+]);

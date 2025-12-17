@@ -22,16 +22,20 @@ const customerWithEmbeddedOrders_BAD = {
       order_id: "ORD001",
       order_date: new Date("2024-01-15"),
       total_amount: 299.99,
-      items: [/* ... */]
+      items: [
+        /* ... */
+      ],
     },
     {
       order_id: "ORD002",
       order_date: new Date("2024-01-20"),
       total_amount: 149.99,
-      items: [/* ... */]
-    }
+      items: [
+        /* ... */
+      ],
+    },
     // This array could grow to thousands of orders!
-  ]
+  ],
 };
 
 // Option B: Referencing (RECOMMENDED for orders)
@@ -46,15 +50,15 @@ const customerWithReferencedOrders_GOOD = {
     city: "Springfield",
     state: "IL",
     zip: "62701",
-    country: "USA"
+    country: "USA",
   },
   // Store only frequently accessed order summary
   order_summary: {
     total_orders: 42,
-    total_spent: 5234.50,
+    total_spent: 5234.5,
     last_order_date: new Date("2024-01-20"),
-    favorite_category: "Electronics"
-  }
+    favorite_category: "Electronics",
+  },
 };
 
 // Separate orders collection
@@ -70,7 +74,7 @@ const orderDocument = {
     street: "123 Main St",
     city: "Springfield",
     state: "IL",
-    zip: "62701"
+    zip: "62701",
   },
   items: [
     // Items are embedded (bounded, always accessed together)
@@ -79,10 +83,10 @@ const orderDocument = {
       product_name: "Wireless Headphones XYZ", // Denormalized
       unit_price: 199.99, // Price at time of purchase
       quantity: 1,
-      subtotal: 199.99
-    }
+      subtotal: 199.99,
+    },
   ],
-  total_amount: 299.99
+  total_amount: 299.99,
 };
 
 // ============================================================================
@@ -100,15 +104,15 @@ const productWithAttributes = {
   attributes: [
     { name: "color", values: ["Red", "Blue", "Green", "Black", "White"] },
     { name: "size", values: ["S", "M", "L", "XL", "XXL"] },
-    { name: "material", values: ["Cotton", "Polyester Blend"] }
+    { name: "material", values: ["Cotton", "Polyester Blend"] },
   ],
   // Stock per variation
   variations: [
     { sku: "TSH-RED-M", color: "Red", size: "M", stock: 25, price_modifier: 0 },
     { sku: "TSH-RED-L", color: "Red", size: "L", stock: 30, price_modifier: 0 },
     { sku: "TSH-BLU-M", color: "Blue", size: "M", stock: 20, price_modifier: 0 },
-    { sku: "TSH-BLK-XL", color: "Black", size: "XL", stock: 15, price_modifier: 2 }
-  ]
+    { sku: "TSH-BLK-XL", color: "Black", size: "XL", stock: 15, price_modifier: 2 },
+  ],
 };
 
 // Pattern 2: Subset Pattern for Product Reviews
@@ -125,7 +129,7 @@ const productWithSubsetReviews = {
       rating: 5,
       comment: "Excellent coffee maker!",
       created_at: new Date("2024-01-18"),
-      helpful_count: 15
+      helpful_count: 15,
     },
     {
       review_id: "REV002",
@@ -133,21 +137,21 @@ const productWithSubsetReviews = {
       rating: 4,
       comment: "Good quality, fast brewing.",
       created_at: new Date("2024-01-17"),
-      helpful_count: 8
-    }
+      helpful_count: 8,
+    },
     // Limited to 5 most recent reviews
   ],
   review_summary: {
     average_rating: 4.3,
     total_reviews: 256,
     rating_distribution: {
-      "5": 120,
-      "4": 80,
-      "3": 30,
-      "2": 16,
-      "1": 10
-    }
-  }
+      5: 120,
+      4: 80,
+      3: 30,
+      2: 16,
+      1: 10,
+    },
+  },
 };
 
 // Full reviews in separate collection
@@ -160,13 +164,14 @@ const reviewDocument = {
   customer_name: "John Doe",
   rating: 5,
   title: "Best coffee maker I've owned",
-  comment: "This coffee maker produces excellent coffee consistently. The programmable features are intuitive and the thermal carafe keeps coffee hot for hours.",
+  comment:
+    "This coffee maker produces excellent coffee consistently. The programmable features are intuitive and the thermal carafe keeps coffee hot for hours.",
   verified_purchase: true,
   created_at: new Date("2024-01-18"),
   updated_at: new Date("2024-01-18"),
   helpful_votes: 15,
   total_votes: 18,
-  images: ["review_img_001.jpg", "review_img_002.jpg"]
+  images: ["review_img_001.jpg", "review_img_002.jpg"],
 };
 
 // ============================================================================
@@ -188,8 +193,8 @@ const shoppingCart = {
       quantity: 1,
       image_url: "prod001_thumb.jpg",
       selected_options: {
-        color: "Black"
-      }
+        color: "Black",
+      },
     },
     {
       product_id: "PROD002",
@@ -199,12 +204,12 @@ const shoppingCart = {
       image_url: "prod002_thumb.jpg",
       selected_options: {
         color: "Silver",
-        band: "Sport"
-      }
-    }
+        band: "Sport",
+      },
+    },
   ],
   subtotal: 799.97,
-  estimated_tax: 64.00,
+  estimated_tax: 64.0,
   estimated_shipping: 0, // Free shipping over $100
   estimated_total: 863.97,
   applied_coupons: ["SAVE10"],
@@ -213,9 +218,9 @@ const shoppingCart = {
       product_id: "PROD003",
       product_name: "USB-C Cable",
       unit_price: 19.99,
-      saved_date: new Date("2024-01-19")
-    }
-  ]
+      saved_date: new Date("2024-01-19"),
+    },
+  ],
 };
 
 // ============================================================================
@@ -233,29 +238,29 @@ const inventoryBucket = {
       type: "restock",
       quantity: 100,
       running_total: 150,
-      reference: "PO_12345"
+      reference: "PO_12345",
     },
     {
       timestamp: new Date("2024-01-02T14:30:00Z"),
       type: "sale",
       quantity: -2,
       running_total: 148,
-      reference: "ORD_67890"
+      reference: "ORD_67890",
     },
     {
       timestamp: new Date("2024-01-03T11:15:00Z"),
       type: "return",
       quantity: 1,
       running_total: 149,
-      reference: "RET_11111"
-    }
+      reference: "RET_11111",
+    },
     // Bucket holds all transactions for the month
   ],
   opening_balance: 50,
   closing_balance: 149,
   total_sales: 45,
   total_restocks: 150,
-  total_returns: 6
+  total_returns: 6,
 };
 
 // ============================================================================
@@ -270,10 +275,10 @@ const customerAnalytics = {
   metrics: {
     orders: {
       count: 5,
-      total_amount: 1234.50,
-      average_amount: 246.90,
+      total_amount: 1234.5,
+      average_amount: 246.9,
       categories_purchased: ["Electronics", "Clothing", "Books"],
-      top_category: "Electronics"
+      top_category: "Electronics",
     },
     products: {
       unique_count: 12,
@@ -281,8 +286,8 @@ const customerAnalytics = {
       most_purchased: {
         product_id: "PROD001",
         name: "Wireless Headphones",
-        quantity: 3
-      }
+        quantity: 3,
+      },
     },
     behavior: {
       page_views: 145,
@@ -290,21 +295,21 @@ const customerAnalytics = {
       average_session_duration: 420, // seconds
       abandoned_carts: 2,
       wishlist_adds: 8,
-      reviews_written: 3
+      reviews_written: 3,
     },
     engagement: {
       email_opens: 12,
       email_clicks: 5,
       push_notifications_received: 20,
-      push_notifications_clicked: 3
-    }
+      push_notifications_clicked: 3,
+    },
   },
   calculated_scores: {
-    lifetime_value: 5678.90,
+    lifetime_value: 5678.9,
     churn_risk: 0.15, // 15% risk
     engagement_score: 78,
-    loyalty_tier: "Gold"
-  }
+    loyalty_tier: "Gold",
+  },
 };
 
 // ============================================================================
@@ -326,8 +331,8 @@ const categoryWithPath = {
     description: "Premium audio headphones and earbuds",
     image: "cat_headphones.jpg",
     seo_keywords: ["headphones", "earbuds", "audio", "wireless headphones"],
-    product_count: 45
-  }
+    product_count: 45,
+  },
 };
 
 // ============================================================================
@@ -357,17 +362,17 @@ function generateSampleData() {
   return {
     embedding_examples: {
       good: customerWithReferencedOrders_GOOD,
-      bad: customerWithEmbeddedOrders_BAD
+      bad: customerWithEmbeddedOrders_BAD,
     },
     product_patterns: {
       attributes: productWithAttributes,
-      subset_reviews: productWithSubsetReviews
+      subset_reviews: productWithSubsetReviews,
     },
     cart_pattern: shoppingCart,
     inventory_bucketing: inventoryBucket,
     analytics: customerAnalytics,
     hierarchical_data: categoryWithPath,
-    multi_tenant: multiTenantOrder
+    multi_tenant: multiTenantOrder,
   };
 }
 
@@ -380,8 +385,8 @@ const queryExamples = {
     description: "Get customer and their recent orders (2 queries with referencing)",
     queries: [
       "db.customers.findOne({ customer_id: 'CUST_REF_001' })",
-      "db.orders.find({ customer_id: 'CUST_REF_001' }).sort({ order_date: -1 }).limit(10)"
-    ]
+      "db.orders.find({ customer_id: 'CUST_REF_001' }).sort({ order_date: -1 }).limit(10)",
+    ],
   },
 
   // Product variations query
@@ -392,13 +397,13 @@ const queryExamples = {
       { $unwind: '$variations' },
       { $match: { 'variations.color': 'Red', 'variations.stock': { $gt: 0 } } },
       { $project: { size: '$variations.size', stock: '$variations.stock' } }
-    ])`
+    ])`,
   },
 
   // Analytics query (pre-aggregated)
   customerMetrics: {
     description: "Get customer metrics for a period (single query with pre-aggregation)",
-    query: "db.analytics.findOne({ customer_id: 'CUST001', period: '2024-01' })"
+    query: "db.analytics.findOne({ customer_id: 'CUST001', period: '2024-01' })",
   },
 
   // Category hierarchy
@@ -406,7 +411,7 @@ const queryExamples = {
     description: "Find all products in a category and its subcategories",
     query: `db.products.find({
       category_path: { $regex: '^Electronics,Audio' }
-    })`
+    })`,
   },
 
   // Multi-tenant query
@@ -415,8 +420,8 @@ const queryExamples = {
     query: `db.orders.find({
       tenant_id: 'TENANT_ABC',
       customer_id: 'CUST_001'
-    })`
-  }
+    })`,
+  },
 };
 
 // Export for use in tests
@@ -434,6 +439,6 @@ module.exports = {
     inventoryBucket,
     customerAnalytics,
     categoryWithPath,
-    multiTenantOrder
-  }
+    multiTenantOrder,
+  },
 };

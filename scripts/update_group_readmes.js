@@ -4,10 +4,10 @@
  * Update README files for group directories with proper content
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const GROUPS_DIR = path.join(__dirname, '..', 'group-work');
+const GROUPS_DIR = path.join(__dirname, "..", "group-work");
 
 const generateReadme = (groupNum) => `# Group ${groupNum} - MongoDB NoSQL Project
 
@@ -175,15 +175,18 @@ Group ${groupNum} - ${new Date().getFullYear()}
 `;
 
 // Get all group directories
-const groups = fs.readdirSync(GROUPS_DIR)
-  .filter(dir => dir.startsWith('group_') && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory());
+const groups = fs
+  .readdirSync(GROUPS_DIR)
+  .filter(
+    (dir) => dir.startsWith("group_") && fs.statSync(path.join(GROUPS_DIR, dir)).isDirectory()
+  );
 
 console.log(`Updating README files for ${groups.length} groups...`);
 
-groups.forEach(group => {
-  const groupNum = group.replace('group_', '');
+groups.forEach((group) => {
+  const groupNum = group.replace("group_", "");
   const groupPath = path.join(GROUPS_DIR, group);
-  const readmePath = path.join(groupPath, 'README.md');
+  const readmePath = path.join(groupPath, "README.md");
 
   // Generate and write the README
   const readmeContent = generateReadme(groupNum);
@@ -191,4 +194,4 @@ groups.forEach(group => {
   console.log(`✓ Updated README.md for ${group}`);
 });
 
-console.log('\n✓ All README files updated successfully');
+console.log("\n✓ All README files updated successfully");

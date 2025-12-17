@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { MongoClient } = require('mongodb');
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const { MongoClient } = require("mongodb");
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 class TimeSeriesStarter {
   constructor(connectionString = uri) {
@@ -13,8 +13,8 @@ class TimeSeriesStarter {
   async connect() {
     this.client = new MongoClient(this.connectionString);
     await this.client.connect();
-    this.db = this.client.db('modern_features_lab');
-    console.log('Connected to MongoDB (time-series starter)');
+    this.db = this.client.db("modern_features_lab");
+    console.log("Connected to MongoDB (time-series starter)");
   }
 
   async createCollection() {
@@ -47,7 +47,7 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().catch(error => {
+  main().catch((error) => {
     console.error(error);
     process.exit(1);
   });

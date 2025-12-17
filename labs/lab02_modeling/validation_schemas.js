@@ -26,23 +26,23 @@ const customerSchema = {
       customer_id: {
         bsonType: "string",
         pattern: "^CUST[0-9]{3,}$",
-        description: "Customer ID must start with CUST followed by at least 3 digits"
+        description: "Customer ID must start with CUST followed by at least 3 digits",
       },
       name: {
         bsonType: "string",
         minLength: 2,
         maxLength: 100,
-        description: "Customer name must be between 2 and 100 characters"
+        description: "Customer name must be between 2 and 100 characters",
       },
       email: {
         bsonType: "string",
         pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-        description: "Must be a valid email address"
+        description: "Must be a valid email address",
       },
       phone: {
         bsonType: "string",
         pattern: "^\\+?[1-9]\\d{1,14}$",
-        description: "Must be a valid international phone number"
+        description: "Must be a valid international phone number",
       },
       address: {
         bsonType: "object",
@@ -51,62 +51,62 @@ const customerSchema = {
           street: {
             bsonType: "string",
             minLength: 5,
-            maxLength: 200
+            maxLength: 200,
           },
           city: {
             bsonType: "string",
             minLength: 2,
-            maxLength: 100
+            maxLength: 100,
           },
           state: {
             bsonType: "string",
             minLength: 2,
-            maxLength: 50
+            maxLength: 50,
           },
           zip: {
             bsonType: "string",
             pattern: "^[0-9]{5}(-[0-9]{4})?$",
-            description: "Must be a valid ZIP code"
+            description: "Must be a valid ZIP code",
           },
           country: {
             bsonType: "string",
             minLength: 2,
-            maxLength: 100
-          }
-        }
+            maxLength: 100,
+          },
+        },
       },
       order_summary: {
         bsonType: "object",
         properties: {
           total_orders: {
             bsonType: "int",
-            minimum: 0
+            minimum: 0,
           },
           total_spent: {
             bsonType: "double",
-            minimum: 0
+            minimum: 0,
           },
           last_order_date: {
-            bsonType: "date"
+            bsonType: "date",
           },
           favorite_category: {
-            bsonType: "string"
-          }
-        }
+            bsonType: "string",
+          },
+        },
       },
       created_at: {
         bsonType: "date",
-        description: "Customer registration date"
+        description: "Customer registration date",
       },
       updated_at: {
-        bsonType: "date"
+        bsonType: "date",
       },
       status: {
         enum: ["active", "inactive", "suspended"],
-        description: "Customer account status"
-      }
-    }
-  }
+        description: "Customer account status",
+      },
+    },
+  },
 };
 
 /**
@@ -120,36 +120,44 @@ const productSchema = {
       product_id: {
         bsonType: "string",
         pattern: "^PROD[0-9]{3,}$",
-        description: "Product ID must start with PROD followed by at least 3 digits"
+        description: "Product ID must start with PROD followed by at least 3 digits",
       },
       name: {
         bsonType: "string",
         minLength: 3,
         maxLength: 200,
-        description: "Product name must be between 3 and 200 characters"
+        description: "Product name must be between 3 and 200 characters",
       },
       description: {
         bsonType: "string",
-        maxLength: 2000
+        maxLength: 2000,
       },
       category: {
         bsonType: "string",
-        enum: ["Electronics", "Clothing", "Books", "Home & Garden", "Sports", "Toys", "Food & Beverage"],
-        description: "Product category must be from predefined list"
+        enum: [
+          "Electronics",
+          "Clothing",
+          "Books",
+          "Home & Garden",
+          "Sports",
+          "Toys",
+          "Food & Beverage",
+        ],
+        description: "Product category must be from predefined list",
       },
       subcategory: {
-        bsonType: "string"
+        bsonType: "string",
       },
       price: {
         bsonType: "double",
         minimum: 0.01,
         maximum: 999999.99,
-        description: "Price must be positive and less than 1 million"
+        description: "Price must be positive and less than 1 million",
       },
       stock_quantity: {
         bsonType: "int",
         minimum: 0,
-        description: "Stock quantity cannot be negative"
+        description: "Stock quantity cannot be negative",
       },
       images: {
         bsonType: "array",
@@ -157,12 +165,12 @@ const productSchema = {
         maxItems: 10,
         items: {
           bsonType: "string",
-          pattern: "^https?://.*\\.(jpg|jpeg|png|gif|webp)$"
-        }
+          pattern: "^https?://.*\\.(jpg|jpeg|png|gif|webp)$",
+        },
       },
       specifications: {
         bsonType: "object",
-        additionalProperties: true
+        additionalProperties: true,
       },
       ratings: {
         bsonType: "object",
@@ -170,22 +178,22 @@ const productSchema = {
           average: {
             bsonType: "double",
             minimum: 1,
-            maximum: 5
+            maximum: 5,
           },
           count: {
             bsonType: "int",
-            minimum: 0
-          }
-        }
+            minimum: 0,
+          },
+        },
       },
       created_at: {
-        bsonType: "date"
+        bsonType: "date",
       },
       updated_at: {
-        bsonType: "date"
-      }
-    }
-  }
+        bsonType: "date",
+      },
+    },
+  },
 };
 
 /**
@@ -199,24 +207,24 @@ const orderSchema = {
       order_id: {
         bsonType: "string",
         pattern: "^ORD[0-9]{3,}$",
-        description: "Order ID must start with ORD followed by at least 3 digits"
+        description: "Order ID must start with ORD followed by at least 3 digits",
       },
       customer_id: {
         bsonType: "string",
         pattern: "^CUST[0-9]{3,}$",
-        description: "Must reference a valid customer ID"
+        description: "Must reference a valid customer ID",
       },
       customer_name: {
         bsonType: "string",
-        description: "Denormalized customer name for display"
+        description: "Denormalized customer name for display",
       },
       order_date: {
         bsonType: "date",
-        description: "Order placement date"
+        description: "Order placement date",
       },
       status: {
         enum: ["pending", "processing", "shipped", "delivered", "cancelled", "returned"],
-        description: "Order status must be from predefined list"
+        description: "Order status must be from predefined list",
       },
       items: {
         bsonType: "array",
@@ -227,31 +235,31 @@ const orderSchema = {
           properties: {
             product_id: {
               bsonType: "string",
-              pattern: "^PROD[0-9]{3,}$"
+              pattern: "^PROD[0-9]{3,}$",
             },
             product_name: {
               bsonType: "string",
-              minLength: 3
+              minLength: 3,
             },
             quantity: {
               bsonType: "int",
               minimum: 1,
               maximum: 100,
-              description: "Quantity must be between 1 and 100"
+              description: "Quantity must be between 1 and 100",
             },
             unit_price: {
               bsonType: "double",
               minimum: 0.01,
-              description: "Unit price must be positive"
+              description: "Unit price must be positive",
             },
             discount: {
               bsonType: "double",
               minimum: 0,
               maximum: 1,
-              description: "Discount as decimal (0-1)"
-            }
-          }
-        }
+              description: "Discount as decimal (0-1)",
+            },
+          },
+        },
       },
       shipping_address: {
         bsonType: "object",
@@ -259,60 +267,60 @@ const orderSchema = {
         properties: {
           street: {
             bsonType: "string",
-            minLength: 5
+            minLength: 5,
           },
           city: {
             bsonType: "string",
-            minLength: 2
+            minLength: 2,
           },
           state: {
             bsonType: "string",
-            minLength: 2
+            minLength: 2,
           },
           zip: {
             bsonType: "string",
-            pattern: "^[0-9]{5}(-[0-9]{4})?$"
-          }
-        }
+            pattern: "^[0-9]{5}(-[0-9]{4})?$",
+          },
+        },
       },
       payment: {
         bsonType: "object",
         properties: {
           method: {
-            enum: ["credit_card", "debit_card", "paypal", "bank_transfer", "cash_on_delivery"]
+            enum: ["credit_card", "debit_card", "paypal", "bank_transfer", "cash_on_delivery"],
           },
           status: {
-            enum: ["pending", "completed", "failed", "refunded"]
+            enum: ["pending", "completed", "failed", "refunded"],
           },
           transaction_id: {
-            bsonType: "string"
-          }
-        }
+            bsonType: "string",
+          },
+        },
       },
       subtotal: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       tax_amount: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       shipping_cost: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       total_amount: {
         bsonType: "double",
         minimum: 0.01,
-        description: "Total amount must be positive"
+        description: "Total amount must be positive",
       },
       notes: {
         bsonType: "string",
-        maxLength: 500
-      }
+        maxLength: 500,
+      },
     },
-    additionalProperties: false
-  }
+    additionalProperties: false,
+  },
 };
 
 /**
@@ -325,69 +333,69 @@ const reviewSchema = {
     properties: {
       review_id: {
         bsonType: "string",
-        pattern: "^REV[0-9]{3,}$"
+        pattern: "^REV[0-9]{3,}$",
       },
       product_id: {
         bsonType: "string",
         pattern: "^PROD[0-9]{3,}$",
-        description: "Must reference a valid product ID"
+        description: "Must reference a valid product ID",
       },
       product_name: {
         bsonType: "string",
-        description: "Denormalized product name"
+        description: "Denormalized product name",
       },
       customer_id: {
         bsonType: "string",
         pattern: "^CUST[0-9]{3,}$",
-        description: "Must reference a valid customer ID"
+        description: "Must reference a valid customer ID",
       },
       customer_name: {
         bsonType: "string",
-        description: "Denormalized customer name"
+        description: "Denormalized customer name",
       },
       rating: {
         bsonType: "int",
         minimum: 1,
         maximum: 5,
-        description: "Rating must be between 1 and 5"
+        description: "Rating must be between 1 and 5",
       },
       title: {
         bsonType: "string",
-        maxLength: 200
+        maxLength: 200,
       },
       comment: {
         bsonType: "string",
         minLength: 10,
         maxLength: 5000,
-        description: "Review comment must be between 10 and 5000 characters"
+        description: "Review comment must be between 10 and 5000 characters",
       },
       verified_purchase: {
         bsonType: "bool",
-        description: "Whether the reviewer purchased the product"
+        description: "Whether the reviewer purchased the product",
       },
       helpful_votes: {
         bsonType: "int",
-        minimum: 0
+        minimum: 0,
       },
       total_votes: {
         bsonType: "int",
-        minimum: 0
+        minimum: 0,
       },
       images: {
         bsonType: "array",
         maxItems: 5,
         items: {
-          bsonType: "string"
-        }
+          bsonType: "string",
+        },
       },
       created_at: {
-        bsonType: "date"
+        bsonType: "date",
       },
       updated_at: {
-        bsonType: "date"
-      }
-    }
-  }
+        bsonType: "date",
+      },
+    },
+  },
 };
 
 /**
@@ -400,19 +408,19 @@ const cartSchema = {
     properties: {
       session_id: {
         bsonType: "string",
-        description: "Session identifier for the cart"
+        description: "Session identifier for the cart",
       },
       customer_id: {
         bsonType: ["string", "null"],
         pattern: "^CUST[0-9]{3,}$",
-        description: "Customer ID if logged in, null for guests"
+        description: "Customer ID if logged in, null for guests",
       },
       created_at: {
-        bsonType: "date"
+        bsonType: "date",
       },
       expires_at: {
         bsonType: "date",
-        description: "TTL expiration date for auto-cleanup"
+        description: "TTL expiration date for auto-cleanup",
       },
       items: {
         bsonType: "array",
@@ -422,51 +430,51 @@ const cartSchema = {
           properties: {
             product_id: {
               bsonType: "string",
-              pattern: "^PROD[0-9]{3,}$"
+              pattern: "^PROD[0-9]{3,}$",
             },
             product_name: {
-              bsonType: "string"
+              bsonType: "string",
             },
             quantity: {
               bsonType: "int",
               minimum: 1,
-              maximum: 99
+              maximum: 99,
             },
             unit_price: {
               bsonType: "double",
-              minimum: 0.01
+              minimum: 0.01,
             },
             selected_options: {
               bsonType: "object",
-              additionalProperties: true
-            }
-          }
-        }
+              additionalProperties: true,
+            },
+          },
+        },
       },
       subtotal: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       estimated_tax: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       estimated_shipping: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       estimated_total: {
         bsonType: "double",
-        minimum: 0
+        minimum: 0,
       },
       applied_coupons: {
         bsonType: "array",
         items: {
-          bsonType: "string"
-        }
-      }
-    }
-  }
+          bsonType: "string",
+        },
+      },
+    },
+  },
 };
 
 // ============================================================================
@@ -497,7 +505,7 @@ async function applyValidationSchemas() {
       { name: "products", schema: productSchema },
       { name: "orders", schema: orderSchema },
       { name: "reviews", schema: reviewSchema },
-      { name: "carts", schema: cartSchema }
+      { name: "carts", schema: cartSchema },
     ];
 
     for (const { name, schema } of schemas) {
@@ -511,7 +519,7 @@ async function applyValidationSchemas() {
             collMod: name,
             validator: schema,
             validationLevel: "moderate", // Only validate inserts and updates
-            validationAction: "warn"     // Log warnings but don't reject
+            validationAction: "warn", // Log warnings but don't reject
           });
           console.log(`✓ Updated validation schema for collection: ${name}`);
         } else {
@@ -519,7 +527,7 @@ async function applyValidationSchemas() {
           await db.createCollection(name, {
             validator: schema,
             validationLevel: "strict",
-            validationAction: "error"
+            validationAction: "error",
           });
           console.log(`✓ Created collection with validation: ${name}`);
         }
@@ -564,7 +572,6 @@ async function applyValidationSchemas() {
     console.log("✓ Created cart TTL index");
 
     console.log("\n✓ All validation schemas and indexes applied successfully!");
-
   } catch (error) {
     console.error("\nError applying validation schemas:", error);
     process.exit(1);
@@ -596,7 +603,7 @@ async function testValidation() {
     try {
       await db.collection("customers").insertOne({
         customer_id: "CUST999",
-        name: "Test User"
+        name: "Test User",
         // Missing email and address
       });
       console.log("✗ Validation failed: Invalid document was accepted");
@@ -613,13 +620,15 @@ async function testValidation() {
         customer_id: "CUST001",
         order_date: new Date(),
         status: "pending",
-        items: [{
-          product_id: "PROD001",
-          product_name: "Test Product",
-          quantity: -1, // Invalid: negative
-          unit_price: 10.00
-        }],
-        total_amount: 10.00
+        items: [
+          {
+            product_id: "PROD001",
+            product_name: "Test Product",
+            quantity: -1, // Invalid: negative
+            unit_price: 10.0,
+          },
+        ],
+        total_amount: 10.0,
       });
       console.log("✗ Validation failed: Invalid document was accepted");
     } catch (error) {
@@ -634,7 +643,7 @@ async function testValidation() {
         product_id: "PROD001",
         customer_id: "CUST001",
         rating: 10, // Invalid: > 5
-        created_at: new Date()
+        created_at: new Date(),
       });
       console.log("✗ Validation failed: Invalid document was accepted");
     } catch (error) {
@@ -643,7 +652,6 @@ async function testValidation() {
     }
 
     console.log("\n✓ Validation testing complete!");
-
   } catch (error) {
     console.error("\nError during validation testing:", error);
   } finally {
@@ -675,7 +683,7 @@ module.exports = {
     productSchema,
     orderSchema,
     reviewSchema,
-    cartSchema
+    cartSchema,
   },
-  applyValidationSchemas
+  applyValidationSchemas,
 };

@@ -5,26 +5,26 @@ const uri = "mongodb://localhost:27017";
 const dbName = "lab_extra_transactions";
 
 class TransactionManager {
-  constructor () {
+  constructor() {
     this.client = null;
     this.db = null;
   }
 
-  async connect () {
+  async connect() {
     this.client = new MongoClient(uri);
     await this.client.connect();
     this.db = this.client.db(dbName);
     return this;
   }
 
-  async disconnect () {
+  async disconnect() {
     if (this.client) {
       await this.client.close();
     }
   }
 
   // Basic fund transfer with transaction
-  async transferFunds (fromAccountId, toAccountId, amount) {
+  async transferFunds(fromAccountId, toAccountId, amount) {
     const session = this.client.startSession();
     const accounts = this.db.collection("accounts");
     const transactions = this.db.collection("transactions");
@@ -83,7 +83,7 @@ class TransactionManager {
   }
 
   // Implement order with inventory reservation
-  async processOrder (customerId, items) {
+  async processOrder(customerId, items) {
     const session = this.client.startSession();
     const inventory = this.db.collection("inventory");
     const orders = this.db.collection("orders");
@@ -160,7 +160,7 @@ class TransactionManager {
   }
 
   // Causal consistency example
-  async getCausallyConsistentHistory (accountId) {
+  async getCausallyConsistentHistory(accountId) {
     const session = this.client.startSession({
       causalConsistency: true,
     });
@@ -188,7 +188,7 @@ class TransactionManager {
   }
 
   // Implement distributed lock with transaction
-  async acquireLock (resourceId, ownerId, ttlSeconds = 30) {
+  async acquireLock(resourceId, ownerId, ttlSeconds = 30) {
     const session = this.client.startSession();
     const locks = this.db.collection("locks");
 
@@ -242,7 +242,7 @@ class TransactionManager {
   }
 
   // Release lock
-  async releaseLock (resourceId, ownerId) {
+  async releaseLock(resourceId, ownerId) {
     const locks = this.db.collection("locks");
 
     const result = await locks.deleteOne({
@@ -254,7 +254,7 @@ class TransactionManager {
   }
 
   // Retry logic for transient errors
-  async withRetry (operation, maxRetries = 3) {
+  async withRetry(operation, maxRetries = 3) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         return await operation();
@@ -266,7 +266,7 @@ class TransactionManager {
         if (isRetryable && attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 100; // Exponential backoff
           console.log(`Retrying transaction (attempt ${attempt + 1}) after ${delay}ms`);
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
         } else {
           throw error;
         }
@@ -277,13 +277,13 @@ class TransactionManager {
 
 // Example Saga Pattern Implementation
 class OrderSaga {
-  constructor (db, client) {
+  constructor(db, client) {
     this.db = db;
     this.client = client;
     this.compensations = [];
   }
 
-  async execute (orderData) {
+  async execute(orderData) {
     try {
       // Step 1: Reserve inventory
       const reservation = await this.reserveInventory(orderData.items);
@@ -320,35 +320,35 @@ class OrderSaga {
     }
   }
 
-  async reserveInventory (items) {
+  async reserveInventory(items) {
     // Implementation
     console.log("Reserving inventory:", items);
     return { reservationId: "RES" + Date.now(), items };
   }
 
-  async releaseInventory (reservation) {
+  async releaseInventory(reservation) {
     console.log("Releasing inventory:", reservation);
   }
 
-  async processPayment (paymentInfo) {
+  async processPayment(paymentInfo) {
     console.log("Processing payment:", paymentInfo);
     return { paymentId: "PAY" + Date.now(), ...paymentInfo };
   }
 
-  async refundPayment (payment) {
+  async refundPayment(payment) {
     console.log("Refunding payment:", payment);
   }
 
-  async createShipment (shippingInfo) {
+  async createShipment(shippingInfo) {
     console.log("Creating shipment:", shippingInfo);
     return { shipmentId: "SHIP" + Date.now(), ...shippingInfo };
   }
 
-  async cancelShipment (shipment) {
+  async cancelShipment(shipment) {
     console.log("Cancelling shipment:", shipment);
   }
 
-  async finalizeOrder (orderData) {
+  async finalizeOrder(orderData) {
     const orders = this.db.collection("orders");
     const result = await orders.insertOne({
       ...orderData,

@@ -25,8 +25,8 @@ const results = {
     complete: 0,
     incomplete: 0,
     missing: 0,
-    warnings: []
-  }
+    warnings: [],
+  },
 };
 
 /**
@@ -38,7 +38,7 @@ function validateFile(groupPath, fileName, minSize) {
   if (!fs.existsSync(filePath)) {
     return {
       status: "missing",
-      message: `${fileName} not found`
+      message: `${fileName} not found`,
     };
   }
 
@@ -48,21 +48,21 @@ function validateFile(groupPath, fileName, minSize) {
     return {
       status: "incomplete",
       message: `${fileName} too small (${stats.size} bytes, min: ${minSize})`,
-      size: stats.size
+      size: stats.size,
     };
   }
 
   // Check file content quality
   const content = fs.readFileSync(filePath, "utf8");
   const lines = content.split("\n");
-  const nonEmptyLines = lines.filter(line => line.trim().length > 0);
+  const nonEmptyLines = lines.filter((line) => line.trim().length > 0);
 
   if (nonEmptyLines.length < 5) {
     return {
       status: "incomplete",
       message: `${fileName} has insufficient content (${nonEmptyLines.length} non-empty lines)`,
       size: stats.size,
-      lines: nonEmptyLines.length
+      lines: nonEmptyLines.length,
     };
   }
 
@@ -71,7 +71,7 @@ function validateFile(groupPath, fileName, minSize) {
     hasHeadings: false,
     hasCodeBlocks: false,
     hasLinks: false,
-    hasSections: false
+    hasSections: false,
   };
 
   // Check for markdown structure
@@ -86,7 +86,7 @@ function validateFile(groupPath, fileName, minSize) {
         status: "warning",
         message: `${fileName} lacks proper markdown headings`,
         size: stats.size,
-        checks
+        checks,
       };
     }
   }
@@ -96,7 +96,7 @@ function validateFile(groupPath, fileName, minSize) {
     message: `${fileName} is valid`,
     size: stats.size,
     lines: nonEmptyLines.length,
-    checks
+    checks,
   };
 }
 
@@ -117,7 +117,7 @@ function validateMongoQueries(solutionPath) {
     insert: /db\.\w+\.insert/g,
     update: /db\.\w+\.update/g,
     delete: /db\.\w+\.(delete|remove)/g,
-    createIndex: /db\.\w+\.createIndex/g
+    createIndex: /db\.\w+\.createIndex/g,
   };
 
   const queryTypes = {};
@@ -133,7 +133,7 @@ function validateMongoQueries(solutionPath) {
     hasQueries: totalQueries > 0,
     queryCount: totalQueries,
     queryTypes,
-    hasAdvancedQueries: queryTypes.aggregate > 0 || queryTypes.createIndex > 0
+    hasAdvancedQueries: queryTypes.aggregate > 0 || queryTypes.createIndex > 0,
   };
 }
 
@@ -148,7 +148,7 @@ function validateGroup(groupName) {
       name: groupName,
       status: "missing",
       message: "Group directory not found",
-      files: {}
+      files: {},
     };
   }
 
@@ -157,7 +157,7 @@ function validateGroup(groupName) {
     status: "valid",
     files: {},
     queries: null,
-    warnings: []
+    warnings: [],
   };
 
   // Validate README.md
@@ -190,32 +190,33 @@ function validateGroup(groupName) {
 
   // Check for optional files
   const optionalFiles = ["queries.js", "test.js", "data.json"];
-  optionalFiles.forEach(file => {
+  optionalFiles.forEach((file) => {
     const filePath = path.join(groupPath, file);
     if (fs.existsSync(filePath)) {
       groupResult.files[file] = {
         status: "present",
         message: `Optional file ${file} found`,
-        size: fs.statSync(filePath).size
+        size: fs.statSync(filePath).size,
       };
     }
   });
 
   // Check for screenshots or images
   const files = fs.readdirSync(groupPath);
-  const imageFiles = files.filter(f => /\.(png|jpg|jpeg|gif|svg)$/i.test(f));
+  const imageFiles = files.filter((f) => /\.(png|jpg|jpeg|gif|svg)$/i.test(f));
   if (imageFiles.length > 0) {
     groupResult.files.images = {
       status: "present",
       message: `${imageFiles.length} image(s) found`,
-      files: imageFiles
+      files: imageFiles,
     };
   }
 
   // Determine overall status
-  const requiredFilesValid = REQUIRED_FILES.every(file =>
-    groupResult.files[file] &&
-    (groupResult.files[file].status === "valid" || groupResult.files[file].status === "warning")
+  const requiredFilesValid = REQUIRED_FILES.every(
+    (file) =>
+      groupResult.files[file] &&
+      (groupResult.files[file].status === "valid" || groupResult.files[file].status === "warning")
   );
 
   if (!requiredFilesValid) {
@@ -240,22 +241,28 @@ function generateReport() {
   console.log("-".repeat(60));
 
   // Display results for each group
-  results.groups.forEach(group => {
+  results.groups.forEach((group) => {
     const statusIcon =
-      group.status === "valid" ? "✓" :
-      group.status === "warning" ? "⚠" :
-      group.status === "incomplete" ? "✗" :
-      "❌";
+      group.status === "valid"
+        ? "✓"
+        : group.status === "warning"
+          ? "⚠"
+          : group.status === "incomplete"
+            ? "✗"
+            : "❌";
 
     console.log(`\n${statusIcon} ${group.name} - ${group.status.toUpperCase()}`);
 
     // Display file status
     Object.entries(group.files).forEach(([file, result]) => {
       const fileIcon =
-        result.status === "valid" ? "  ✓" :
-        result.status === "warning" ? "  ⚠" :
-        result.status === "present" ? "  +" :
-        "  ✗";
+        result.status === "valid"
+          ? "  ✓"
+          : result.status === "warning"
+            ? "  ⚠"
+            : result.status === "present"
+              ? "  +"
+              : "  ✗";
 
       console.log(`${fileIcon} ${file}: ${result.message}`);
 
@@ -283,7 +290,7 @@ function generateReport() {
     // Display warnings
     if (group.warnings.length > 0) {
       console.log("  ⚠️ Warnings:");
-      group.warnings.forEach(warning => {
+      group.warnings.forEach((warning) => {
         console.log(`      - ${warning}`);
       });
     }
@@ -294,10 +301,10 @@ function generateReport() {
   console.log("SUMMARY");
   console.log("=".repeat(60));
 
-  const valid = results.groups.filter(g => g.status === "valid").length;
-  const warnings = results.groups.filter(g => g.status === "warning").length;
-  const incomplete = results.groups.filter(g => g.status === "incomplete").length;
-  const missing = results.groups.filter(g => g.status === "missing").length;
+  const valid = results.groups.filter((g) => g.status === "valid").length;
+  const warnings = results.groups.filter((g) => g.status === "warning").length;
+  const incomplete = results.groups.filter((g) => g.status === "incomplete").length;
+  const missing = results.groups.filter((g) => g.status === "missing").length;
 
   console.log(`\nTotal Groups: ${results.summary.total}`);
   console.log(`  ✓ Valid: ${valid}`);
@@ -305,32 +312,31 @@ function generateReport() {
   console.log(`  ✗ Incomplete: ${incomplete}`);
   console.log(`  ❌ Missing: ${missing}`);
 
-  const passRate = results.summary.total > 0
-    ? ((valid + warnings) / results.summary.total * 100).toFixed(1)
-    : 0;
+  const passRate =
+    results.summary.total > 0 ? (((valid + warnings) / results.summary.total) * 100).toFixed(1) : 0;
 
   console.log(`\nPass Rate: ${passRate}%`);
 
   // Groups with best practices
-  const exemplaryGroups = results.groups.filter(g =>
-    g.status === "valid" &&
-    g.queries &&
-    g.queries.queryCount > 5 &&
-    g.queries.hasAdvancedQueries
+  const exemplaryGroups = results.groups.filter(
+    (g) =>
+      g.status === "valid" && g.queries && g.queries.queryCount > 5 && g.queries.hasAdvancedQueries
   );
 
   if (exemplaryGroups.length > 0) {
     console.log("\n🌟 Exemplary Submissions:");
-    exemplaryGroups.forEach(g => {
+    exemplaryGroups.forEach((g) => {
       console.log(`  - ${g.name} (${g.queries.queryCount} queries with advanced features)`);
     });
   }
 
   // Groups needing attention
-  const needsAttention = results.groups.filter(g => g.status === "incomplete" || g.status === "missing");
+  const needsAttention = results.groups.filter(
+    (g) => g.status === "incomplete" || g.status === "missing"
+  );
   if (needsAttention.length > 0) {
     console.log("\n⚠️ Groups Needing Attention:");
-    needsAttention.forEach(g => {
+    needsAttention.forEach((g) => {
       console.log(`  - ${g.name}: ${g.status}`);
     });
   }
@@ -414,8 +420,8 @@ db.users.createIndex({ email: 1 }, { unique: true })
     // Get all group directories
     const entries = fs.readdirSync(GROUPS_DIR, { withFileTypes: true });
     const groupDirs = entries
-      .filter(entry => entry.isDirectory() && entry.name.startsWith("group"))
-      .map(entry => entry.name);
+      .filter((entry) => entry.isDirectory() && entry.name.startsWith("group"))
+      .map((entry) => entry.name);
 
     if (groupDirs.length === 0) {
       console.log("\n⚠️ No group directories found");
@@ -426,7 +432,7 @@ db.users.createIndex({ email: 1 }, { unique: true })
     results.summary.total = groupDirs.length;
 
     // Validate each group
-    groupDirs.forEach(groupName => {
+    groupDirs.forEach((groupName) => {
       const groupResult = validateGroup(groupName);
       results.groups.push(groupResult);
 
@@ -442,7 +448,6 @@ db.users.createIndex({ email: 1 }, { unique: true })
     // Generate and display report
     const exitCode = generateReport();
     process.exit(exitCode);
-
   } catch (error) {
     console.error("\n❌ Error during validation:", error.message);
     console.error(error.stack);

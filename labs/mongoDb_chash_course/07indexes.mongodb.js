@@ -15,13 +15,13 @@ print(`Created: ${nameIndex}`);
 
 const catalogIndex = db.products.createIndex(
   { category: 1, price: -1 },
-  { name: "category_price_idx" },
+  { name: "category_price_idx" }
 );
 print(`Created: ${catalogIndex}`);
 
 const textIndex = db.products.createIndex(
   { description: "text", tags: "text" },
-  { name: "product_text_idx" },
+  { name: "product_text_idx" }
 );
 print(`Created: ${textIndex}`);
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const { MongoClient, GridFSBucket } = require('mongodb');
-const { Readable } = require('stream');
+const { MongoClient, GridFSBucket } = require("mongodb");
+const { Readable } = require("stream");
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const bucketName = process.env.GRIDFS_BUCKET || 'modern_files';
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const bucketName = process.env.GRIDFS_BUCKET || "modern_files";
 
 class GridFSStarter {
   constructor(connectionString = uri) {
@@ -17,7 +17,7 @@ class GridFSStarter {
   async connect() {
     this.client = new MongoClient(this.connectionString);
     await this.client.connect();
-    this.db = this.client.db('modern_features_lab');
+    this.db = this.client.db("modern_features_lab");
     this.bucket = new GridFSBucket(this.db, { bucketName });
     console.log(`Connected to MongoDB (bucket: ${bucketName})`);
   }
@@ -26,9 +26,9 @@ class GridFSStarter {
     // TODO: use this.bucket.openUploadStream to store a file
     return new Promise((resolve, reject) => {
       Readable.from([text])
-        .pipe(this.bucket.openUploadStream('sample.txt'))
-        .on('error', reject)
-        .on('finish', resolve);
+        .pipe(this.bucket.openUploadStream("sample.txt"))
+        .on("error", reject)
+        .on("finish", resolve);
     });
   }
 
@@ -48,14 +48,14 @@ async function main() {
   const starter = new GridFSStarter();
   try {
     await starter.connect();
-    await starter.uploadSample('Hello, GridFS!');
+    await starter.uploadSample("Hello, GridFS!");
   } finally {
     await starter.cleanup();
   }
 }
 
 if (require.main === module) {
-  main().catch(error => {
+  main().catch((error) => {
     console.error(error);
     process.exit(1);
   });
