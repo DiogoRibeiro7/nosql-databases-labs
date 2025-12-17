@@ -1,3 +1,5 @@
+/* global db, print */
+
 /**
  * Enhanced Test Framework for MongoDB Labs
  * Provides assertion-based testing with detailed validation
