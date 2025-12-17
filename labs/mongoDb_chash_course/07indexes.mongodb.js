@@ -1,4 +1,4 @@
-/* global db, use */
+/* global db, use, print, printjson */
 use("EcommerceCrashCourse");
 
 const section = (title) => {
