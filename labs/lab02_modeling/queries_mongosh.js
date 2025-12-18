@@ -533,7 +533,12 @@ const userDoc = db.users_embedded.findOne(
   { username: "john_doe" },
   { projection: { addresses: 1 } }
 );
-print(`  User john_doe has ${userDoc.addresses.length} addresses`);
+if (!userDoc) {
+  print("  User john_doe was not found");
+} else {
+  const addressCount = Array.isArray(userDoc.addresses) ? userDoc.addresses.length : 0;
+  print(`  User john_doe has ${addressCount} addresses`);
+}
 
 // Child refs: comments for post
 const postComments = db.comments.find({ postId: postId }).toArray();
