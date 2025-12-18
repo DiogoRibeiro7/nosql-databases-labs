@@ -1,4 +1,4 @@
-name: MongoDB Compatibility Matrix
+name: Mongo Compatibility Matrix
 
 on:
   schedule:

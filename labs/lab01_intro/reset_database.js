@@ -1,21 +1,24 @@
-// Reset Database Script for Lab 01
+// Reset Database Script for Lab 01 (Node.js)
 // This script clears and reinitializes the database with fresh data
-// Run with: mongosh --file reset_database.js
+//
+// Run with:
+//   node reset_database.js
+//
+// Env (optional):
+//   MONGODB_URI=mongodb://localhost:27017
 
-// Connect to the lab01_student database
-db = db.getSiblingDB("lab01_student");
+"use strict";
 
-print("=================================");
-print("Resetting Lab 01 Database");
-print("=================================\n");
+const { MongoClient } = require("mongodb");
 
-// Drop the existing collection so the reset starts from an empty state.
-print("Dropping existing customers collection...");
-db.customers.drop();
-print("✓ Collection dropped\n");
+/** @type {string} */
+const MONGODB_URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
+/** @type {string} */
+const DB_NAME = "lab01_student";
+/** @type {string} */
+const COLLECTION = "customers";
 
-// Re-insert the initial sample data
-print("Inserting fresh sample data...");
+/** @type {Array<Record<string, unknown>>} */
 const customers = [
   {
     customer_id: 1,
@@ -64,40 +67,106 @@ const customers = [
   },
 ];
 
-// Insert the baseline dataset so every student starts with identical rows.
-const result = db.customers.insertMany(customers);
-print(
-  `✓ Inserted ${result.insertedIds ? Object.keys(result.insertedIds).length : customers.length} documents\n`
-);
+/**
+ * A small runtime validator so a broken dataset fails fast.
+ * @param {unknown[]} rows
+ */
+function assertCustomers(rows) {
+  if (!Array.isArray(rows)) throw new TypeError("customers must be an array");
+  for (const [i, row] of rows.entries()) {
+    if (row === null || typeof row !== "object") {
+      throw new TypeError(`customers[${i}] must be an object`);
+    }
+    /** @type {any} */
+    const r = row;
+    if (typeof r.customer_id !== "number") throw new TypeError(`customers[${i}].customer_id must be number`);
+    if (typeof r.name !== "string") throw new TypeError(`customers[${i}].name must be string`);
+    if (typeof r.email !== "string") throw new TypeError(`customers[${i}].email must be string`);
+    if (typeof r.city !== "string") throw new TypeError(`customers[${i}].city must be string`);
+    if (typeof r.country !== "string") throw new TypeError(`customers[${i}].country must be string`);
+    if (typeof r.age !== "number") throw new TypeError(`customers[${i}].age must be number`);
+    if (typeof r.balance !== "number") throw new TypeError(`customers[${i}].balance must be number`);
+  }
+}
 
-// Re-create indexes
-print("Creating indexes...");
+/**
+ * Reset the lab01_student.customers collection.
+ */
+async function main() {
+  assertCustomers(customers);
 
-// Index on city
-db.customers.createIndex({ city: 1 });
-print("✓ Created index on city");
+  const client = new MongoClient(MONGODB_URI);
 
-// Index on country
-db.customers.createIndex({ country: 1 });
-print("✓ Created index on country");
+  console.log("=================================");
+  console.log("Resetting Lab 01 Database");
+  console.log("=================================\n");
+  console.log(`MongoDB URI: ${MONGODB_URI}`);
+  console.log(`Database:    ${DB_NAME}`);
+  console.log(`Collection:  ${COLLECTION}\n`);
 
-// Compound index on age and balance
-db.customers.createIndex({ age: 1, balance: -1 });
-print("✓ Created compound index on age and balance");
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    const col = db.collection(COLLECTION);
 
-// Unique index on email
-db.customers.createIndex({ email: 1 }, { unique: true });
-print("✓ Created unique index on email\n");
+    // Drop collection if it exists (drop() throws if missing)
+    console.log("Dropping existing customers collection...");
+    const existing = await db.listCollections({ name: COLLECTION }, { nameOnly: true }).toArray();
+    if (existing.length > 0) {
+      await col.drop();
+      console.log("✓ Collection dropped\n");
+    } else {
+      console.log("✓ Collection did not exist (nothing to drop)\n");
+    }
 
-// Verify the reset succeeded and remind the user what to execute next.
-const count = db.customers.countDocuments();
-print("=================================");
-print("Database reset completed!");
-print("=================================");
-print(`Total documents: ${count}`);
-print("\nYou can now run queries.js without errors:");
-print("  mongosh --file queries.js");
-print("\nOr in interactive mode:");
-print("  mongosh");
-print("  use lab01_student");
-print("  load('queries.js')");
+    // Re-create collection by inserting data
+    console.log("Inserting fresh sample data...");
+    const insertResult = await col.insertMany(customers, { ordered: true });
+    const insertedCount =
+      typeof insertResult?.insertedCount === "number"
+        ? insertResult.insertedCount
+        : Object.keys(insertResult.insertedIds ?? {}).length;
+
+    console.log(`✓ Inserted ${insertedCount} documents\n`);
+
+    // Re-create indexes
+    console.log("Creating indexes...");
+
+    await col.createIndex({ city: 1 }, { name: "city_1" });
+    console.log("✓ Created index on city");
+
+    await col.createIndex({ country: 1 }, { name: "country_1" });
+    console.log("✓ Created index on country");
+
+    await col.createIndex({ age: 1, balance: -1 }, { name: "age_1_balance_-1" });
+    console.log("✓ Created compound index on age and balance");
+
+    await col.createIndex({ email: 1 }, { name: "email_1", unique: true });
+    console.log("✓ Created unique index on email\n");
+
+    const count = await col.countDocuments();
+
+    console.log("=================================");
+    console.log("Database reset completed!");
+    console.log("=================================");
+    console.log(`Total documents: ${count}`);
+    console.log("\nYou can now run queries.js without errors:");
+    console.log("  mongosh --file queries.js");
+    console.log("\nOr in interactive mode:");
+    console.log("  mongosh");
+    console.log("  use lab01_student");
+    console.log("  load('queries.js')");
+  } catch (err) {
+    console.error("\nReset failed:");
+    console.error(err && err.stack ? err.stack : err);
+    process.exitCode = 1;
+  } finally {
+    await client.close();
+  }
+}
+
+if (require.main === module) {
+  main();
+}
+
+module.exports = { main };
