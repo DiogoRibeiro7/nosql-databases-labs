@@ -104,7 +104,9 @@ var revenueBySegment = db.sales
 
 print("Revenue by Segment:");
 revenueBySegment.forEach(function (segment) {
-  print("  " + segment._id + ": $" + fmtMoney(segment.revenue) + " (" + segment.orders + " orders)");
+  print(
+    "  " + segment._id + ": $" + fmtMoney(segment.revenue) + " (" + segment.orders + " orders)"
+  );
 });
 
 // ========================================
@@ -361,7 +363,14 @@ var facetedResults = db.sales
   .toArray();
 
 print("Faceted Results:");
-print("  Top 3 Products: " + facetedResults[0].top_products.map(function (p) { return p._id; }).join(", "));
+print(
+  "  Top 3 Products: " +
+    facetedResults[0].top_products
+      .map(function (p) {
+        return p._id;
+      })
+      .join(", ")
+);
 print("  Order Stats:");
 printjson(facetedResults[0].order_stats[0]);
 

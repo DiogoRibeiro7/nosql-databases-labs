@@ -63,7 +63,13 @@ function oneToManyRelationships() {
     // Embed few addresses (typically < 100)
     addresses: [
       { type: "home", street: "123 Main St", city: "Boston", country: "USA", primary: true },
-      { type: "work", street: "456 Office Blvd", city: "Cambridge", country: "USA", primary: false },
+      {
+        type: "work",
+        street: "456 Office Blvd",
+        city: "Cambridge",
+        country: "USA",
+        primary: false,
+      },
     ],
   };
 
@@ -445,7 +451,9 @@ function bucketPattern() {
   });
 
   if (bucketWithTime) {
-    const reading = bucketWithTime.measurements.find((m) => m.timestamp.getTime() === queryTime.getTime());
+    const reading = bucketWithTime.measurements.find(
+      (m) => m.timestamp.getTime() === queryTime.getTime()
+    );
     print(`\nReading at ${queryTime.toISOString()}:`);
     if (reading) print(`  Temperature: ${reading.temperature.toFixed(1)}°C`);
     else print("  (No exact reading at that timestamp)");
@@ -527,7 +535,11 @@ function computedPattern() {
     {
       $set: {
         "ratingSummary.average": parseFloat(avgRating.toFixed(2)),
-        popularReviews: topReviews.map((t) => ({ rating: t.rating, text: t.text, helpful: t.helpful })),
+        popularReviews: topReviews.map((t) => ({
+          rating: t.rating,
+          text: t.text,
+          helpful: t.helpful,
+        })),
       },
     }
   );

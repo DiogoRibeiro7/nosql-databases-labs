@@ -8,14 +8,14 @@
 
 "use strict";
 
-function fmtMoney (x) {
+function fmtMoney(x) {
   if (x === null || x === undefined) return "null";
   var n = Number(x);
   if (!Number.isFinite(n)) return String(x);
   return n.toFixed(2);
 }
 
-function safeFixed (x, digits) {
+function safeFixed(x, digits) {
   var n = Number(x);
   if (!Number.isFinite(n)) return String(x);
   return n.toFixed(digits);

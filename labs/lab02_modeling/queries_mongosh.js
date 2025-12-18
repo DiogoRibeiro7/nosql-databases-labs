@@ -529,7 +529,10 @@ print("  ✓ Inserted server + 100 log entries");
 print("\n--- Query Examples ---");
 
 // Embedded query: get user + addresses
-const userDoc = db.users_embedded.findOne({ username: "john_doe" }, { projection: { addresses: 1 } });
+const userDoc = db.users_embedded.findOne(
+  { username: "john_doe" },
+  { projection: { addresses: 1 } }
+);
 print(`  User john_doe has ${userDoc.addresses.length} addresses`);
 
 // Child refs: comments for post
@@ -808,7 +811,11 @@ const bucket = {
   measurements: readings,
   count: readings.length,
   stats: {
-    temperature: { min: Math.min(...tempValues), max: Math.max(...tempValues), avg: avg(tempValues) },
+    temperature: {
+      min: Math.min(...tempValues),
+      max: Math.max(...tempValues),
+      avg: avg(tempValues),
+    },
     humidity: { min: Math.min(...humValues), max: Math.max(...humValues), avg: avg(humValues) },
   },
 };
@@ -831,7 +838,9 @@ const bucketWithTime = db.sensor_buckets.findOne({
 });
 
 if (bucketWithTime) {
-  const reading = bucketWithTime.measurements.find((m) => m.timestamp.getTime() === queryTime.getTime());
+  const reading = bucketWithTime.measurements.find(
+    (m) => m.timestamp.getTime() === queryTime.getTime()
+  );
   print(`\nReading at ${queryTime.toISOString()}:`);
   if (reading) print(`  Temperature: ${reading.temperature.toFixed(1)}°C`);
   else print("  (No exact reading at that timestamp)");
@@ -912,7 +921,11 @@ db.products_computed.updateOne(
   {
     $set: {
       "ratingSummary.average": parseFloat(avgRating.toFixed(2)),
-      popularReviews: topReviews.map((t) => ({ rating: t.rating, text: t.text, helpful: t.helpful })),
+      popularReviews: topReviews.map((t) => ({
+        rating: t.rating,
+        text: t.text,
+        helpful: t.helpful,
+      })),
     },
   }
 );

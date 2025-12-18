@@ -119,7 +119,8 @@ function analyzeQueryPlan(collName, query, queryName) {
 
   // Try to find whether COLLSCAN appears anywhere in the winning plan.
   // executionStages.stage can be FETCH/IXSCAN/etc, so we also scan the plan json.
-  const stageTop = stats.executionStages && stats.executionStages.stage ? stats.executionStages.stage : "UNKNOWN";
+  const stageTop =
+    stats.executionStages && stats.executionStages.stage ? stats.executionStages.stage : "UNKNOWN";
   const planStr = JSON.stringify(explainResult.queryPlanner || {});
   const usedCollscan = planStr.includes("COLLSCAN");
 
@@ -140,7 +141,9 @@ function analyzeQueryPlan(collName, query, queryName) {
     print("  ⚠ WARNING: Query examining too many documents. Consider optimizing.");
   }
   if (stats.executionTimeMillis > PERFORMANCE_THRESHOLDS.simple_query) {
-    print(`  ⚠ WARNING: Query exceeds performance threshold (${PERFORMANCE_THRESHOLDS.simple_query}ms).`);
+    print(
+      `  ⚠ WARNING: Query exceeds performance threshold (${PERFORMANCE_THRESHOLDS.simple_query}ms).`
+    );
   }
 }
 
@@ -150,7 +153,8 @@ function analyzeQueryPlan(collName, query, queryName) {
  * @returns {number}
  */
 function thresholdFor(name) {
-  if (name.includes("Aggregation") || name.includes("Summary")) return PERFORMANCE_THRESHOLDS.aggregate;
+  if (name.includes("Aggregation") || name.includes("Summary"))
+    return PERFORMANCE_THRESHOLDS.aggregate;
   if (name.includes("Batch")) return PERFORMANCE_THRESHOLDS.batch;
   if (name.includes("Complex")) return PERFORMANCE_THRESHOLDS.complex;
   return PERFORMANCE_THRESHOLDS.simple_query;
@@ -165,11 +169,7 @@ print("=".repeat(60));
 
 // Benchmark 1: Simple indexed query (customer orders)
 benchmarkQuery("Customer Orders Query (indexed)", () => {
-  return db.orders
-    .find({ customer_id: "CUST001" })
-    .sort({ order_date: -1 })
-    .limit(10)
-    .toArray();
+  return db.orders.find({ customer_id: "CUST001" }).sort({ order_date: -1 }).limit(10).toArray();
 });
 analyzeQueryPlan("orders", { customer_id: "CUST001" }, "Customer Orders");
 
@@ -314,9 +314,13 @@ benchmarkResults.forEach((r) => {
     } else if (r.name.includes("Aggregation")) {
       print("   → Consider pre-aggregating or adding covering indexes for the pipeline");
     } else if (r.name.includes("Complex")) {
-      print("   → Consider a compound index on {category, price, stock_quantity} (or query-specific)");
+      print(
+        "   → Consider a compound index on {category, price, stock_quantity} (or query-specific)"
+      );
     } else if (r.name.includes("Batch")) {
-      print("   → Consider ordered:false for higher insert throughput; ensure appropriate write concern");
+      print(
+        "   → Consider ordered:false for higher insert throughput; ensure appropriate write concern"
+      );
     } else {
       print("   → Review explain() output and add appropriate indexes");
     }

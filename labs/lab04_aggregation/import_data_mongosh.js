@@ -13,9 +13,10 @@
  * Configuration
  */
 var DB_NAME = "lab04_analytics";
-var DATASET_DIR = (typeof __dirname !== "undefined")
-  ? (__dirname + "/starter/data")
-  : "labs/lab04_aggregation/starter/data";
+var DATASET_DIR =
+  typeof __dirname !== "undefined"
+    ? __dirname + "/starter/data"
+    : "labs/lab04_aggregation/starter/data";
 
 var DATASETS = [
   { collection: "sales", file: "sales.json" },
@@ -75,7 +76,8 @@ function hydrateRecord(collection, record) {
     if ("margin" in hydrated) hydrated.margin = toNumberOrNull(hydrated.margin);
 
     // Optional: stock quantity often appears in later scripts
-    if ("stock_quantity" in hydrated) hydrated.stock_quantity = toNumberOrNull(hydrated.stock_quantity);
+    if ("stock_quantity" in hydrated)
+      hydrated.stock_quantity = toNumberOrNull(hydrated.stock_quantity);
   }
 
   return hydrated;

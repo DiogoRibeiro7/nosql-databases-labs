@@ -41,10 +41,7 @@ var detailedSales = db.sales
               category: 1,
               price: 1,
               profit_margin: {
-                $multiply: [
-                  { $divide: [{ $subtract: ["$price", "$cost"] }, "$price"] },
-                  100,
-                ],
+                $multiply: [{ $divide: [{ $subtract: ["$price", "$cost"] }, "$price"] }, 100],
               },
             },
           },
@@ -184,9 +181,7 @@ var priceBuckets = db.sales
 print("Price Buckets:");
 priceBuckets.forEach(function (bucket) {
   var range =
-    bucket.range === "Over 500"
-      ? bucket.range
-      : "$" + bucket.range[0] + "-" + bucket.range[1];
+    bucket.range === "Over 500" ? bucket.range : "$" + bucket.range[0] + "-" + bucket.range[1];
   print(
     "  " +
       range +
@@ -369,7 +364,17 @@ var dailyTrend = db.sales
 
 print("Daily Trend (Last Week):");
 dailyTrend.forEach(function (day) {
-  print("  " + day.date + " (" + day.dayOfWeek + "): $" + fmtMoney(day.revenue) + " from " + day.orders + " orders");
+  print(
+    "  " +
+      day.date +
+      " (" +
+      day.dayOfWeek +
+      "): $" +
+      fmtMoney(day.revenue) +
+      " from " +
+      day.orders +
+      " orders"
+  );
 });
 
 // ========================================
@@ -483,10 +488,7 @@ var complexCalc = db.sales
                       $add: [
                         "$$value",
                         {
-                          $pow: [
-                            { $subtract: ["$$this", { $avg: "$all_amounts" }] },
-                            2,
-                          ],
+                          $pow: [{ $subtract: ["$$this", { $avg: "$all_amounts" }] }, 2],
                         },
                       ],
                     },

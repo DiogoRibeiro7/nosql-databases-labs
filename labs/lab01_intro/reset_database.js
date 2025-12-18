@@ -79,13 +79,16 @@ function assertCustomers(rows) {
     }
     /** @type {any} */
     const r = row;
-    if (typeof r.customer_id !== "number") throw new TypeError(`customers[${i}].customer_id must be number`);
+    if (typeof r.customer_id !== "number")
+      throw new TypeError(`customers[${i}].customer_id must be number`);
     if (typeof r.name !== "string") throw new TypeError(`customers[${i}].name must be string`);
     if (typeof r.email !== "string") throw new TypeError(`customers[${i}].email must be string`);
     if (typeof r.city !== "string") throw new TypeError(`customers[${i}].city must be string`);
-    if (typeof r.country !== "string") throw new TypeError(`customers[${i}].country must be string`);
+    if (typeof r.country !== "string")
+      throw new TypeError(`customers[${i}].country must be string`);
     if (typeof r.age !== "number") throw new TypeError(`customers[${i}].age must be number`);
-    if (typeof r.balance !== "number") throw new TypeError(`customers[${i}].balance must be number`);
+    if (typeof r.balance !== "number")
+      throw new TypeError(`customers[${i}].balance must be number`);
   }
 }
 

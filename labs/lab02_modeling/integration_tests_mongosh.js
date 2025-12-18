@@ -165,7 +165,14 @@ function validateDeliverables() {
   print("-".repeat(40));
   requiredFiles.forEach((f) => {
     const r = checkFile(f.path, f.minSize, f.description, "required");
-    const icon = r.status === "passed" ? "✓" : r.status === "warning" ? "⚠" : r.status === "skipped" ? "ℹ" : "✗";
+    const icon =
+      r.status === "passed"
+        ? "✓"
+        : r.status === "warning"
+          ? "⚠"
+          : r.status === "skipped"
+            ? "ℹ"
+            : "✗";
     print(`${icon} ${f.path}: ${r.message}`);
   });
 
@@ -333,7 +340,8 @@ function validateQueries() {
         if (orders.length === 0) throw new Error("No orders found for test customer");
 
         const order = orders[0];
-        if (!order.customer_id || !order.order_date || !order.items) throw new Error("Order missing required fields");
+        if (!order.customer_id || !order.order_date || !order.items)
+          throw new Error("Order missing required fields");
 
         return { count: orders.length, sample: order.order_id };
       },
@@ -345,11 +353,13 @@ function validateQueries() {
         const order = db.orders.findOne({ order_id: "ORD001" });
         if (!order) throw new Error("Test order ORD001 not found");
 
-        if (!order.items || !Array.isArray(order.items)) throw new Error("Order items not properly embedded");
+        if (!order.items || !Array.isArray(order.items))
+          throw new Error("Order items not properly embedded");
         if (order.items.length === 0) throw new Error("Order has no items");
 
         const item = order.items[0];
-        if (!item.product_name || !item.unit_price) throw new Error("Items missing denormalized product data");
+        if (!item.product_name || !item.unit_price)
+          throw new Error("Items missing denormalized product data");
 
         return { itemCount: order.items.length, hasProductNames: true };
       },
@@ -423,7 +433,9 @@ function validateQueries() {
 
         const product = db.products.findOne({ product_id: "PROD001" });
         if (product && product.reviews && Array.isArray(product.reviews)) {
-          throw new Error("Reviews should be in separate collection, not embedded (unbounded growth)");
+          throw new Error(
+            "Reviews should be in separate collection, not embedded (unbounded growth)"
+          );
         }
 
         return {
@@ -518,7 +530,9 @@ function generateReport() {
   print(`  Passed: ${deliverablesPassed}`);
   print(`  Failed: ${deliverablesFailed}`);
   print(`  Warnings: ${testResults.deliverables.filter((d) => d.status === "warning").length}`);
-  print(`  Skipped/Info: ${testResults.deliverables.filter((d) => d.status === "skipped" || d.status === "info").length}`);
+  print(
+    `  Skipped/Info: ${testResults.deliverables.filter((d) => d.status === "skipped" || d.status === "info").length}`
+  );
 
   print("\nQuery Tests:");
   print(`  Passed: ${queriesPassed}/${testResults.queries.length}`);
@@ -599,5 +613,11 @@ try {
 
   // still export partial results
   print("\n--- Partial Results (stdout JSON) ---");
-  print(JSON.stringify({ timestamp: new Date().toISOString(), database: "lab02_ecommerce", results: testResults }, null, 2));
+  print(
+    JSON.stringify(
+      { timestamp: new Date().toISOString(), database: "lab02_ecommerce", results: testResults },
+      null,
+      2
+    )
+  );
 }

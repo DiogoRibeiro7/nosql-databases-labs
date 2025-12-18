@@ -48,10 +48,8 @@ jobs:
 
           - id: lab03
             display: Lab 03 Coverage Artifact
-            seedScript: labs/lab03_queries/import_data.js
-            testCmd: |
-              node labs/lab03_queries/import_data.js --limit=60
-              node labs/lab03_queries/test_data_integrity.js
+            seedScript: labs/lab03_queries/import_data.js --limit-movies=60 --limit-theaters=10 --limit-users=15 --limit-comments=200
+            testCmd: node labs/lab03_queries/test_data_integrity.js
             coverageDir: labs/lab03_queries/coverage
             logFile: test_data_integrity_output.log
 
