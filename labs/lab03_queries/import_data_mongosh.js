@@ -1,6 +1,8 @@
 // Robust import script for lab03_movies database
 // Run this in mongosh: load("labs/lab03_queries/import_data_robust.js")
 
+const fs = require("fs");
+
 print("Setting up lab03_movies database...\n");
 
 // Switch to lab03_movies database
@@ -20,11 +22,11 @@ function convertExtendedJSON(obj) {
 
   // Handle arrays
   if (Array.isArray(obj)) {
-    return obj.map(item => convertExtendedJSON(item));
+    return obj.map((item) => convertExtendedJSON(item));
   }
 
   // Handle objects
-  if (typeof obj === 'object') {
+  if (typeof obj === "object") {
     // Convert $oid to ObjectId
     if (obj.$oid) {
       return ObjectId(obj.$oid);
@@ -33,7 +35,7 @@ function convertExtendedJSON(obj) {
     // Convert $date to Date
     if (obj.$date) {
       // Handle both string dates and nested $numberLong dates
-      if (typeof obj.$date === 'string') {
+      if (typeof obj.$date === "string") {
         return new Date(obj.$date);
       } else if (obj.$date.$numberLong) {
         return new Date(parseInt(obj.$date.$numberLong));
@@ -78,17 +80,20 @@ function importCollection(collectionName, filename) {
     try {
       data = JSON.parse(jsonContent);
     } catch (e) {
+      print(`  JSON parse failed for ${collectionName}: ${e.message}`);
       // If that fails, try to parse as NDJSON (newline-delimited JSON)
       print(`  Trying NDJSON format for ${collectionName}...`);
-      const lines = jsonContent.split('\n').filter(line => line.trim());
-      data = lines.map(line => {
-        try {
-          return JSON.parse(line);
-        } catch (lineError) {
-          print(`  Warning: Skipping invalid line in ${collectionName}`);
-          return null;
-        }
-      }).filter(item => item !== null);
+      const lines = jsonContent.split("\n").filter((line) => line.trim());
+      data = lines
+        .map((line) => {
+          try {
+            return JSON.parse(line);
+          } catch (lineError) {
+            print(`  Warning: Skipping invalid line in ${collectionName}: ${lineError.message}`);
+            return null;
+          }
+        })
+        .filter((item) => item !== null);
     }
 
     if (!Array.isArray(data)) {
@@ -108,20 +113,26 @@ function importCollection(collectionName, filename) {
         const result = db[collectionName].insertMany(batch, { ordered: false });
         totalInserted += result.insertedCount;
       } catch (insertError) {
-        print(`  Warning: Some documents in ${collectionName} batch ${Math.floor(i/batchSize) + 1} failed to insert`);
+        print(
+          `  Warning: Some documents in ${collectionName} batch ${Math.floor(i / batchSize) + 1} failed to insert`
+        );
         print(`  Error: ${insertError.message}`);
         // Continue with next batch
       }
 
       if ((i + batchSize) % 5000 === 0 || i + batchSize >= converted.length) {
-        print(`  Processed ${Math.min(i + batchSize, converted.length)} / ${converted.length} documents...`);
+        print(
+          `  Processed ${Math.min(i + batchSize, converted.length)} / ${converted.length} documents...`
+        );
       }
     }
 
     const count = db[collectionName].countDocuments();
     print(`  Successfully imported ${count} documents into ${collectionName}`);
+    if (totalInserted !== count) {
+      print(`  Insert attempts acknowledged: ${totalInserted}`);
+    }
     return true;
-
   } catch (error) {
     print(`  ERROR importing ${collectionName}: ${error.message}`);
     return false;
@@ -134,7 +145,7 @@ const collections = [
   { name: "theaters", file: "labs/lab03_queries/starter/data/theaters.json" },
   { name: "users", file: "labs/lab03_queries/starter/data/users.json" },
   { name: "comments", file: "labs/lab03_queries/starter/data/comments.json" },
-  { name: "sessions", file: "labs/lab03_queries/starter/data/sessions.json" }
+  { name: "sessions", file: "labs/lab03_queries/starter/data/sessions.json" },
 ];
 
 let successCount = 0;
@@ -159,12 +170,12 @@ print(`Sessions: ${db.sessions.countDocuments()}`);
 // Show sample documents if available
 if (db.movies.countDocuments() > 0) {
   print("\nSample movie:");
-  printjson(db.movies.findOne({}, {title: 1, year: 1, genres: 1, _id: 0}));
+  printjson(db.movies.findOne({}, { title: 1, year: 1, genres: 1, _id: 0 }));
 }
 
 if (db.comments.countDocuments() > 0) {
   print("\nSample comment:");
-  printjson(db.comments.findOne({}, {name: 1, email: 1, text: 1, _id: 0}));
+  printjson(db.comments.findOne({}, { name: 1, email: 1, text: 1, _id: 0 }));
 }
 
 print("\nYou can now run: load('labs/lab03_queries/queries.js')");

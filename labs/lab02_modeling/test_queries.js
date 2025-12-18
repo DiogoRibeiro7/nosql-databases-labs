@@ -22,7 +22,7 @@ const testResults = [];
  * @param {() => Promise<void>} testFunc - Async body that throws on failure.
  * @returns {Promise<boolean>} True if the test passed.
  */
-async function runTest (testName, testFunc) {
+async function runTest(testName, testFunc) {
   try {
     console.log(`\nRunning: ${testName}...`);
     await testFunc();
@@ -45,7 +45,7 @@ async function runTest (testName, testFunc) {
  * @param {boolean} condition - Expression that must be true.
  * @param {string} message - Error message when the assertion fails.
  */
-function assert (condition, message) {
+function assert(condition, message) {
   if (!condition) {
     throw new Error(message || "Assertion failed");
   }
@@ -56,7 +56,7 @@ function assert (condition, message) {
  *
  * @returns {Promise<void>}
  */
-async function testQueries () {
+async function testQueries() {
   let client;
 
   try {
@@ -77,7 +77,7 @@ async function testQueries () {
     // ========================================================================
     await runTest("Collections exist", async () => {
       const collections = await db.listCollections().toArray();
-      const collectionNames = collections.map(c => c.name);
+      const collectionNames = collections.map((c) => c.name);
 
       assert(collectionNames.includes("customers"), "customers collection missing");
       assert(collectionNames.includes("products"), "products collection missing");
@@ -136,7 +136,7 @@ async function testQueries () {
       assert(order.items.length > 0, "Order should have items");
 
       // Verify embedded items have required fields
-      order.items.forEach(item => {
+      order.items.forEach((item) => {
         assert(item.product_id, "Item missing product_id");
         assert(item.product_name, "Item missing product_name");
         assert(item.quantity > 0, "Item quantity should be positive");
@@ -186,7 +186,7 @@ async function testQueries () {
       const products = await db.collection("products").find({ category: "Electronics" }).toArray();
 
       assert(products.length > 0, "No products found in Electronics category");
-      products.forEach(product => {
+      products.forEach((product) => {
         assert(product.category === "Electronics", "Wrong category in results");
       });
 
@@ -199,7 +199,7 @@ async function testQueries () {
         })
         .toArray();
 
-      filteredProducts.forEach(product => {
+      filteredProducts.forEach((product) => {
         assert(product.price >= 50 && product.price <= 500, "Price out of range");
       });
     });
@@ -210,37 +210,37 @@ async function testQueries () {
     await runTest("Required indexes exist", async () => {
       // Check customers indexes
       const customerIndexes = await db.collection("customers").indexes();
-      const customerIndexNames = customerIndexes.map(idx => idx.name);
+      const customerIndexNames = customerIndexes.map((idx) => idx.name);
       assert(
-        customerIndexNames.some(n => n.includes("customer_id")),
+        customerIndexNames.some((n) => n.includes("customer_id")),
         "Missing customer_id index"
       );
       assert(
-        customerIndexNames.some(n => n.includes("email")),
+        customerIndexNames.some((n) => n.includes("email")),
         "Missing email index"
       );
 
       // Check products indexes
       const productIndexes = await db.collection("products").indexes();
-      const productIndexNames = productIndexes.map(idx => idx.name);
+      const productIndexNames = productIndexes.map((idx) => idx.name);
       assert(
-        productIndexNames.some(n => n.includes("category")),
+        productIndexNames.some((n) => n.includes("category")),
         "Missing category index"
       );
       assert(
-        productIndexNames.some(n => n.includes("product_id")),
+        productIndexNames.some((n) => n.includes("product_id")),
         "Missing product_id index"
       );
 
       // Check orders indexes
       const orderIndexes = await db.collection("orders").indexes();
-      const orderIndexNames = orderIndexes.map(idx => idx.name);
+      const orderIndexNames = orderIndexes.map((idx) => idx.name);
       assert(
-        orderIndexNames.some(n => n.includes("customer_id")),
+        orderIndexNames.some((n) => n.includes("customer_id")),
         "Missing customer_id index on orders"
       );
       assert(
-        orderIndexNames.some(n => n.includes("order_id")),
+        orderIndexNames.some((n) => n.includes("order_id")),
         "Missing order_id index"
       );
 
@@ -255,15 +255,15 @@ async function testQueries () {
     await runTest("Data integrity checks", async () => {
       // Check unique constraints
       const customers = await db.collection("customers").find().toArray();
-      const emails = customers.map(c => c.email);
+      const emails = customers.map((c) => c.email);
       const uniqueEmails = [...new Set(emails)];
       assert(emails.length === uniqueEmails.length, "Duplicate emails found");
 
       // Check referential integrity
       const orders = await db.collection("orders").find().toArray();
-      const customerIds = customers.map(c => c.customer_id);
+      const customerIds = customers.map((c) => c.customer_id);
 
-      orders.forEach(order => {
+      orders.forEach((order) => {
         assert(
           customerIds.includes(order.customer_id),
           `Order ${order.order_id} references non-existent customer ${order.customer_id}`
@@ -273,10 +273,10 @@ async function testQueries () {
       // Check denormalized data consistency
       const products = await db.collection("products").find().toArray();
       const productMap = {};
-      products.forEach(p => (productMap[p.product_id] = p));
+      products.forEach((p) => (productMap[p.product_id] = p));
 
-      orders.forEach(order => {
-        order.items.forEach(item => {
+      orders.forEach((order) => {
+        order.items.forEach((item) => {
           // Denormalized product names should exist (historical data)
           assert(item.product_name, `Missing product name in order ${order.order_id}`);
         });
@@ -345,7 +345,7 @@ async function testQueries () {
     console.log("TEST RESULTS SUMMARY");
     console.log("=".repeat(60));
 
-    testResults.forEach(result => {
+    testResults.forEach((result) => {
       console.log(`${result.status} ${result.test}`);
       if (result.error) {
         console.log(`    Error: ${result.error}`);

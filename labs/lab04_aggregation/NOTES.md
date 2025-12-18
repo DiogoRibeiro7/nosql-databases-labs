@@ -9,6 +9,7 @@ This lab focuses on real-world analytics scenarios using MongoDB's aggregation f
 ## Dataset Summary
 
 ### Sales Collection (200 transactions)
+
 - **Date range**: Jan 2023 - Dec 2023
 - **Total revenue**: $20,376.69
 - **Total profit**: $11,225.69
@@ -16,12 +17,14 @@ This lab focuses on real-world analytics scenarios using MongoDB's aggregation f
 - **Transaction count**: 200 orders
 
 ### Products Collection (30 products)
+
 - **Categories**: Electronics, Clothing, Home, Books, Sports
 - **Price range**: $14.99 - $249.99
 - **Average price**: $87.33
 - **Stock levels**: 10-500 units
 
 ### Customers Collection (50 customers)
+
 - **Segments**:
   - VIP: 5 customers (10%)
   - Premium: 13 customers (26%)
@@ -237,12 +240,14 @@ db.customers.countDocuments() // Should return 50
 ### Sales Analytics
 
 #### Monthly Performance
+
 - **Peak Month**: December 2023 ($3,245.67 - holiday shopping)
 - **Lowest Month**: February 2023 ($1,123.45)
 - **Average Monthly Revenue**: $1,698.06
 - **Month-over-Month Growth**: Average 8% growth
 
 #### Seasonal Patterns
+
 - **Q4 Performance**: 35% of annual revenue
 - **Summer Slump**: July-August show 15% decline
 - **Back-to-School**: September spike of 22%
@@ -250,6 +255,7 @@ db.customers.countDocuments() // Should return 50
 ### Customer Analytics
 
 #### Segmentation Analysis
+
 - **VIP Segment** (10% of customers):
   - Generate 40% of total revenue
   - Average order value: $245.67
@@ -266,11 +272,13 @@ db.customers.countDocuments() // Should return 50
   - Purchase frequency: 0.8x/month
 
 #### Geographic Distribution
+
 - **North America**: 51% of transactions
 - **Europe**: 32% of transactions
 - **Asia-Pacific**: 17% of transactions
 
 #### Customer Lifetime Value (CLV)
+
 - **Average CLV**: $408
 - **Top 10% CLV**: $1,250+
 - **Churn Risk**: 6% (no purchase in 90+ days)
@@ -278,6 +286,7 @@ db.customers.countDocuments() // Should return 50
 ### Product Analytics
 
 #### Top Performers
+
 1. **Smart Watch**:
    - Revenue: $2,345.67
    - Units sold: 45
@@ -294,15 +303,17 @@ db.customers.countDocuments() // Should return 50
    - Profit margin: 55%
 
 #### Category Performance
-| Category    | Revenue    | Units | Avg Price | Margin |
-|-------------|------------|-------|-----------|--------|
-| Electronics | $8,234.56  | 156   | $52.78    | 58%    |
-| Clothing    | $5,678.90  | 234   | $24.27    | 65%    |
-| Home        | $3,456.78  | 98    | $35.27    | 52%    |
-| Books       | $2,345.67  | 189   | $12.41    | 45%    |
-| Sports      | $1,234.56  | 67    | $18.43    | 55%    |
+
+| Category    | Revenue   | Units | Avg Price | Margin |
+| ----------- | --------- | ----- | --------- | ------ |
+| Electronics | $8,234.56 | 156   | $52.78    | 58%    |
+| Clothing    | $5,678.90 | 234   | $24.27    | 65%    |
+| Home        | $3,456.78 | 98    | $35.27    | 52%    |
+| Books       | $2,345.67 | 189   | $12.41    | 45%    |
+| Sports      | $1,234.56 | 67    | $18.43    | 55%    |
 
 #### Inventory Insights
+
 - **Fast movers**: 8-10 inventory turns/year
 - **Slow movers**: <2 inventory turns/year
 - **Dead stock**: 3 products with <5 sales
@@ -333,14 +344,12 @@ db.customers.createIndex({ country: 1 });
 // GOOD: Filter early
 [
   { $match: { date: { $gte: ISODate("2023-01-01") } } },
-  { $group: { _id: "$customer_id", total: { $sum: "$amount" } } }
-]
-
-// BAD: Filter late
-[
   { $group: { _id: "$customer_id", total: { $sum: "$amount" } } },
-  { $match: { total: { $gte: 100 } } }
-]
+][
+  // BAD: Filter late
+  ({ $group: { _id: "$customer_id", total: { $sum: "$amount" } } },
+  { $match: { total: { $gte: 100 } } })
+];
 ```
 
 ### 3. Memory Management
@@ -349,11 +358,13 @@ db.customers.createIndex({ country: 1 });
 // Use allowDiskUse for large datasets
 db.sales.aggregate(pipeline, {
   allowDiskUse: true,
-  cursor: { batchSize: 1000 }
+  cursor: { batchSize: 1000 },
 });
 
 // Limit pipeline stages that expand data
-{ $limit: 1000 } // Add before $unwind when possible
+{
+  $limit: 1000;
+} // Add before $unwind when possible
 ```
 
 ### 4. Projection Optimization
@@ -380,6 +391,7 @@ db.sales.aggregate(pipeline, {
 **Problem**: Dates stored as strings or incorrect format
 
 **Solution**: Convert and validate dates
+
 ```javascript
 {
   $addFields: {
@@ -407,6 +419,7 @@ db.sales.aggregate(pipeline, {
 **Problem**: Calculating averages or ratios with zero denominators
 
 **Solution**: Use conditional logic
+
 ```javascript
 {
   avg_order_value: {
@@ -434,17 +447,22 @@ db.sales.aggregate(pipeline, {
 **Problem**: Pipeline uses >100MB RAM
 
 **Solutions**:
+
 ```javascript
 // Solution 1: Enable disk use
 db.collection.aggregate(pipeline, { allowDiskUse: true });
 
 // Solution 2: Use $sample for testing
-{ $sample: { size: 10000 } }
+{
+  $sample: {
+    size: 10000;
+  }
+}
 
 // Solution 3: Process in batches
 const batchSize = 1000;
 const cursor = db.collection.aggregate(pipeline, {
-  cursor: { batchSize: batchSize }
+  cursor: { batchSize: batchSize },
 });
 ```
 
@@ -453,21 +471,20 @@ const cursor = db.collection.aggregate(pipeline, {
 **Problem**: Pipeline takes too long to execute
 
 **Solutions**:
+
 ```javascript
 // Use explain to analyze
 db.collection.explain("executionStats").aggregate(pipeline);
 
 // Create materialized views for common aggregations
-db.createView(
-  "monthly_revenue",
-  "sales",
-  [
-    { $group: {
+db.createView("monthly_revenue", "sales", [
+  {
+    $group: {
       _id: { $dateToString: { format: "%Y-%m", date: "$date" } },
-      revenue: { $sum: "$amount" }
-    }}
-  ]
-);
+      revenue: { $sum: "$amount" },
+    },
+  },
+]);
 ```
 
 ---
@@ -475,18 +492,21 @@ db.createView(
 ## Advanced Techniques Demonstrated
 
 ### 1. Window Functions
+
 - Moving averages for trend analysis
 - Ranking within partitions
 - Cumulative calculations
 - Lead/lag for comparisons
 
 ### 2. Complex Joins
+
 - Multi-collection aggregations
 - Conditional lookups
 - Nested document processing
 - Graph traversals
 
 ### 3. Date Arithmetic
+
 ```javascript
 // Calculate days between dates
 {
@@ -508,6 +528,7 @@ db.createView(
 ```
 
 ### 4. Statistical Functions
+
 ```javascript
 // Standard deviation
 { $stdDevPop: "$amount" }
@@ -522,6 +543,7 @@ db.createView(
 ```
 
 ### 5. Array Operations
+
 ```javascript
 // Complex array filtering
 {
@@ -552,6 +574,7 @@ db.createView(
 ```
 
 ### 6. Conditional Logic
+
 ```javascript
 // Complex switch statement
 {
@@ -575,36 +598,42 @@ db.createView(
 This lab's techniques are directly applicable to:
 
 ### Executive Dashboards
+
 - Real-time revenue tracking
 - Profit margin analysis
 - Growth rate calculations
 - KPI monitoring
 
 ### Customer Analytics
+
 - RFM (Recency, Frequency, Monetary) analysis
 - Customer lifetime value prediction
 - Churn prediction models
 - Segmentation strategies
 
 ### Inventory Management
+
 - Stock level monitoring
 - Reorder point calculations
 - Dead stock identification
 - Seasonal demand forecasting
 
 ### Marketing Analytics
+
 - Campaign ROI measurement
 - Customer acquisition cost (CAC)
 - Conversion funnel analysis
 - A/B testing results
 
 ### Sales Forecasting
+
 - Trend analysis with moving averages
 - Seasonality detection
 - Growth projections
 - Anomaly detection
 
 ### Product Recommendations
+
 - Cross-sell opportunities
 - Upsell identification
 - Bundle suggestions
@@ -675,6 +704,7 @@ To deepen your knowledge:
 ## References
 
 ### Official Documentation
+
 - [MongoDB Aggregation Framework](https://docs.mongodb.com/manual/core/aggregation-pipeline/)
 - [Aggregation Pipeline Operators](https://docs.mongodb.com/manual/reference/operator/aggregation/)
 - [Window Functions](https://docs.mongodb.com/manual/reference/operator/aggregation/setWindowFields/)
@@ -682,11 +712,13 @@ To deepen your knowledge:
 - [Optimization Best Practices](https://docs.mongodb.com/manual/core/aggregation-pipeline-optimization/)
 
 ### Tutorials & Guides
+
 - [Practical MongoDB Aggregations Book](https://www.practical-mongodb-aggregations.com/)
 - [MongoDB University Aggregation Course](https://university.mongodb.com/)
 - [Atlas Charts Documentation](https://docs.mongodb.com/charts/)
 
 ### Tools
+
 - MongoDB Compass (Visual Aggregation Builder)
 - Studio 3T (Query Profiler)
 - NoSQLBooster (Aggregation Helper)

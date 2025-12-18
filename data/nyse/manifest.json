@@ -1,0 +1,38 @@
+[
+  {
+    "source": "fundamentals.csv",
+    "output": "fundamentals.jsonl",
+    "format": "jsonl",
+    "records_per_line": true,
+    "created_at_utc": "2025-12-17T20:32:04.725223Z",
+    "seconds": 0.15,
+    "bytes_out": 4478035
+  },
+  {
+    "source": "prices-split-adjusted.csv",
+    "output": "prices-split-adjusted.jsonl",
+    "format": "jsonl",
+    "records_per_line": true,
+    "created_at_utc": "2025-12-17T20:32:10.081243Z",
+    "seconds": 5.36,
+    "bytes_out": 102911347
+  },
+  {
+    "source": "prices.csv",
+    "output": "prices.jsonl",
+    "format": "jsonl",
+    "records_per_line": true,
+    "created_at_utc": "2025-12-17T20:32:14.868238Z",
+    "seconds": 4.79,
+    "bytes_out": 101891882
+  },
+  {
+    "source": "securities.csv",
+    "output": "securities.jsonl",
+    "format": "jsonl",
+    "records_per_line": true,
+    "created_at_utc": "2025-12-17T20:32:14.874966Z",
+    "seconds": 0.01,
+    "bytes_out": 123286
+  }
+]

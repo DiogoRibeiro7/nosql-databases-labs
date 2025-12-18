@@ -39,7 +39,6 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-**/yarn.lock
 settings.local.json
 
 # Database files
@@ -58,6 +57,7 @@ logs/
 
 # MongoDB
 dump/
+labs/lab03_queries/starter/data/mongoimport/
 
 # Docker
 .docker/
@@ -82,7 +82,30 @@ outputs/*.csv
 
 # Large data files
 *.zip
+!people.zip
 *.tar.gz
 *.7z
 data/*.json
 !labs/*/starter/data/*.json
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+# Ignore nested Yarn lockfiles but track the root file
+**/yarn.lock
+!/yarn.lock

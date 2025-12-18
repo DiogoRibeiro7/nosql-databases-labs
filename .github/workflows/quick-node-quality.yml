@@ -1,0 +1,105 @@
+name: Quick Node Quality
+
+on:
+  pull_request:
+    paths:
+      - 'labs/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/quick-node-quality.yml'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'labs/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/quick-node-quality.yml'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  lint-matrix:
+    name: ESLint (${{ matrix.name }})
+    strategy:
+      matrix:
+        include:
+          - name: labs
+            globs: 'labs/**/*.js'
+            hash-paths: 'labs/**'
+          - name: scripts
+            globs: 'scripts/**/*.js'
+            hash-paths: 'scripts/**'
+          - name: tests
+            globs: 'tests/**/*.js'
+            hash-paths: 'tests/**'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Get Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}-${{ hashFiles(matrix.hash-paths) }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run scoped ESLint
+        run: yarn eslint --no-error-on-unmatched-pattern "${{ matrix.globs }}"
+
+  format-and-data:
+    name: Format & Dataset Smoke
+    runs-on: ubuntu-latest
+    needs: lint-matrix
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Get Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check formatting
+        run: yarn format:check
+
+      - name: Dataset smoke tests
+        run: yarn test:data

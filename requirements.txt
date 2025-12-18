@@ -1,0 +1,6 @@
+# Python dependencies for MongoDB Faker Generator
+faker==19.12.0
+pymongo==4.6.0
+pytest==7.4.3
+pytest-cov==4.1.0
+mongomock==4.1.2

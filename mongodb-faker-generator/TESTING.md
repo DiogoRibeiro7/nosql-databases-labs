@@ -166,16 +166,17 @@ Test individual functions in isolation:
 ```bash
 pytest tests/test_data_generation.py -v
 ```
+
 #### JavaScript
 
 ```bash
 yarn test test_data_generation.test.js
 ```
 
-
 ### Integration Tests
 
 Test interaction with MongoDB:
+
 - Database connections
 - Index creation
 - Query performance
@@ -187,7 +188,7 @@ pytest tests/test_integration.py -v
 
 # JavaScript
 yarn test integration.test.js
-````
+```
 
 ## 🔧 Continuous Testing
 
@@ -397,26 +398,26 @@ jobs:
           - 27017:27017
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-    - name: Setup Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
 
-    - name: Python Tests
-      run: |
-        pip install -r requirements.txt
-        pip install pytest pytest-cov
-        pytest --cov=python --cov-report=xml
+      - name: Python Tests
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+          pytest --cov=python --cov-report=xml
 
-    - name: JavaScript Tests
-      run: |
-        yarn install
-        yarn test:coverage
+      - name: JavaScript Tests
+        run: |
+          yarn install
+          yarn test:coverage
 ```

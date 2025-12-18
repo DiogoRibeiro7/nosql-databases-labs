@@ -7,9 +7,9 @@
  * This script demonstrates replica set management and operations
  */
 
-print("=" .repeat(60));
+print("=".repeat(60));
 print("Lab 05 - MongoDB Replica Set Operations");
-print("=" .repeat(60));
+print("=".repeat(60));
 
 // ========================================================================
 // 1. Replica Set Status and Configuration
@@ -25,22 +25,21 @@ print(`Members: ${rsStatus.members.length}`);
 print(`Current Term: ${rsStatus.term}`);
 
 print("\nMember Status:");
-rsStatus.members.forEach(member => {
-    const isPrimary = member.stateStr === "PRIMARY" ? " ⭐" : "";
-    print(`\n${member.name}${isPrimary}`);
-    print(`  State: ${member.stateStr}`);
-    print(`  Health: ${member.health === 1 ? "✓ Healthy" : "✗ Unhealthy"}`);
-    print(`  Uptime: ${member.uptime} seconds`);
+rsStatus.members.forEach((member) => {
+  const isPrimary = member.stateStr === "PRIMARY" ? " ⭐" : "";
+  print(`\n${member.name}${isPrimary}`);
+  print(`  State: ${member.stateStr}`);
+  print(`  Health: ${member.health === 1 ? "✓ Healthy" : "✗ Unhealthy"}`);
+  print(`  Uptime: ${member.uptime} seconds`);
 
-    if (member.stateStr === "SECONDARY") {
-        const lagSecs = member.optimeDate ?
-            (rsStatus.date - member.optimeDate) / 1000 : 0;
-        print(`  Replication Lag: ${lagSecs.toFixed(1)} seconds`);
-    }
+  if (member.stateStr === "SECONDARY") {
+    const lagSecs = member.optimeDate ? (rsStatus.date - member.optimeDate) / 1000 : 0;
+    print(`  Replication Lag: ${lagSecs.toFixed(1)} seconds`);
+  }
 
-    if (member.lastHeartbeatMessage) {
-        print(`  Last Message: ${member.lastHeartbeatMessage}`);
-    }
+  if (member.lastHeartbeatMessage) {
+    print(`  Last Message: ${member.lastHeartbeatMessage}`);
+  }
 });
 
 // ========================================================================
@@ -56,21 +55,21 @@ print(`Protocol Version: ${rsConfig.protocolVersion}`);
 print(`Settings:`);
 
 if (rsConfig.settings) {
-    print(`  Election Timeout: ${rsConfig.settings.electionTimeoutMillis || 10000}ms`);
-    print(`  Heartbeat Timeout: ${rsConfig.settings.heartbeatTimeoutSecs || 10}s`);
-    print(`  Catchup Timeout: ${rsConfig.settings.catchUpTimeoutMillis || -1}ms`);
+  print(`  Election Timeout: ${rsConfig.settings.electionTimeoutMillis || 10000}ms`);
+  print(`  Heartbeat Timeout: ${rsConfig.settings.heartbeatTimeoutSecs || 10}s`);
+  print(`  Catchup Timeout: ${rsConfig.settings.catchUpTimeoutMillis || -1}ms`);
 }
 
 print("\nMembers Configuration:");
-rsConfig.members.forEach(member => {
-    print(`\n${member.host} (id: ${member._id})`);
-    print(`  Priority: ${member.priority}`);
-    print(`  Votes: ${member.votes}`);
+rsConfig.members.forEach((member) => {
+  print(`\n${member.host} (id: ${member._id})`);
+  print(`  Priority: ${member.priority}`);
+  print(`  Votes: ${member.votes}`);
 
-    if (member.hidden) print(`  Hidden: true`);
-    if (member.slaveDelay) print(`  Slave Delay: ${member.slaveDelay}s`);
-    if (member.arbiterOnly) print(`  Arbiter: true`);
-    if (member.tags) print(`  Tags: ${JSON.stringify(member.tags)}`);
+  if (member.hidden) print(`  Hidden: true`);
+  if (member.slaveDelay) print(`  Slave Delay: ${member.slaveDelay}s`);
+  if (member.arbiterOnly) print(`  Arbiter: true`);
+  if (member.tags) print(`  Tags: ${JSON.stringify(member.tags)}`);
 });
 
 // ========================================================================
@@ -105,18 +104,18 @@ const firstOp = oplog.find().sort({ $natural: 1 }).limit(1).toArray()[0];
 const lastOp = oplog.find().sort({ $natural: -1 }).limit(1).toArray()[0];
 
 if (firstOp && lastOp) {
-    const oplogWindow = (lastOp.ts.getTime() - firstOp.ts.getTime());
-    print(`\nOplog Window:`);
-    print(`  First Operation: ${firstOp.ts}`);
-    print(`  Last Operation: ${lastOp.ts}`);
-    print(`  Time Range: ${(oplogWindow / 3600).toFixed(2)} hours`);
+  const oplogWindow = lastOp.ts.getTime() - firstOp.ts.getTime();
+  print(`\nOplog Window:`);
+  print(`  First Operation: ${firstOp.ts}`);
+  print(`  Last Operation: ${lastOp.ts}`);
+  print(`  Time Range: ${(oplogWindow / 3600).toFixed(2)} hours`);
 }
 
 // Recent operations
 print("\nRecent Oplog Operations:");
 const recentOps = oplog.find().sort({ $natural: -1 }).limit(5).toArray();
-recentOps.forEach(op => {
-    print(`  ${op.ts} - ${op.op} on ${op.ns} (${op.o2 ? 'update' : op.op})`);
+recentOps.forEach((op) => {
+  print(`  ${op.ts} - ${op.op} on ${op.ns} (${op.o2 ? "update" : op.op})`);
 });
 
 // ========================================================================
@@ -126,34 +125,34 @@ print("\n5. READ/WRITE CONCERN OPERATIONS");
 print("-".repeat(40));
 
 // Switch to test database
-use('lab05_replication');
+use("lab05_replication");
 
 // Write with different concerns
 print("\nTesting Write Concerns:");
 
 // Write with w:1 (primary only)
 let result = db.test_collection.insertOne(
-    { test: "w1", timestamp: new Date() },
-    { writeConcern: { w: 1 } }
+  { test: "w1", timestamp: new Date() },
+  { writeConcern: { w: 1 } }
 );
 print(`  w:1 write - Acknowledged: ${result.acknowledged}`);
 
 // Write with w:majority
 result = db.test_collection.insertOne(
-    { test: "wmajority", timestamp: new Date() },
-    { writeConcern: { w: "majority", wtimeout: 5000 } }
+  { test: "wmajority", timestamp: new Date() },
+  { writeConcern: { w: "majority", wtimeout: 5000 } }
 );
 print(`  w:majority write - Acknowledged: ${result.acknowledged}`);
 
 // Write with w:2 (at least 2 members)
 try {
-    result = db.test_collection.insertOne(
-        { test: "w2", timestamp: new Date() },
-        { writeConcern: { w: 2, wtimeout: 5000 } }
-    );
-    print(`  w:2 write - Acknowledged: ${result.acknowledged}`);
-} catch(e) {
-    print(`  w:2 write - Error: ${e.message}`);
+  result = db.test_collection.insertOne(
+    { test: "w2", timestamp: new Date() },
+    { writeConcern: { w: 2, wtimeout: 5000 } }
+  );
+  print(`  w:2 write - Acknowledged: ${result.acknowledged}`);
+} catch (e) {
+  print(`  w:2 write - Error: ${e.message}`);
 }
 
 // Read with different preferences
@@ -204,10 +203,10 @@ print("\nCommon maintenance tasks:");
 // Check if this is primary
 const isMaster = db.isMaster();
 if (isMaster.ismaster) {
-    print("\n✓ Connected to PRIMARY - Can perform write operations");
+  print("\n✓ Connected to PRIMARY - Can perform write operations");
 } else {
-    print("\n⚠ Connected to SECONDARY - Read-only mode");
-    print("  To allow reads: rs.secondaryOk()");
+  print("\n⚠ Connected to SECONDARY - Read-only mode");
+  print("  To allow reads: rs.secondaryOk()");
 }
 
 print("\nMaintenance Commands:");
@@ -247,20 +246,20 @@ print(`    Delete: ${serverStatus.opcounters.delete}`);
 
 // Replication metrics
 if (serverStatus.repl) {
-    print("\nReplication Metrics:");
-    print(`  Replication State: ${serverStatus.repl.myState}`);
+  print("\nReplication Metrics:");
+  print(`  Replication State: ${serverStatus.repl.myState}`);
 
-    if (serverStatus.repl.syncSourceHost) {
-        print(`  Sync Source: ${serverStatus.repl.syncSourceHost}`);
-    }
+  if (serverStatus.repl.syncSourceHost) {
+    print(`  Sync Source: ${serverStatus.repl.syncSourceHost}`);
+  }
 
-    if (serverStatus.metrics && serverStatus.metrics.repl) {
-        const replMetrics = serverStatus.metrics.repl;
-        print(`  Apply Batches: ${replMetrics.apply.batches.num}`);
-        print(`  Apply Ops: ${replMetrics.apply.ops}`);
-        print(`  Buffer Size: ${replMetrics.buffer.sizeBytes} bytes`);
-        print(`  Network Bytes: ${replMetrics.network.bytes}`);
-    }
+  if (serverStatus.metrics && serverStatus.metrics.repl) {
+    const replMetrics = serverStatus.metrics.repl;
+    print(`  Apply Batches: ${replMetrics.apply.batches.num}`);
+    print(`  Apply Ops: ${replMetrics.apply.ops}`);
+    print(`  Buffer Size: ${replMetrics.buffer.sizeBytes} bytes`);
+    print(`  Network Bytes: ${replMetrics.network.bytes}`);
+  }
 }
 
 // ========================================================================
@@ -272,9 +271,9 @@ print("-".repeat(40));
 // Create test data on primary
 print("\nCreating test document on primary...");
 const testDoc = {
-    _id: "reptest_" + new Date().getTime(),
-    data: "Replication test",
-    timestamp: new Date()
+  _id: "reptest_" + new Date().getTime(),
+  data: "Replication test",
+  timestamp: new Date(),
 };
 
 db.replication_test.insertOne(testDoc, { writeConcern: { w: "majority" } });
@@ -291,11 +290,11 @@ rs.secondaryOk();
 
 const foundDoc = db.replication_test.findOne({ _id: testDoc._id });
 if (foundDoc) {
-    print(`✓ Document replicated successfully`);
-    print(`  Data: ${foundDoc.data}`);
-    print(`  Timestamp: ${foundDoc.timestamp}`);
+  print(`✓ Document replicated successfully`);
+  print(`  Data: ${foundDoc.data}`);
+  print(`  Timestamp: ${foundDoc.timestamp}`);
 } else {
-    print(`✗ Document not found (may still be replicating)`);
+  print(`✗ Document not found (may still be replicating)`);
 }
 
 // ========================================================================
@@ -342,12 +341,11 @@ print("REPLICA SET SUMMARY");
 print("=".repeat(60));
 
 const summary = {
-    primary: rsStatus.members.filter(m => m.stateStr === "PRIMARY").length,
-    secondary: rsStatus.members.filter(m => m.stateStr === "SECONDARY").length,
-    arbiter: rsStatus.members.filter(m => m.stateStr === "ARBITER").length,
-    other: rsStatus.members.filter(m =>
-        !["PRIMARY", "SECONDARY", "ARBITER"].includes(m.stateStr)
-    ).length
+  primary: rsStatus.members.filter((m) => m.stateStr === "PRIMARY").length,
+  secondary: rsStatus.members.filter((m) => m.stateStr === "SECONDARY").length,
+  arbiter: rsStatus.members.filter((m) => m.stateStr === "ARBITER").length,
+  other: rsStatus.members.filter((m) => !["PRIMARY", "SECONDARY", "ARBITER"].includes(m.stateStr))
+    .length,
 };
 
 print(`\nTopology:`);
@@ -355,16 +353,16 @@ print(`  Primary: ${summary.primary}`);
 print(`  Secondaries: ${summary.secondary}`);
 print(`  Arbiters: ${summary.arbiter}`);
 if (summary.other > 0) {
-    print(`  Other: ${summary.other}`);
+  print(`  Other: ${summary.other}`);
 }
 
-const healthy = rsStatus.members.filter(m => m.health === 1).length;
+const healthy = rsStatus.members.filter((m) => m.health === 1).length;
 print(`\nHealth: ${healthy}/${rsStatus.members.length} members healthy`);
 
 if (healthy === rsStatus.members.length) {
-    print("\n✓ Replica set is fully operational!");
+  print("\n✓ Replica set is fully operational!");
 } else {
-    print("\n⚠ Some members are unhealthy - investigate!");
+  print("\n⚠ Some members are unhealthy - investigate!");
 }
 
 print("=".repeat(60));

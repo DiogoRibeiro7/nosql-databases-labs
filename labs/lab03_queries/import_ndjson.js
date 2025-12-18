@@ -1,5 +1,9 @@
+/* eslint-env mongo */
+
 // NDJSON import script for lab03_movies database
 // Run this in mongosh: load("labs/lab03_queries/import_ndjson.js")
+
+const fs = require("fs");
 
 print("Setting up lab03_movies database...\n");
 
@@ -20,11 +24,11 @@ function convertExtendedJSON(obj) {
 
   // Handle arrays
   if (Array.isArray(obj)) {
-    return obj.map(item => convertExtendedJSON(item));
+    return obj.map((item) => convertExtendedJSON(item));
   }
 
   // Handle objects
-  if (typeof obj === 'object') {
+  if (typeof obj === "object") {
     // Convert $oid to ObjectId
     if (obj.$oid) {
       return ObjectId(obj.$oid);
@@ -33,7 +37,7 @@ function convertExtendedJSON(obj) {
     // Convert $date to Date
     if (obj.$date) {
       // Handle both string dates and nested $numberLong dates
-      if (typeof obj.$date === 'string') {
+      if (typeof obj.$date === "string") {
         return new Date(obj.$date);
       } else if (obj.$date.$numberLong) {
         return new Date(parseInt(obj.$date.$numberLong));
@@ -74,7 +78,7 @@ function importNDJSON(collectionName, filename) {
     const fileContent = fs.readFileSync(filename, "utf8");
 
     // Split by newlines and filter empty lines
-    const lines = fileContent.split('\n').filter(line => line.trim().length > 0);
+    const lines = fileContent.split("\n").filter((line) => line.trim().length > 0);
     print(`  Found ${lines.length} lines in ${filename}`);
 
     let documents = [];
@@ -99,7 +103,9 @@ function importNDJSON(collectionName, filename) {
           try {
             db[collectionName].insertMany(documents, { ordered: false });
           } catch (insertError) {
-            print(`  Warning: Some documents failed to insert: ${insertError.message.substring(0, 100)}`);
+            print(
+              `  Warning: Some documents failed to insert: ${insertError.message.substring(0, 100)}`
+            );
           }
           print(`  Processed ${i + 1} / ${lines.length} lines...`);
           documents = [];
@@ -114,7 +120,6 @@ function importNDJSON(collectionName, filename) {
     const count = db[collectionName].countDocuments();
     print(`  Successfully imported ${count} documents into ${collectionName}`);
     return true;
-
   } catch (error) {
     print(`  ERROR importing ${collectionName}: ${error.message}`);
     return false;
@@ -136,7 +141,6 @@ function importJSON(collectionName, filename) {
     const count = db[collectionName].countDocuments();
     print(`  Successfully imported ${count} documents into ${collectionName}`);
     return true;
-
   } catch (error) {
     print(`  ERROR importing ${collectionName}: ${error.message}`);
     return false;
@@ -150,11 +154,11 @@ function smartImport(collectionName, filename) {
     const content = fs.readFileSync(filename, "utf8");
     const firstChar = content.trim()[0];
 
-    if (firstChar === '[') {
+    if (firstChar === "[") {
       // It's a JSON array
       print(`  Detected JSON array format for ${collectionName}`);
       return importJSON(collectionName, filename);
-    } else if (firstChar === '{') {
+    } else if (firstChar === "{") {
       // It's likely NDJSON
       print(`  Detected NDJSON format for ${collectionName}`);
       return importNDJSON(collectionName, filename);
@@ -176,7 +180,7 @@ const collections = [
   { name: "theaters", file: "labs/lab03_queries/starter/data/theaters.json" },
   { name: "users", file: "labs/lab03_queries/starter/data/users.json" },
   { name: "comments", file: "labs/lab03_queries/starter/data/comments.json" },
-  { name: "sessions", file: "labs/lab03_queries/starter/data/sessions.json" }
+  { name: "sessions", file: "labs/lab03_queries/starter/data/sessions.json" },
 ];
 
 let successCount = 0;
@@ -201,13 +205,13 @@ print(`Sessions: ${db.sessions.countDocuments()}`);
 // Show samples
 if (db.movies.countDocuments() > 0) {
   print("\nSample movie:");
-  const movie = db.movies.findOne({}, {title: 1, year: 1, genres: 1, plot: 1, _id: 0});
+  const movie = db.movies.findOne({}, { title: 1, year: 1, genres: 1, plot: 1, _id: 0 });
   printjson(movie);
 }
 
 if (db.users.countDocuments() > 0) {
   print("\nSample user:");
-  const user = db.users.findOne({}, {username: 1, email: 1, _id: 0});
+  const user = db.users.findOne({}, { username: 1, email: 1, _id: 0 });
   printjson(user);
 }
 

@@ -164,16 +164,16 @@ Before creating indexes, analyze the performance of these queries:
 
 ```javascript
 // Query 1: Find movies by genre
-db.movies.find({ genres: "Action" }).explain("executionStats")
+db.movies.find({ genres: "Action" }).explain("executionStats");
 
 // Query 2: Find movies by year and rating
-db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } }).explain("executionStats")
+db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } }).explain("executionStats");
 
 // Query 3: Find movies by director
-db.movies.find({ directors: "Christopher Nolan" }).explain("executionStats")
+db.movies.find({ directors: "Christopher Nolan" }).explain("executionStats");
 
 // Query 4: Text search
-db.movies.find({ $text: { $search: "space adventure" } }).explain("executionStats")
+db.movies.find({ $text: { $search: "space adventure" } }).explain("executionStats");
 ```
 
 Document the following for each query:
@@ -244,9 +244,22 @@ Choose **three** slow queries from your work above and:
 5. **Document results** in `NOTES.md` with before/after metrics
 
 Include:
+
 - Execution time before and after
 - Documents examined before and after
 - Explanation of why the optimization worked
+
+---
+
+### Task 5: Diagnostics & Resilience Drills (Bonus 10%)
+
+For students who want extra practice (or extra credit), complete the “Advanced Exercise 0” section in [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). The drills ask you to:
+
+1. Build `profiler.js` to replay your workload, capture profiler metrics, and recommend indexes.
+2. Stress-test the system by dropping/rebuilding critical indexes, then document the impact in `diagnostics.md`.
+3. Create `data_quality.js` to flag data anomalies and persist suspect documents for review.
+
+These exercises mirror real incident-response workflows. Keep your findings in `labs/lab03_queries/diagnostics.md` so you can track your reasoning (and show classmates) even if you only complete part of the bonus.
 
 ---
 
@@ -254,41 +267,51 @@ Include:
 
 Inside `labs/lab03_queries/`, you should have:
 
-* `queries.js` – Complex queries from Task 1
-* `aggregations.js` – Aggregation pipelines from Task 2
-* `indexes.js` – Index creation commands from Task 3
-* `NOTES.md` – Analysis, performance results, and optimization explanations
-* Optional: Screenshots of explain plans or performance graphs
+- `queries.js` – Complex queries from Task 1
+- `aggregations.js` – Aggregation pipelines from Task 2
+- `indexes.js` – Index creation commands from Task 3
+- `NOTES.md` – Analysis, performance results, and optimization explanations
+- Optional bonus deliverables (Task 5):
+  - `profiler.js` – Automated workload runner + profiler summary
+  - `data_quality.js` – Aggregation pipeline for anomaly detection
+  - `diagnostics.md` – Profiler findings, index stress-test metrics, and remediation notes
+- Optional: `test_lab03_performance.js` – Benchmark suite for key query patterns
+- Optional: Screenshots of explain plans or performance graphs
 
 Follow the general submission workflow in
 [`instructions/submission_guide.md`](../../instructions/submission_guide.md).
 
 ---
 
-## 5. Grading (summary)
+### Basic Warm-up (Optional)
 
-This lab will be graded according to the general rubric in
-[`instructions/grading_rubric.md`](../../instructions/grading_rubric.md). A typical breakdown is:
+If you want to validate your setup with lighter tasks first, complete the checklist in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md). It covers collection counts, simple find queries, a short aggregation, and your first index + explain plan.
 
-* **Complex queries (Task 1)**: 25%
-  - Correctness of queries
-  - Use of appropriate operators
-  - Query clarity and efficiency
+---
 
-* **Aggregation pipelines (Task 2)**: 30%
-  - Correct use of aggregation stages
-  - Complexity and completeness
-  - Result accuracy
+### Performance Benchmarks
 
-* **Index design and optimization (Task 3)**: 30%
-  - Appropriate index selection
-  - Performance improvements
-  - Understanding of trade-offs
+Run the benchmark suite after creating your indexes:
 
-* **Query optimization analysis (Task 4)**: 15%
-  - Quality of analysis
-  - Problem identification
-  - Solution effectiveness
+```bash
+cd labs/lab03_queries
+node test_lab03_performance.js
+```
+
+The script compares indexed vs non-indexed queries, aggregation pipelines, covered queries, and sort performance. Log the output in `NOTES.md` to document your before/after metrics.
+
+---
+
+## 5. Self-Assessment Checklist
+
+Use the following prompts to verify you’ve practiced each skill area:
+
+- **Complex queries (Task 1)** – Can you explain which operators you chose and why each query benefits from them?
+- **Aggregations (Task 2)** – Do your pipelines include `$match`, `$group`, and at least one advanced stage, with notes about performance?
+- **Indexes (Task 3)** – Have you recorded before/after metrics (`executionTimeMillis`, `totalDocsExamined`) for each index?
+- **Optimization analysis (Task 4)** – Can you narrate the bottleneck, the change you made, and the resulting improvement?
+
+Treat these questions as a practice review with a teammate; if you can answer confidently, you’re ready for the next module.
 
 ---
 
@@ -298,13 +321,13 @@ This lab will be graded according to the general rubric in
 
 ```javascript
 // Basic explain
-db.collection.find({ field: value }).explain()
+db.collection.find({ field: value }).explain();
 
 // Execution statistics (more detailed)
-db.collection.find({ field: value }).explain("executionStats")
+db.collection.find({ field: value }).explain("executionStats");
 
 // Full query planner info
-db.collection.find({ field: value }).explain("allPlansExecution")
+db.collection.find({ field: value }).explain("allPlansExecution");
 ```
 
 ### 6.2. Key Metrics to Watch
@@ -337,6 +360,11 @@ db.collection.find({ field: value }).explain("allPlansExecution")
 5. **Avoid $lookup**: Use embedding when possible
 
 ---
+
+### Feedback & Collaboration
+
+- Report dataset or script issues via [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab03` label.
+- Trade tuning tips or ask for help in the [Discussions tab](https://github.com/diogoribeiro7/nosql-databases-labs/discussions); TAs highlight insightful threads regularly.
 
 ## 7. Optional Extensions
 

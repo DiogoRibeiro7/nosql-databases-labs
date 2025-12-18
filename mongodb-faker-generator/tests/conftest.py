@@ -4,9 +4,15 @@ Pytest configuration file for MongoDB Faker Generator tests
 
 import pytest
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
 import sys
 import os
 from faker import Faker
+
+try:
+    import mongomock
+except ImportError:  # pragma: no cover - mongomock installed via requirements
+    mongomock = None
 
 # Add project root to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -24,10 +30,25 @@ def faker_instance():
     return fake
 
 
+def _create_mongo_client(uri: str) -> MongoClient:
+    """
+    Create a MongoDB client. Falls back to mongomock when MongoDB
+    is unavailable so the suite can run without a running server.
+    """
+    try:
+        client = MongoClient(uri, serverSelectionTimeoutMS=1000)
+        client.admin.command("ping")
+        return client
+    except ServerSelectionTimeoutError:
+        if mongomock is None:
+            raise
+        return mongomock.MongoClient()
+
+
 @pytest.fixture(scope="session")
 def mongo_client():
     """Create a MongoDB client for the test session"""
-    client = MongoClient(TEST_MONGO_URI)
+    client = _create_mongo_client(TEST_MONGO_URI)
     yield client
     client.close()
 
@@ -108,10 +129,6 @@ def pytest_collection_modifyitems(config, items):
         # Mark data generation tests as unit tests
         elif "data_generation" in str(item.fspath):
             item.add_marker(pytest.mark.unit)
-
-
-# Pytest plugins
-pytest_plugins = []
 
 
 # Add custom command line options
