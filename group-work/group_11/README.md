@@ -1,0 +1,3 @@
+O projeto Smart Parking surge como uma resposta tecnológica aos problemas de mobilidade urbana e gestão eficiente de espaços de estacionamento. O sistema consiste numa plataforma Web para gestão de lugares, reservas e utilizadores, visando a otimização do uso do espaço e a redução do impacto ambiental provocado pela procura de estacionamento.
+
+O foco principal deste repositório, no âmbito da unidade curricular de Bases de Dados, é a modelagem de dados e a implementação de uma solução NoSQL (MongoDB) capaz de suportar operações de reserva em tempo real e gestão de estados de ocupação.
