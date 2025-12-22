@@ -160,7 +160,7 @@ jobs:
             ${{ matrix.testCmd }} | tee ${{ matrix.coverageDir }}/${{ matrix.logFile }}
 
       - name: Upload lab artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.id }}-coverage
           path: ${{ matrix.coverageDir }}
