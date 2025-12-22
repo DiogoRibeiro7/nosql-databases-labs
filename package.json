@@ -53,6 +53,6 @@
   "dependencies": {
     "colors": "^1.4.0",
     "dotenv": "^16.3.1",
-    "mongodb": "^6.10.0"
+    "mongodb": "^7.0.0"
   }
 }
