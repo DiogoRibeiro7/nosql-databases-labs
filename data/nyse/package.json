@@ -1,0 +1,12 @@
+{
+  "name": "stocks-mongo-loader",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "load": "node load_stocks_to_mongo.mjs"
+  },
+  "dependencies": {
+    "mongodb": "^6.0.0"
+  }
+}

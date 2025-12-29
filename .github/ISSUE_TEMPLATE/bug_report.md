@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: Report a defect in labs, scripts, or datasets
-title: '[Bug] '
+title: "[Bug] "
 labels: bug
-assignees: ''
+assignees: ""
 ---
 
 ## Summary

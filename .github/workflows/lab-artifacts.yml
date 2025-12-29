@@ -1,0 +1,166 @@
+name: Lab Coverage Artifacts
+
+on:
+  pull_request:
+    paths:
+      - "labs/lab01_intro/**"
+      - "labs/lab02_modeling/**"
+      - "labs/lab03_queries/**"
+      - "labs/lab04_aggregation/**"
+      - ".github/workflows/lab-artifacts.yml"
+  push:
+    branches: [main, develop]
+    paths:
+      - "labs/lab01_intro/**"
+      - "labs/lab02_modeling/**"
+      - "labs/lab03_queries/**"
+      - "labs/lab04_aggregation/**"
+      - ".github/workflows/lab-artifacts.yml"
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20"
+  # Used by Node tests on the runner host
+  MONGODB_URI: "mongodb://127.0.0.1:27017/?directConnection=true"
+
+jobs:
+  lab-preview:
+    name: ${{ matrix.display }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: lab01
+            display: Lab 01 Coverage Artifact
+            seedScript: labs/lab01_intro/import_data.js
+            testCmd: node labs/lab01_intro/test_lab01.js
+            coverageDir: labs/lab01_intro/coverage
+            logFile: test_lab01_output.log
+
+          - id: lab02
+            display: Lab 02 Coverage Artifact
+            seedScript: labs/lab02_modeling/import_data.js
+            testCmd: node labs/lab02_modeling/run_all_tests.js
+            coverageDir: labs/lab02_modeling/coverage
+            logFile: run_all_tests_output.log
+
+          - id: lab03
+            display: Lab 03 Coverage Artifact
+            seedScript: labs/lab03_queries/import_data.js --limit-movies=60 --limit-theaters=10 --limit-users=15 --limit-comments=200
+            testCmd: node labs/lab03_queries/test_data_integrity.js
+            coverageDir: labs/lab03_queries/coverage
+            logFile: test_data_integrity_output.log
+
+          - id: lab04
+            display: Lab 04 Coverage Artifact
+            seedScript: labs/lab04_aggregation/import_data.js
+            testCmd: node labs/lab04_aggregation/test_lab04.js
+            coverageDir: labs/lab04_aggregation/coverage
+            logFile: test_lab04_output.log
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+          --health-start-period 15s
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Get Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-lab-preview-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-lab-preview-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Resolve MongoDB container id
+        id: mongo-cid
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Service container names vary; resolve by image ancestor.
+          cid="$(docker ps --filter "ancestor=mongo:7.0" --format "{{.ID}}" | head -n1 || true)"
+          if [ -z "${cid}" ]; then
+            echo "Could not find mongo:7.0 container. docker ps -a:" >&2
+            docker ps -a >&2 || true
+            exit 1
+          fi
+
+          echo "cid=${cid}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for MongoDB (mongosh inside container)
+        env:
+          WAIT_TIMEOUT: 180
+          MONGO_CID: ${{ steps.mongo-cid.outputs.cid }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout="${WAIT_TIMEOUT:-180}"
+          start="$(date +%s)"
+
+          until docker exec "${MONGO_CID}" mongosh --quiet --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1; do
+            now="$(date +%s)"
+            elapsed="$((now - start))"
+
+            if [ "${elapsed}" -ge "${timeout}" ]; then
+              echo "MongoDB did not become ready in time (${timeout}s)" >&2
+              echo "---- docker logs (mongo) ----" >&2
+              docker logs "${MONGO_CID}" >&2 || true
+              exit 1
+            fi
+
+            echo "Waiting for MongoDB..."
+            sleep 2
+          done
+
+          echo "MongoDB is ready"
+
+      - name: Prepare coverage directory
+        run: mkdir -p ${{ matrix.coverageDir }}
+
+      - name: Seed dataset
+        env:
+          MONGODB_URI: ${{ env.MONGODB_URI }}
+        run: node ${{ matrix.seedScript }}
+
+      - name: Run lab tests with coverage
+        env:
+          MONGODB_URI: ${{ env.MONGODB_URI }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          yarn c8 \
+            --reporter=lcov \
+            --reporter=text \
+            --report-dir=${{ matrix.coverageDir }} \
+            ${{ matrix.testCmd }} | tee ${{ matrix.coverageDir }}/${{ matrix.logFile }}
+
+      - name: Upload lab artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.id }}-coverage
+          path: ${{ matrix.coverageDir }}

@@ -1,0 +1,53 @@
+[run]
+source = .
+omit =
+    */site-packages/*
+    */node_modules/*
+    */__pycache__/*
+    */venv/*
+    */env/*
+    */tests/*
+    */test_*.py
+    *_test.py
+    setup.py
+    */migrations/*
+
+[report]
+precision = 2
+show_missing = True
+skip_covered = False
+skip_empty = True
+sort = Cover
+
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+    pass
+
+    # Don't complain about abstract methods
+    @(abc\.)?abstractmethod
+
+ignore_errors = True
+
+[html]
+directory = coverage_html_report
+
+[xml]
+output = coverage.xml
+
+[json]
+output = coverage.json
+pretty_print = True

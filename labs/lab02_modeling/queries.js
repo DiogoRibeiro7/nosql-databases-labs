@@ -18,7 +18,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
  * @param {Array} results - Array of documents to show.
  * @param {number} [limit=5] - Optional limit for console output.
  */
-function printResults (title, results, limit = 5) {
+function printResults(title, results, limit = 5) {
   console.log(`\n${"=".repeat(60)}`);
   console.log(title);
   console.log("=".repeat(60));
@@ -45,7 +45,7 @@ function printResults (title, results, limit = 5) {
  *
  * @returns {Promise<void>}
  */
-async function runQueries () {
+async function runQueries() {
   let client;
 
   try {
@@ -269,7 +269,7 @@ async function runQueries () {
     if (lowStockProducts.length > 0) {
       console.log("\nLow Stock Alert (< 20 units):");
       console.log("=".repeat(40));
-      lowStockProducts.forEach(product => {
+      lowStockProducts.forEach((product) => {
         console.log(`⚠ ${product.name}: ${product.stock_quantity} units remaining`);
       });
     }

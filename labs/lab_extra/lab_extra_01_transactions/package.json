@@ -1,0 +1,22 @@
+{
+  "name": "lab-extra-01-transactions",
+  "version": "1.0.0",
+  "description": "Lab Extra 01 - MongoDB Consistency Patterns & Transactions",
+  "main": "transactions.js",
+  "scripts": {
+    "setup": "node setup_database.js",
+    "test": "node test_transactions.js",
+    "demo": "node demo_transactions.js"
+  },
+  "dependencies": {
+    "mongodb": "^5.0.0"
+  },
+  "keywords": [
+    "mongodb",
+    "transactions",
+    "consistency",
+    "nosql"
+  ],
+  "author": "",
+  "license": "MIT"
+}

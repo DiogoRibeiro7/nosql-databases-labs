@@ -10,23 +10,23 @@ We currently maintain the latest `main` branch. Historical tags or archived lab 
 
 1. **Email** `diogo.ribeiro@ua.pt` with the subject line `nosql-databases-labs vulnerability`.
 2. Include:
-   * A clear description of the issue and potential impact.
-   * Steps to reproduce or proof of concept (screenshots, scripts, data samples).
-   * Any mitigating factors or proposed fixes, if available.
+   - A clear description of the issue and potential impact.
+   - Steps to reproduce or proof of concept (screenshots, scripts, data samples).
+   - Any mitigating factors or proposed fixes, if available.
 3. Allow at least 5 business days for an initial response before disclosing publicly.
 
 Please **do not** open public GitHub issues for security reports or leaks of student data, grades, or credentials.
 
 ## Scope
 
-* Repository code, scripts, and datasets.
-* CI workflows and automation.
-* Documentation or lab instructions that might expose secrets or sensitive infrastructure details.
+- Repository code, scripts, and datasets.
+- CI workflows and automation.
+- Documentation or lab instructions that might expose secrets or sensitive infrastructure details.
 
 Out of scope:
 
-* Third-party services not controlled by the maintainers (MongoDB Atlas accounts, personal GitHub forks, etc.).
-* Non-production lab environments that are intentionally insecure for pedagogical purposes.
+- Third-party services not controlled by the maintainers (MongoDB Atlas accounts, personal GitHub forks, etc.).
+- Non-production lab environments that are intentionally insecure for pedagogical purposes.
 
 ## Coordinated Disclosure
 

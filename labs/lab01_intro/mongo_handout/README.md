@@ -1,4 +1,3 @@
-
 # MongoDB: Connecting and Exploring Data (Python & JavaScript)
 
 This handout shows how to connect to a **local MongoDB database** and explore data using **Python** and **JavaScript (Node.js)**.
@@ -454,7 +453,6 @@ These patterns are similar in Python and JavaScript.
 ### 5.1. Basic filters
 
 - All documents:
-
   - Python:
 
     ```python
@@ -468,7 +466,6 @@ These patterns are similar in Python and JavaScript.
     ```
 
 - Field equal to value, e.g. `pageCount == 416`:
-
   - Python:
 
     ```python
@@ -483,12 +480,12 @@ These patterns are similar in Python and JavaScript.
 
 - Comparison operators:
 
-  | Operator | Meaning       | Example                          |
-  |----------|---------------|----------------------------------|
-  | `$gt`    | greater than  | `{"pageCount": {"$gt": 300}}`    |
-  | `$lt`    | less than     | `{"pageCount": {"$lt": 200}}`    |
-  | `$gte`   | greater or == | `{"pageCount": {"$gte": 500}}`   |
-  | `$lte`   | less or ==    | `{"pageCount": {"$lte": 100}}`   |
+  | Operator | Meaning       | Example                        |
+  | -------- | ------------- | ------------------------------ |
+  | `$gt`    | greater than  | `{"pageCount": {"$gt": 300}}`  |
+  | `$lt`    | less than     | `{"pageCount": {"$lt": 200}}`  |
+  | `$gte`   | greater or == | `{"pageCount": {"$gte": 500}}` |
+  | `$lte`   | less or ==    | `{"pageCount": {"$lte": 100}}` |
 
 ### 5.2. Projection (select only some fields)
 
@@ -505,10 +502,7 @@ These patterns are similar in Python and JavaScript.
 
   ```js
   await collection
-    .find(
-      { pageCount: { $gt: 300 } },
-      { projection: { title: 1, pageCount: 1, _id: 0 } },
-    )
+    .find({ pageCount: { $gt: 300 } }, { projection: { title: 1, pageCount: 1, _id: 0 } })
     .toArray();
   ```
 
@@ -527,11 +521,7 @@ These patterns are similar in Python and JavaScript.
 - JavaScript:
 
   ```js
-  await collection
-    .find({})
-    .sort({ pageCount: -1 })
-    .limit(10)
-    .toArray();
+  await collection.find({}).sort({ pageCount: -1 }).limit(10).toArray();
   ```
 
 ---

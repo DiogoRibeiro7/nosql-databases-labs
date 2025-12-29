@@ -1,0 +1,47 @@
+# Docker Compose for Medical Records MongoDB Database
+# Usage: docker-compose up -d
+
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: medical_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: medicaldb2024
+      MONGO_INITDB_DATABASE: medical
+    volumes:
+      - medical_data:/data/db
+      - ./medical_database:/data/import  # For importing JSON files
+    networks:
+      - medical_network
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: medical_mongo_express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: medicaldb2024
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: "27017"
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+    depends_on:
+      - mongodb
+    networks:
+      - medical_network
+
+volumes:
+  medical_data:
+    driver: local
+
+networks:
+  medical_network:
+    driver: bridge
