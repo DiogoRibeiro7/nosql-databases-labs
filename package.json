@@ -6,8 +6,10 @@
   "scripts": {
     "lint": "eslint \"labs/**/*.js\" \"scripts/**/*.js\"",
     "lint:fix": "eslint \"labs/**/*.js\" \"scripts/**/*.js\" --fix",
+    "lint:fix": "eslint \"labs/**/*.js\" \"scripts/**/*.js\" --fix",
     "format": "prettier --write \"labs/**/*.js\" \"scripts/**/*.js\"",
     "format:check": "prettier --check \"labs/**/*.js\" \"scripts/**/*.js\"",
+    "docs:lint": "markdownlint README.md CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md TROUBLESHOOTING.md docs/**/*.md --config .markdownlint.json",
     "docs:lint": "markdownlint README.md CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md TROUBLESHOOTING.md docs/**/*.md --config .markdownlint.json",
     "test:data": "node scripts/data-smoke-test.js",
     "test:unit": "node --test tests/unit/run_lab_tests.test.js",
@@ -26,7 +28,13 @@
     "test:lab04": "node tests/test_lab04.js",
     "test:lab05": "node tests/test_lab05.js",
     "test:coverage": "c8 yarn test:labs",
-    "help": "node scripts/help.js"
+    "help": "node scripts/help.js",
+    "version:bump": "node scripts/bump-version.js",
+    "version:major": "node scripts/bump-version.js major",
+    "version:minor": "node scripts/bump-version.js minor",
+    "version:patch": "node scripts/bump-version.js patch",
+    "release": "node scripts/bump-version.js",
+    "changelog": "git log --pretty=format:'- %s (%h)' $(git describe --tags --abbrev=0)..HEAD"
   },
   "repository": {
     "type": "git",
