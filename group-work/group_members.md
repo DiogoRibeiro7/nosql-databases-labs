@@ -51,6 +51,12 @@ This document contains the official member listings for all groups in the NoSQL 
 -Pedro Pereira
 -Rodrigo Duarte
 
+## Group 11
+
+-Delcio Cunha
+-Marcio Tavares
+-Thiago Luz
+
 ## Group 14
 
 - Sérgio Gonçalves
