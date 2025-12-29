@@ -1,0 +1,156 @@
+name: Version Preview
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+    types: [opened, synchronize, edited]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  preview:
+    name: Preview Version Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Analyze commits for version bump
+        id: analyze
+        run: |
+          # Get all commit messages in the PR
+          COMMITS=$(git log --format=%B origin/${{ github.base_ref }}..HEAD 2>/dev/null || echo "")
+
+          # Determine version bump based on conventional commits
+          if echo "$COMMITS" | grep -q "BREAKING CHANGE\|.*!:"; then
+            BUMP_TYPE="major"
+            REASON="Breaking changes detected"
+          elif echo "$COMMITS" | grep -q "^feat:\|^feat(.*):"; then
+            BUMP_TYPE="minor"
+            REASON="New features detected"
+          elif echo "$COMMITS" | grep -q "^fix:\|^fix(.*):"; then
+            BUMP_TYPE="patch"
+            REASON="Bug fixes detected"
+          elif echo "$COMMITS" | grep -q "^perf:\|^perf(.*):"; then
+            BUMP_TYPE="patch"
+            REASON="Performance improvements detected"
+          elif echo "$COMMITS" | grep -q "^deps:\|^deps(.*):"; then
+            BUMP_TYPE="patch"
+            REASON="Dependency updates detected"
+          else
+            BUMP_TYPE="patch"
+            REASON="General updates (defaulting to patch)"
+          fi
+
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "reason=$REASON" >> $GITHUB_OUTPUT
+
+      - name: Calculate new version
+        id: new_version
+        run: |
+          CURRENT_VERSION="${{ steps.current_version.outputs.version }}"
+          BUMP_TYPE="${{ steps.analyze.outputs.bump_type }}"
+
+          # Split version into components
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          # Calculate new version
+          case $BUMP_TYPE in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const currentVersion = '${{ steps.current_version.outputs.version }}';
+            const newVersion = '${{ steps.new_version.outputs.version }}';
+            const bumpType = '${{ steps.analyze.outputs.bump_type }}';
+            const reason = '${{ steps.analyze.outputs.reason }}';
+
+            const body = `## 📦 Version Preview
+
+            When this PR is merged to \`${{ github.base_ref }}\`, the version will be bumped:
+
+            | Current Version | New Version | Bump Type | Reason |
+            |----------------|-------------|-----------|---------|
+            | \`v${currentVersion}\` | \`v${newVersion}\` | **${bumpType}** | ${reason} |
+
+            ### 📝 Conventional Commit Guidelines
+
+            To control version bumping, use these commit prefixes:
+            - \`fix:\` - Patch version bump (bug fixes)
+            - \`feat:\` - Minor version bump (new features)
+            - \`BREAKING CHANGE\` or \`!:\` - Major version bump (breaking changes)
+            - \`chore:\`, \`docs:\`, \`style:\`, \`refactor:\`, \`test:\` - Patch version bump
+            - \`deps:\` - Patch version bump (dependency updates)
+            - \`perf:\` - Patch version bump (performance improvements)
+
+            *Note: The actual version will be determined by analyzing all commits at merge time.*`;
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('## 📦 Version Preview')
+            );
+
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }

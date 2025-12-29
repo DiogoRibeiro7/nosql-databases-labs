@@ -26,7 +26,13 @@
     "test:lab04": "node tests/test_lab04.js",
     "test:lab05": "node tests/test_lab05.js",
     "test:coverage": "c8 yarn test:labs",
-    "help": "node scripts/help.js"
+    "help": "node scripts/help.js",
+    "version:bump": "node scripts/bump-version.js",
+    "version:major": "node scripts/bump-version.js major",
+    "version:minor": "node scripts/bump-version.js minor",
+    "version:patch": "node scripts/bump-version.js patch",
+    "release": "node scripts/bump-version.js",
+    "changelog": "git log --pretty=format:'- %s (%h)' $(git describe --tags --abbrev=0)..HEAD"
   },
   "repository": {
     "type": "git",
