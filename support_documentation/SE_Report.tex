@@ -1,0 +1,356 @@
+%===========================================================
+% Bachelor Project Report (Software Engineering + Databases)
+% LaTeX Template (single-file)
+%===========================================================
+\documentclass[12pt,a4paper]{report}
+
+% -----------------------
+% Packages
+% -----------------------
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % If using modern engines (xelatex/lualatex), you can remove this.
+\usepackage{lmodern}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+\usepackage{acronym}
+
+% Bibliography (recommended)
+\usepackage[
+  backend=biber,
+  style=ieee,
+  sorting=nyt
+]{biblatex}
+\addbibresource{references.bib} % Create references.bib (see example at end)
+
+% -----------------------
+% Document metadata
+% -----------------------
+\hypersetup{
+  pdftitle={Project Title},
+  pdfauthor={Author Name(s)},
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+% -----------------------
+% Title info (edit)
+% -----------------------
+\newcommand{\ProjectTitle}{Project Title}
+\newcommand{\ProjectSubtitle}{Software Engineering and Databases}
+\newcommand{\AuthorNames}{Author Name(s)}
+\newcommand{\Institution}{Institution Name}
+\newcommand{\Course}{Bachelor Degree -- Course Name}
+\newcommand{\Supervisor}{Supervisor: Name}
+\newcommand{\SubmissionDate}{December 2025}
+
+%===========================================================
+\begin{document}
+
+% -----------------------
+% Title page
+% -----------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+
+  {\Large \Institution \par}
+  \vspace{0.5cm}
+  {\large \Course \par}
+  \vspace{2cm}
+
+  {\Huge \bfseries \ProjectTitle \par}
+  \vspace{0.4cm}
+  {\Large \ProjectSubtitle \par}
+
+  \vfill
+
+  {\Large \AuthorNames \par}
+  \vspace{0.5cm}
+  {\large \Supervisor \par}
+  \vspace{1cm}
+  {\large \SubmissionDate \par}
+
+  \vspace*{1cm}
+\end{titlepage}
+
+% -----------------------
+% Abstract + Keywords
+% -----------------------
+\begin{abstract}
+% 150--250 words.
+% Include: problem/context, objectives, approach/method, key results, conclusion.
+This report presents \textit{[project name]}, a system designed to \textit{[short purpose]}.
+The main objective is to \textit{[objective 1]} while ensuring \textit{[objective 2]}.
+The solution is based on \textit{[brief architecture]} and a relational database model that enforces
+integrity through constraints and normalized design.
+Evaluation includes functional validation and database-oriented testing, complemented by
+a basic performance analysis of the critical queries.
+Results show \textit{[main outcome]}, with limitations related to \textit{[key limitation]}.
+\end{abstract}
+
+\noindent\textbf{Keywords:} databases, software engineering, data modelling, relational design, testing
+
+% -----------------------
+% Optional: lists
+% -----------------------
+\tableofcontents
+\listoffigures
+\listoftables
+
+%===========================================================
+\chapter{Introduction}
+% 1--3 pages typically.
+\section{Context and Motivation}
+% Why the problem matters; who cares; what is the domain.
+
+\section{Problem Statement}
+% Define the problem in 3--6 sentences. Avoid vague statements.
+
+\section{Objectives}
+% Bullet list is fine.
+\begin{itemize}[leftmargin=1.2em]
+  \item Objective 1: \textit{[...]}
+  \item Objective 2: \textit{[...]}
+  \item Objective 3: \textit{[...]}
+\end{itemize}
+
+\section{Scope and Limitations}
+% Clarify boundaries: what is included/excluded.
+
+\section{Document Structure}
+% 1 short paragraph describing chapters.
+
+%===========================================================
+\chapter{Background and Related Work}
+\section{Core Concepts}
+% Example topics: ER modelling, normalization, ACID, indexes, REST, auth.
+% Cite sources for definitions/claims.
+
+\section{Related Systems / Approaches}
+% Mention 2--8 references (bachelor-level is usually enough).
+% Example: \cite{date2003introduction}
+
+\section{Positioning of This Work}
+% How your solution differs or what it focuses on.
+
+%===========================================================
+\chapter{Requirements Analysis}
+\section{Stakeholders and Users}
+% Who uses it and in what context.
+
+\section{Functional Requirements}
+% Numbered list helps traceability.
+\begin{enumerate}[label=FR\arabic*, leftmargin=1.6em]
+  \item \textbf{[Feature name]}: \textit{[requirement description]}
+  \item \textbf{[Feature name]}: \textit{[requirement description]}
+  \item \textbf{[Feature name]}: \textit{[requirement description]}
+\end{enumerate}
+
+\section{Non-Functional Requirements}
+\begin{enumerate}[label=NFR\arabic*, leftmargin=1.8em]
+  \item \textbf{Security}: \textit{[e.g., role-based access control for ...]}
+  \item \textbf{Performance}: \textit{[e.g., critical search queries under X ms for N rows]}
+  \item \textbf{Usability}: \textit{[e.g., key workflow in <= K steps]}
+  \item \textbf{Maintainability}: \textit{[e.g., modular structure, documentation, tests]}
+\end{enumerate}
+
+\section{Use Cases / User Stories}
+% A compact table is often appreciated.
+\begin{table}[H]
+\centering
+\caption{Representative Use Cases}
+\begin{tabular}{p{2.2cm} p{10.5cm}}
+\toprule
+\textbf{UC ID} & \textbf{Description} \\
+\midrule
+UC1 & User logs in and accesses the dashboard. \\
+UC2 & User creates a new \textit{[entity]} and the system validates required fields. \\
+UC3 & User searches \textit{[entity]} using filters and sorting. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Acceptance Criteria (Optional)}
+% Concrete "done" statements linked to FR/NFR.
+
+%===========================================================
+\chapter{System Design}
+\section{Architecture Overview}
+% Include a diagram (component / layered architecture).
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.85\textwidth}{\centering
+    Placeholder: Architecture diagram (components and interactions)}}
+  \caption{High-level architecture of the system.}
+  \label{fig:architecture}
+\end{figure}
+
+\section{Main Components and Responsibilities}
+% Describe modules/services and their responsibilities.
+
+\section{Key Interactions (Optional)}
+% Sequence diagram for critical workflow (create order, booking, etc.).
+
+\section{Design Decisions and Trade-offs}
+% Explain important choices (e.g., why relational DB, why indexing strategy).
+
+%===========================================================
+\chapter{Database Design}
+\section{Conceptual Model (ER Diagram)}
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.85\textwidth}{\centering
+    Placeholder: ER diagram (entities, relationships, cardinalities)}}
+  \caption{Entity-Relationship diagram.}
+  \label{fig:erd}
+\end{figure}
+
+\section{Logical Model (Relational Schema)}
+% Provide a clear schema description: tables, attributes, PK/FK, constraints.
+% A table helps, but you can also describe it in text.
+\begin{table}[H]
+\centering
+\caption{Example Schema Summary (adapt to your project)}
+\begin{tabular}{p{3.2cm} p{9.5cm}}
+\toprule
+\textbf{Table} & \textbf{Notes (PK/FK/Constraints)} \\
+\midrule
+users & PK(user\_id), UNIQUE(email), NOT NULL(password\_hash) \\
+orders & PK(order\_id), FK(user\_id $\rightarrow$ users), CHECK(status in ...) \\
+order\_items & PK(order\_item\_id), FK(order\_id), FK(product\_id), CHECK(quantity > 0) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Normalization Discussion}
+% State target normal form (e.g., 3NF) and justify.
+% Mention any deliberate denormalization and why.
+
+\section{Constraints and Integrity}
+% Mention: NOT NULL, UNIQUE, CHECK, FK actions (ON DELETE/UPDATE).
+
+\section{Physical Design (Indexes and Performance Rationale)}
+% Show the critical queries and indexes.
+% Optionally add a small EXPLAIN summary.
+
+%===========================================================
+\chapter{Implementation Overview}
+% Not code listings; focus on mapping requirements to solution.
+\section{Technology Stack}
+% What you used + short justification.
+
+\section{Feature Mapping (Requirements to Modules)}
+% A traceability table is strong.
+\begin{table}[H]
+\centering
+\caption{Traceability Example}
+\begin{tabular}{p{2.2cm} p{7.0cm} p{3.5cm}}
+\toprule
+\textbf{Req} & \textbf{Implementation} & \textbf{Evidence} \\
+\midrule
+FR1 & \textit{[module/functionality]} & \textit{[screenshot/test]} \\
+FR2 & \textit{[module/functionality]} & \textit{[screenshot/test]} \\
+NFR1 & \textit{[security mechanism]} & \textit{[test/cfg]} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Security Considerations}
+% Auth model, permissions, validation, parameterized queries, etc.
+
+%===========================================================
+\chapter{Testing and Evaluation}
+\section{Test Strategy}
+% Unit vs integration vs system; what tools.
+
+\section{Test Results}
+\begin{table}[H]
+\centering
+\caption{Testing Summary}
+\begin{tabular}{p{4.5cm} p{6.5cm} p{2.5cm}}
+\toprule
+\textbf{Area} & \textbf{What was tested} & \textbf{Result} \\
+\midrule
+Business logic & \textit{[rule validations, edge cases]} & Pass \\
+Database constraints & \textit{[FK integrity, CHECK constraints]} & Pass \\
+API / UI flows & \textit{[UC1, UC2, UC3]} & Pass \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Performance Evaluation (Basic but Real)}
+% Example: timings for key queries; impact of indexes; dataset size.
+
+%===========================================================
+\chapter{Results and Discussion}
+\section{Key Results}
+% Tie outcomes to objectives and requirements.
+
+\section{Limitations}
+% Honest limitations: incomplete features, dataset limits, missing scalability, etc.
+
+\section{Trade-offs}
+% Explain choices and their consequences.
+
+%===========================================================
+\chapter{Conclusion and Future Work}
+\section{Conclusion}
+% Short summary: what you built, what you proved, main outcomes.
+
+\section{Future Work}
+\begin{itemize}[leftmargin=1.2em]
+  \item \textit{[feature improvement]}
+  \item \textit{[performance improvement]}
+  \item \textit{[security improvement]}
+\end{itemize}
+
+%===========================================================
+\printbibliography
+
+%===========================================================
+\appendix
+\chapter{Appendix A: Full Schema Listing}
+% Paste full schema (or include it).
+% \verbatiminput{db/schema.sql} % if you use \usepackage{verbatim}
+
+\chapter{Appendix B: Representative Queries}
+% Include 3--10 important queries and short explanations.
+
+\chapter{Appendix C: Additional Test Evidence}
+% Logs, screenshots references, coverage summary, etc.
+
+\end{document}
+
+%===========================================================
+% Example references.bib (create as a separate file)
+%===========================================================
+% @book{date2003introduction,
+%   title     = {An Introduction to Database Systems},
+%   author    = {Date, C. J.},
+%   year      = {2003},
+%   publisher = {Addison-Wesley}
+% }
+%
+% @book{pressman2014software,
+%   title     = {Software Engineering: A Practitioner’s Approach},
+%   author    = {Pressman, Roger S. and Maxim, Bruce R.},
+%   year      = {2014},
+%   publisher = {McGraw-Hill}
+% }
