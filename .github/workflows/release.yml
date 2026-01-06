@@ -115,10 +115,18 @@ jobs:
           git add $FILES_TO_ADD
           git commit -m "chore: bump version to v$NEW_VERSION [skip ci]" || echo "No changes to commit"
 
+      - name: Create release branch
+        id: release_branch
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          RELEASE_BRANCH="release/v$NEW_VERSION"
+          git checkout -b "$RELEASE_BRANCH"
+          echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+
       - name: Push changes
         run: |
-          # Protected branches require PRs; workflow still pushes current branch reference.
-          git push origin HEAD:${{ github.ref_name }}
+          RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
+          git push origin "$RELEASE_BRANCH"
 
       - name: Generate release notes
         id: release_notes
@@ -147,11 +155,12 @@ jobs:
         uses: actions/github-script@v8
         env:
           NEW_VERSION: ${{ steps.new_version.outputs.version }}
+          RELEASE_BRANCH: ${{ steps.release_branch.outputs.branch }}
         with:
           script: |
             const fs = require('fs');
             const { owner, repo } = context.repo;
-            const headBranch = context.ref.replace('refs/heads/', '');
+            const headBranch = process.env.RELEASE_BRANCH;
             const baseBranch = 'main';
             const newVersion = process.env.NEW_VERSION;
             let body = `Automated release PR for version ${newVersion}.`;
@@ -236,4 +245,5 @@ jobs:
           # Commit CHANGELOG
           git add CHANGELOG.md
           git commit -m "docs: update CHANGELOG for v$NEW_VERSION [skip ci]"
-          git push origin HEAD:${{ github.ref_name }}
+          RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
+          git push origin HEAD:"$RELEASE_BRANCH"
