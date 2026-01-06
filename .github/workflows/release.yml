@@ -123,6 +123,14 @@ jobs:
           git checkout -b "$RELEASE_BRANCH"
           echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
 
+      - name: Create release branch
+        id: release_branch
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          RELEASE_BRANCH="release/v$NEW_VERSION"
+          git checkout -b "$RELEASE_BRANCH"
+          echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+
       - name: Push changes
         run: |
           RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
@@ -151,12 +159,14 @@ jobs:
           git log $PREVIOUS_TAG..HEAD --pretty=format:"%an" | sort | uniq | sed 's/^/- @/' >> release_notes.md
 
       - name: Create release PR
-        if: github.ref == 'refs/heads/develop'
+        if: env.RELEASE_PR_TOKEN != ''
         uses: actions/github-script@v8
         env:
           NEW_VERSION: ${{ steps.new_version.outputs.version }}
           RELEASE_BRANCH: ${{ steps.release_branch.outputs.branch }}
+          PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
         with:
+          github-token: ${{ secrets.RELEASE_PR_TOKEN }}
           script: |
             const fs = require('fs');
             const { owner, repo } = context.repo;
