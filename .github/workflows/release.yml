@@ -25,6 +25,8 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    env:
+      RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
