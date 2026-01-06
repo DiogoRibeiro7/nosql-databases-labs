@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Group 03 - NoSQL Lab Submission
 
 ## Group Information
