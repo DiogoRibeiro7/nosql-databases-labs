@@ -3,8 +3,7 @@ name: Release and Version Control
 on:
   push:
     branches:
-      - main
-      - master
+      - develop
   workflow_dispatch:
     inputs:
       version_bump:
@@ -120,15 +119,6 @@ jobs:
         run: |
           git push origin HEAD:${{ github.ref_name }}
 
-      - name: Create and push tag
-        id: tag
-        run: |
-          NEW_VERSION="${{ steps.new_version.outputs.version }}"
-          TAG_NAME="v$NEW_VERSION"
-          git tag -a "$TAG_NAME" -m "Release version $NEW_VERSION"
-          git push origin "$TAG_NAME"
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
-
       - name: Generate release notes
         id: release_notes
         run: |
@@ -150,6 +140,53 @@ jobs:
           echo "" >> release_notes.md
           echo "### Contributors:" >> release_notes.md
           git log $PREVIOUS_TAG..HEAD --pretty=format:"%an" | sort | uniq | sed 's/^/- @/' >> release_notes.md
+
+      - name: Create release PR
+        if: github.ref == 'refs/heads/develop'
+        uses: actions/github-script@v8
+        env:
+          NEW_VERSION: ${{ steps.new_version.outputs.version }}
+        with:
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const headBranch = context.ref.replace('refs/heads/', '');
+            const baseBranch = 'main';
+            const newVersion = process.env.NEW_VERSION;
+            let body = `Automated release PR for version ${newVersion}.`;
+            if (fs.existsSync('release_notes.md')) {
+              body = fs.readFileSync('release_notes.md', 'utf8');
+            }
+            const title = `Release v${newVersion}`;
+            const existing = await github.rest.pulls.list({
+              owner,
+              repo,
+              head: `${owner}:${headBranch}`,
+              base: baseBranch,
+              state: 'open',
+            });
+            if (existing.data.length > 0) {
+              core.info(`Release PR already exists: ${existing.data[0].html_url}`);
+            } else {
+              const pr = await github.rest.pulls.create({
+                owner,
+                repo,
+                head: headBranch,
+                base: baseBranch,
+                title,
+                body,
+              });
+              core.info(`Created release PR: ${pr.data.html_url}`);
+            }
+
+      - name: Create and push tag
+        id: tag
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          TAG_NAME="v$NEW_VERSION"
+          git tag -a "$TAG_NAME" -m "Release version $NEW_VERSION"
+          git push origin "$TAG_NAME"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
