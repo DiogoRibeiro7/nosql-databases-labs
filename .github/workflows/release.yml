@@ -109,7 +109,11 @@ jobs:
       - name: Commit version bump
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-          git add package.json package-lock.json
+          FILES_TO_ADD="package.json"
+          if [ -f package-lock.json ]; then
+            FILES_TO_ADD="$FILES_TO_ADD package-lock.json"
+          fi
+          git add $FILES_TO_ADD
           git commit -m "chore: bump version to v$NEW_VERSION [skip ci]" || echo "No changes to commit"
 
       - name: Push changes
