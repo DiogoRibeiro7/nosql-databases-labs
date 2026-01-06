@@ -125,6 +125,14 @@ jobs:
           git checkout -b "$RELEASE_BRANCH"
           echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
 
+      - name: Create release branch
+        id: release_branch
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          RELEASE_BRANCH="release/v$NEW_VERSION"
+          git checkout -b "$RELEASE_BRANCH"
+          echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+
       - name: Push changes
         run: |
           RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
