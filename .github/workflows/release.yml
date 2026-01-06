@@ -117,6 +117,7 @@ jobs:
 
       - name: Push changes
         run: |
+          # Protected branches require PRs; workflow still pushes current branch reference.
           git push origin HEAD:${{ github.ref_name }}
 
       - name: Generate release notes
