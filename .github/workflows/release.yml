@@ -194,6 +194,12 @@ jobs:
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
           TAG_NAME="v$NEW_VERSION"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            git tag -d "$TAG_NAME"
+          fi
+          if git ls-remote --tags origin "$TAG_NAME" | grep -q "$TAG_NAME"; then
+            git push origin ":refs/tags/$TAG_NAME"
+          fi
           git tag -a "$TAG_NAME" -m "Release version $NEW_VERSION"
           git push origin "$TAG_NAME"
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
