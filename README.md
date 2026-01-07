@@ -9,6 +9,8 @@
 [![Mongo Compatibility Matrix](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/mongo-compat.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/mongo-compat.yml)
 [![Security Scans](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/security-scans.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/security-scans.yml)
 [![Docs Lint](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/docs-lint.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/docs-lint.yml)
+[![Release & Version Control](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/release.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/release.yml)
+[![Version Preview](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/version-preview.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/version-preview.yml)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-026e00?logo=node.js&logoColor=white)](#tooling--setup-checklist)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](#tooling--setup-checklist)
 [![Codecov](https://codecov.io/gh/diogoribeiro7/nosql-databases-labs/branch/main/graph/badge.svg)](https://codecov.io/gh/diogoribeiro7/nosql-databases-labs)
