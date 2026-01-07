@@ -124,7 +124,7 @@ jobs:
       - name: Push changes
         run: |
           RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
-          git push origin "$RELEASE_BRANCH"
+          git push --force-with-lease origin HEAD:"$RELEASE_BRANCH"
 
       - name: Generate release notes
         id: release_notes
