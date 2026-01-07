@@ -3,8 +3,7 @@ name: Release and Version Control
 on:
   push:
     branches:
-      - main
-      - master
+      - develop
   workflow_dispatch:
     inputs:
       version_bump:
@@ -17,15 +16,16 @@ on:
           - minor
           - major
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
 
 jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    env:
+      RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -116,18 +116,18 @@ jobs:
           git add $FILES_TO_ADD
           git commit -m "chore: bump version to v$NEW_VERSION [skip ci]" || echo "No changes to commit"
 
-      - name: Push changes
-        run: |
-          git push origin HEAD:${{ github.ref_name }}
-
-      - name: Create and push tag
-        id: tag
+      - name: Create release branch
+        id: release_branch
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
-          TAG_NAME="v$NEW_VERSION"
-          git tag -a "$TAG_NAME" -m "Release version $NEW_VERSION"
-          git push origin "$TAG_NAME"
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          RELEASE_BRANCH="release/v$NEW_VERSION"
+          git checkout -b "$RELEASE_BRANCH"
+          echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Push changes
+        run: |
+          RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
+          git push origin "$RELEASE_BRANCH"
 
       - name: Generate release notes
         id: release_notes
@@ -150,6 +150,56 @@ jobs:
           echo "" >> release_notes.md
           echo "### Contributors:" >> release_notes.md
           git log $PREVIOUS_TAG..HEAD --pretty=format:"%an" | sort | uniq | sed 's/^/- @/' >> release_notes.md
+
+      - name: Create release PR
+        if: env.RELEASE_PR_TOKEN != ''
+        uses: actions/github-script@v8
+        env:
+          NEW_VERSION: ${{ steps.new_version.outputs.version }}
+          RELEASE_BRANCH: ${{ steps.release_branch.outputs.branch }}
+          PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
+        with:
+          github-token: ${{ secrets.RELEASE_PR_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const headBranch = process.env.RELEASE_BRANCH;
+            const baseBranch = 'main';
+            const newVersion = process.env.NEW_VERSION;
+            let body = `Automated release PR for version ${newVersion}.`;
+            if (fs.existsSync('release_notes.md')) {
+              body = fs.readFileSync('release_notes.md', 'utf8');
+            }
+            const title = `Release v${newVersion}`;
+            const existing = await github.rest.pulls.list({
+              owner,
+              repo,
+              head: `${owner}:${headBranch}`,
+              base: baseBranch,
+              state: 'open',
+            });
+            if (existing.data.length > 0) {
+              core.info(`Release PR already exists: ${existing.data[0].html_url}`);
+            } else {
+              const pr = await github.rest.pulls.create({
+                owner,
+                repo,
+                head: headBranch,
+                base: baseBranch,
+                title,
+                body,
+              });
+              core.info(`Created release PR: ${pr.data.html_url}`);
+            }
+
+      - name: Create and push tag
+        id: tag
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          TAG_NAME="v$NEW_VERSION"
+          git tag -a "$TAG_NAME" -m "Release version $NEW_VERSION"
+          git push origin "$TAG_NAME"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -198,4 +248,5 @@ jobs:
           # Commit CHANGELOG
           git add CHANGELOG.md
           git commit -m "docs: update CHANGELOG for v$NEW_VERSION [skip ci]"
-          git push origin HEAD:${{ github.ref_name }}
+          RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
+          git push origin HEAD:"$RELEASE_BRANCH"
