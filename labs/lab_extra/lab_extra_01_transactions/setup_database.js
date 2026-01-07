@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 const uri = "mongodb://localhost:27017";
 const dbName = "lab_extra_transactions";
 
-async function setupDatabase () {
+async function setupDatabase() {
   const client = new MongoClient(uri);
 
   try {
@@ -27,6 +27,8 @@ async function setupDatabase () {
 
     // Insert sample account data
     const accounts = db.collection("accounts");
+    const transactions = db.collection("transactions");
+    const orders = db.collection("orders");
     await accounts.insertMany([
       { _id: "ACC001", name: "Alice", balance: 1000, currency: "USD" },
       { _id: "ACC002", name: "Bob", balance: 500, currency: "USD" },

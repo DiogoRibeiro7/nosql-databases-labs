@@ -1,9 +1,9 @@
 ---
 name: Question
 about: Ask for clarification about labs, datasets, or tooling
-title: '[Question] '
+title: "[Question] "
 labels: question
-assignees: ''
+assignees: ""
 ---
 
 ## Topic

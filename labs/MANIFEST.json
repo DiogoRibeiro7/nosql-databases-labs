@@ -1,0 +1,278 @@
+{
+  "version": "2.0.0",
+  "last_updated": "2024-12-14",
+  "labs": {
+    "lab01_intro": {
+      "id": "lab01_intro",
+      "title": "Introduction to MongoDB",
+      "description": "Learn basic CRUD operations, data import/export, and fundamental MongoDB concepts",
+      "difficulty": "beginner",
+      "duration_hours": 4,
+      "prerequisites": [],
+      "skills_taught": [
+        "MongoDB installation and setup",
+        "Basic CRUD operations",
+        "Data import/export",
+        "Basic indexing",
+        "MongoDB Shell (mongosh)"
+      ],
+      "datasets_required": ["customers", "sample"],
+      "test_files": ["test_lab01.js"],
+      "unlocks": ["lab02_modeling"],
+      "learning_outcomes": [
+        "Execute basic CRUD operations in MongoDB",
+        "Import and export data using MongoDB tools",
+        "Create and use basic indexes",
+        "Navigate MongoDB Shell effectively"
+      ],
+      "essential_tasks": [
+        "Insert 3 additional customers",
+        "Query customers by city",
+        "Update customer balances",
+        "Create indexes on frequently queried fields"
+      ],
+      "optional_tasks": [
+        "Customer segmentation dashboard",
+        "Event log importer",
+        "CLI reset utility"
+      ]
+    },
+    "lab02_modeling": {
+      "id": "lab02_modeling",
+      "title": "Data Modeling in MongoDB",
+      "description": "Master schema design patterns, embedding vs referencing, and validation rules",
+      "difficulty": "intermediate",
+      "duration_hours": 5,
+      "prerequisites": ["lab01_intro"],
+      "skills_taught": [
+        "Document schema design",
+        "Embedding vs referencing patterns",
+        "Schema validation",
+        "Data normalization/denormalization",
+        "Performance considerations"
+      ],
+      "datasets_required": ["movies", "sakila"],
+      "test_files": ["test_lab02.js"],
+      "unlocks": ["lab03_queries"],
+      "learning_outcomes": [
+        "Design efficient document schemas",
+        "Choose between embedding and referencing",
+        "Implement schema validation rules",
+        "Optimize schemas for read/write patterns"
+      ],
+      "essential_tasks": [
+        "Design blog post schema",
+        "Create e-commerce product catalog",
+        "Implement user profile schema"
+      ],
+      "optional_tasks": [
+        "Rental marketplace schema",
+        "Fitness app data model",
+        "Multi-tenant support system"
+      ]
+    },
+    "lab03_queries": {
+      "id": "lab03_queries",
+      "title": "Advanced Queries and Indexes",
+      "description": "Execute complex queries, optimize performance with indexes, and use advanced operators",
+      "difficulty": "intermediate",
+      "duration_hours": 5,
+      "prerequisites": ["lab01_intro", "lab02_modeling"],
+      "skills_taught": [
+        "Complex query operators",
+        "Compound indexes",
+        "Query optimization",
+        "Explain plans",
+        "Text and geospatial queries"
+      ],
+      "datasets_required": ["movies", "theaters", "airbnb"],
+      "test_files": ["test_lab03_mongosh.js", "test_lab03_performance.js"],
+      "unlocks": ["lab04_aggregation"],
+      "learning_outcomes": [
+        "Write complex queries with multiple operators",
+        "Create and use compound indexes effectively",
+        "Analyze query performance with explain()",
+        "Implement text and geospatial searches"
+      ],
+      "essential_tasks": [
+        "Complex movie queries",
+        "Performance optimization with indexes",
+        "Query plan analysis"
+      ],
+      "optional_tasks": [
+        "Recommendation feed queries",
+        "Geo + text search combinations",
+        "Fraud detection rules"
+      ]
+    },
+    "lab04_aggregation": {
+      "id": "lab04_aggregation",
+      "title": "Aggregation Framework",
+      "description": "Build data processing pipelines, perform analytics, and create materialized views",
+      "difficulty": "advanced",
+      "duration_hours": 6,
+      "prerequisites": ["lab03_queries"],
+      "skills_taught": [
+        "Aggregation pipeline stages",
+        "Data transformation",
+        "Statistical operations",
+        "Window functions",
+        "Materialized views with $merge"
+      ],
+      "datasets_required": ["sales", "movies", "orders"],
+      "test_files": ["test_lab04.js"],
+      "unlocks": ["lab05_replication", "lab_modern_features"],
+      "learning_outcomes": [
+        "Build multi-stage aggregation pipelines",
+        "Perform complex data transformations",
+        "Calculate statistics and analytics",
+        "Create and maintain materialized views"
+      ],
+      "essential_tasks": [
+        "Sales analytics pipeline",
+        "Movie ratings aggregation",
+        "Customer segmentation analysis"
+      ],
+      "optional_tasks": [
+        "Subscription revenue cohorts",
+        "Retail basket analysis",
+        "Uptime monitoring metrics"
+      ]
+    },
+    "lab05_replication": {
+      "id": "lab05_replication",
+      "title": "Replication and High Availability",
+      "description": "Configure replica sets, manage failover, and ensure high availability",
+      "difficulty": "advanced",
+      "duration_hours": 4,
+      "prerequisites": ["lab04_aggregation"],
+      "skills_taught": [
+        "Replica set configuration",
+        "Read preferences",
+        "Write concerns",
+        "Failover management",
+        "Monitoring replication lag"
+      ],
+      "datasets_required": ["any"],
+      "test_files": ["test_lab05.js"],
+      "unlocks": ["lab_extra"],
+      "learning_outcomes": [
+        "Configure and manage replica sets",
+        "Implement appropriate read/write concerns",
+        "Handle failover scenarios",
+        "Monitor and troubleshoot replication"
+      ],
+      "essential_tasks": [
+        "Configure 3-node replica set",
+        "Test failover scenarios",
+        "Configure read preferences"
+      ],
+      "optional_tasks": [
+        "Read preference playground",
+        "Lag injection and alerting",
+        "Multi-region failover drill"
+      ]
+    },
+    "lab_modern_features": {
+      "id": "lab_modern_features",
+      "title": "Modern MongoDB Features",
+      "description": "Explore cutting-edge features including change streams, time-series, and vector search",
+      "difficulty": "advanced",
+      "duration_hours": 8,
+      "prerequisites": ["lab04_aggregation"],
+      "skills_taught": [
+        "Change streams for real-time data",
+        "Time-series collections",
+        "Atlas Search (full-text)",
+        "Vector search for AI/ML",
+        "GridFS for file storage",
+        "MongoDB Charts"
+      ],
+      "datasets_required": ["custom"],
+      "test_files": ["test_modern_features.js"],
+      "unlocks": [],
+      "learning_outcomes": [
+        "Implement real-time data processing with change streams",
+        "Optimize time-series data storage",
+        "Build advanced search capabilities",
+        "Store and retrieve large files with GridFS"
+      ],
+      "essential_tasks": [
+        "Change stream implementation",
+        "Time-series collection setup",
+        "Atlas Search configuration"
+      ],
+      "optional_tasks": [
+        "Change stream webhook simulator",
+        "Time-series capacity planner",
+        "Vector search multi-modal demo"
+      ]
+    },
+    "lab_extra": {
+      "id": "lab_extra",
+      "title": "Advanced Topics",
+      "description": "Transactions, sharding, and advanced indexing strategies",
+      "difficulty": "expert",
+      "duration_hours": 6,
+      "prerequisites": ["lab05_replication"],
+      "skills_taught": [
+        "Multi-document transactions",
+        "Sharding strategies",
+        "Advanced indexing patterns",
+        "Performance tuning"
+      ],
+      "datasets_required": ["custom"],
+      "test_files": [],
+      "unlocks": [],
+      "learning_outcomes": [
+        "Implement ACID transactions",
+        "Design and implement sharding strategies",
+        "Create specialized indexes for performance",
+        "Tune MongoDB for specific workloads"
+      ],
+      "essential_tasks": [],
+      "optional_tasks": [
+        "Booking transaction workflow",
+        "Zone sharding setup",
+        "Workload performance analysis"
+      ]
+    }
+  },
+  "learning_paths": {
+    "beginner": {
+      "name": "MongoDB Fundamentals",
+      "duration_weeks": 2,
+      "labs": ["lab01_intro", "lab02_modeling"],
+      "description": "Start with basics and learn data modeling"
+    },
+    "intermediate": {
+      "name": "MongoDB Developer",
+      "duration_weeks": 4,
+      "labs": ["lab01_intro", "lab02_modeling", "lab03_queries", "lab04_aggregation"],
+      "description": "Complete developer skillset for MongoDB"
+    },
+    "advanced": {
+      "name": "MongoDB Expert",
+      "duration_weeks": 6,
+      "labs": ["lab01_intro", "lab02_modeling", "lab03_queries", "lab04_aggregation", "lab05_replication", "lab_modern_features"],
+      "description": "Master all aspects including operations and modern features"
+    },
+    "operations": {
+      "name": "MongoDB Operations",
+      "duration_weeks": 3,
+      "labs": ["lab01_intro", "lab05_replication", "lab_extra"],
+      "description": "Focus on operational aspects and high availability"
+    }
+  },
+  "assessment": {
+    "passing_criteria": {
+      "essential_tasks_completion": 80,
+      "test_coverage": 70,
+      "performance_benchmarks": true
+    },
+    "certification_alignment": {
+      "mongodb_developer": ["lab01_intro", "lab02_modeling", "lab03_queries", "lab04_aggregation"],
+      "mongodb_dba": ["lab05_replication", "lab_extra"]
+    }
+  }
+}

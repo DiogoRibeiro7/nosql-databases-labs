@@ -27,7 +27,7 @@
 
 [Draw or describe your conceptual model here]
 
---------------------------------------------------------------------------------
+---
 
 ## 2\. NoSQL Logical Model (MongoDB)
 
@@ -60,23 +60,23 @@
 
 [Repeat the same structure for each collection]
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. Embedding vs Referencing Decisions
 
 ### 3.1\. Summary Table
 
-Relationship     | Strategy                      | Reasoning
----------------- | ----------------------------- | ---------
-[Relationship 1] | [Embed/Reference/Denormalize] | [Why?]
-[Relationship 2] | [Embed/Reference/Denormalize] | [Why?]
-...              | ...                           | ...
+| Relationship     | Strategy                      | Reasoning |
+| ---------------- | ----------------------------- | --------- |
+| [Relationship 1] | [Embed/Reference/Denormalize] | [Why?]    |
+| [Relationship 2] | [Embed/Reference/Denormalize] | [Why?]    |
+| ...              | ...                           | ...       |
 
 ### 3.2\. Detailed Justification
 
 [Explain your decisions in detail]
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Trade-offs and Considerations
 
@@ -88,13 +88,13 @@ Relationship     | Strategy                      | Reasoning
 
 ### 4.2\. Disadvantages and Mitigations
 
-Issue     | Mitigation
---------- | ------------------
-[Issue 1] | [How to handle it]
-[Issue 2] | [How to handle it]
-...       | ...
+| Issue     | Mitigation         |
+| --------- | ------------------ |
+| [Issue 1] | [How to handle it] |
+| [Issue 2] | [How to handle it] |
+| ...       | ...                |
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Indexes and Performance
 
@@ -109,7 +109,7 @@ db.[collection].createIndex({ [field]: 1 });
 
 [Discuss the benefits and costs of your indexes]
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Scalability Considerations
 
@@ -121,7 +121,7 @@ db.[collection].createIndex({ [field]: 1 });
 
 [Discuss the expected read/write patterns and how your model supports them]
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Conclusion
 

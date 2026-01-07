@@ -1,0 +1,1300 @@
+[{
+  "_id": {
+    "$oid": "51fe29d3685d4a0a9f055a87"
+  },
+  "name": "Pizza Pino Nice",
+  "type": "Libanais",
+  "rating": 3.6,
+  "open": false,
+  "address": {
+    "street": "61 rue de Bordeaux",
+    "city": "Bordeaux",
+    "postalCode": "88455"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 15.92,
+      "category": "dessert"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 11.99,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "ee66d59431d343ed98b98d63"
+  },
+  "name": "Le Gourmet Toulousain",
+  "type": "Indien",
+  "rating": 4.9,
+  "open": true,
+  "address": {
+    "street": "16 rue de Lyon",
+    "city": "Toulouse",
+    "postalCode": "52813"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 10.84,
+      "category": "dessert"
+    },
+    {
+      "item": "Pâtes Carbonara",
+      "price": 14.58,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "d99065d526464d9ba63b797b"
+  },
+  "name": "Subway Strasbourg",
+  "type": "Asiatique",
+  "rating": 4.8,
+  "open": true,
+  "address": {
+    "street": "77 rue de Lille",
+    "city": "Toulouse",
+    "postalCode": "79014"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 11.16,
+      "category": "entrée"
+    },
+    {
+      "item": "Curry de Légumes",
+      "price": 9.36,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "eeba23e0b92245a9b46fd60e"
+  },
+  "name": "Café de la Gare",
+  "type": "Végétarien",
+  "rating": 4,
+  "open": false,
+  "address": {
+    "street": "89 rue de Marseille",
+    "city": "Bordeaux",
+    "postalCode": "26814"
+  },
+  "menu": [
+    {
+      "item": "Pizza Margherita",
+      "price": 19.32,
+      "category": "entrée"
+    },
+    {
+      "item": "Burrito",
+      "price": 17.27,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "b60d8f3580f644eb99f5f8f1"
+  },
+  "name": "Le Bistrot Montmartre",
+  "type": "Burgers",
+  "rating": 4.4,
+  "open": false,
+  "address": {
+    "street": "47 rue de Nice",
+    "city": "Montpellier",
+    "postalCode": "55910"
+  },
+  "menu": [
+    {
+      "item": "Tacos au Boeuf",
+      "price": 13.56,
+      "category": "plat"
+    },
+    {
+      "item": "Mochi Glacé",
+      "price": 16.93,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "1380efbff4db4ac39795807f"
+  },
+  "name": "Olivier’s Kitchen",
+  "type": "Indien",
+  "rating": 4.3,
+  "open": true,
+  "address": {
+    "street": "45 rue de Nantes",
+    "city": "Toulouse",
+    "postalCode": "20263"
+  },
+  "menu": [
+    {
+      "item": "Soupe Miso",
+      "price": 18.21,
+      "category": "dessert"
+    },
+    {
+      "item": "Baklava",
+      "price": 18.18,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "1ba01377a32e4cb39daf0da7"
+  },
+  "name": "Pasta Café Nantes",
+  "type": "Mexicain",
+  "rating": 4.5,
+  "open": true,
+  "address": {
+    "street": "73 rue de Nantes",
+    "city": "Lyon",
+    "postalCode": "72793"
+  },
+  "menu": [
+    {
+      "item": "Crème Brûlée",
+      "price": 17.41,
+      "category": "dessert"
+    },
+    {
+      "item": "Mochi Glacé",
+      "price": 9.53,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "3420b2b2d26b4b16a0cef33b"
+  },
+  "name": "O'Tacos Toulouse",
+  "type": "Végétarien",
+  "rating": 4.9,
+  "open": true,
+  "address": {
+    "street": "4 rue de Marseille",
+    "city": "Paris",
+    "postalCode": "16493"
+  },
+  "menu": [
+    {
+      "item": "Burger Gourmet",
+      "price": 19.08,
+      "category": "dessert"
+    },
+    {
+      "item": "Naan au Fromage",
+      "price": 18.15,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "7dc6ed5b90ad40d493c0e185"
+  },
+  "name": "Spaghetti House",
+  "type": "Végétarien",
+  "rating": 4.6,
+  "open": false,
+  "address": {
+    "street": "33 rue de Bordeaux",
+    "city": "Montpellier",
+    "postalCode": "32629"
+  },
+  "menu": [
+    {
+      "item": "Pizza Margherita",
+      "price": 10.81,
+      "category": "plat"
+    },
+    {
+      "item": "Burrito",
+      "price": 16.54,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "0c050ac956ba4ec1a8768472"
+  },
+  "name": "Léon de Bruxelles Lille",
+  "type": "Italien",
+  "rating": 4.3,
+  "open": false,
+  "address": {
+    "street": "11 rue de Toulouse",
+    "city": "Bordeaux",
+    "postalCode": "75752"
+  },
+  "menu": [
+    {
+      "item": "Pizza Margherita",
+      "price": 11.24,
+      "category": "plat"
+    },
+    {
+      "item": "Sushi Saumon",
+      "price": 8.46,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "d2765bd01a5d42c1a23c2d3f"
+  },
+  "name": "La Cantine Verte",
+  "type": "Burgers",
+  "rating": 4.3,
+  "open": false,
+  "address": {
+    "street": "93 rue de Marseille",
+    "city": "Strasbourg",
+    "postalCode": "69648"
+  },
+  "menu": [
+    {
+      "item": "Soupe Miso",
+      "price": 14.8,
+      "category": "dessert"
+    },
+    {
+      "item": "Burrito",
+      "price": 8.11,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "f1500a54d00f4745970bdcda"
+  },
+  "name": "Tandoori Palace",
+  "type": "Mexicain",
+  "rating": 4.7,
+  "open": false,
+  "address": {
+    "street": "22 rue de Toulouse",
+    "city": "Nice",
+    "postalCode": "11957"
+  },
+  "menu": [
+    {
+      "item": "Poulet Curry",
+      "price": 14.22,
+      "category": "entrée"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 9.9,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "8b55313eefe644cabbd6d3ac"
+  },
+  "name": "Bella Napoli",
+  "type": "Asiatique",
+  "rating": 4.2,
+  "open": true,
+  "address": {
+    "street": "26 rue de Bordeaux",
+    "city": "Strasbourg",
+    "postalCode": "13972"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 9.13,
+      "category": "entrée"
+    },
+    {
+      "item": "Smoothie Vert",
+      "price": 14.36,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "3d830dc02d304c98a506cba1"
+  },
+  "name": "Taco Loco",
+  "type": "Mexicain",
+  "rating": 4.9,
+  "open": false,
+  "address": {
+    "street": "118 rue de Nantes",
+    "city": "Nice",
+    "postalCode": "42002"
+  },
+  "menu": [
+    {
+      "item": "Crème Brûlée",
+      "price": 13.11,
+      "category": "dessert"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 16.45,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "120dc7aacb6849fd971f91ec"
+  },
+  "name": "Sushi Shop Paris 3",
+  "type": "Italien",
+  "rating": 4.9,
+  "open": true,
+  "address": {
+    "street": "73 rue de Lille",
+    "city": "Lille",
+    "postalCode": "79769"
+  },
+  "menu": [
+    {
+      "item": "Crème Brûlée",
+      "price": 12.94,
+      "category": "plat"
+    },
+    {
+      "item": "Burrito",
+      "price": 8.29,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "c4bdc8be142b4065be0334f3"
+  },
+  "name": "Le Petit Lyonnais",
+  "type": "Mexicain",
+  "rating": 4.7,
+  "open": false,
+  "address": {
+    "street": "77 rue de Nice",
+    "city": "Lyon",
+    "postalCode": "23760"
+  },
+  "menu": [
+    {
+      "item": "Soupe Miso",
+      "price": 9.66,
+      "category": "entrée"
+    },
+    {
+      "item": "Baklava",
+      "price": 9.24,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "7e5085f5d0db4a738ff1799a"
+  },
+  "name": "Le Jardin d’Asie",
+  "type": "Français",
+  "rating": 4.4,
+  "open": false,
+  "address": {
+    "street": "19 rue de Nantes",
+    "city": "Toulouse",
+    "postalCode": "22370"
+  },
+  "menu": [
+    {
+      "item": "Riz Cantonais",
+      "price": 8.76,
+      "category": "entrée"
+    },
+    {
+      "item": "Smoothie Vert",
+      "price": 8.54,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "c3cc6e095df94e29ae429545"
+  },
+  "name": "Burger Factory",
+  "type": "Indien",
+  "rating": 3.7,
+  "open": true,
+  "address": {
+    "street": "105 rue de Marseille",
+    "city": "Lyon",
+    "postalCode": "23716"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 10.99,
+      "category": "plat"
+    },
+    {
+      "item": "Baklava",
+      "price": 16.89,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "9cde40e34be140018cc73289"
+  },
+  "name": "Le Comptoir Méditerranéen",
+  "type": "Italien",
+  "rating": 4.4,
+  "open": true,
+  "address": {
+    "street": "48 rue de Marseille",
+    "city": "Toulouse",
+    "postalCode": "24781"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 14.39,
+      "category": "dessert"
+    },
+    {
+      "item": "Baklava",
+      "price": 9.78,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "bb055357dd764e119481a69d"
+  },
+  "name": "Le Taj Mahal Lyon",
+  "type": "Italien",
+  "rating": 4,
+  "open": false,
+  "address": {
+    "street": "23 rue de Lyon",
+    "city": "Montpellier",
+    "postalCode": "73977"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 9.2,
+      "category": "plat"
+    },
+    {
+      "item": "Sushi Saumon",
+      "price": 16.59,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "8108e8c9b4864643ba69ef27"
+  },
+  "name": "Sakura Sushi",
+  "type": "Indien",
+  "rating": 4.3,
+  "open": false,
+  "address": {
+    "street": "64 rue de Nice",
+    "city": "Marseille",
+    "postalCode": "28749"
+  },
+  "menu": [
+    {
+      "item": "Burger Gourmet",
+      "price": 17.67,
+      "category": "plat"
+    },
+    {
+      "item": "Pâtes Carbonara",
+      "price": 11.02,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "1230e8240f1049acb4abac36"
+  },
+  "name": "El Rancho Bordeaux",
+  "type": "Burgers",
+  "rating": 4.8,
+  "open": false,
+  "address": {
+    "street": "63 rue de Montpellier",
+    "city": "Toulouse",
+    "postalCode": "71810"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 16.77,
+      "category": "entrée"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 19.93,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "067f7d3d9be342e3957ff81d"
+  },
+  "name": "La Brasserie Bordelaise",
+  "type": "Asiatique",
+  "rating": 3.9,
+  "open": false,
+  "address": {
+    "street": "115 rue de Marseille",
+    "city": "Lyon",
+    "postalCode": "51418"
+  },
+  "menu": [
+    {
+      "item": "Burger Gourmet",
+      "price": 16.6,
+      "category": "plat"
+    },
+    {
+      "item": "Pâtes Carbonara",
+      "price": 17.91,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "db80f41b04be4b4fa3a3fa44"
+  },
+  "name": "Le Dôme de Paris",
+  "type": "Indien",
+  "rating": 3.6,
+  "open": false,
+  "address": {
+    "street": "66 rue de Paris",
+    "city": "Paris",
+    "postalCode": "95698"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 8.84,
+      "category": "entrée"
+    },
+    {
+      "item": "Soupe à l'Oignon",
+      "price": 12.7,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "7a42b136e2ea484f9396503a"
+  },
+  "name": "Crêpe Café Rennes",
+  "type": "Burgers",
+  "rating": 3.7,
+  "open": false,
+  "address": {
+    "street": "10 rue de Nantes",
+    "city": "Paris",
+    "postalCode": "48272"
+  },
+  "menu": [
+    {
+      "item": "Tacos au Boeuf",
+      "price": 10.66,
+      "category": "plat"
+    },
+    {
+      "item": "Smoothie Vert",
+      "price": 11.76,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "48e98632dafb4090bdaf8f12"
+  },
+  "name": "L’Atelier du Burger",
+  "type": "Libanais",
+  "rating": 4.1,
+  "open": true,
+  "address": {
+    "street": "108 rue de Bordeaux",
+    "city": "Montpellier",
+    "postalCode": "68399"
+  },
+  "menu": [
+    {
+      "item": "Falafel",
+      "price": 16.14,
+      "category": "plat"
+    },
+    {
+      "item": "Naan au Fromage",
+      "price": 10.39,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "beda3ecca93749ee804aa9ab"
+  },
+  "name": "L'Oriental Paris",
+  "type": "Italien",
+  "rating": 4.6,
+  "open": true,
+  "address": {
+    "street": "69 rue de Marseille",
+    "city": "Nice",
+    "postalCode": "97957"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 16.2,
+      "category": "entrée"
+    },
+    {
+      "item": "Baklava",
+      "price": 18.97,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "2fbfa3d26e824501b4f55706"
+  },
+  "name": "La Table de Sophie",
+  "type": "Français",
+  "rating": 4.1,
+  "open": false,
+  "address": {
+    "street": "5 rue de Nantes",
+    "city": "Nice",
+    "postalCode": "84897"
+  },
+  "menu": [
+    {
+      "item": "Crème Brûlée",
+      "price": 12.18,
+      "category": "dessert"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 12.11,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "524ea426cd044239a488e626"
+  },
+  "name": "Tutti Pasta Lyon",
+  "type": "Burgers",
+  "rating": 4.1,
+  "open": true,
+  "address": {
+    "street": "23 rue de Marseille",
+    "city": "Montpellier",
+    "postalCode": "83282"
+  },
+  "menu": [
+    {
+      "item": "Tacos au Boeuf",
+      "price": 10.88,
+      "category": "dessert"
+    },
+    {
+      "item": "Curry de Légumes",
+      "price": 13.76,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "26801ec1d2db4247997a8ddd"
+  },
+  "name": "Casa Mexicana Lyon",
+  "type": "Asiatique",
+  "rating": 3.7,
+  "open": true,
+  "address": {
+    "street": "32 rue de Marseille",
+    "city": "Lille",
+    "postalCode": "82522"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 9,
+      "category": "dessert"
+    },
+    {
+      "item": "Mochi Glacé",
+      "price": 16.31,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "7e431e4bd7e749dd88e6f3cb"
+  },
+  "name": "Green Bowl Nice",
+  "type": "Libanais",
+  "rating": 4.5,
+  "open": false,
+  "address": {
+    "street": "28 rue de Strasbourg",
+    "city": "Marseille",
+    "postalCode": "61829"
+  },
+  "menu": [
+    {
+      "item": "Soupe Miso",
+      "price": 19.46,
+      "category": "entrée"
+    },
+    {
+      "item": "Mochi Glacé",
+      "price": 9.4,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "47efabbc33e4499890f734a7"
+  },
+  "name": "Le Parisien",
+  "type": "Libanais",
+  "rating": 4.8,
+  "open": false,
+  "address": {
+    "street": "77 rue de Paris",
+    "city": "Strasbourg",
+    "postalCode": "12664"
+  },
+  "menu": [
+    {
+      "item": "Poulet Curry",
+      "price": 11.15,
+      "category": "dessert"
+    },
+    {
+      "item": "Mochi Glacé",
+      "price": 19.45,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6fb5a9b56a484751b049e19f"
+  },
+  "name": "Brunch & Co",
+  "type": "Libanais",
+  "rating": 3.8,
+  "open": true,
+  "address": {
+    "street": "56 rue de Nantes",
+    "city": "Marseille",
+    "postalCode": "24605"
+  },
+  "menu": [
+    {
+      "item": "Poulet Curry",
+      "price": 17.79,
+      "category": "entrée"
+    },
+    {
+      "item": "Burrito",
+      "price": 15.12,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "14aae5eef166492fa4b4d1cf"
+  },
+  "name": "La Table Libanaise",
+  "type": "Asiatique",
+  "rating": 4.6,
+  "open": false,
+  "address": {
+    "street": "65 rue de Marseille",
+    "city": "Nice",
+    "postalCode": "21191"
+  },
+  "menu": [
+    {
+      "item": "Burger Gourmet",
+      "price": 10.11,
+      "category": "plat"
+    },
+    {
+      "item": "Naan au Fromage",
+      "price": 12.13,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "14e073638ead428e92c02827"
+  },
+  "name": "Ramen Bar Paris",
+  "type": "Indien",
+  "rating": 4,
+  "open": false,
+  "address": {
+    "street": "87 rue de Lille",
+    "city": "Strasbourg",
+    "postalCode": "39830"
+  },
+  "menu": [
+    {
+      "item": "Tacos au Boeuf",
+      "price": 18.15,
+      "category": "dessert"
+    },
+    {
+      "item": "Soupe à l'Oignon",
+      "price": 16.87,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "e500e5d8ff064c28a48ab76c"
+  },
+  "name": "Basilic Thaï Montpellier",
+  "type": "Libanais",
+  "rating": 4.5,
+  "open": true,
+  "address": {
+    "street": "92 rue de Lille",
+    "city": "Toulouse",
+    "postalCode": "38968"
+  },
+  "menu": [
+    {
+      "item": "Burger Gourmet",
+      "price": 18.65,
+      "category": "entrée"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 10.6,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "30b9bfd3e1c24fd3bec9d066"
+  },
+  "name": "Bio Market Bistro",
+  "type": "Mexicain",
+  "rating": 4,
+  "open": true,
+  "address": {
+    "street": "41 rue de Strasbourg",
+    "city": "Strasbourg",
+    "postalCode": "72657"
+  },
+  "menu": [
+    {
+      "item": "Falafel",
+      "price": 19.18,
+      "category": "plat"
+    },
+    {
+      "item": "Curry de Légumes",
+      "price": 11.28,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6bac72ae5dbe4b3bbf367fc4"
+  },
+  "name": "L’Indien du Port",
+  "type": "Burgers",
+  "rating": 3.5,
+  "open": true,
+  "address": {
+    "street": "14 rue de Nantes",
+    "city": "Lille",
+    "postalCode": "56836"
+  },
+  "menu": [
+    {
+      "item": "Crème Brûlée",
+      "price": 19.48,
+      "category": "entrée"
+    },
+    {
+      "item": "Sushi Saumon",
+      "price": 15.48,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "1dcf12d2638743c08e3b71ca"
+  },
+  "name": "Mama Roma Marseille",
+  "type": "Français",
+  "rating": 4.9,
+  "open": false,
+  "address": {
+    "street": "16 rue de Marseille",
+    "city": "Lille",
+    "postalCode": "66893"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 13.76,
+      "category": "dessert"
+    },
+    {
+      "item": "Sushi Saumon",
+      "price": 9.86,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "e3fd102661514bc1aa03c54a"
+  },
+  "name": "Tacos Avenue Marseille",
+  "type": "Italien",
+  "rating": 4.3,
+  "open": false,
+  "address": {
+    "street": "46 rue de Bordeaux",
+    "city": "Marseille",
+    "postalCode": "89856"
+  },
+  "menu": [
+    {
+      "item": "Falafel",
+      "price": 9.98,
+      "category": "plat"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 14.01,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "cc052fc9fadb47e3af0edb0d"
+  },
+  "name": "Vegan Corner Nice",
+  "type": "Mexicain",
+  "rating": 3.6,
+  "open": false,
+  "address": {
+    "street": "93 rue de Nantes",
+    "city": "Montpellier",
+    "postalCode": "51333"
+  },
+  "menu": [
+    {
+      "item": "Falafel",
+      "price": 15.74,
+      "category": "dessert"
+    },
+    {
+      "item": "Mochi Glacé",
+      "price": 18.73,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "c0af9078048e43b39fe85fee"
+  },
+  "name": "Chez Papa Bordeaux",
+  "type": "Mexicain",
+  "rating": 4.8,
+  "open": true,
+  "address": {
+    "street": "77 rue de Toulouse",
+    "city": "Nice",
+    "postalCode": "51632"
+  },
+  "menu": [
+    {
+      "item": "Tacos au Boeuf",
+      "price": 17.09,
+      "category": "plat"
+    },
+    {
+      "item": "Lasagnes",
+      "price": 16.7,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "93a0b35ee3bc4eb5b4184746"
+  },
+  "name": "Maison Gourmande",
+  "type": "Indien",
+  "rating": 4.4,
+  "open": true,
+  "address": {
+    "street": "83 rue de Nantes",
+    "city": "Marseille",
+    "postalCode": "43951"
+  },
+  "menu": [
+    {
+      "item": "Tacos au Boeuf",
+      "price": 17.52,
+      "category": "plat"
+    },
+    {
+      "item": "Curry de Légumes",
+      "price": 8.35,
+      "category": "entrée"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "fed1f4fd95b545d480784f73"
+  },
+  "name": "Chez Pierrot",
+  "type": "Asiatique",
+  "rating": 4.8,
+  "open": true,
+  "address": {
+    "street": "89 rue de Bordeaux",
+    "city": "Paris",
+    "postalCode": "19262"
+  },
+  "menu": [
+    {
+      "item": "Tiramisu",
+      "price": 19.37,
+      "category": "plat"
+    },
+    {
+      "item": "Pâtes Carbonara",
+      "price": 8.8,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "2ed1728885034337b6c1d733"
+  },
+  "name": "Burger King Bordeaux",
+  "type": "Végétarien",
+  "rating": 4.4,
+  "open": false,
+  "address": {
+    "street": "27 rue de Lille",
+    "city": "Paris",
+    "postalCode": "45146"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 19.81,
+      "category": "entrée"
+    },
+    {
+      "item": "Naan au Fromage",
+      "price": 19.12,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "860bd4e9aa6547afab944052"
+  },
+  "name": "La Crêperie Bretonne",
+  "type": "Libanais",
+  "rating": 4.8,
+  "open": false,
+  "address": {
+    "street": "22 rue de Lille",
+    "city": "Lille",
+    "postalCode": "58685"
+  },
+  "menu": [
+    {
+      "item": "Crème Brûlée",
+      "price": 10.17,
+      "category": "dessert"
+    },
+    {
+      "item": "Curry de Légumes",
+      "price": 11.48,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "24cf0092f1f147d1914a87a7"
+  },
+  "name": "Chez Noura Strasbourg",
+  "type": "Végétarien",
+  "rating": 4.3,
+  "open": false,
+  "address": {
+    "street": "78 rue de Toulouse",
+    "city": "Montpellier",
+    "postalCode": "48457"
+  },
+  "menu": [
+    {
+      "item": "Salade César",
+      "price": 16.43,
+      "category": "dessert"
+    },
+    {
+      "item": "Sushi Saumon",
+      "price": 14.08,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "3f5d0a961b0a4bb2b776c174"
+  },
+  "name": "La Terrasse Marseillaise",
+  "type": "Italien",
+  "rating": 4.1,
+  "open": true,
+  "address": {
+    "street": "103 rue de Bordeaux",
+    "city": "Nantes",
+    "postalCode": "98219"
+  },
+  "menu": [
+    {
+      "item": "Soupe Miso",
+      "price": 16.77,
+      "category": "plat"
+    },
+    {
+      "item": "Soupe à l'Oignon",
+      "price": 16.47,
+      "category": "plat"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "221bbb868af947ee81548ea8"
+  },
+  "name": "Big Fernand Lille",
+  "type": "Italien",
+  "rating": 3.9,
+  "open": true,
+  "address": {
+    "street": "52 rue de Lyon",
+    "city": "Nantes",
+    "postalCode": "27579"
+  },
+  "menu": [
+    {
+      "item": "Burger Gourmet",
+      "price": 15.65,
+      "category": "plat"
+    },
+    {
+      "item": "Naan au Fromage",
+      "price": 10.2,
+      "category": "dessert"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "39144362edc04fa29f5533ea"
+  },
+  "name": "Le Panier Provençal",
+  "type": "Végétarien",
+  "rating": 4.3,
+  "open": false,
+  "address": {
+    "street": "20 rue de Lyon",
+    "city": "Nice",
+    "postalCode": "58022"
+  },
+  "menu": [
+    {
+      "item": "Falafel",
+      "price": 13.22,
+      "category": "entrée"
+    },
+    {
+      "item": "Burrito",
+      "price": 19.04,
+      "category": "plat"
+    }
+  ]
+}]

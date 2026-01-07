@@ -46,6 +46,15 @@ These files should be run with Node.js using the `node` command:
   node sales_analytics.js
   ```
 
+- **import_data.js** - Imports the starter dataset and builds indexes
+
+- **test_lab04.js** - Runs the assertion-based aggregation test suite
+
+  ```bash
+  node import_data.js
+  node test_lab04.js
+  ```
+
 ## Setup Scripts
 
 - **setup_database.bat** - Windows batch script to set up the database

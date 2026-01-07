@@ -1,9 +1,9 @@
 ---
 name: Lab Improvement
 about: Suggest enhancements or clarifications for labs, datasets, or docs
-title: '[Enhancement] '
+title: "[Enhancement] "
 labels: enhancement
-assignees: ''
+assignees: ""
 ---
 
 ## Motivation

@@ -31,30 +31,26 @@ Sharding is MongoDB's approach to horizontal scaling:
 
 ### 1.2 Sharding Components
 
-```
-┌─────────────────────────────────────────────┐
-│                 Application                  │
-└─────────────────────────────────────────────┘
-                        │
-                        ▼
-┌─────────────────────────────────────────────┐
-│              mongos (Router)                 │
-└─────────────────────────────────────────────┘
-                        │
-        ┌───────────────┼───────────────┐
-        ▼               ▼               ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│   Shard 1    │ │   Shard 2    │ │   Shard 3    │
-│  (Replica    │ │  (Replica    │ │  (Replica    │
-│    Set)      │ │    Set)      │ │    Set)      │
-└──────────────┘ └──────────────┘ └──────────────┘
+```mermaid
+flowchart TB
+    app([Application])
+    router([mongos<br/>Router])
+    shard1([Shard 1<br/>Replica Set])
+    shard2([Shard 2<br/>Replica Set])
+    shard3([Shard 3<br/>Replica Set])
+    config([Config Servers<br/>Replica Set])
 
-┌─────────────────────────────────────────────┐
-│          Config Servers (Replica Set)        │
-└─────────────────────────────────────────────┘
+    app --> router
+    router --> shard1
+    router --> shard2
+    router --> shard3
+    config -.-> router
+
+    classDef shard fill:#F2F6FF,stroke:#4C6EF5,stroke-width:1px;
+    class shard1,shard2,shard3 shard
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 2\. Setting Up a Sharded Cluster
 
@@ -103,7 +99,7 @@ sh.addShard("shard3RS/localhost:27022")
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
+version: "3.8"
 
 services:
   # Config servers
@@ -156,7 +152,7 @@ networks:
     driver: bridge
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. Choosing Shard Keys
 
@@ -173,32 +169,32 @@ Good shard keys have:
 
 ```javascript
 // Range-based sharding (ordered)
-sh.shardCollection("mydb.users", { userId: 1 })
+sh.shardCollection("mydb.users", { userId: 1 });
 
 // Hashed sharding (random distribution)
-sh.shardCollection("mydb.events", { _id: "hashed" })
+sh.shardCollection("mydb.events", { _id: "hashed" });
 
 // Compound shard key
-sh.shardCollection("mydb.orders", { customerId: 1, orderDate: 1 })
+sh.shardCollection("mydb.orders", { customerId: 1, orderDate: 1 });
 
 // Geographic sharding
-sh.shardCollection("mydb.locations", { region: 1, city: 1 })
+sh.shardCollection("mydb.locations", { region: 1, city: 1 });
 ```
 
 ### 3.3 Anti-patterns to Avoid
 
 ```javascript
 // BAD: Monotonically increasing values (creates hotspot)
-sh.shardCollection("mydb.logs", { timestamp: 1 })
+sh.shardCollection("mydb.logs", { timestamp: 1 });
 
 // BAD: Low cardinality (poor distribution)
-sh.shardCollection("mydb.products", { category: 1 }) // Only 10 categories
+sh.shardCollection("mydb.products", { category: 1 }); // Only 10 categories
 
 // BAD: Frequently updated fields
-sh.shardCollection("mydb.users", { lastLogin: 1 })
+sh.shardCollection("mydb.users", { lastLogin: 1 });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Implementing Sharding
 
@@ -214,19 +210,19 @@ sh.enableSharding("ecommerce")
 
 ```javascript
 // User collection - hashed sharding for even distribution
-sh.shardCollection("ecommerce.users", { _id: "hashed" })
+sh.shardCollection("ecommerce.users", { _id: "hashed" });
 
 // Orders collection - compound key for query isolation
-sh.shardCollection("ecommerce.orders", { customerId: 1, orderDate: 1 })
+sh.shardCollection("ecommerce.orders", { customerId: 1, orderDate: 1 });
 
 // Products collection - range sharding by category
-sh.shardCollection("ecommerce.products", { category: 1, productId: 1 })
+sh.shardCollection("ecommerce.products", { category: 1, productId: 1 });
 
 // Analytics collection - time-based sharding
-sh.shardCollection("ecommerce.analytics", { timestamp: 1, userId: 1 })
+sh.shardCollection("ecommerce.analytics", { timestamp: 1, userId: 1 });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Zone Sharding
 
@@ -234,9 +230,9 @@ sh.shardCollection("ecommerce.analytics", { timestamp: 1, userId: 1 })
 
 ```javascript
 // Define zones for geographic distribution
-sh.addShardToZone("shard1RS", "NA")  // North America
-sh.addShardToZone("shard2RS", "EU")  // Europe
-sh.addShardToZone("shard3RS", "APAC") // Asia-Pacific
+sh.addShardToZone("shard1RS", "NA"); // North America
+sh.addShardToZone("shard2RS", "EU"); // Europe
+sh.addShardToZone("shard3RS", "APAC"); // Asia-Pacific
 
 // Define zone ranges
 sh.updateZoneKeyRange(
@@ -244,24 +240,24 @@ sh.updateZoneKeyRange(
   { region: "NA", userId: MinKey },
   { region: "NA", userId: MaxKey },
   "NA"
-)
+);
 
 sh.updateZoneKeyRange(
   "ecommerce.users",
   { region: "EU", userId: MinKey },
   { region: "EU", userId: MaxKey },
   "EU"
-)
+);
 
 sh.updateZoneKeyRange(
   "ecommerce.users",
   { region: "APAC", userId: MinKey },
   { region: "APAC", userId: MaxKey },
   "APAC"
-)
+);
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Monitoring & Management
 
@@ -314,16 +310,16 @@ db.settings.update(
 
 ```javascript
 // Check operation distribution
-db.currentOp({ "shard": { $exists: true } })
+db.currentOp({ shard: { $exists: true } });
 
 // Analyze slow queries across shards
-db.system.profile.find({ millis: { $gt: 100 } }).sort({ ts: -1 })
+db.system.profile.find({ millis: { $gt: 100 } }).sort({ ts: -1 });
 
 // Check connection pool stats
-db.runCommand({ connPoolStats: 1 })
+db.runCommand({ connPoolStats: 1 });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Advanced Sharding Patterns
 
@@ -331,23 +327,23 @@ db.runCommand({ connPoolStats: 1 })
 
 ```javascript
 // Implement data locality for compliance
-sh.addShardToZone("shard1RS", "GDPR")
-sh.addShardToZone("shard2RS", "CCPA")
+sh.addShardToZone("shard1RS", "GDPR");
+sh.addShardToZone("shard2RS", "CCPA");
 
 sh.updateZoneKeyRange(
   "ecommerce.users",
   { country: "DE", userId: MinKey },
   { country: "FR", userId: MaxKey },
   "GDPR"
-)
+);
 ```
 
 ### 7.2 Tiered Storage Strategy
 
 ```javascript
 // Hot data on SSD shards, cold on HDD
-sh.addShardToZone("ssdShard", "hot")
-sh.addShardToZone("hddShard", "cold")
+sh.addShardToZone("ssdShard", "hot");
+sh.addShardToZone("hddShard", "cold");
 
 // Recent data to hot zone
 const thirtyDaysAgo = new Date();
@@ -358,10 +354,10 @@ sh.updateZoneKeyRange(
   { timestamp: thirtyDaysAgo, _id: MinKey },
   { timestamp: MaxKey, _id: MaxKey },
   "hot"
-)
+);
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 8\. Exercises
 
@@ -401,7 +397,7 @@ Implement shard failure recovery:
 3. Rebalance chunks
 4. Verify data integrity
 
---------------------------------------------------------------------------------
+---
 
 ## 9\. Performance Optimization
 
@@ -412,32 +408,28 @@ Implement shard failure recovery:
 for (let i = 0; i < 100; i++) {
   db.adminCommand({
     split: "ecommerce.users",
-    middle: { userId: i * 10000 }
+    middle: { userId: i * 10000 },
   });
 }
 
 // Move chunks manually for initial balance
-sh.moveChunk(
-  "ecommerce.users",
-  { userId: 0 },
-  "shard2RS"
-)
+sh.moveChunk("ecommerce.users", { userId: 0 }, "shard2RS");
 ```
 
 ### 9.2 Query Optimization
 
 ```javascript
 // Targeted query (uses shard key)
-db.orders.find({ customerId: "CUST123", orderDate: { $gte: ISODate("2024-01-01") } })
+db.orders.find({ customerId: "CUST123", orderDate: { $gte: ISODate("2024-01-01") } });
 
 // Scatter-gather query (hits all shards) - AVOID
-db.orders.find({ totalAmount: { $gt: 1000 } })
+db.orders.find({ totalAmount: { $gt: 1000 } });
 
 // Use explain to verify targeting
-db.orders.find({ customerId: "CUST123" }).explain("executionStats")
+db.orders.find({ customerId: "CUST123" }).explain("executionStats");
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 10\. Best Practices
 
@@ -448,7 +440,7 @@ db.orders.find({ customerId: "CUST123" }).explain("executionStats")
 5. **Test failover scenarios** - Ensure high availability
 6. **Document shard key decisions** - Future reference
 
---------------------------------------------------------------------------------
+---
 
 ## Testing
 
@@ -464,7 +456,7 @@ Individual tests:
 - `test_distribution.js` - Data distribution tests
 - `test_performance.js` - Query performance tests
 
---------------------------------------------------------------------------------
+---
 
 ## Additional Resources
 
@@ -472,3 +464,10 @@ Individual tests:
 - [Shard Key Selection](https://docs.mongodb.com/manual/core/sharding-shard-key/)
 - [Zone Sharding](https://docs.mongodb.com/manual/core/zone-sharding/)
 - [Sharding Best Practices](https://docs.mongodb.com/manual/core/sharding-data-partitioning/)
+
+---
+
+## Feedback & Collaboration
+
+- Use [GitHub Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab_extra_02` label to report sharding-lab bugs or request new scenarios.
+- Swap cluster setup tips or performance findings in [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) to help others troubleshoot.

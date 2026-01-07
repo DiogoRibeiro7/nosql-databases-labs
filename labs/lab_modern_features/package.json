@@ -1,0 +1,38 @@
+{
+  "name": "mongodb-modern-features-lab",
+  "version": "1.0.0",
+  "description": "MongoDB Modern Features Lab - Exercises for advanced MongoDB capabilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "node run_all_exercises.js",
+    "change-streams": "node exercises/01_change_streams/solution.js",
+    "time-series": "node exercises/02_timeseries_collections/solution.js",
+    "atlas-search": "node exercises/03_atlas_search/solution.js",
+    "vector-search": "node exercises/04_vector_search/solution.js",
+    "gridfs": "node exercises/05_gridfs/solution.js",
+    "charts": "node exercises/06_mongodb_charts/solution.js"
+  },
+  "keywords": [
+    "mongodb",
+    "change-streams",
+    "time-series",
+    "atlas-search",
+    "vector-search",
+    "gridfs",
+    "charts",
+    "real-time",
+    "ai",
+    "ml"
+  ],
+  "dependencies": {
+    "mongodb": "^6.3.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "chai": "^4.3.10"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
