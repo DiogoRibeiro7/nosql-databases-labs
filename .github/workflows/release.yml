@@ -16,10 +16,6 @@ on:
           - minor
           - major
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
 
 jobs:
   release:
@@ -27,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
