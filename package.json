@@ -1,6 +1,6 @@
 {
   "name": "nosql-databases-labs",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "This repository contains the **practical work** for the *NoSQL Databases* course.\r Students will use this repo to work on weekly labs and (optionally) a final project.",
   "main": "index.js",
   "scripts": {
