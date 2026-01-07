@@ -1,9 +1,6 @@
 name: Release and Version Control
 
 on:
-  push:
-    branches:
-      - develop
   workflow_dispatch:
     inputs:
       version_bump:
