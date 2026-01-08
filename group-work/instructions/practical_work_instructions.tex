@@ -1,0 +1,556 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{amssymb}
+
+% Page geometry
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=30mm,
+    bottom=30mm
+}
+
+% Colors
+\definecolor{mongogreen}{RGB}{0, 147, 59}
+\definecolor{codebackground}{RGB}{245, 245, 245}
+\definecolor{warningcolor}{RGB}{255, 193, 7}
+\definecolor{infocolor}{RGB}{52, 152, 219}
+
+% Code listings style
+\lstdefinestyle{bash}{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{gray},
+    frame=single,
+    keepspaces=true,
+    keywordstyle=\color{mongogreen}\bfseries,
+    language=bash,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny\color{gray},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stringstyle=\color{orange},
+    tabsize=2
+}
+
+\lstdefinelanguage{JavaScript}{
+    keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, async, await},
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]',
+    morestring=[b]",
+    sensitive=false
+}
+
+\lstdefinestyle{javascript}{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{gray},
+    frame=single,
+    keepspaces=true,
+    keywordstyle=\color{mongogreen}\bfseries,
+    language=JavaScript,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny\color{gray},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stringstyle=\color{orange},
+    tabsize=2
+}
+
+% Headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small NoSQL Databases - Practical Work}
+\fancyhead[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Section formatting
+\titleformat{\section}[block]
+  {\normalfont\Large\bfseries\color{mongogreen}}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}[block]
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+% Custom boxes
+\newtcolorbox{warningbox}{
+    colback=warningcolor!10,
+    colframe=warningcolor!75!black,
+    title=\faExclamationTriangle\ Important Note,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{infobox}{
+    colback=infocolor!10,
+    colframe=infocolor!75!black,
+    title=\faInfoCircle\ Information,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{tipbox}{
+    colback=mongogreen!10,
+    colframe=mongogreen!75!black,
+    title=\faLightbulb\ Tip,
+    fonttitle=\bfseries
+}
+
+% Document information
+\title{
+    \vspace{-2cm}
+    \textcolor{mongogreen}{\Huge\textbf{NoSQL Databases with MongoDB}}\\
+    \vspace{0.5cm}
+    \Large\textbf{Practical Work Instructions for Group Tasks}\\
+    \vspace{0.3cm}
+    \large Academic Year 2025/2026
+}
+\author{
+    \textbf{Course Instructor:} Diogo Ribeiro\\
+    \textbf{Repository:} \url{https://github.com/diogoribeiro7/nosql-databases-labs}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{center}
+    \rule{\textwidth}{1pt}
+\end{center}
+
+\vspace{1cm}
+
+\begin{abstract}
+This document provides comprehensive instructions for the practical group work component of the NoSQL Databases course. Students will work collaboratively through five core MongoDB labs, progressing from basic CRUD operations to advanced topics including replication and aggregation. Each group will maintain a dedicated repository folder, follow structured submission guidelines, and complete a final project demonstrating real-world MongoDB application design. The course emphasizes hands-on learning with over 30 sample datasets and automated testing infrastructure.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Course Overview}
+
+\subsection{Learning Objectives}
+
+Upon successful completion of this practical work, students will be able to:
+
+\begin{itemize}[leftmargin=*]
+    \item Design and implement document-based database schemas
+    \item Perform complex queries and aggregations in MongoDB
+    \item Optimize database performance through indexing strategies
+    \item Configure replication for high availability
+    \item Apply NoSQL best practices to real-world scenarios
+    \item Collaborate effectively using Git-based workflows
+\end{itemize}
+
+\subsection{Technical Requirements}
+
+\begin{warningbox}
+Ensure your development environment meets these requirements before starting:
+\begin{itemize}
+    \item MongoDB 6.x or 7.0 (Community Edition or Atlas)
+    \item Node.js v20+ with npm
+    \item MongoDB Shell (mongosh) latest version
+    \item Git for version control
+    \item Docker (optional but recommended)
+    \item 10GB free disk space for datasets
+\end{itemize}
+\end{warningbox}
+
+\section{Group Work Organization}
+
+\subsection{Team Formation}
+
+\begin{tipbox}
+Form groups of 2-3 students by Week 2. Register your group by creating a folder in the repository:
+\texttt{group-work/group\_XX/} where XX is your assigned group number (01-23).
+\end{tipbox}
+
+\subsection{Folder Structure}
+
+Your group folder must follow this organization:
+
+\begin{lstlisting}[style=bash, caption=Required Group Folder Structure]
+group-work/
+  group_05/                    # Your group folder
+    README.md                  # Group members and overview
+    project/                   # Final project
+      README.md
+      architecture.md
+      queries/
+      data/
+      tests/
+\end{lstlisting}
+
+\subsection{Collaboration Workflow}
+
+\subsubsection{Git Workflow}
+
+\begin{enumerate}
+    \item \textbf{Fork} the main repository on GitHub
+    \item \textbf{Clone} your fork locally:
+    \begin{lstlisting}[style=bash]
+git clone https://github.com/<your-username>/nosql-databases-labs.git
+    \end{lstlisting}
+
+    \item \textbf{Create a branch} for each lab:
+    \begin{lstlisting}[style=bash]
+git checkout -b group_05-lab01
+    \end{lstlisting}
+
+    \item \textbf{Commit} with descriptive messages:
+    \begin{lstlisting}[style=bash]
+git add group-work/group_05/lab01/
+git commit -m "group_05: complete lab01 CRUD operations"
+    \end{lstlisting}
+
+    \item \textbf{Push} and create a pull request:
+    \begin{lstlisting}[style=bash]
+git push origin group_05-lab01
+    \end{lstlisting}
+\end{enumerate}
+
+\subsubsection{Code Review Process}
+
+Each submission undergoes peer and instructor review:
+
+\begin{itemize}
+    \item Automated tests run via GitHub Actions
+    \item Code quality checks (ESLint, formatting)
+    \item Manual review of design decisions
+    \item Feedback provided via PR comments
+\end{itemize}
+
+\section{Final Project Requirements}
+
+\subsection{Project Scope}
+
+Design and implement a complete MongoDB-backed application addressing a real-world scenario.
+
+\textbf{Minimum Requirements:}
+\begin{itemize}
+    \item 3+ interconnected collections
+    \item 20+ diverse queries (CRUD + aggregation)
+    \item Performance optimization with indexes
+    \item Data validation and error handling
+    \item Comprehensive documentation
+\end{itemize}
+
+\subsection{Suggested Project Topics}
+
+\begin{multicols}{2}
+\begin{itemize}
+    \item E-commerce platform
+    \item Social media analytics
+    \item IoT sensor management
+    \item Healthcare records system
+    \item Real estate marketplace
+    \item Event ticketing system
+    \item Learning management system
+    \item Supply chain tracking
+    \item Restaurant ordering system
+    \item Travel booking platform
+\end{itemize}
+\end{multicols}
+
+
+\section{Assessment Criteria}
+
+\subsection{Lab Grading Rubric}
+
+Each lab is evaluated based on:
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{|X|c|l|}
+\hline
+\textbf{Criterion} & \textbf{Weight} & \textbf{Grade Range} \\
+\hline
+Functionality (Does it work?) & 40\% & 0-40 points \\
+Code Quality (Is it well-written?) & 25\% & 0-25 points \\
+Documentation (Is it explained?) & 20\% & 0-20 points \\
+Performance (Is it optimized?) & 15\% & 0-15 points \\
+\hline
+\textbf{Total} & \textbf{100\%} & \textbf{0-100 points} \\
+\hline
+\end{tabularx}
+\caption{Lab Assessment Breakdown}
+\end{table}
+
+\subsection{Project Evaluation}
+
+Final project assessment criteria:
+
+\begin{itemize}
+    \item \textbf{Requirements Coverage (20\%)}: Meets all specifications
+    \item \textbf{Data Modeling (20\%)}: Appropriate schema design
+    \item \textbf{Query Complexity (20\%)}: Diverse, real-world queries
+    \item \textbf{Performance (15\%)}: Optimized with proper indexing
+    \item \textbf{Code Quality (15\%)}: Clean, maintainable code
+    \item \textbf{Documentation (10\%)}: Clear, comprehensive docs
+\end{itemize}
+
+\begin{warningbox}
+Late submissions receive a 10\% penalty per day. Extensions must be requested 48 hours in advance with valid justification.
+\end{warningbox}
+
+\section{Tools and Resources}
+
+\subsection{Development Tools}
+
+\begin{itemize}
+    \item \textbf{MongoDB Compass}: GUI for database exploration
+    \item \textbf{mongosh}: Command-line interface
+\end{itemize}
+
+\subsection{Available Datasets}
+
+The repository includes 30+ ready-to-use datasets:
+
+\begin{multicols}{2}
+\begin{itemize}
+    \item sample\_airbnb (listings, reviews)
+    \item sample\_mflix (movies, theaters)
+    \item sample\_analytics (accounts, customers)
+    \item sample\_supplies (sales data)
+    \item sakila-db (film rental)
+    \item ColoradoScooters (geospatial)
+    \item crunchbase (startups)
+    \item books, restaurants, students
+\end{itemize}
+\end{multicols}
+
+\subsection{Testing Infrastructure}
+
+Run automated tests to validate your work:
+
+\begin{lstlisting}[style=bash, caption=Testing Commands]
+# Test specific lab
+npm run test:lab01
+
+# Test all labs
+npm run test:labs
+
+# Check code quality
+npm run lint
+
+# Generate coverage report
+npm run test:coverage
+
+# Validate group submission
+node group-work/scripts/group_submission_validator.js
+\end{lstlisting}
+
+\subsection{Getting Help}
+
+\begin{itemize}
+    \item \textbf{GitHub Discussions}: Post questions with appropriate labels
+    \item \textbf{Office Hours}: Weekly sessions (schedule on LMS)
+    \item \textbf{Documentation}: \texttt{docs/} folder in repository
+    \item \textbf{Issue Tracker}: Report bugs or suggest improvements
+    \item \textbf{Email}: Contact instructor for private matters
+\end{itemize}
+
+\section{Best Practices}
+
+\subsection{Code Standards}
+
+\begin{itemize}
+    \item Use consistent naming conventions (camelCase for JavaScript)
+    \item Comment complex logic and business rules
+    \item Handle errors gracefully with try-catch blocks
+    \item Never commit credentials or secrets
+    \item Follow the DRY principle (Don't Repeat Yourself)
+\end{itemize}
+
+\subsection{Performance Optimization}
+
+\begin{tipbox}
+Key optimization strategies:
+\begin{itemize}
+    \item Create indexes before running queries
+    \item Use projection to limit returned fields
+    \item Implement pagination for large result sets
+    \item Monitor slow queries with profiler
+    \item Batch operations when possible
+\end{itemize}
+\end{tipbox}
+
+\subsection{Documentation Guidelines}
+
+Every submission must include:
+
+\begin{enumerate}
+    \item \textbf{README.md}: Overview, setup instructions, team members
+    \item \textbf{NOTES.md}: Design decisions, challenges, learnings
+    \item \textbf{Code comments}: Inline explanations for complex logic
+    \item \textbf{Performance metrics}: Query execution times, index impact
+\end{enumerate}
+
+\section{Common Pitfalls and Solutions}
+
+\subsection{Frequent Mistakes}
+
+\begin{table}[h!]
+\centering
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\textbf{Common Mistake} & \textbf{Solution} \\
+\hline
+Forgetting to switch databases & Always use \texttt{use <database>} first \\
+\hline
+Incorrect JSON syntax & Validate with online JSON validator \\
+\hline
+Missing indexes on queries & Run explain() before production \\
+\hline
+Unbounded document growth & Use references for growing arrays \\
+\hline
+Not handling connection errors & Implement retry logic \\
+\hline
+Hardcoding credentials & Use environment variables \\
+\hline
+\end{tabularx}
+\caption{Common Issues and Resolutions}
+\end{table}
+
+\subsection{Debugging Tips}
+
+\begin{enumerate}
+    \item Enable MongoDB logging for detailed diagnostics
+    \item Use \texttt{.explain("allPlansExecution")} for query analysis
+    \item Check replica set status with \texttt{rs.status()}
+    \item Monitor performance with \texttt{db.currentOp()}
+    \item Validate data integrity with \texttt{db.collection.validate()}
+\end{enumerate}
+
+\section{Submission Checklist}
+
+Before submitting any lab or project:
+
+\begin{tcolorbox}[colback=gray!10, colframe=gray!50, title=Pre-Submission Checklist]
+\begin{itemize}[label=$\square$]
+    \item Pull latest changes from main branch
+    \item All tests pass locally (\texttt{npm test})
+    \item Code is properly formatted (\texttt{npm run format})
+    \item No linting errors (\texttt{npm run lint})
+    \item Documentation is complete and accurate
+    \item Screenshots/outputs included where required
+    \item Sensitive data removed or anonymized
+    \item Branch follows naming convention
+    \item Commit messages are descriptive
+    \item Pull request template completed
+\end{itemize}
+\end{tcolorbox}
+
+\section{Conclusion}
+
+This practical work provides hands-on experience with MongoDB and NoSQL concepts through progressive skill-building exercises. Success requires consistent effort, effective collaboration, and attention to best practices.
+
+Remember:
+\begin{itemize}
+    \item Start early and work incrementally
+    \item Ask questions when stuck
+    \item Test thoroughly before submission
+    \item Document your learning journey
+    \item Collaborate effectively with your team
+\end{itemize}
+
+\begin{center}
+\Large
+\textbf{Good luck with your NoSQL journey!}
+\end{center}
+
+\appendix
+
+\section{Quick Reference}
+
+\subsection{Essential MongoDB Commands}
+
+\begin{lstlisting}[style=javascript, caption=MongoDB Quick Reference]
+// Database operations
+show dbs                    // List all databases
+use mydb                    // Switch to database
+db.dropDatabase()           // Delete current database
+
+// Collection operations
+show collections            // List collections
+db.createCollection("col")  // Create collection
+db.col.drop()               // Delete collection
+
+// CRUD operations
+db.col.insertOne({...})     // Insert single document
+db.col.find({...})          // Query documents
+db.col.updateOne({...})     // Update single document
+db.col.deleteMany({...})    // Delete multiple documents
+
+// Indexing
+db.col.createIndex({...})   // Create index
+db.col.getIndexes()         // List indexes
+db.col.dropIndex("name")    // Remove index
+
+// Aggregation
+db.col.aggregate([...])     // Run aggregation pipeline
+db.col.count({...})         // Count documents
+db.col.distinct("field")    // Get distinct values
+
+// Replication
+rs.initiate()               // Initialize replica set
+rs.status()                 // Check replica status
+rs.add("host:port")         // Add replica member
+\end{lstlisting}
+
+\subsection{Git Workflow Summary}
+
+\begin{lstlisting}[style=bash, caption=Git Commands for Group Work]
+# Initial setup
+git clone <repository-url>
+git remote add upstream <original-repo-url>
+
+# Starting new work
+git checkout main
+git pull upstream main
+git checkout -b group_XX-labYY
+
+# Saving work
+git add .
+git commit -m "Descriptive message"
+git push origin group_XX-labYY
+
+# Creating pull request
+# Go to GitHub and click "New Pull Request"
+# Select your branch and create PR with template
+
+# Updating your fork
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+\end{lstlisting}
+
+\end{document}
