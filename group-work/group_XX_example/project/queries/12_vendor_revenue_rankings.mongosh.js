@@ -5,6 +5,7 @@ db = db.getSiblingDB("group_xx_example_final");
 print("Revenue leaderboard by vendor:");
 db.orders
   .aggregate([
+    // Sum revenue and event coverage per vendor.
     {
       $group: {
         _id: "$vendorId",
@@ -13,7 +14,9 @@ db.orders
         eventsServed: { $addToSet: "$eventCode" },
       },
     },
+    // Order vendors by raw revenue before computing cumulative totals.
     { $sort: { revenue: -1 } },
+    // Use a window to show how overall revenue accumulates as we walk the ranking.
     {
       $setWindowFields: {
         sortBy: { revenue: -1 },
@@ -25,6 +28,7 @@ db.orders
         },
       },
     },
+    // Format the output for display.
     {
       $project: {
         _id: 0,

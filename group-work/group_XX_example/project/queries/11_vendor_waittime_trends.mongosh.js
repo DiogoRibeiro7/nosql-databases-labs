@@ -5,6 +5,7 @@ db = db.getSiblingDB("group_xx_example_final");
 print("Average wait time per vendor:");
 db.orders
   .aggregate([
+    // Calculate wait-time stats per vendor across all orders.
     {
       $group: {
         _id: "$vendorId",
@@ -14,6 +15,7 @@ db.orders
         sampleOrders: { $push: "$orderCode" },
       },
     },
+    // Join against the vendors collection to display friendly names.
     {
       $lookup: {
         from: "vendors",
@@ -23,6 +25,7 @@ db.orders
       },
     },
     { $unwind: "$vendor" },
+    // Select the fields we care about and trim sample order codes.
     {
       $project: {
         _id: 0,
@@ -34,6 +37,7 @@ db.orders
         sampleOrders: { $slice: ["$sampleOrders", 3] },
       },
     },
+    // Surface the most efficient vendors first.
     { $sort: { avgWait: 1 } },
   ])
   .forEach((doc) => printjson(doc));

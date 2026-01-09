@@ -4,7 +4,10 @@
     "name": "Pastelaria Solar",
     "cuisine": "Portuguese desserts",
     "homeBase": "Cedofeita",
-    "featuredItems": ["pastel de nata", "salted caramel bola de berlim"],
+    "featuredItems": [
+      "pastel de nata",
+      "salted caramel bola de berlim"
+    ],
     "prepMinutes": 4,
     "capacityPerEvent": 180,
     "contactEmail": "solar@portofoodhub.pt",
@@ -15,7 +18,10 @@
     "name": "Mar Atlantico Bowls",
     "cuisine": "Seafood fusion",
     "homeBase": "Matosinhos",
-    "featuredItems": ["cod ceviche", "ocean quinoa bowl"],
+    "featuredItems": [
+      "cod ceviche",
+      "ocean quinoa bowl"
+    ],
     "prepMinutes": 7,
     "capacityPerEvent": 150,
     "contactEmail": "atlanticobowls@portofoodhub.pt",
@@ -26,7 +32,10 @@
     "name": "Grillnautas",
     "cuisine": "Fire-grilled mains",
     "homeBase": "Bonfim",
-    "featuredItems": ["piri-piri chicken pita", "charred veggie espetada"],
+    "featuredItems": [
+      "piri-piri chicken pita",
+      "charred veggie espetada"
+    ],
     "prepMinutes": 9,
     "capacityPerEvent": 220,
     "contactEmail": "grillnautas@portofoodhub.pt",
@@ -37,7 +46,10 @@
     "name": "Herban Garden",
     "cuisine": "Plant-based bites",
     "homeBase": "Boavista",
-    "featuredItems": ["shiitake francesinha", "beetroot bao"],
+    "featuredItems": [
+      "shiitake francesinha",
+      "beetroot bao"
+    ],
     "prepMinutes": 6,
     "capacityPerEvent": 160,
     "contactEmail": "herban@portofoodhub.pt",
@@ -48,7 +60,10 @@
     "name": "Serralves Smokehouse",
     "cuisine": "Smoked tapas",
     "homeBase": "Lordelo do Ouro",
-    "featuredItems": ["smoked octopus slider", "maple bacalhau bites"],
+    "featuredItems": [
+      "smoked octopus slider",
+      "maple bacalhau bites"
+    ],
     "prepMinutes": 8,
     "capacityPerEvent": 140,
     "contactEmail": "smokehouse@portofoodhub.pt",
@@ -59,10 +74,41 @@
     "name": "Norte Juice Lab",
     "cuisine": "Cold-pressed juices",
     "homeBase": "Foz",
-    "featuredItems": ["porto sunrise", "mint matcha fuel"],
+    "featuredItems": [
+      "porto sunrise",
+      "mint matcha fuel"
+    ],
     "prepMinutes": 3,
     "capacityPerEvent": 200,
     "contactEmail": "nortejuice@portofoodhub.pt",
     "partnershipTier": "community"
+  },
+  {
+    "vendorId": "VNDR-07",
+    "name": "Casa das Tapas Urbanas",
+    "cuisine": "Modern tapas",
+    "homeBase": "Campanha",
+    "featuredItems": [
+      "spicy morcela taco",
+      "truffle lupin hummus"
+    ],
+    "prepMinutes": 8,
+    "capacityPerEvent": 130,
+    "contactEmail": "urbanas@portofoodhub.pt",
+    "partnershipTier": "bronze"
+  },
+  {
+    "vendorId": "VNDR-08",
+    "name": "Atlas Coffee Lab",
+    "cuisine": "Specialty coffee",
+    "homeBase": "Aliados",
+    "featuredItems": [
+      "nitro cold brew",
+      "cascara tonic"
+    ],
+    "prepMinutes": 4,
+    "capacityPerEvent": 250,
+    "contactEmail": "atlascoffee@portofoodhub.pt",
+    "partnershipTier": "gold"
   }
 ]

@@ -13,6 +13,7 @@ This sample solution demonstrates how a final project submission can look when t
 | `queries/0*_*.mongosh.js` | Thirteen mongosh scripts that mix `find()` examples with richer aggregation pipelines. |
 | `queries/index_blueprint.mongosh.js` | Idempotent script that recreates indexes if you ever drop them manually. |
 | `tests/data_quality.mongosh.js` | Lightweight assertions to verify document counts and denormalized fields. |
+| `advanced/` | Optional demos for aggregation performance tuning and change streams. |
 
 ## How to Run Everything (Local MongoDB)
 
@@ -36,12 +37,18 @@ mongosh queries/10_feedback_distribution_by_vendor.mongosh.js
 mongosh queries/11_vendor_waittime_trends.mongosh.js
 mongosh queries/12_vendor_revenue_rankings.mongosh.js
 mongosh queries/13_returning_customers_by_district.mongosh.js
+mongosh queries/14_revenue_with_explain.mongosh.js
+mongosh queries/15_orders_collection_stats.mongosh.js
 
 # 3. Re-apply indexes if you changed anything (optional)
 mongosh queries/index_blueprint.mongosh.js
 
 # 4. Run the sanity checks before committing
 mongosh tests/data_quality.mongosh.js
+
+# 5. Explore the advanced demos (optional)
+mongosh advanced/aggregation_performance.mongosh.js
+mongosh advanced/approximate_metrics.mongosh.js
 ```
 
 The scripts assume a MongoDB instance is available at the default `mongodb://127.0.0.1:27017`. If you point mongosh at another URI, export `MONGODB_URI` before running the commands.
@@ -58,4 +65,4 @@ The scripts assume a MongoDB instance is available at the default `mongodb://127
 2. Walk through the diagrams inside `architecture.md` (copy/paste them into slides if presenting live).
 3. Run `queries/use_cases.mongosh.js` and discuss the printed summary tables.
 4. Mention how `performance.md` justifies the indexes that `queries/index_blueprint.mongosh.js` applies.
-5. Close with lessons learned and potential extensions (e.g., hooking into change streams for real-time dashboards).
+5. Close with lessons learned and potential extensions (e.g., streaming dashboards, faster approximations). The `advanced/` folder has starter scripts you can reference when discussing those ideas.

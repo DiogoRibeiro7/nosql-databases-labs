@@ -4,9 +4,9 @@
 db = db.getSiblingDB("group_xx_example_final");
 const expectations = [
   // Ensure seed counts match the script after every import.
-  { label: "vendors", collection: "vendors", query: {}, expected: 6 },
-  { label: "events", collection: "events", query: {}, expected: 5 },
-  { label: "orders", collection: "orders", query: {}, expected: 20 },
+  { label: "vendors", collection: "vendors", query: {}, expected: 8 },
+  { label: "events", collection: "events", query: {}, expected: 8 },
+  { label: "orders", collection: "orders", query: {}, expected: 34 },
   // Cross-check that every order references an existing event.
   {
     label: "referential integrity",

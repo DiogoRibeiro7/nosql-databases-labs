@@ -9,8 +9,15 @@
       "capacity": 1200
     },
     "ticketPrice": 7.5,
-    "focusAreas": ["tourism", "local chefs"],
-    "vendors": ["VNDR-01", "VNDR-02", "VNDR-03"],
+    "focusAreas": [
+      "tourism",
+      "local chefs"
+    ],
+    "vendors": [
+      "VNDR-01",
+      "VNDR-02",
+      "VNDR-03"
+    ],
     "sustainabilityTier": "B"
   },
   {
@@ -23,8 +30,15 @@
       "capacity": 900
     },
     "ticketPrice": 5.0,
-    "focusAreas": ["families", "live music"],
-    "vendors": ["VNDR-01", "VNDR-02", "VNDR-04"],
+    "focusAreas": [
+      "families",
+      "live music"
+    ],
+    "vendors": [
+      "VNDR-01",
+      "VNDR-02",
+      "VNDR-04"
+    ],
     "sustainabilityTier": "A"
   },
   {
@@ -37,8 +51,15 @@
       "capacity": 1000
     },
     "ticketPrice": 6.0,
-    "focusAreas": ["crafts", "live workshops"],
-    "vendors": ["VNDR-02", "VNDR-03", "VNDR-04"],
+    "focusAreas": [
+      "crafts",
+      "live workshops"
+    ],
+    "vendors": [
+      "VNDR-02",
+      "VNDR-03",
+      "VNDR-04"
+    ],
     "sustainabilityTier": "A"
   },
   {
@@ -51,8 +72,16 @@
       "capacity": 850
     },
     "ticketPrice": 6.5,
-    "focusAreas": ["nightlife", "heritage"],
-    "vendors": ["VNDR-01", "VNDR-03", "VNDR-05", "VNDR-06"],
+    "focusAreas": [
+      "nightlife",
+      "heritage"
+    ],
+    "vendors": [
+      "VNDR-01",
+      "VNDR-03",
+      "VNDR-05",
+      "VNDR-06"
+    ],
     "sustainabilityTier": "B"
   },
   {
@@ -65,8 +94,81 @@
       "capacity": 1100
     },
     "ticketPrice": 6.0,
-    "focusAreas": ["sunset", "families"],
-    "vendors": ["VNDR-02", "VNDR-04", "VNDR-05", "VNDR-06"],
+    "focusAreas": [
+      "sunset",
+      "families"
+    ],
+    "vendors": [
+      "VNDR-02",
+      "VNDR-04",
+      "VNDR-05",
+      "VNDR-06"
+    ],
+    "sustainabilityTier": "A"
+  },
+  {
+    "eventCode": "EVT-PRT-MARKET-006",
+    "title": "Bolhão Twilight Bites",
+    "eventDate": "2025-11-08T17:00:00Z",
+    "venue": {
+      "name": "Mercado do Bolhão",
+      "capacity": 950,
+      "neighborhood": "Bolhão"
+    },
+    "ticketPrice": 6.5,
+    "focusAreas": [
+      "heritage",
+      "local producers"
+    ],
+    "vendors": [
+      "VNDR-01",
+      "VNDR-03",
+      "VNDR-05",
+      "VNDR-07"
+    ],
+    "sustainabilityTier": "B"
+  },
+  {
+    "eventCode": "EVT-PRT-TECH-007",
+    "title": "Campanhã Tech Food Fair",
+    "eventDate": "2025-11-29T12:00:00Z",
+    "venue": {
+      "name": "Estação Campanhã Loft",
+      "capacity": 1200,
+      "neighborhood": "Campanhã"
+    },
+    "ticketPrice": 7.0,
+    "focusAreas": [
+      "startups",
+      "street art"
+    ],
+    "vendors": [
+      "VNDR-02",
+      "VNDR-04",
+      "VNDR-06",
+      "VNDR-08"
+    ],
+    "sustainabilityTier": "A"
+  },
+  {
+    "eventCode": "EVT-PRT-RIVERSIDE-008",
+    "title": "Douro Winter Warmers",
+    "eventDate": "2025-12-13T16:00:00Z",
+    "venue": {
+      "name": "Cais de Gaia Rotunda",
+      "capacity": 1000,
+      "neighborhood": "Gaia"
+    },
+    "ticketPrice": 7.5,
+    "focusAreas": [
+      "holiday",
+      "music"
+    ],
+    "vendors": [
+      "VNDR-01",
+      "VNDR-02",
+      "VNDR-08"
+    ],
     "sustainabilityTier": "A"
   }
 ]

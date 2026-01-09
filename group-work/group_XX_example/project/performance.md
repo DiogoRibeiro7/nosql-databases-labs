@@ -4,7 +4,7 @@
 
 ## Workload Recap
 
-- 3 collections, 20 orders (fixture) but scripts expect tens of thousands once students scale up.
+- 3 collections, 34 orders (fixture) but scripts expect tens of thousands once students scale up.
 - 4 primary query families:
   1. Revenue and satisfaction by `eventCode` × `vendorId`.
   2. Repeat visitor detection (grouping by `customer.customerId`).
