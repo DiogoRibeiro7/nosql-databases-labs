@@ -10,7 +10,7 @@ This sample solution demonstrates how a final project submission can look when t
 | `architecture.md` | Written rationale for the collections, embedding strategy, and indexes. |
 | `performance.md` | Notes on query patterns, index coverage, and manual explain output. |
 | `data/` | JSON copies of the inline fixtures for documentation or slide decks. |
-| `queries/0*_*.mongosh.js` | Ten mongosh scripts that mix `find()` examples with richer aggregation pipelines. |
+| `queries/0*_*.mongosh.js` | Thirteen mongosh scripts that mix `find()` examples with richer aggregation pipelines. |
 | `queries/index_blueprint.mongosh.js` | Idempotent script that recreates indexes if you ever drop them manually. |
 | `tests/data_quality.mongosh.js` | Lightweight assertions to verify document counts and denormalized fields. |
 
@@ -33,6 +33,9 @@ mongosh queries/07_recent_high_value_orders.mongosh.js
 mongosh queries/08_vendor_event_presence.mongosh.js
 mongosh queries/09_payment_mix_by_event.mongosh.js
 mongosh queries/10_feedback_distribution_by_vendor.mongosh.js
+mongosh queries/11_vendor_waittime_trends.mongosh.js
+mongosh queries/12_vendor_revenue_rankings.mongosh.js
+mongosh queries/13_returning_customers_by_district.mongosh.js
 
 # 3. Re-apply indexes if you changed anything (optional)
 mongosh queries/index_blueprint.mongosh.js
