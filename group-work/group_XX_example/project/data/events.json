@@ -1,0 +1,72 @@
+[
+  {
+    "eventCode": "EVT-PRT-STREET-001",
+    "title": "Ribeira Sunset Market",
+    "eventDate": "2025-07-12T18:00:00Z",
+    "venue": {
+      "name": "Ribeira Docks",
+      "neighborhood": "Ribeira",
+      "capacity": 1200
+    },
+    "ticketPrice": 7.5,
+    "focusAreas": ["tourism", "local chefs"],
+    "vendors": ["VNDR-01", "VNDR-02", "VNDR-03"],
+    "sustainabilityTier": "B"
+  },
+  {
+    "eventCode": "EVT-PRT-RIVERSIDE-002",
+    "title": "Douro Riverside Brunch",
+    "eventDate": "2025-08-02T10:00:00Z",
+    "venue": {
+      "name": "Jardins do Palacio",
+      "neighborhood": "Massarelos",
+      "capacity": 900
+    },
+    "ticketPrice": 5.0,
+    "focusAreas": ["families", "live music"],
+    "vendors": ["VNDR-01", "VNDR-02", "VNDR-04"],
+    "sustainabilityTier": "A"
+  },
+  {
+    "eventCode": "EVT-PRT-ARTISANS-003",
+    "title": "Campanha Makers Night",
+    "eventDate": "2025-09-14T19:00:00Z",
+    "venue": {
+      "name": "Campanha Hub",
+      "neighborhood": "Campanha",
+      "capacity": 1000
+    },
+    "ticketPrice": 6.0,
+    "focusAreas": ["crafts", "live workshops"],
+    "vendors": ["VNDR-02", "VNDR-03", "VNDR-04"],
+    "sustainabilityTier": "A"
+  },
+  {
+    "eventCode": "EVT-PRT-CLERIGOS-004",
+    "title": "Clerigos Night Feast",
+    "eventDate": "2025-09-27T19:00:00Z",
+    "venue": {
+      "name": "Terraco Clerigos",
+      "neighborhood": "Baixa",
+      "capacity": 850
+    },
+    "ticketPrice": 6.5,
+    "focusAreas": ["nightlife", "heritage"],
+    "vendors": ["VNDR-01", "VNDR-03", "VNDR-05", "VNDR-06"],
+    "sustainabilityTier": "B"
+  },
+  {
+    "eventCode": "EVT-PRT-FOZ-005",
+    "title": "Foz Beach Pop-Up",
+    "eventDate": "2025-10-18T16:00:00Z",
+    "venue": {
+      "name": "Praia do Molhe",
+      "neighborhood": "Foz",
+      "capacity": 1100
+    },
+    "ticketPrice": 6.0,
+    "focusAreas": ["sunset", "families"],
+    "vendors": ["VNDR-02", "VNDR-04", "VNDR-05", "VNDR-06"],
+    "sustainabilityTier": "A"
+  }
+]
