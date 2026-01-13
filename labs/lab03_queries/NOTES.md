@@ -114,6 +114,7 @@ db.users.countDocuments()     // Should return 7
 ### BASELINE PERFORMANCE (BEFORE INDEXES):
 
 **Query 1:** `db.movies.find({ genres: "Action" })`
+
 - Stage: COLLSCAN (collection scan)
 - Execution time: ~5-10ms (small dataset)
 - Documents examined: 50 (all documents)
@@ -121,6 +122,7 @@ db.users.countDocuments()     // Should return 7
 - Efficiency: Poor (scans entire collection)
 
 **Query 2:** `db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } })`
+
 - Stage: COLLSCAN
 - Execution time: ~5-10ms
 - Documents examined: 50
@@ -128,6 +130,7 @@ db.users.countDocuments()     // Should return 7
 - Efficiency: Poor
 
 **Query 3:** `db.movies.find({ directors: "Christopher Nolan" })`
+
 - Stage: COLLSCAN
 - Execution time: ~5-10ms
 - Documents examined: 50
@@ -135,12 +138,14 @@ db.users.countDocuments()     // Should return 7
 - Efficiency: Poor
 
 **Query 4:** `db.movies.find({ $text: { $search: "space" } })`
+
 - Error: No text index exists
 - Cannot execute
 
 ### POST-INDEX PERFORMANCE (AFTER INDEXES):
 
 **Query 1:** `db.movies.find({ genres: "Action" })`
+
 - Index: genres_1
 - Stage: IXSCAN (index scan)
 - Execution time: ~1-2ms
@@ -151,7 +156,8 @@ db.users.countDocuments()     // Should return 7
 - Index hit rate: 100%
 
 **Query 2:** `db.movies.find({ year: 2015, "imdb.rating": { $gt: 7.0 } })`
-- Index: year_-1_imdb.rating_-1 (compound)
+
+- Index: year*-1_imdb.rating*-1 (compound)
 - Stage: IXSCAN
 - Execution time: ~1-2ms
 - Documents examined: ~3
@@ -160,6 +166,7 @@ db.users.countDocuments()     // Should return 7
 - Efficiency: Excellent (5x improvement)
 
 **Query 3:** `db.movies.find({ directors: "Christopher Nolan" })`
+
 - Index: directors_1
 - Stage: IXSCAN
 - Execution time: ~1ms
@@ -169,6 +176,7 @@ db.users.countDocuments()     // Should return 7
 - Efficiency: Excellent (10x improvement)
 
 **Query 4:** `db.movies.find({ $text: { $search: "space" } })`
+
 - Index: movie_text_index
 - Stage: TEXT
 - Execution time: ~2-3ms
@@ -178,12 +186,12 @@ db.users.countDocuments()     // Should return 7
 
 ### PERFORMANCE IMPROVEMENT SUMMARY:
 
-| Query         | Before (ms) | After (ms) | Improvement   |
-|---------------|-------------|------------|---------------|
-| Genre filter  | 5-10        | 1-2        | 5-10x faster  |
-| Year + Rating | 5-10        | 1-2        | 5-10x faster  |
-| Director      | 5-10        | 1          | 10x faster    |
-| Text search   | N/A         | 2-3        | Now possible  |
+| Query         | Before (ms) | After (ms) | Improvement  |
+| ------------- | ----------- | ---------- | ------------ |
+| Genre filter  | 5-10        | 1-2        | 5-10x faster |
+| Year + Rating | 5-10        | 1-2        | 5-10x faster |
+| Director      | 5-10        | 1          | 10x faster   |
+| Text search   | N/A         | 2-3        | Now possible |
 
 **Note:** On larger datasets (100K+ documents), improvements would be much more dramatic (100x-1000x faster).
 
@@ -192,8 +200,9 @@ db.users.countDocuments()     // Should return 7
 ## INDEX STORAGE OVERHEAD
 
 Check index sizes:
+
 ```javascript
-db.movies.stats().indexSizes
+db.movies.stats().indexSizes;
 ```
 
 ### Typical results:
@@ -226,11 +235,13 @@ db.movies.stats().indexSizes
 ### How indexes affect writes:
 
 **Without indexes:**
+
 - Insert: ~1ms per document
 - Update: ~1ms per document
 - Delete: ~1ms per document
 
 **With 10 indexes:**
+
 - Insert: ~3-4ms per document (3-4x slower)
 - Update: ~3-4ms per document (only if indexed fields change)
 - Delete: ~2-3ms per document (2-3x slower)
@@ -337,16 +348,18 @@ db.movies.stats().indexSizes
 db.movies.createIndex({ title: 1, year: 1, "imdb.rating": 1 });
 
 // Query that is covered
-db.movies.find(
-  { title: "Inception" },
-  { title: 1, year: 1, "imdb.rating": 1, _id: 0 }  // Must exclude _id!
-).explain("executionStats");
+db.movies
+  .find(
+    { title: "Inception" },
+    { title: 1, year: 1, "imdb.rating": 1, _id: 0 } // Must exclude _id!
+  )
+  .explain("executionStats");
 
 // Look for: "totalDocsExamined": 0
 // This means no documents were read, only index!
 ```
 
-### Why _id must be excluded:
+### Why \_id must be excluded:
 
 - `_id` is stored in documents, not in our custom index
 - Including `_id` forces document read
@@ -361,10 +374,7 @@ db.movies.find(
 ### Example of NON-Covered Query:
 
 ```javascript
-db.movies.find(
-  { title: "Inception" },
-  { title: 1, year: 1, "imdb.rating": 1, plot: 1, _id: 0 }
-);
+db.movies.find({ title: "Inception" }, { title: 1, year: 1, "imdb.rating": 1, plot: 1, _id: 0 });
 
 // 'plot' is not in the index, so document must be read
 // totalDocsExamined: 1 (not covered)
@@ -383,30 +393,37 @@ db.movies.find(
 ### OPTIMIZATION 1: Slow Genre + Rating Query
 
 **Original Query:**
+
 ```javascript
-db.movies.find({
-  genres: "Sci-Fi",
-  "imdb.rating": { $gt: 8.0 }
-}).sort({ "imdb.rating": -1 });
+db.movies
+  .find({
+    genres: "Sci-Fi",
+    "imdb.rating": { $gt: 8.0 },
+  })
+  .sort({ "imdb.rating": -1 });
 ```
 
 **BEFORE:**
+
 - Stage: COLLSCAN
 - Execution time: 8ms
 - Documents examined: 50
 - Documents returned: 5
 
 **Problem:**
+
 - Full collection scan
 - No index usage
 - Must examine all documents
 
 **Solution:**
+
 ```javascript
 db.movies.createIndex({ genres: 1, "imdb.rating": -1 });
 ```
 
 **AFTER:**
+
 - Stage: IXSCAN
 - Execution time: 1ms
 - Documents examined: 5
@@ -414,6 +431,7 @@ db.movies.createIndex({ genres: 1, "imdb.rating": -1 });
 - Improvement: 8x faster
 
 **Why it works:**
+
 - Index provides pre-sorted data by (genres, rating)
 - Filter on genres eliminates non-matching
 - Rating filter and sort use same index
@@ -422,29 +440,36 @@ db.movies.createIndex({ genres: 1, "imdb.rating": -1 });
 ### OPTIMIZATION 2: Director Filmography Query
 
 **Original Query:**
+
 ```javascript
-db.movies.find({
-  directors: "Christopher Nolan"
-}).sort({ year: -1 });
+db.movies
+  .find({
+    directors: "Christopher Nolan",
+  })
+  .sort({ year: -1 });
 ```
 
 **BEFORE:**
+
 - Stage: COLLSCAN + SORT (in-memory sort)
 - Execution time: 7ms
 - Documents examined: 50
 - Documents returned: 6
 
 **Problem:**
+
 - Collection scan to find director
 - In-memory sort (expensive)
 - No index usage
 
 **Solution:**
+
 ```javascript
 db.movies.createIndex({ directors: 1, year: -1 });
 ```
 
 **AFTER:**
+
 - Stage: IXSCAN (no separate sort stage!)
 - Execution time: 0.5ms
 - Documents examined: 6
@@ -452,6 +477,7 @@ db.movies.createIndex({ directors: 1, year: -1 });
 - Improvement: 14x faster
 
 **Why it works:**
+
 - Index stores data sorted by (directors, year desc)
 - Filter on directors + sort on year uses same index
 - No in-memory sort needed
@@ -460,31 +486,39 @@ db.movies.createIndex({ directors: 1, year: -1 });
 ### OPTIMIZATION 3: Top Rated Recent Movies
 
 **Original Query:**
+
 ```javascript
-db.movies.find({
-  year: { $gte: 2015 },
-  "imdb.rating": { $gte: 8.5 }
-}).sort({ "imdb.rating": -1 }).limit(10);
+db.movies
+  .find({
+    year: { $gte: 2015 },
+    "imdb.rating": { $gte: 8.5 },
+  })
+  .sort({ "imdb.rating": -1 })
+  .limit(10);
 ```
 
 **BEFORE:**
+
 - Stage: COLLSCAN + SORT (in-memory)
 - Execution time: 10ms
 - Documents examined: 50
 - Documents returned: 10
 
 **Problem:**
+
 - Full collection scan
 - Range conditions on both fields (less efficient)
 - In-memory sort
 
 **Solution:**
+
 ```javascript
 // Following ESR rule:
 db.movies.createIndex({ year: -1, "imdb.rating": -1 });
 ```
 
 **AFTER:**
+
 - Stage: IXSCAN
 - Execution time: 1.5ms
 - Documents examined: 12
@@ -492,6 +526,7 @@ db.movies.createIndex({ year: -1, "imdb.rating": -1 });
 - Improvement: 6-7x faster
 
 **Why it works:**
+
 - Year in index for range filter
 - Rating in index for range filter and sort
 - Index provides pre-sorted data
@@ -499,9 +534,11 @@ db.movies.createIndex({ year: -1, "imdb.rating": -1 });
 
 **Alternative (even better for this query):**
 Since we're sorting by rating and rating filter is more selective:
+
 ```javascript
 db.movies.createIndex({ "imdb.rating": -1, year: -1 });
 ```
+
 This allows scanning ratings from high to low until we find 10 movies meeting year criteria.
 
 ---

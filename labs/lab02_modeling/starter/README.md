@@ -5,7 +5,6 @@ This folder contains starter files and sample data for Lab 02 - Data Modeling in
 ## Contents
 
 - **`data/`** - Sample data files in JSON format
-
   - `customers.json` - Sample customer documents
   - `products.json` - Sample product documents
   - `orders.json` - Sample order documents
@@ -19,28 +18,28 @@ This folder contains starter files and sample data for Lab 02 - Data Modeling in
 
 1. **Choose Your Scenario**
 
-  - Option A: E-commerce (customers, products, orders)
-  - Option B: Content platform (users, posts, comments)
-  - Option C: Custom (as specified by instructor)
+- Option A: E-commerce (customers, products, orders)
+- Option B: Content platform (users, posts, comments)
+- Option C: Custom (as specified by instructor)
 
 2. **Design Your Model**
 
-  - Use `model_template.md` as a starting point
-  - Document your entity relationships
-  - Justify embedding vs referencing decisions
-  - Define collections and indexes
+- Use `model_template.md` as a starting point
+- Document your entity relationships
+- Justify embedding vs referencing decisions
+- Define collections and indexes
 
 3. **Write Sample Queries**
 
-  - Use `queries_template.md` as a starting point
-  - Write queries for all required operations
-  - Explain how your model supports each query
+- Use `queries_template.md` as a starting point
+- Write queries for all required operations
+- Explain how your model supports each query
 
 4. **Test Your Model**
 
-  - Import the sample data using the setup scripts
-  - Run your queries to verify they work
-  - Use the test script to validate your design
+- Import the sample data using the setup scripts
+- Run your queries to verify they work
+- Use the test script to validate your design
 
 ## Setup Instructions
 

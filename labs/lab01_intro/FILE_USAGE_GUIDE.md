@@ -88,6 +88,6 @@ node <filename>.js
 
 3. **Connection errors** - Make sure MongoDB server is running:
 
-  ```bash
-  brew services start mongodb-community@7.0  # macOS
-  ```
+```bash
+brew services start mongodb-community@7.0  # macOS
+```

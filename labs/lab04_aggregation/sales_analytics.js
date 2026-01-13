@@ -2,7 +2,7 @@
 // Database: lab04_analytics
 // Collection: sales
 
-use lab04_analytics
+use("lab04_analytics");
 
 // ========================================
 // TASK 1: SALES ANALYTICS
@@ -14,8 +14,8 @@ db.sales.aggregate([
   // Extract month and year from date
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   // Group by year and month
@@ -23,33 +23,30 @@ db.sales.aggregate([
     $group: {
       _id: {
         year: { $year: "$sale_date" },
-        month: { $month: "$sale_date" }
+        month: { $month: "$sale_date" },
       },
       revenue: { $sum: "$total_amount" },
       order_count: { $sum: 1 },
       total_profit: { $sum: "$profit" },
-      total_units: { $sum: "$quantity" }
-    }
+      total_units: { $sum: "$quantity" },
+    },
   },
 
   // Calculate average order value
   {
     $addFields: {
       avg_order_value: {
-        $divide: ["$revenue", "$order_count"]
+        $divide: ["$revenue", "$order_count"],
       },
       profit_margin: {
-        $multiply: [
-          { $divide: ["$total_profit", "$revenue"] },
-          100
-        ]
-      }
-    }
+        $multiply: [{ $divide: ["$total_profit", "$revenue"] }, 100],
+      },
+    },
   },
 
   // Sort by year and month descending
   {
-    $sort: { "_id.year": -1, "_id.month": -1 }
+    $sort: { "_id.year": -1, "_id.month": -1 },
   },
 
   // Reshape output
@@ -63,9 +60,9 @@ db.sales.aggregate([
       avg_order_value: { $round: ["$avg_order_value", 2] },
       total_profit: { $round: ["$total_profit", 2] },
       profit_margin: { $round: ["$profit_margin", 2] },
-      total_units: 1
-    }
-  }
+      total_units: 1,
+    },
+  },
 ]);
 
 // ========================================
@@ -79,8 +76,8 @@ db.sales.aggregate([
       total_revenue: { $sum: "$total_amount" },
       total_profit: { $sum: "$profit" },
       total_units: { $sum: "$quantity" },
-      num_orders: { $sum: 1 }
-    }
+      num_orders: { $sum: 1 },
+    },
   },
 
   // Calculate metrics
@@ -88,12 +85,9 @@ db.sales.aggregate([
     $addFields: {
       avg_price: { $divide: ["$total_revenue", "$total_units"] },
       profit_margin: {
-        $multiply: [
-          { $divide: ["$total_profit", "$total_revenue"] },
-          100
-        ]
-      }
-    }
+        $multiply: [{ $divide: ["$total_profit", "$total_revenue"] }, 100],
+      },
+    },
   },
 
   // Lookup product details
@@ -102,8 +96,8 @@ db.sales.aggregate([
       from: "products",
       localField: "_id",
       foreignField: "product_id",
-      as: "product_info"
-    }
+      as: "product_info",
+    },
   },
 
   // Unwind product info
@@ -127,9 +121,9 @@ db.sales.aggregate([
       profit_margin: { $round: ["$profit_margin", 2] },
       total_units: 1,
       num_orders: 1,
-      avg_price: { $round: ["$avg_price", 2] }
-    }
-  }
+      avg_price: { $round: ["$avg_price", 2] },
+    },
+  },
 ]);
 
 // ========================================
@@ -141,8 +135,8 @@ db.sales.aggregate([
       total_revenue: { $sum: "$total_amount" },
       total_profit: { $sum: "$profit" },
       total_units: { $sum: "$quantity" },
-      num_orders: { $sum: 1 }
-    }
+      num_orders: { $sum: 1 },
+    },
   },
 
   {
@@ -150,12 +144,9 @@ db.sales.aggregate([
       avg_price: { $divide: ["$total_revenue", "$total_units"] },
       avg_order_value: { $divide: ["$total_revenue", "$num_orders"] },
       profit_margin: {
-        $multiply: [
-          { $divide: ["$total_profit", "$total_revenue"] },
-          100
-        ]
-      }
-    }
+        $multiply: [{ $divide: ["$total_profit", "$total_revenue"] }, 100],
+      },
+    },
   },
 
   { $sort: { total_revenue: -1 } },
@@ -170,9 +161,9 @@ db.sales.aggregate([
       total_units: 1,
       num_orders: 1,
       avg_price: { $round: ["$avg_price", 2] },
-      avg_order_value: { $round: ["$avg_order_value", 2] }
-    }
-  }
+      avg_order_value: { $round: ["$avg_order_value", 2] },
+    },
+  },
 ]);
 
 // ========================================
@@ -181,8 +172,8 @@ db.sales.aggregate([
   // Convert date to Date object
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   // Filter for December 2023
@@ -190,9 +181,9 @@ db.sales.aggregate([
     $match: {
       sale_date: {
         $gte: new Date("2023-12-01"),
-        $lt: new Date("2024-01-01")
-      }
-    }
+        $lt: new Date("2024-01-01"),
+      },
+    },
   },
 
   // Group by day
@@ -201,8 +192,8 @@ db.sales.aggregate([
       _id: { $dayOfMonth: "$sale_date" },
       daily_revenue: { $sum: "$total_amount" },
       daily_orders: { $sum: 1 },
-      daily_units: { $sum: "$quantity" }
-    }
+      daily_units: { $sum: "$quantity" },
+    },
   },
 
   // Sort by day
@@ -215,26 +206,26 @@ db.sales.aggregate([
       day: "$_id",
       daily_revenue: { $round: ["$daily_revenue", 2] },
       daily_orders: 1,
-      daily_units: 1
-    }
-  }
+      daily_units: 1,
+    },
+  },
 ]);
 
 // Alternative: With 7-day moving average (requires MongoDB 5.0+)
 db.sales.aggregate([
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   {
     $match: {
       sale_date: {
         $gte: new Date("2023-12-01"),
-        $lt: new Date("2024-01-01")
-      }
-    }
+        $lt: new Date("2024-01-01"),
+      },
+    },
   },
 
   {
@@ -242,12 +233,12 @@ db.sales.aggregate([
       _id: {
         $dateToString: {
           format: "%Y-%m-%d",
-          date: "$sale_date"
-        }
+          date: "$sale_date",
+        },
       },
       daily_revenue: { $sum: "$total_amount" },
-      daily_orders: { $sum: 1 }
-    }
+      daily_orders: { $sum: 1 },
+    },
   },
 
   { $sort: { _id: 1 } },
@@ -260,11 +251,11 @@ db.sales.aggregate([
         moving_avg_7d: {
           $avg: "$daily_revenue",
           window: {
-            documents: [-3, 3]  // 7-day window: 3 before, current, 3 after
-          }
-        }
-      }
-    }
+            documents: [-3, 3], // 7-day window: 3 before, current, 3 after
+          },
+        },
+      },
+    },
   },
 
   {
@@ -273,9 +264,9 @@ db.sales.aggregate([
       date: "$_id",
       daily_revenue: { $round: ["$daily_revenue", 2] },
       moving_avg_7d: { $round: ["$moving_avg_7d", 2] },
-      daily_orders: 1
-    }
-  }
+      daily_orders: 1,
+    },
+  },
 ]);
 
 // ========================================
@@ -286,8 +277,8 @@ db.sales.aggregate([
       _id: "$product_id",
       total_revenue: { $sum: "$total_amount" },
       total_cost: { $sum: { $multiply: ["$cost", "$quantity"] } },
-      total_units: { $sum: "$quantity" }
-    }
+      total_units: { $sum: "$quantity" },
+    },
   },
 
   {
@@ -296,15 +287,12 @@ db.sales.aggregate([
       profit_margin: {
         $multiply: [
           {
-            $divide: [
-              { $subtract: ["$total_revenue", "$total_cost"] },
-              "$total_revenue"
-            ]
+            $divide: [{ $subtract: ["$total_revenue", "$total_cost"] }, "$total_revenue"],
           },
-          100
-        ]
-      }
-    }
+          100,
+        ],
+      },
+    },
   },
 
   {
@@ -312,8 +300,8 @@ db.sales.aggregate([
       from: "products",
       localField: "_id",
       foreignField: "product_id",
-      as: "product"
-    }
+      as: "product",
+    },
   },
 
   { $unwind: "$product" },
@@ -330,9 +318,9 @@ db.sales.aggregate([
       total_cost: { $round: ["$total_cost", 2] },
       total_profit: { $round: ["$total_profit", 2] },
       profit_margin: { $round: ["$profit_margin", 2] },
-      total_units: 1
-    }
-  }
+      total_units: 1,
+    },
+  },
 ]);
 
 // ========================================
@@ -343,18 +331,18 @@ db.sales.aggregate([
 db.sales.aggregate([
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   {
     $group: {
       _id: {
         year: { $year: "$sale_date" },
-        month: { $month: "$sale_date" }
+        month: { $month: "$sale_date" },
       },
-      revenue: { $sum: "$total_amount" }
-    }
+      revenue: { $sum: "$total_amount" },
+    },
   },
 
   { $sort: { "_id.year": 1, "_id.month": 1 } },
@@ -366,11 +354,11 @@ db.sales.aggregate([
         prev_month_revenue: {
           $shift: {
             output: "$revenue",
-            by: -1
-          }
-        }
-      }
-    }
+            by: -1,
+          },
+        },
+      },
+    },
   },
 
   {
@@ -384,15 +372,15 @@ db.sales.aggregate([
               {
                 $divide: [
                   { $subtract: ["$revenue", "$prev_month_revenue"] },
-                  "$prev_month_revenue"
-                ]
+                  "$prev_month_revenue",
+                ],
               },
-              100
-            ]
-          }
-        }
-      }
-    }
+              100,
+            ],
+          },
+        },
+      },
+    },
   },
 
   {
@@ -402,9 +390,9 @@ db.sales.aggregate([
       month: "$_id.month",
       revenue: { $round: ["$revenue", 2] },
       prev_month_revenue: { $round: ["$prev_month_revenue", 2] },
-      mom_growth: { $round: ["$mom_growth", 2] }
-    }
-  }
+      mom_growth: { $round: ["$mom_growth", 2] },
+    },
+  },
 ]);
 
 // 7. Sales by Region
@@ -414,8 +402,8 @@ db.sales.aggregate([
       _id: "$region",
       total_revenue: { $sum: "$total_amount" },
       total_profit: { $sum: "$profit" },
-      num_orders: { $sum: 1 }
-    }
+      num_orders: { $sum: 1 },
+    },
   },
 
   { $sort: { total_revenue: -1 } },
@@ -428,26 +416,26 @@ db.sales.aggregate([
       total_profit: { $round: ["$total_profit", 2] },
       num_orders: 1,
       avg_order_value: {
-        $round: [{ $divide: ["$total_revenue", "$num_orders"] }, 2]
-      }
-    }
-  }
+        $round: [{ $divide: ["$total_revenue", "$num_orders"] }, 2],
+      },
+    },
+  },
 ]);
 
 // 8. Peak Sales Hours (if time component exists)
 db.sales.aggregate([
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   {
     $group: {
-      _id: { $dayOfWeek: "$sale_date" },  // 1=Sunday, 7=Saturday
+      _id: { $dayOfWeek: "$sale_date" }, // 1=Sunday, 7=Saturday
       total_revenue: { $sum: "$total_amount" },
-      num_orders: { $sum: 1 }
-    }
+      num_orders: { $sum: 1 },
+    },
   },
 
   { $sort: { _id: 1 } },
@@ -464,26 +452,26 @@ db.sales.aggregate([
             { case: { $eq: ["$_id", 4] }, then: "Wednesday" },
             { case: { $eq: ["$_id", 5] }, then: "Thursday" },
             { case: { $eq: ["$_id", 6] }, then: "Friday" },
-            { case: { $eq: ["$_id", 7] }, then: "Saturday" }
+            { case: { $eq: ["$_id", 7] }, then: "Saturday" },
           ],
-          default: "Unknown"
-        }
+          default: "Unknown",
+        },
       },
       total_revenue: { $round: ["$total_revenue", 2] },
       num_orders: 1,
       avg_order_value: {
-        $round: [{ $divide: ["$total_revenue", "$num_orders"] }, 2]
-      }
-    }
-  }
+        $round: [{ $divide: ["$total_revenue", "$num_orders"] }, 2],
+      },
+    },
+  },
 ]);
 
 // 9. Top 10 Best Performing Days
 db.sales.aggregate([
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   {
@@ -491,12 +479,12 @@ db.sales.aggregate([
       _id: {
         $dateToString: {
           format: "%Y-%m-%d",
-          date: "$sale_date"
-        }
+          date: "$sale_date",
+        },
       },
       daily_revenue: { $sum: "$total_amount" },
-      num_orders: { $sum: 1 }
-    }
+      num_orders: { $sum: 1 },
+    },
   },
 
   { $sort: { daily_revenue: -1 } },
@@ -508,38 +496,38 @@ db.sales.aggregate([
       _id: 0,
       date: "$_id",
       daily_revenue: { $round: ["$daily_revenue", 2] },
-      num_orders: 1
-    }
-  }
+      num_orders: 1,
+    },
+  },
 ]);
 
 // 10. Quarterly Performance
 db.sales.aggregate([
   {
     $addFields: {
-      sale_date: { $toDate: "$date" }
-    }
+      sale_date: { $toDate: "$date" },
+    },
   },
 
   {
     $addFields: {
       quarter: {
-        $ceil: { $divide: [{ $month: "$sale_date" }, 3] }
+        $ceil: { $divide: [{ $month: "$sale_date" }, 3] },
       },
-      year: { $year: "$sale_date" }
-    }
+      year: { $year: "$sale_date" },
+    },
   },
 
   {
     $group: {
       _id: {
         year: "$year",
-        quarter: "$quarter"
+        quarter: "$quarter",
       },
       revenue: { $sum: "$total_amount" },
       profit: { $sum: "$profit" },
-      orders: { $sum: 1 }
-    }
+      orders: { $sum: 1 },
+    },
   },
 
   { $sort: { "_id.year": 1, "_id.quarter": 1 } },
@@ -551,7 +539,7 @@ db.sales.aggregate([
       quarter: "$_id.quarter",
       revenue: { $round: ["$revenue", 2] },
       profit: { $round: ["$profit", 2] },
-      orders: 1
-    }
-  }
+      orders: 1,
+    },
+  },
 ]);

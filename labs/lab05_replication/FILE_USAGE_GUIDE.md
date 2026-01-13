@@ -76,6 +76,12 @@ These files should be run with Node.js using the `node` command:
   node write_concerns.js
   ```
 
+- **monitor_replication.js** – Continuously captures replication lag and election events
+
+  ```bash
+  node monitor_replication.js --minutes=5 --interval=3
+  ```
+
 ## How to Identify the Correct Tool
 
 ### Mongosh Files

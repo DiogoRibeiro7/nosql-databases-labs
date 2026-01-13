@@ -1,9 +1,9 @@
 ---
 name: Pull Request
 about: Submit lab deliverables or repository updates
-title: ''
-labels: ''
-assignees: ''
+title: ""
+labels: ""
+assignees: ""
 ---
 
 ## Summary

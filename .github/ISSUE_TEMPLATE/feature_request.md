@@ -1,9 +1,9 @@
 ---
 name: Feature Request
 about: Propose a new capability, dataset, or automation
-title: '[Feature] '
+title: "[Feature] "
 labels: feature
-assignees: ''
+assignees: ""
 ---
 
 ## Summary
