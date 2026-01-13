@@ -1,14 +1,14 @@
-// Query 11: Métricas de Performance de Staff
-// Avaliação de desempenho de funcionários via agregação
+// Query 11: Staff Performance Metrics
+// Employee performance evaluation via aggregation
 // Usage: mongosh queries/11_staff_performance_metrics.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Métricas de Performance de Staff ===\n");
+print("\n=== Staff Performance Metrics ===\n");
 
 db.rentals
   .aggregate([
-    // Agrupar por staff e loja
+    // Group by staff and store
     {
       $group: {
         _id: { staff_id: "$staff_id", store_id: "$store_id" },
@@ -17,9 +17,9 @@ db.rentals
         avg_transaction: { $avg: "$payment.amount" }
       }
     },
-    // Ordenar por receita descendente
+    // Sort by revenue descending
     { $sort: { total_revenue: -1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

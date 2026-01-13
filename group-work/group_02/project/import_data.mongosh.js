@@ -1,50 +1,50 @@
 // ============================================================================
 // Sakila MongoDB Data Import Script
 // ============================================================================
-// Converte dados relacionais do Sakila (CSV/JSON) para modelo de documentos NoSQL
-// Implementa estratégia de denormalização com embedding e referências
+// Converts Sakila relational data (CSV/JSON) to NoSQL document model
+// Implements denormalization strategy with embedding and references
 // ============================================================================
 
-print("\n=== Sakila MongoDB Import - Inicialização ===\n");
+print("\n=== Sakila MongoDB Import - Initialization ===\n");
 
-// Configuração da base de dados
+// Database configuration
 const DB_NAME = "sakila_mongodb";
 db = db.getSiblingDB(DB_NAME);
 
-print(`Base de dados ativa: ${DB_NAME}`);
-print("Removendo coleções existentes para importação limpa...\n");
+print(`Active database: ${DB_NAME}`);
+print("Removing existing collections for clean import...\n");
 
-// Eliminar coleções existentes
+// Drop existing collections
 db.films.drop();
 db.customers.drop();
 db.rentals.drop();
 db.inventory.drop();
 db.stores.drop();
 
-print("Coleções eliminadas. A iniciar importação...\n");
+print("Collections dropped. Starting import...\n");
 
 // ============================================================================
-// FASE 1: Carregar dados brutos dos ficheiros JSON
+// PHASE 1: Load raw data from JSON files
 // ============================================================================
 
-print("FASE 1: Leitura de ficheiros JSON fonte...");
+print("PHASE 1: Reading source JSON files...");
 
 const fs = require('fs');
 const dataPath = "./data/";
 
-// Função auxiliar para ler ficheiros JSON
+// Helper function to read JSON files
 function loadJSON(filename) {
   return JSON.parse(fs.readFileSync(dataPath + filename, 'utf8'));
 }
 
-// Carregar dados auxiliares
+// Load auxiliary data
 const languagesRaw = loadJSON('language.json');
 const categoriesRaw = loadJSON('category.json');
 const actorsRaw = loadJSON('actor.json');
 const filmActorsRaw = loadJSON('film_actor.json');
 const filmCategoriesRaw = loadJSON('film_category.json');
 
-// Carregar dados principais
+// Load main data
 const filmsRaw = loadJSON('film.json');
 const customersRaw = loadJSON('customer.json');
 const addressesRaw = loadJSON('address.json');
@@ -56,15 +56,15 @@ const inventoryRaw = loadJSON('inventory.json');
 const storesRaw = loadJSON('store.json');
 const staffRaw = loadJSON('staff.json');
 
-print(`✓ Ficheiros carregados: ${filmsRaw.length} filmes, ${customersRaw.length} clientes, ${rentalsRaw.length} alugueres\n`);
+print(`✓ Files loaded: ${filmsRaw.length} films, ${customersRaw.length} customers, ${rentalsRaw.length} rentals\n`);
 
 // ============================================================================
-// FASE 2: Construir mapas de lookup para denormalização
+// PHASE 2: Build lookup maps for denormalization
 // ============================================================================
 
-print("FASE 2: Construção de índices de lookup...");
+print("PHASE 2: Building lookup indexes...");
 
-// Mapa de idiomas
+// Language map
 const languageMap = new Map();
 languagesRaw.forEach(lang => {
   languageMap.set(lang.language_id, {
@@ -73,7 +73,7 @@ languagesRaw.forEach(lang => {
   });
 });
 
-// Mapa de categorias
+// Category map
 const categoryMap = new Map();
 categoriesRaw.forEach(cat => {
   categoryMap.set(cat.category_id, {
@@ -82,7 +82,7 @@ categoriesRaw.forEach(cat => {
   });
 });
 
-// Mapa de atores
+// Actor map
 const actorMap = new Map();
 actorsRaw.forEach(actor => {
   actorMap.set(actor.actor_id, {
@@ -92,7 +92,7 @@ actorsRaw.forEach(actor => {
   });
 });
 
-// Mapa filme -> atores (agregação N:M)
+// Film to actors map (N:M aggregation)
 const filmActorsMap = new Map();
 filmActorsRaw.forEach(fa => {
   if (!filmActorsMap.has(fa.film_id)) {
@@ -104,7 +104,7 @@ filmActorsRaw.forEach(fa => {
   }
 });
 
-// Mapa filme -> categoria
+// Film to category map
 const filmCategoryMap = new Map();
 filmCategoriesRaw.forEach(fc => {
   const category = categoryMap.get(fc.category_id);
@@ -113,13 +113,13 @@ filmCategoriesRaw.forEach(fc => {
   }
 });
 
-// Mapa de países
+// Country map
 const countryMap = new Map();
 countriesRaw.forEach(country => {
   countryMap.set(country.country_id, country.country);
 });
 
-// Mapa de cidades (com país embedded)
+// City map (with embedded country)
 const cityMap = new Map();
 citiesRaw.forEach(city => {
   cityMap.set(city.city_id, {
@@ -129,7 +129,7 @@ citiesRaw.forEach(city => {
   });
 });
 
-// Mapa de moradas (com cidade/país embedded)
+// Address map (with embedded city/country)
 const addressMap = new Map();
 addressesRaw.forEach(addr => {
   const city = cityMap.get(addr.city_id);
@@ -143,7 +143,7 @@ addressesRaw.forEach(addr => {
   });
 });
 
-// Mapa de staff
+// Staff map
 const staffMap = new Map();
 staffRaw.forEach(staff => {
   staffMap.set(staff.staff_id, {
@@ -155,7 +155,7 @@ staffRaw.forEach(staff => {
   });
 });
 
-// Mapa de pagamentos (rental_id -> payment)
+// Payment map (rental_id -> payment)
 const paymentMap = new Map();
 paymentsRaw.forEach(payment => {
   paymentMap.set(payment.rental_id, {
@@ -165,20 +165,20 @@ paymentsRaw.forEach(payment => {
   });
 });
 
-print(`✓ Mapas criados: ${filmActorsMap.size} filmes com atores, ${paymentMap.size} pagamentos\n`);
+print(`✓ Maps created: ${filmActorsMap.size} films with actors, ${paymentMap.size} payments\n`);
 
 // ============================================================================
-// FASE 3: Transformar e inserir coleção FILMS (enriquecida)
+// PHASE 3: Transform and insert FILMS collection (enriched)
 // ============================================================================
 
-print("FASE 3: Inserção de filmes enriquecidos...");
+print("PHASE 3: Inserting enriched films...");
 
 const filmsTransformed = filmsRaw.map(film => {
   const actors = filmActorsMap.get(film.film_id) || [];
   const category = filmCategoryMap.get(film.film_id) || { category_id: null, name: "Uncategorized" };
   const language = languageMap.get(film.language_id) || { language_id: null, name: "Unknown" };
   
-  // Processar special_features (string delimitada por vírgula -> array)
+  // Process special_features (comma-delimited string -> array)
   let specialFeatures = [];
   if (film.special_features) {
     specialFeatures = film.special_features.split(',').map(f => f.trim());
@@ -203,31 +203,31 @@ const filmsTransformed = filmsRaw.map(film => {
 });
 
 db.films.insertMany(filmsTransformed);
-print(`✓ ${filmsTransformed.length} filmes inseridos com categorias e atores embedded\n`);
+print(`✓ ${filmsTransformed.length} films inserted with embedded categories and actors\n`);
 
 // ============================================================================
-// FASE 4: Transformar e inserir coleção INVENTORY
+// PHASE 4: Transform and insert INVENTORY collection
 // ============================================================================
 
-print("FASE 4: Inserção de inventário...");
+print("PHASE 4: Inserting inventory...");
 
 const inventoryTransformed = inventoryRaw.map(inv => ({
   inventory_id: inv.inventory_id,
   film_id: inv.film_id,
   store_id: inv.store_id,
-  available: true, // Será atualizado com base em rentals ativos
+  available: true, // Will be updated based on active rentals
   current_rental_id: null,
   last_update: new Date(inv.last_update)
 }));
 
 db.inventory.insertMany(inventoryTransformed);
-print(`✓ ${inventoryTransformed.length} itens de inventário inseridos\n`);
+print(`✓ ${inventoryTransformed.length} inventory items inserted\n`);
 
 // ============================================================================
-// FASE 5: Transformar e inserir coleção STORES
+// PHASE 5: Transform and insert STORES collection
 // ============================================================================
 
-print("FASE 5: Inserção de lojas...");
+print("PHASE 5: Inserting stores...");
 
 const storesTransformed = storesRaw.map(store => {
   const manager = staffMap.get(store.manager_staff_id);
@@ -238,19 +238,19 @@ const storesTransformed = storesRaw.map(store => {
     manager: manager || {},
     address: address || {},
     total_inventory: inventoryTransformed.filter(i => i.store_id === store.store_id).length,
-    total_customers: 0, // Será atualizado após inserção de customers
+    total_customers: 0, // Will be updated after customer insertion
     last_update: new Date(store.last_update)
   };
 });
 
 db.stores.insertMany(storesTransformed);
-print(`✓ ${storesTransformed.length} lojas inseridas\n`);
+print(`✓ ${storesTransformed.length} stores inserted\n`);
 
 // ============================================================================
-// FASE 6: Criar mapa de filmes para embedding em rentals
+// PHASE 6: Create film map for embedding in rentals
 // ============================================================================
 
-print("FASE 6: Preparação de mapas de denormalização para rentals...");
+print("PHASE 6: Preparing denormalization maps for rentals...");
 
 const filmMap = new Map();
 db.films.find().forEach(film => {
@@ -270,15 +270,15 @@ inventoryTransformed.forEach(inv => {
   });
 });
 
-print(`✓ Mapa de filmes criado para embedding\n`);
+print(`✓ Film map created for embedding\n`);
 
 // ============================================================================
-// FASE 7: Transformar e inserir coleção CUSTOMERS (com rental summary)
+// PHASE 7: Transform and insert CUSTOMERS collection (with rental summary)
 // ============================================================================
 
-print("FASE 7: Inserção de clientes com histórico de alugueres...");
+print("PHASE 7: Inserting customers with rental history...");
 
-// Criar mapa rental_id -> rental para embedding em customers
+// Create rental_id -> rental map for embedding in customers
 const rentalsByCustomer = new Map();
 rentalsRaw.forEach(rental => {
   if (!rentalsByCustomer.has(rental.customer_id)) {
@@ -291,7 +291,7 @@ const customersTransformed = customersRaw.map(customer => {
   const address = addressMap.get(customer.address_id) || {};
   const customerRentals = rentalsByCustomer.get(customer.customer_id) || [];
   
-  // Ordenar rentals por data e pegar os 10 mais recentes
+  // Sort rentals by date and get the 10 most recent
   const recentRentals = customerRentals
     .sort((a, b) => new Date(b.rental_date) - new Date(a.rental_date))
     .slice(0, 10)
@@ -332,17 +332,17 @@ const customersTransformed = customersRaw.map(customer => {
 });
 
 db.customers.insertMany(customersTransformed);
-print(`✓ ${customersTransformed.length} clientes inseridos com rentals embedded\n`);
+print(`✓ ${customersTransformed.length} customers inserted with embedded rentals\n`);
 
-// Atualizar total_customers nas stores
+// Update total_customers in stores
 db.stores.updateOne({ store_id: 1 }, { $set: { total_customers: customersTransformed.filter(c => c.store_id === 1).length }});
 db.stores.updateOne({ store_id: 2 }, { $set: { total_customers: customersTransformed.filter(c => c.store_id === 2).length }});
 
 // ============================================================================
-// FASE 8: Transformar e inserir coleção RENTALS (com embeddings)
+// PHASE 8: Transform and insert RENTALS collection (with embeddings)
 // ============================================================================
 
-print("FASE 8: Inserção de alugueres com embeddings...");
+print("PHASE 8: Inserting rentals with embeddings...");
 
 const customerSummaryMap = new Map();
 db.customers.find({}, { customer_id: 1, first_name: 1, last_name: 1, email: 1 }).forEach(cust => {
@@ -380,9 +380,9 @@ const rentalsTransformed = rentalsRaw.map(rental => {
 });
 
 db.rentals.insertMany(rentalsTransformed);
-print(`✓ ${rentalsTransformed.length} alugueres inseridos com customer/film embedded\n`);
+print(`✓ ${rentalsTransformed.length} rentals inserted with embedded customer/film\n`);
 
-// Atualizar disponibilidade do inventário
+// Update inventory availability
 const activeRentals = rentalsTransformed.filter(r => r.return_date === null);
 activeRentals.forEach(rental => {
   db.inventory.updateOne(
@@ -396,13 +396,13 @@ activeRentals.forEach(rental => {
   );
 });
 
-print(`✓ Inventário atualizado: ${activeRentals.length} itens marcados como indisponíveis\n`);
+print(`✓ Inventory updated: ${activeRentals.length} items marked as unavailable\n`);
 
 // ============================================================================
-// FASE 9: Criação de índices básicos (blueprint completo em queries/)
+// PHASE 9: Creation of basic indexes (complete blueprint in queries/)
 // ============================================================================
 
-print("FASE 9: Criação de índices essenciais...");
+print("PHASE 9: Creating essential indexes...");
 
 db.films.createIndex({ film_id: 1 }, { unique: true });
 db.films.createIndex({ "category.name": 1 });
@@ -427,29 +427,29 @@ db.inventory.createIndex({ film_id: 1, store_id: 1, available: 1 });
 
 db.stores.createIndex({ store_id: 1 }, { unique: true });
 
-print("✓ Índices essenciais criados\n");
+print("✓ Essential indexes created\n");
 
 // ============================================================================
-// FASE 10: Estatísticas finais e validação
+// PHASE 10: Final statistics and validation
 // ============================================================================
 
-print("\n=== IMPORTAÇÃO CONCLUÍDA COM SUCESSO ===\n");
+print("\n=== IMPORT COMPLETED SUCCESSFULLY ===\n");
 
-print("Estatísticas das coleções:");
-print(`  - films:     ${db.films.countDocuments()} documentos`);
-print(`  - customers: ${db.customers.countDocuments()} documentos`);
-print(`  - rentals:   ${db.rentals.countDocuments()} documentos`);
-print(`  - inventory: ${db.inventory.countDocuments()} documentos`);
-print(`  - stores:    ${db.stores.countDocuments()} documentos`);
+print("Collection statistics:");
+print(`  - films:     ${db.films.countDocuments()} documents`);
+print(`  - customers: ${db.customers.countDocuments()} documents`);
+print(`  - rentals:   ${db.rentals.countDocuments()} documents`);
+print(`  - inventory: ${db.inventory.countDocuments()} documents`);
+print(`  - stores:    ${db.stores.countDocuments()} documents`);
 
-print("\nExemplos de consulta:");
+print("\nQuery examples:");
 print("  db.films.findOne({ title: /ACADEMY/ })");
 print("  db.customers.findOne({ customer_id: 1 })");
 print("  db.rentals.find({ 'customer.customer_id': 1 }).limit(5)");
 
-print("\nPróximos passos:");
-print("  1. mongosh queries/index_blueprint.mongosh.js  (índices otimizados)");
-print("  2. mongosh tests/data_quality.mongosh.js       (validação)");
-print("  3. mongosh queries/01_*.mongosh.js             (queries de negócio)");
+print("\nNext steps:");
+print("  1. mongosh queries/index_blueprint.mongosh.js  (optimized indexes)");
+print("  2. mongosh tests/data_quality.mongosh.js       (validation)");
+print("  3. mongosh queries/01_*.mongosh.js             (business queries)");
 
 print("\n===========================================\n");

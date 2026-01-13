@@ -1,16 +1,16 @@
-// Query 12: Clientes Inativos (sem alugueres recentes)
-// Identificação de oportunidades de re-engagement
+// Query 12: Inactive Customers (without recent rentals)
+// Identification of re-engagement opportunities
 // Usage: mongosh queries/12_inactive_customers.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Clientes Inativos (sem rentals antes de 2005-12-31) ===\n");
+print("\n=== Inactive Customers (no rentals before 2005-12-31) ===\n");
 
 const inactiveThreshold = new Date("2005-12-31");
 
 db.rentals
   .aggregate([
-    // Agrupar por cliente
+    // Group by customer
     {
       $group: {
         _id: "$customer.customer_id",
@@ -21,12 +21,12 @@ db.rentals
         lifetime_value: { $sum: "$payment.amount" }
       }
     },
-    // Filtrar apenas inativos
+    // Filter only inactive
     { $match: { last_rental_date: { $lt: inactiveThreshold } } },
-    // Ordenar por valor descendente
+    // Sort by value descending
     { $sort: { lifetime_value: -1 } },
     { $limit: 20 }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

@@ -1,103 +1,134 @@
-# Group 02 - MongoDB NoSQL Database Project
+# Sakila DVD Rental Store – NoSQL Database Project
 
-## Team Members
+This solution demonstrates a complete MongoDB implementation of the classic Sakila DVD rental database. The project transforms a normalized relational schema into an optimized document model, leveraging MongoDB's embedded documents and flexible schema design to support a video rental business with physical stores, inventory management, and customer analytics.
 
-See our team composition in [group_members.md](../group_members.md#group-02)
+## Deliverables in This Folder
 
-## Project Overview
+| Path | Purpose |
+| ---- | ------- |
+| `import_data.mongosh.js` | Bootstrap script that transforms relational Sakila data (CSV/JSON) into denormalized MongoDB collections. |
+| `architecture.md` | Design rationale covering collection schemas, embedding strategies, and index decisions. |
+| `data/` | Source CSV and JSON files extracted from the original Sakila relational database. |
+| `queries/01-16_*.mongosh.js` | Business intelligence queries covering revenue analysis, customer insights, and inventory management. |
+| `queries/17-19_*.mongosh.js` | CRUD operations demonstrating insert, update, and delete patterns. |
+| `queries/20_aggregation_with_explain.mongosh.js` | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline measurement. |
+| `queries/20b_aggregation_with_explain.mongosh.js` | Same complex aggregation pipeline optimized with indexes for performance comparison. Automatically loads and executes `index_blueprint.mongosh.js` to ensure indexes exist. |
+| `queries/21_collection_stats.mongosh.js` | Collection statistics and storage metrics. |
+| `queries/22-26_*.mongosh.js` | Advanced analytical queries for location analysis, duration patterns, and bulk operations. |
+| `queries/index_blueprint.mongosh.js` | Idempotent script that drops existing indexes and recreates all required indexes for optimal query performance. |
 
-This project demonstrates our comprehensive understanding of MongoDB database operations and NoSQL concepts. We have implemented a complete set of database solutions that showcase our ability to design schemas, insert data, and create complex queries for real-world scenarios.
+## How to Run Everything (Local MongoDB)
 
-### Learning Objectives Achieved
+```bash
+cd group-work/group_02/project
 
-- Mastered MongoDB query language and operators
-- Designed efficient document schemas following best practices
-- Implemented complex aggregation pipelines for data analysis
-- Created optimized indexes for query performance
-- Developed data insertion strategies for various use cases
+# 1. Import Sakila data and create denormalized collections
+mongosh import_data.mongosh.js
 
-## Database Design
+# 2. Create performance indexes
+mongosh queries/index_blueprint.mongosh.js
 
-### Collections Created
+# 3. Run business analytics queries
+mongosh queries/01_top_renting_customers.mongosh.js
+mongosh queries/02_revenue_by_film_category.mongosh.js
+mongosh queries/03_active_rentals_by_store.mongosh.js
+mongosh queries/04_most_popular_actors.mongosh.js
+mongosh queries/05_customer_rental_history.mongosh.js
+mongosh queries/06_film_inventory_availability.mongosh.js
+mongosh queries/07_overdue_rentals.mongosh.js
+mongosh queries/08_revenue_by_rating.mongosh.js
+mongosh queries/09_most_profitable_films.mongosh.js
+mongosh queries/10_rental_patterns_by_month.mongosh.js
 
-1. **Primary Collections**
-   - Structured document schemas with embedded documents
-   - Referenced relationships between collections
-   - Optimized field types and data structures
+# 4. Run operational queries
+mongosh queries/11_staff_performance_metrics.mongosh.js
+mongosh queries/12_inactive_customers.mongosh.js
+mongosh queries/13_store_comparison_metrics.mongosh.js
+mongosh queries/14_never_rented_films.mongosh.js
+mongosh queries/15_film_text_search.mongosh.js
+mongosh queries/16_revenue_by_store_category.mongosh.js
 
-2. **Schema Design Decisions**
-   - Denormalization strategies for read optimization
-   - Embedding vs referencing trade-offs
-   - Index planning based on query patterns
+# 5. Test CRUD operations
+mongosh queries/17_insert_new_customer.mongosh.js
+mongosh queries/18_update_customer.mongosh.js
+mongosh queries/19_delete_test_customer.mongosh.js
 
-## Data Operations Implemented
+# 6. Analyze performance (with and without indexes)
+# First, run without indexes for baseline (automatically deletes indexes and compares)
+mongosh queries/20_aggregation_with_explain.mongosh.js
 
-### 1. Database Creation & Setup
+# Then run optimized version (automatically creates indexes and compares)
+mongosh queries/20b_aggregation_with_explain.mongosh.js
 
-- Created database with appropriate naming conventions
-- Established collections with validation rules
-- Set up indexes for optimal query performance
+# Collection statistics
+mongosh queries/21_collection_stats.mongosh.js
 
-### 2. Data Insertion
+# 7. Advanced analytics
+mongosh queries/22_customers_by_location.mongosh.js
+mongosh queries/23_film_duration_analysis.mongosh.js
+mongosh queries/24_rentals_by_weekday.mongosh.js
+mongosh queries/25_films_with_most_actors.mongosh.js
+mongosh queries/26_bulk_update_inventory.mongosh.js
+```
 
-- **Bulk Insert Operations**: Efficient insertion of large datasets
-- **Single Document Inserts**: Individual record creation with validation
-- **Batch Processing**: Organized data imports from multiple sources
-- **Data Generation**: Created realistic test data using various patterns
+The scripts assume a MongoDB instance is available at the default `mongodb://127.0.0.1:27017`. If you use a different URI, export the `MONGODB_URI` environment variable before running the commands.
 
-### 3. Query Operations
+## Scenario Summary
 
-#### Basic Queries
+- **Business driver:** A DVD rental chain needs real-time insights into rental patterns, revenue optimization, inventory allocation, and customer retention strategies across multiple store locations.
+- **Key entities:** `films` (catalog with embedded categories and actors), `customers` (profiles with embedded addresses), `rentals` (transactional facts with embedded payment data), `inventory` (availability tracking), `stores` (location reference data).
+- **Why mongosh only?** Pure mongosh scripts ensure reproducibility without requiring Node.js driver dependencies or external tooling. Each script is idempotent and self-contained.
 
-- Find operations with multiple filter conditions
-- Projection to retrieve specific fields
-- Sorting and limiting result sets
-- Regular expression searches for text patterns
+## Data Model Highlights
 
-#### Advanced Queries
+### Denormalization Strategy
 
-- Complex filtering with `$and`, `$or`, `$nor` operators
-- Array queries using `$elemMatch`, `$all`, `$size`
-- Nested document queries with dot notation
-- Comparison operators for range queries
+The original Sakila relational schema requires 5-7 table JOINs for common queries. The MongoDB implementation reduces this complexity through strategic embedding:
 
-### 4. Aggregation Pipelines
+1. **Films Collection:** Embeds language, category, and actors array, eliminating film_actor and film_category join tables.
+2. **Customers Collection:** Embeds full address hierarchy (address, city, country) for single-document customer profiles.
+3. **Rentals Collection:** Embeds payment information and includes film/customer references for fast transactional queries.
 
-#### Data Analysis Pipelines
+### Performance Optimizations
 
-- `$match` stages for filtering
-- `$group` operations for statistical analysis
-- `$project` for data transformation
-- `$sort` and `$limit` for result control
+- **Compound indexes** on `rentals` collection for date range and customer lookups
+- **Text index** on film titles and descriptions for search functionality
+- **Single-field indexes** on frequently queried fields (customer_id, film_id, store_id)
+- Strategic use of **covered queries** where projections match index fields
 
-#### Complex Aggregations
+## Key Query Patterns Demonstrated
 
-- Multi-stage pipelines for business analytics
-- `$lookup` for joining collections
-- `$unwind` for array manipulation
-- `$facet` for multiple aggregation outputs
+| Query Type | Examples | Collections Used |
+|------------|----------|------------------|
+| Revenue Analysis | Total revenue by category, rating, store, time period | rentals, films |
+| Customer Insights | Top customers, inactive accounts, repeat rental patterns | customers, rentals |
+| Inventory Management | Film availability, never-rented titles, stock allocation | inventory, films, rentals |
+| Operational Metrics | Staff performance, store comparisons, overdue tracking | rentals, stores, customers |
+| Analytics | Geographic distribution, temporal patterns, actor popularity | customers, rentals, films |
+| Performance Testing | Index impact measurement via complex aggregations with/without indexes | rentals, customers |
 
-### 5. Update Operations
+## Index Performance Comparison
 
-- Single and multi-document updates
-- Array update operators (`$push`, `$pull`, `$addToSet`)
-- Field update operators (`$set`, `$unset`, `$inc`)
-- Conditional updates with query filters
+The project includes two versions of a complex aggregation query to demonstrate the impact of indexes:
 
-### 6. Index Management
+- **Query 20 (No Indexes):** Forces collection scan using `hint: {$natural: 1}` to establish a performance baseline. Scans all documents sequentially without index assistance.
+- **Query 20b (With Indexes):** Same aggregation but automatically loads and executes `index_blueprint.mongosh.js` at startup to ensure all indexes are created, then leverages compound and unique indexes on `rental_date`, `customer_id`, and `store_id` for optimized execution.
 
-- Single field indexes for common queries
-- Compound indexes for complex query patterns
-- Text indexes for search functionality
-- Unique indexes for data integrity
+The complex pipeline includes:
+- Date range filtering on rental_date
+- $lookup joins with customers collection
+- Multi-field grouping with country aggregation
+- Computed fields (unique customer counts, average revenue per rental)
+
+This comparison allows direct measurement of index effectiveness on realistic business queries involving multiple collections and aggregation stages.
 
 ## Technologies & Tools Used
 
-- **Database**: MongoDB 7.0
-- **Shell**: MongoDB Shell (mongosh)
-- **Query Language**: MongoDB Query Language (MQL)
-- **Tools**: MongoDB Compass for visualization
-- **Scripts**: JavaScript for database operations
+- **Database:** MongoDB 7.0+
+- **Shell:** MongoDB Shell (mongosh)
+- **Query Language:** MongoDB Query Language (MQL)
+- **Data Source:** Sakila Sample Database (MySQL)
+- **Visualization:** MongoDB Compass (optional)
 
 ## Database Setup Instructions
 
@@ -226,21 +257,16 @@ Through this project, we gained practical experience in:
 - Performance optimization techniques
 - Data modeling best practices
 
-## Future Enhancements
-
-- Implement change streams for real-time data monitoring
-- Add time-series collections for temporal data
-- Explore sharding for horizontal scaling
-- Implement schema versioning strategies
-
-## Documentation
-
-Additional files in our submission:
-
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
-
 ## Contributors
 
-Group 02 - 2025
+#### GROUP 02 - TSIW - 2026
+
+| Student | ID | Email |
+| --- | --- | --- |
+| António Manuel Cruz Barreto Amorim | 40240119 | 40240119@esmad.ipp.pt |
+| Gabriel de Sousa Paiva | 40240137 | 40240137@esmad.ipp.pt |
+| Emanuel José Fernandes Gomes | 40230432 | 40230432@esmad.ipp.pt |
+
+## Teacher
+
+Prof. Diogo Filipe de Bastos Sousa Ribeiro

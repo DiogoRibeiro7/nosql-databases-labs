@@ -1,17 +1,17 @@
-// Query 16: Receita e Métricas por Loja e Categoria de Filme
-// Agrupa rentals por store_id e categoria para análise de performance
+// Query 16: Revenue and Metrics by Store and Film Category
+// Groups rentals by store_id and category for performance analysis
 
-// Mostra receita total, contagem de alugueres, tempo médio de aluguer e valor médio por loja/categoria
+// Shows total revenue, rental count, average rental time and average value per store/category
 // Usage: mongosh queries/16_revenue_by_store_category.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Receita e Performance por Loja e Categoria de Filme ===\n");
-print("Análise de KPIs agrupados por store_id e categoria de filme:\n");
+print("\n=== Revenue and Performance by Store and Film Category ===\n");
+print("Analysis of KPIs grouped by store_id and film category:\n");
 
 db.rentals
   .aggregate([
-    // Filtrar apenas rentals com payment e categoria definida
+    // Filter only rentals with payment and defined category
     {
       $match: {
         "payment.amount": { $exists: true },
@@ -19,7 +19,7 @@ db.rentals
       }
     },
     
-    // Agrupar por loja e categoria de filme para calcular KPIs
+    // Group by store and film category to calculate KPIs
     {
       $group: {
         _id: { 
@@ -34,12 +34,12 @@ db.rentals
     },
     
     
-    // Ordenar descendente para combinações mais lucrativas aparecerem primeiro
+    // Sort descending so most profitable combinations appear first
     { $sort: { revenue: -1 } },
     
-    // Limitar a top 20 combinações
+    // Limit to top 20 combinations
     { $limit: 20 }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

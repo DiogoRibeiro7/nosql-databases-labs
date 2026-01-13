@@ -1,14 +1,14 @@
-// Query 14: Filmes Nunca Alugados
-// Identifica inventário morto via lookup entre films e rentals
+// Query 14: Never Rented Films
+// Identifies dead inventory via lookup between films and rentals
 // Usage: mongosh queries/14_never_rented_films.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Filmes sem Histórico de Alugueres ===\n");
+print("\n=== Films without Rental History ===\n");
 
 db.films
   .aggregate([
-    // Juntar com rentals
+    // Join with rentals
     {
       $lookup: {
         from: "rentals",
@@ -17,9 +17,9 @@ db.films
         as: "rental_history"
       }
     },
-    // Filtrar filmes sem alugueres
+    // Filter films without rentals
     { $match: { rental_history: { $size: 0 } } },
-    // Juntar com inventory para contar cópias
+    // Join with inventory to count copies
     {
       $lookup: {
         from: "inventory",
@@ -28,7 +28,7 @@ db.films
         as: "inventory_items"
       }
     },
-    // Projetar campos finais
+    // Project final fields
     {
       $project: {
         film_id: 1,
@@ -39,10 +39,10 @@ db.films
         inventory_count: { $size: "$inventory_items" }
       }
     },
-    // Ordenar por cópias descendente
+    // Sort by copies descending
     { $sort: { inventory_count: -1, title: 1 } },
     { $limit: 25 }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

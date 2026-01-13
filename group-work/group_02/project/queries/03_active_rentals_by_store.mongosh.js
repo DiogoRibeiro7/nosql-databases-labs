@@ -1,16 +1,16 @@
-// Query 03: Alugueres Ativos por Loja
-// Monitorização operacional de inventário alugado
+// Query 03: Active Rentals by Store
+// Operational monitoring of rented inventory
 // Usage: mongosh queries/03_active_rentals_by_store.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Alugueres Ativos (Não Devolvidos) por Loja ===\n");
+print("\n=== Active Rentals (Not Returned) by Store ===\n");
 
 db.rentals
   .aggregate([
-    // Filtrar alugueres sem data de devolução
+    // Filter rentals without return date
     { $match: { return_date: null } },
-    // Agrupar por loja
+    // Group by store
     {
       $group: {
         _id: "$store_id",
@@ -18,9 +18,9 @@ db.rentals
         expected_revenue: { $sum: "$payment.amount" }
       }
     },
-    // Ordenar por loja
+    // Sort by store
     { $sort: { _id: 1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

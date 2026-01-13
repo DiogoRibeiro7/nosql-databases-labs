@@ -1,14 +1,14 @@
-// Query 09: Top 15 Filmes Mais Lucrativos
-// Identifica catálogo de alta performance via agregação
+// Query 09: Top 15 Most Profitable Films
+// Identifies high-performance catalog via aggregation
 // Usage: mongosh queries/09_most_profitable_films.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Top 15 Filmes Mais Lucrativos ===\n");
+print("\n=== Top 15 Most Profitable Films ===\n");
 
 db.rentals
   .aggregate([
-    // Agrupar por filme
+    // Group by film
     {
       $group: {
         _id: "$film.film_id",
@@ -18,17 +18,17 @@ db.rentals
         total_revenue: { $sum: "$payment.amount" }
       }
     },
-    // Calcular receita média por aluguer
+    // Calculate average revenue per rental
     {
       $addFields: {
         avg_revenue_per_rental: { $divide: ["$total_revenue", "$rental_count"] }
       }
     },
-    // Ordenar por receita descendente
+    // Sort by revenue descending
     { $sort: { total_revenue: -1 } },
     // Top 15
     { $limit: 15 }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

@@ -1,14 +1,14 @@
-// Query 13: Comparação de Métricas entre Lojas
-// Dashboard executivo de performance por loja
+// Query 13: Store Comparison Metrics
+// Executive dashboard of performance by store
 // Usage: mongosh queries/13_store_comparison_metrics.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Comparação de Performance entre Lojas ===\n");
+print("\n=== Performance Comparison between Stores ===\n");
 
 db.customers
   .aggregate([
-    // Agrupar por loja e somar métricas de "lifetime" dos clientes
+    // Group by store and sum customer lifetime metrics
     {
       $group: {
         _id: "$store_id",
@@ -17,7 +17,7 @@ db.customers
         unique_customers: { $sum: 1 }
       }
     },
-    // Formatar saída e calcular média baseada nos totais
+    // Format output and calculate average based on totals
     {
       $project: {
         store_id: "$_id",
@@ -33,9 +33,9 @@ db.customers
         unique_customers: 1
       }
     },
-    // Ordenar por lucro total
+    // Sort by total profit
     { $sort: { total_revenue: -1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

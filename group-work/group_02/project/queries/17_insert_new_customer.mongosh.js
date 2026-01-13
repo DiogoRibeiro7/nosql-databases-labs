@@ -1,10 +1,10 @@
-// Query 17: Inserir Novo Cliente (CREATE)
-// Demonstra operação de inserção com validação
+// Query 17: Insert New Customer (CREATE)
+// Demonstrates insert operation with validation
 // Usage: mongosh queries/17_insert_new_customer.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Inserir Novo Cliente ===\n");
+print("\n=== Insert New Customer ===\n");
 
 const newCustomer = {
   customer_id: 9999,
@@ -28,19 +28,19 @@ const newCustomer = {
   recent_rentals: []
 };
 
-// Verificar se cliente já existe
+// Check if customer already exists
 const exists = db.customers.findOne({ customer_id: newCustomer.customer_id });
 
 if (exists) {
-  print("Cliente já existe. A remover para demonstração...");
+  print("Customer already exists. Removing for demonstration...");
   db.customers.deleteOne({ customer_id: newCustomer.customer_id });
 }
 
-print("A inserir novo cliente:");
+print("Inserting new customer:");
 const result = db.customers.insertOne(newCustomer);
 printjson(result);
 
-print("\nCliente inserido:");
+print("\nCustomer inserted:");
 db.customers
   .find(
     { customer_id: 9999 },
@@ -48,4 +48,4 @@ db.customers
   )
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

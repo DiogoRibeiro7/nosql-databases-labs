@@ -1,10 +1,10 @@
-// Query 04: Atores Mais Populares (por Número de Alugueres)
-// Identifica atores cujos filmes geram mais rentals via lookup
+// Query 04: Most Popular Actors (by Number of Rentals)
+// Identifies actors whose films generate more rentals via lookup
 // Usage: mongosh queries/04_most_popular_actors.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Top 10 Atores Mais Populares ===\n");
+print("\n=== Top 10 Most Popular Actors ===\n");
 
 // 1) Aggregate rentals -> inventory to compute rentals per film, then join to films and aggregate by actor
 const pipeline = [
@@ -44,4 +44,4 @@ const durationMs = Date.now() - start;
 results.forEach((doc) => printjson(doc));
 print(`\nExecution time: ${durationMs} ms\n`);
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

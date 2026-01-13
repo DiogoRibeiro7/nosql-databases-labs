@@ -1,10 +1,10 @@
-// Query 07: Alugueres em Atraso
-// Gestão de risco via find() com filtros temporais
+// Query 07: Overdue Rentals
+// Risk management via find() with temporal filters
 // Usage: mongosh queries/07_overdue_rentals.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Alugueres em Atraso (>7 dias sem devolução) ===\n");
+print("\n=== Overdue Rentals (>7 days without return) ===\n");
 
 const sevenDaysAgo = new Date();
 sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -29,4 +29,4 @@ db.rentals
   // .limit(20)
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

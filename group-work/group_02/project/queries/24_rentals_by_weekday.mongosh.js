@@ -1,21 +1,21 @@
-// Query 24: Rentals por Dia da Semana
-// Análise de padrões temporais usando operadores de data
+// Query 24: Rentals by Weekday
+// Analysis of temporal patterns using date operators
 // Usage: mongosh queries/24_rentals_by_weekday.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Padrões de Alugueres por Dia da Semana ===\n");
+print("\n=== Rental Patterns by Weekday ===\n");
 
 db.rentals
   .aggregate([
-    // Extrair dia da semana e hora
+    // Extract day of week and hour
     {
       $project: {
         dayOfWeek: { $dayOfWeek: "$rental_date" },
         payment_amount: "$payment.amount"
       }
     },
-    // Agrupar por dia da semana
+    // Group by day of week
     {
       $group: {
         _id: "$dayOfWeek",
@@ -24,10 +24,10 @@ db.rentals
         avg_revenue: { $avg: "$payment_amount" }
       }
     },
-    // Ordenar por dia
+    // Sort by day
     { $sort: { _id: 1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n(1=Domingo, 2=Segunda, ..., 7=Sábado)");
-print("\n✓ Query executada com sucesso\n");
+print("\n(1=Sunday, 2=Monday, ..., 7=Saturday)");
+print("\n✓ Query executed successfully\n");

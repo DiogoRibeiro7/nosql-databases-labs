@@ -1,13 +1,13 @@
-// Query 26: Atualização em Massa (Bulk Update)
-// Demonstra updateMany para operações em lote
+// Query 26: Bulk Update
+// Demonstrates updateMany for batch operations
 // Usage: mongosh queries/26_bulk_update_inventory.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Atualização em Massa de Inventário ===\n");
+print("\n=== Bulk Inventory Update ===\n");
 
-// Contar inventário por estado antes
-print("Estado antes da atualização:");
+// Count inventory by status before
+print("State before update:");
 db.inventory
   .aggregate([
     {
@@ -19,7 +19,7 @@ db.inventory
   ])
   .forEach((doc) => printjson(doc));
 
-// Marcar todo inventário da loja 1 como disponível
+// Mark all store 1 inventory as available
 const updateResult = db.inventory.updateMany(
   { store_id: 1, available: false },
   {
@@ -30,7 +30,7 @@ const updateResult = db.inventory.updateMany(
   }
 );
 
-print("\nResultado da atualização:");
+print("\nUpdate result:");
 printjson(updateResult);
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

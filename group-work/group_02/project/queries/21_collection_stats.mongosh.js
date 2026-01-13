@@ -1,10 +1,10 @@
-// Query 21: Estatísticas das Collections
-// Análise de tamanho e performance das collections
+// Query 21: Collection Statistics
+// Analysis of size and performance of collections
 // Usage: mongosh queries/21_collection_stats.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Estatísticas das Collections ===\n");
+print("\n=== Collection Statistics ===\n");
 
 const collections = ["films", "customers", "rentals", "inventory", "stores"];
 
@@ -22,4 +22,4 @@ collections.forEach((collName) => {
   });
 });
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

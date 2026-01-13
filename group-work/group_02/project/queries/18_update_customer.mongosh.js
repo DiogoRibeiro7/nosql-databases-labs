@@ -1,14 +1,14 @@
-// Query 18: Atualizar Dados de Cliente (UPDATE)
-// Demonstra operação de atualização parcial
+// Query 18: Update Customer Data (UPDATE)
+// Demonstrates partial update operation
 // Usage: mongosh queries/18_update_customer.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Atualizar Cliente Existente ===\n");
+print("\n=== Update Existing Customer ===\n");
 
 const TARGET_CUSTOMER_ID = 1;
 
-print("Estado antes da atualização:");
+print("State before update:");
 db.customers
   .find(
     { customer_id: TARGET_CUSTOMER_ID },
@@ -16,7 +16,7 @@ db.customers
   )
   .forEach((doc) => printjson(doc));
 
-// Atualizar timestamp e incrementar contador de alugueres
+// Update timestamp and increment rental counter
 const updateResult = db.customers.updateOne(
   { customer_id: TARGET_CUSTOMER_ID },
   {
@@ -29,10 +29,10 @@ const updateResult = db.customers.updateOne(
   }
 );
 
-print("\nResultado da atualização:");
+print("\nUpdate result:");
 printjson(updateResult);
 
-print("\nEstado após a atualização:");
+print("\nState after update:");
 db.customers
   .find(
     { customer_id: TARGET_CUSTOMER_ID },
@@ -40,4 +40,4 @@ db.customers
   )
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

@@ -1,14 +1,14 @@
-// Query 23: Análise de Duração de Filmes por Categoria
-// Estatísticas de length por categoria usando bucket
+// Query 23: Film Duration Analysis by Category
+// Length statistics per category using bucket
 // Usage: mongosh queries/23_film_duration_analysis.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Análise de Duração de Filmes por Categoria ===\n");
+print("\n=== Film Duration Analysis by Category ===\n");
 
 db.films
   .aggregate([
-    // Agrupar por categoria
+    // Group by category
     {
       $group: {
         _id: "$category.name",
@@ -20,9 +20,9 @@ db.films
         avg_replacement_cost: { $avg: "$replacement_cost" }
       }
     },
-    // Ordenar por duração média descendente
+    // Sort by average length descending
     { $sort: { avg_length: -1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

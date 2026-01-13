@@ -1,14 +1,14 @@
-// Query 10: Padrões Temporais de Alugueres por Mês
-// Análise sazonal para planeamento de inventário
+// Query 10: Temporal Rental Patterns by Month
+// Seasonal analysis for inventory planning
 // Usage: mongosh queries/10_rental_patterns_by_month.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Padrões de Alugueres por Mês ===\n");
+print("\n=== Rental Patterns by Month ===\n");
 
 db.rentals
   .aggregate([
-    // Extrair ano e mês da data de aluguer
+    // Extract year and month from rental date
     {
       $project: {
         year: { $year: "$rental_date" },
@@ -16,7 +16,7 @@ db.rentals
         payment_amount: "$payment.amount"
       }
     },
-    // Agrupar por ano/mês
+    // Group by year/month
     {
       $group: {
         _id: { year: "$year", month: "$month" },
@@ -25,9 +25,9 @@ db.rentals
         avg_rental_value: { $avg: "$payment_amount" }
       }
     },
-    // Ordenar cronologicamente
+    // Sort chronologically
     { $sort: { "_id.year": 1, "_id.month": 1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

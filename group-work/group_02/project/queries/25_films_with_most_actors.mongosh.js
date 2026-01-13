@@ -1,14 +1,14 @@
-// Query 25: Filmes com Mais Atores
-// Análise de elenco usando $size em arrays embedded
+// Query 25: Films with Most Actors
+// Cast analysis using $size on embedded arrays
 // Usage: mongosh queries/25_films_with_most_actors.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Top 15 Filmes com Maior Elenco ===\n");
+print("\n=== Top 15 Films with Largest Cast ===\n");
 
 db.films
   .aggregate([
-    // Calcular tamanho do elenco
+    // Calculate cast size
     {
       $project: {
         _id: 0,
@@ -19,11 +19,11 @@ db.films
         actor_count: { $size: { $ifNull: ["$actors", []] } }
       }
     },
-    // Ordenar por número de atores
+    // Sort by number of actors
     { $sort: { actor_count: -1 } },
     // Top 15
     { $limit: 15 }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

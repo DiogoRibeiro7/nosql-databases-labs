@@ -1,38 +1,24 @@
-// Query 20: Complex Aggregation Pipeline with Explain (NO indexes)
-// Demonstrates performance analysis without index usage
-// Usage: mongosh queries/20_aggregation_with_explain.mongosh.js
+// Query 20b: Complex Aggregation Pipeline with Explain (index-optimized)
+// Demonstrates performance analysis with index usage
+// Usage: mongosh queries/20b_aggregation_with_explain.mongosh.js
+
+// Load and execute index blueprint to ensure indexes exist
+print("\n=== Loading Index Blueprint ===\n");
+load("queries/index_blueprint.mongosh.js");
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Checking and Clearing Existing Indexes ===\n");
-
-const collections = ["films", "customers", "rentals", "inventory", "stores"];
-collections.forEach((collName) => {
-  try {
-    const existingIndexes = db[collName].getIndexes();
-    if (existingIndexes.length > 1) {
-      print(`${collName}: found ${existingIndexes.length} indexes. Removing...`);
-      db[collName].dropIndexes();
-      print(`${collName}: indexes removed successfully (except _id)`);
-    } else {
-      print(`${collName}: only _id index exists (nothing to remove)`);
-    }
-  } catch (error) {
-    print(`${collName}: error removing indexes - ${error.message}`);
-  }
-});
-
-print("\n=== Complex Aggregation with Execution Statistics (WITHOUT indexes) ===\n");
+print("\n=== Complex Aggregation with Execution Statistics (WITH indexes) ===\n");
 
 const pipeline = [
-  // Filter recent rentals (NO index usage - collection scan)
+  // Filter recent rentals (uses idx_rental_date_desc index)
   {
     $match: {
       rental_date: { $gte: new Date("2005-05-01"), $lte: new Date("2006-02-28") },
       "payment.amount": { $gte: 0.99 }
     }
   },
-  // Lookup customer details
+  // Lookup customer details (uses idx_customer_id_unique)
   {
     $lookup: {
       from: "customers",
@@ -71,11 +57,10 @@ const pipeline = [
 ];
 
 print("Aggregation results:");
-// Force a collection scan to measure performance without using any indexes
-db.rentals.aggregate(pipeline, { hint: { $natural: 1 } }).forEach((doc) => printjson(doc));
+db.rentals.aggregate(pipeline).forEach((doc) => printjson(doc));
 
-// Execute with explain for execution statistics, forcing collection scan (no indexes)
-const explain = db.rentals.explain("executionStats").aggregate(pipeline, { hint: { $natural: 1 } });
+// Execute with explain for execution statistics
+const explain = db.rentals.explain("executionStats").aggregate(pipeline);
 
 let stats = explain.executionStats;
 if (!stats && Array.isArray(explain.stages)) { // fallback for explain shape variations

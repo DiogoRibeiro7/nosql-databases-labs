@@ -1,14 +1,14 @@
-// Query 05: Histórico de Alugueres de um Cliente Específico
-// Dashboard de atendimento ao cliente via find()
+// Query 05: Customer Rental History for a Specific Customer
+// Customer service dashboard via find()
 // Usage: mongosh queries/05_customer_rental_history.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
 const TARGET_CUSTOMER_ID = 5;
 
-print(`\n=== Histórico de Alugueres - Cliente ID ${TARGET_CUSTOMER_ID} ===\n`);
+print(`\n=== Rental History - Customer ID ${TARGET_CUSTOMER_ID} ===\n`);
 
-print("Dados do Cliente:");
+print("Customer Data:");
 db.customers
   .find(
     { customer_id: TARGET_CUSTOMER_ID },
@@ -16,7 +16,7 @@ db.customers
   )
   .forEach((doc) => printjson(doc));
 
-print("\nÚltimos 10 Alugueres:");
+print("\nLast 10 Rentals:");
 db.rentals
   .find(
     { "customer.customer_id": TARGET_CUSTOMER_ID },
@@ -26,4 +26,4 @@ db.rentals
   .limit(10)
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

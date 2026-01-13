@@ -1,14 +1,14 @@
-// Query 08: Análise de Receita por Rating de Filme
-// Avalia preferências de audiência via lookup entre rentals e films
+// Query 08: Revenue Analysis by Film Rating
+// Evaluates audience preferences via lookup between rentals and films
 // Usage: mongosh queries/08_revenue_by_rating.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Receita e Alugueres por Rating de Filme ===\n");
+print("\n=== Revenue and Rentals by Film Rating ===\n");
 
 db.rentals
   .aggregate([
-    // Juntar com filmes para obter rating
+    // Join with films to get rating
     {
       $lookup: {
         from: "films",
@@ -18,7 +18,7 @@ db.rentals
       }
     },
     { $unwind: "$film_details" },
-    // Agrupar por rating
+    // Group by rating
     {
       $group: {
         _id: "$film_details.rating",
@@ -27,9 +27,9 @@ db.rentals
         avg_rental_rate: { $avg: "$film_details.rental_rate" }
       }
     },
-    // Ordenar por receita descendente
+    // Sort by revenue descending
     { $sort: { total_revenue: -1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

@@ -1,10 +1,10 @@
-// Query 02: Receita Total por Categoria de Filme
-// Análise de performance financeira por género cinematográfico
+// Query 02: Total Revenue by Film Category
+// Financial performance analysis by cinematographic genre
 // Usage: mongosh queries/02_revenue_by_film_category.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Receita Total por Categoria de Filme ===\n");
+print("\n=== Total Revenue by Film Category ===\n");
 
 db.rentals
   .aggregate([
@@ -16,9 +16,9 @@ db.rentals
         avg_revenue: { $avg: "$payment.amount" }
       }
     },
-    // Ordenar por receita descendente
+    // Sort by revenue descending
     { $sort: { total_revenue: -1 } }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

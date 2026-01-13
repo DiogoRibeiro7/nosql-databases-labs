@@ -1,14 +1,14 @@
-// Query 06: Disponibilidade de Inventário por Filme e Loja
-// Verifica stock disponível via agregação com lookup
+// Query 06: Inventory Availability by Film and Store
+// Verifies available stock via aggregation with lookup
 // Usage: mongosh queries/06_film_inventory_availability.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
 
-print("\n=== Disponibilidade de Filmes em Inventário ===\n");
+print("\n=== Film Inventory Availability ===\n");
 
 db.inventory
   .aggregate([
-    // Agrupar por filme e loja
+    // Group by film and store
     {
       $group: {
         _id: { film_id: "$film_id", store_id: "$store_id" },
@@ -16,7 +16,7 @@ db.inventory
         available_copies: { $sum: { $cond: ["$available", 1, 0] } }
       }
     },
-    // Juntar com filmes para obter título
+    // Join with films to get title
     {
       $lookup: {
         from: "films",
@@ -26,7 +26,7 @@ db.inventory
       }
     },
     { $unwind: "$film_info" },
-    // Projetar campos finais com taxa de disponibilidade
+    // Project final fields with availability rate
     {
       $project: {
         film_id: "$_id.film_id",
@@ -40,10 +40,10 @@ db.inventory
         }
       }
     },
-    // Ordenar por disponibilidade crescente
+    // Sort by availability ascending
     { $sort: { availability_rate: 1, title: 1 } },
     { $limit: 20 }
   ])
   .forEach((doc) => printjson(doc));
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");
