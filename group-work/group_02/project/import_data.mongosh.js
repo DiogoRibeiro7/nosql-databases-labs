@@ -441,15 +441,3 @@ print(`  - customers: ${db.customers.countDocuments()} documents`);
 print(`  - rentals:   ${db.rentals.countDocuments()} documents`);
 print(`  - inventory: ${db.inventory.countDocuments()} documents`);
 print(`  - stores:    ${db.stores.countDocuments()} documents`);
-
-print("\nQuery examples:");
-print("  db.films.findOne({ title: /ACADEMY/ })");
-print("  db.customers.findOne({ customer_id: 1 })");
-print("  db.rentals.find({ 'customer.customer_id': 1 }).limit(5)");
-
-print("\nNext steps:");
-print("  1. mongosh queries/index_blueprint.mongosh.js  (optimized indexes)");
-print("  2. mongosh tests/data_quality.mongosh.js       (validation)");
-print("  3. mongosh queries/01_*.mongosh.js             (business queries)");
-
-print("\n===========================================\n");
