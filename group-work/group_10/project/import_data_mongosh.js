@@ -18,12 +18,14 @@ db.rentals.drop()
 
 mongoimport --db group_10_db --collection films --file project\data\film.json --jsonArray
 mongoimport --db group_10_db --collection customers --file project\data\customer.json --jsonArray
+mongoimport --db group_10_db --collection rentals --file project\data\rental.json --jsonArray 
 
 
 
 
 
 // Collections
+
 //customers*/
 
 db.createCollection("customers", {
@@ -120,9 +122,9 @@ db.createCollection("stores", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["store_id", "address", "city", "manager"],
+      required: ["storeId", "address", "city", "manager"],
       properties: {
-        store_id: {
+        storeId: {
           bsonType: "int"
         },
         address: {
@@ -133,9 +135,9 @@ db.createCollection("stores", {
         },
         manager: {
           bsonType: "object",
-          required: ["staff_id", "name"],
+          required: ["staffID", "name"],
           properties: {
-            staff_id: {
+            staffID: {
               bsonType: "int"
             },
             name: {
@@ -179,6 +181,10 @@ db.rentals.createIndex({ customerId: 1, rentalDate: -1 });
 db.rentals.createIndex({ inventoryId: 1, rentalDate: -1 });
 db.rentals.createIndex({ status: 1 });
 db.rentals.createIndex({ dueDate: 1 });
+
+
+
+
 
 
 
