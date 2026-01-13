@@ -35,13 +35,9 @@ const pipeline = [
   { $limit: 10 }
 ];
 
-// Timing the aggregation (run on rentals collection)
-const start = Date.now();
-const results = db.rentals.aggregate(pipeline).toArray();
-const durationMs = Date.now() - start;
 
-// Print results and timing
+const results = db.rentals.aggregate(pipeline).toArray();
+
 results.forEach((doc) => printjson(doc));
-print(`\nExecution time: ${durationMs} ms\n`);
 
 print("\n✓ Query executed successfully\n");
