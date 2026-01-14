@@ -33,4 +33,4 @@ const customerAfter = db.customers.findOne({ customer_id: TEST_CUSTOMER_ID });
 print("\nPost-removal verification:");
 print(customerAfter ? "Customer still exists" : "Customer removed successfully");
 
-print("\n✓ Query executada com sucesso\n");
+print("\n✓ Query executed successfully\n");

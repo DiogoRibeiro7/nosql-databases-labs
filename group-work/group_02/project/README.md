@@ -257,6 +257,19 @@ Through this project, we gained practical experience in:
 - Performance optimization techniques
 - Data modeling best practices
 
+### Team Reflection
+
+- **Collaboration & Version Control:** We identified that some of us need to strengthen the Git and GitHub skills, specifically regarding branch management and collaborative workflow patterns.
+- **Project Scoping:** Navigating a large repository with extensive requirements was a learning curve. This experience taught us how to decompose complex tasks into manageable sub-goals.
+- **Agile Adaptation:** Managing the workload within the time constraints required us to prioritize core features and optimize our communication as a team.
+
+### Insights on MongoDB & NoSQL
+
+- **Market Relevance:** We recognize that proficiency in NoSQL is essential for modern web-scale applications, where document-oriented databases are often preferred for their flexibility and performance.
+- **Schema Flexibility:** We found that the lack of rigid schemas allowed us to make faster adjustments during the data transformation process, demonstrating how NoSQL can accelerate development cycles.
+- **The Denormalization Mindset:** Transitioning from the normalized Sakila SQL model to a document-oriented structure was a major shift in our thinking, particularly regarding the trade-offs between storage redundancy and query speed.
+- **Practical Optimization:** Learning to use profiling tools like `explain()` and implementing strategic compound indexes gave us hands-on proof of the performance gains possible in MongoDB.
+
 ## Contributors
 
 #### GROUP 02 - TSIW - 2026

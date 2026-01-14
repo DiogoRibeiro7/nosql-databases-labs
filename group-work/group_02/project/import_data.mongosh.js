@@ -309,7 +309,7 @@ const customersTransformed = customersRaw.map(customer => {
       };
     });
   
-  // Calcular lifetime value
+  // Calculate lifetime value
   const lifetimeValue = customerRentals.reduce((sum, rental) => {
     const payment = paymentMap.get(rental.rental_id);
     return sum + (payment ? parseFloat(payment.amount.toString()) : 0);
