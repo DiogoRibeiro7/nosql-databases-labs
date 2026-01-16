@@ -1,6 +1,6 @@
 // Query 05: Listing Details for Specific ID
 // Customer service lookup via find()
-// Usage: mongosh queries/05_listing_details.mongosh.js
+// Usage : mongosh queries/05_listing_details.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 

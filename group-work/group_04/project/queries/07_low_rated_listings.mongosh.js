@@ -1,6 +1,6 @@
 // Query 07: Low-Rated Listings (Rating < 4.0)
 // Quality control and improvement opportunities
-// Usage: mongosh queries/07_low_rated_listings.mongosh.js
+// Usage : mongosh queries/07_low_rated_listings.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 

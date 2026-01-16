@@ -1,6 +1,6 @@
 // Query 06: High Availability Listings (Available > 300 days)
 // Investment opportunity analysis
-// Usage: mongosh queries/06_high_availability_listings.mongosh.js
+// Usage : mongosh queries/06_high_availability_listings.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 
