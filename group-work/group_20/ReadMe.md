@@ -3,7 +3,7 @@
 ## Group Information
 
 **Group Number:** 20  
-**Project Theme:** Health (Project 4 – Healthcare Patient Records System)  
+**Project Theme:** Saúde (Projeto 4 – Healthcare Patient Records System)  
 **Course:** NoSQL Databases
 
 ### Team Members
@@ -17,31 +17,31 @@
 
 ## Executive Summary
 
-This project is based on **Suggestion Point 4 – Health**, focusing on the design and implementation of a **Healthcare Patient Records System** using MongoDB. The system aims to model complex medical data while ensuring security, privacy, auditability, and performance, following healthcare best practices.
+Este projeto tem como base a **Sugestão de Projeto 4 – Saúde**, focando-se no desenho e implementação de um **Sistema de Registos Clínicos de Pacientes** utilizando MongoDB. O sistema foi concebido para modelar dados médicos complexos, garantindo segurança, privacidade, auditabilidade e desempenho, de acordo com as boas práticas na área da saúde.
 
-The solution demonstrates advanced NoSQL data modeling, indexing strategies, aggregation queries, and compliance-aware design suitable for healthcare environments.
+A solução demonstra competências avançadas de modelação NoSQL, utilização de estratégias de indexação, queries de agregação e uma abordagem consciente dos requisitos de conformidade aplicáveis a sistemas de informação clínica.
 
 ---
 
 ## Problem Statement
 
-Healthcare systems manage highly sensitive and complex data, including patient demographics, clinical encounters, laboratory results, and audit logs. Traditional relational models often struggle with flexibility, scalability, and evolving medical schemas.
+Os sistemas de saúde lidam com dados altamente sensíveis e estruturalmente complexos, incluindo informação demográfica de pacientes, consultas clínicas, resultados laboratoriais e registos de auditoria. Modelos relacionais tradicionais apresentam limitações em termos de flexibilidade, escalabilidade e adaptação a esquemas médicos em constante evolução.
 
-The goal of this project is to design a MongoDB-based solution that:
-- Efficiently stores patient and clinical data
-- Supports complex medical queries and analytics
-- Enforces access control and audit logging
-- Scales with growing data volume
+O objetivo deste projeto é desenhar uma solução baseada em MongoDB que:
+- Armazene dados clínicos e de pacientes de forma eficiente
+- Suporte queries médicas e análises complexas
+- Garanta controlo de acessos e registo de auditoria
+- Escale de forma eficaz com o crescimento do volume de dados
 
 ---
 
 ## Requirements
 
-- Design a flexible NoSQL data model for healthcare records
-- Implement patient, encounter, lab, and audit collections
-- Support complex aggregation queries
-- Apply indexing strategies for performance
-- Address security and privacy considerations
+- Desenho de um modelo NoSQL flexível para registos clínicos
+- Implementação das coleções de pacientes, consultas, exames laboratoriais e auditoria
+- Suporte a queries de agregação complexas
+- Aplicação de estratégias de indexação para otimização de desempenho
+- Consideração de requisitos de segurança e privacidade
 
 ---
 
@@ -49,15 +49,15 @@ The goal of this project is to design a MongoDB-based solution that:
 
 ### Data Model Design
 
-The system is composed of the following main collections:
+O sistema é composto pelas seguintes coleções principais:
 
-- **Patients** – demographic and medical history data
-- **Clinical Encounters** – visits, diagnoses, and treatment plans
-- **Lab Results** – structured laboratory test data
-- **Providers** – healthcare professionals
-- **Audit Logs** – complete access and change history
+- **Patients** – dados demográficos e histórico médico
+- **Clinical Encounters** – consultas, diagnósticos e planos terapêuticos
+- **Lab Results** – resultados estruturados de exames laboratoriais
+- **Providers** – profissionais de saúde
+- **Audit Logs** – histórico completo de acessos e alterações
 
-Embedding is used for tightly related data (e.g., patient allergies), while referencing is used for high-growth or shared entities (e.g., encounters and labs).
+É utilizada **embebição** para dados fortemente relacionados (por exemplo, alergias do paciente) e **referenciação** para entidades com elevado crescimento ou partilha entre documentos (como consultas e exames).
 
 ---
 
@@ -66,70 +66,11 @@ Embedding is used for tightly related data (e.g., patient allergies), while refe
 ### Setup Instructions
 
 ```bash
-# Install dependencies
+# Instalar dependências
 npm install
 
-# Seed the database
-node seed.js
+# Popular a base de dados com dados sintéticos
+node data/seed.js
 
-# Run queries
+# Executar queries
 node queries.js
-```
-
----
-
-## Core Queries
-
-### Example Query – Patient Summary
-
-Retrieves a patient profile with recent clinical encounters and lab results using aggregation pipelines.
-
-### Example Query – Population Health Analytics
-
-Aggregates patient data to analyze chronic conditions and lab indicators across the population.
-
----
-
-## Testing
-
-Testing includes:
-- Data validation tests
-- Aggregation correctness
-- Index usage and performance checks
-
-Performance metrics are collected using MongoDB `explain("executionStats")`.
-
----
-
-## Challenges and Solutions
-
-**Challenge:** Modeling highly variable medical data  
-**Solution:** Use of flexible schemas and embedded documents
-
-**Challenge:** Query performance on large datasets  
-**Solution:** Targeted indexing and aggregation optimization
-
----
-
-## Learning Outcomes
-
-- Practical experience with healthcare-oriented NoSQL modeling
-- Advanced MongoDB aggregation pipelines
-- Understanding of security and audit requirements in sensitive domains
-
----
-
-## Future Improvements
-
-- Add role-based access control enforcement
-- Extend analytics for population health metrics
-- Implement data encryption at field level
-
----
-
-## Declaration
-
-We declare that this project is our own work and complies with academic integrity guidelines.
-
-**Group 20**
-
