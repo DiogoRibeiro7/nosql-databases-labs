@@ -1,6 +1,6 @@
 // Query 02: Average Price by Neighbourhood
 // Market analysis for pricing strategy
-// Usage: mongosh queries/02_avg_price_by_neighbourhood.mongosh.js
+// Usage : mongosh queries/02_avg_price_by_neighbourhood.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 

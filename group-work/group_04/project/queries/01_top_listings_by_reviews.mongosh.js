@@ -1,6 +1,6 @@
 // Query 01: Top 10 Listings by Number of Reviews
 // Identifies most popular properties for marketing insights
-// Usage: mongosh queries/01_top_listings_by_reviews.mongosh.js
+// Usage : mongosh queries/01_top_listings_by_reviews.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 
