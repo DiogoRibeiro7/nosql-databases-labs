@@ -40,7 +40,7 @@ labs/lab02_modeling/
     └── queries.md        # Complete queries solution
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. How to Set Up and Use This Model
 
@@ -116,31 +116,31 @@ db.reviews.createIndex({ rating: 1 });
 
 ```javascript
 // Check document counts
-db.customers.countDocuments()  // Should return 3
-db.products.countDocuments()   // Should return 4
-db.orders.countDocuments()     // Should return 4
-db.reviews.countDocuments()    // Should return 6
+db.customers.countDocuments(); // Should return 3
+db.products.countDocuments(); // Should return 4
+db.orders.countDocuments(); // Should return 4
+db.reviews.countDocuments(); // Should return 6
 
 // View sample documents
-db.customers.findOne()
-db.products.findOne()
-db.orders.findOne()
-db.reviews.findOne()
+db.customers.findOne();
+db.products.findOne();
+db.orders.findOne();
+db.reviews.findOne();
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Key Design Decisions
 
 ### 4.1\. Embedding vs Referencing
 
-Relationship                   | Decision                        | Rationale
------------------------------- | ------------------------------- | -----------------------------------------------
-**Customer → Address**         | Embed                           | Address always needed with customer, not shared
-**Order → Order Items**        | Embed                           | Items never queried separately, atomic updates
-**Order → Customer**           | Reference                       | Customer has many orders, avoid duplication
-**Product → Reviews**          | Reference (separate collection) | Unbounded growth, prevent huge documents
-**Order Items → Product Info** | Denormalize                     | Preserve historical prices at purchase time
+| Relationship                   | Decision                        | Rationale                                       |
+| ------------------------------ | ------------------------------- | ----------------------------------------------- |
+| **Customer → Address**         | Embed                           | Address always needed with customer, not shared |
+| **Order → Order Items**        | Embed                           | Items never queried separately, atomic updates  |
+| **Order → Customer**           | Reference                       | Customer has many orders, avoid duplication     |
+| **Product → Reviews**          | Reference (separate collection) | Unbounded growth, prevent huge documents        |
+| **Order Items → Product Info** | Denormalize                     | Preserve historical prices at purchase time     |
 
 ### 4.2\. Why This Approach?
 
@@ -190,7 +190,7 @@ Relationship                   | Decision                        | Rationale
 // order shows what customer actually bought
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Query Patterns and Performance
 
@@ -226,16 +226,16 @@ Relationship                   | Decision                        | Rationale
 
 ### 5.2\. Performance Benchmarks (Estimated)
 
-Operation           | Without Index | With Index | Improvement
-------------------- | ------------- | ---------- | -------------------
-Find by customer_id | 50ms          | 2ms        | 25x faster
-Find by category    | 30ms          | 1ms        | 30x faster
-Get order by ID     | 40ms          | 0.5ms      | 80x faster
-Text search         | N/A           | 5ms        | Text index required
+| Operation           | Without Index | With Index | Improvement         |
+| ------------------- | ------------- | ---------- | ------------------- |
+| Find by customer_id | 50ms          | 2ms        | 25x faster          |
+| Find by category    | 30ms          | 1ms        | 30x faster          |
+| Get order by ID     | 40ms          | 0.5ms      | 80x faster          |
+| Text search         | N/A           | 5ms        | Text index required |
 
 _Note: Times are estimates for ~100K documents. Actual times vary by hardware and dataset._
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Assumptions and Constraints
 
@@ -243,28 +243,28 @@ _Note: Times are estimates for ~100K documents. Actual times vary by hardware an
 
 1. **Order History is Immutable**
 
-  - Once an order is placed, item details don't change
-  - Justifies denormalizing product info in orders
+- Once an order is placed, item details don't change
+- Justifies denormalizing product info in orders
 
 2. **Product Names and Prices Change Infrequently**
 
-  - Reviews denormalize product names
-  - If names change, historical reviews keep old name (acceptable)
+- Reviews denormalize product names
+- If names change, historical reviews keep old name (acceptable)
 
 3. **Reviews are Frequent but Bounded**
 
-  - Popular products may have 1000s of reviews
-  - Separate collection prevents document size issues
+- Popular products may have 1000s of reviews
+- Separate collection prevents document size issues
 
 4. **Customers Have Multiple Addresses**
 
-  - For simplicity, only one address is stored
-  - In production, would have `addresses` array with `is_default` flag
+- For simplicity, only one address is stored
+- In production, would have `addresses` array with `is_default` flag
 
 5. **Orders Fit Within 16MB Limit**
 
-  - Assuming max ~100 items per order
-  - Each item ~200 bytes → 100 items = 20KB (safe)
+- Assuming max ~100 items per order
+- Each item ~200 bytes → 100 items = 20KB (safe)
 
 ### 6.2\. Constraints
 
@@ -272,7 +272,7 @@ _Note: Times are estimates for ~100K documents. Actual times vary by hardware an
 - **Index Limit**: Max 64 indexes per collection (we're using ~5 per collection)
 - **Nested Array Depth**: Avoid deeply nested arrays (we only go 1 level deep)
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Issues Encountered and Solutions
 
@@ -307,7 +307,7 @@ _Note: Times are estimates for ~100K documents. Actual times vary by hardware an
 - MongoDB automatically rejects duplicates
 - Application shows friendly error message
 
---------------------------------------------------------------------------------
+---
 
 ## 8\. Scalability Considerations
 
@@ -347,7 +347,7 @@ When data grows beyond a single server:
 - **Async Processing**: Process order analytics asynchronously
 - **Write Concerns**: Use `w: 1` for non-critical writes
 
---------------------------------------------------------------------------------
+---
 
 ## 9\. Alternative Designs Considered
 
@@ -369,7 +369,7 @@ When data grows beyond a single server:
 - Would hit 16MB limit for popular products
 - Fetching product requires loading all reviews
 
---------------------------------------------------------------------------------
+---
 
 ### 9.2\. Alternative 2: Separate Order Items Collection
 
@@ -392,7 +392,7 @@ When data grows beyond a single server:
 - If analyzing order items across all orders frequently
 - If order items have complex lifecycle (e.g., partial cancellations)
 
---------------------------------------------------------------------------------
+---
 
 ## 10\. Testing the Model
 
@@ -413,16 +413,16 @@ mongosh lab02_ecommerce
 
 ```javascript
 // Enable profiling
-db.setProfilingLevel(2)
+db.setProfilingLevel(2);
 
 // Run your queries
-db.orders.find({ customer_id: "CUST001" }).explain("executionStats")
+db.orders.find({ customer_id: "CUST001" }).explain("executionStats");
 
 // Check slow queries
-db.system.profile.find({ millis: { $gt: 100 } }).sort({ ts: -1 })
+db.system.profile.find({ millis: { $gt: 100 } }).sort({ ts: -1 });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 11\. Future Enhancements
 
@@ -430,30 +430,30 @@ If continuing this project:
 
 1. **Add Inventory Management**
 
-  - Track stock levels in real-time
-  - Prevent overselling
+- Track stock levels in real-time
+- Prevent overselling
 
 2. **Add Shopping Cart**
 
-  - Embedded in customer document or separate collection
-  - Consider TTL index for abandoned carts
+- Embedded in customer document or separate collection
+- Consider TTL index for abandoned carts
 
 3. **Add Promotions/Discounts**
 
-  - Store applied discount in order items
-  - Separate promotions collection
+- Store applied discount in order items
+- Separate promotions collection
 
 4. **Add Product Variants**
 
-  - Size, color variants
-  - Embed as array in products
+- Size, color variants
+- Embed as array in products
 
 5. **Add Order Status History**
 
-  - Track status changes over time
-  - Embed as array: `status_history: [{ status, timestamp }]`
+- Track status changes over time
+- Embed as array: `status_history: [{ status, timestamp }]`
 
---------------------------------------------------------------------------------
+---
 
 ## 12\. References
 
@@ -463,7 +463,7 @@ If continuing this project:
 - [6 Rules of Thumb for MongoDB Schema Design](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1)
 - [MongoDB Performance Best Practices](https://docs.mongodb.com/manual/administration/analyzing-mongodb-performance/)
 
---------------------------------------------------------------------------------
+---
 
 ## 13\. Conclusion
 

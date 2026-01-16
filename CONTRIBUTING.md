@@ -6,9 +6,9 @@ Thanks for helping improve the NoSQL Databases labs! This guide explains how stu
 
 ## 1. Who Can Contribute?
 
-* **Students**: add their lab deliverables under `group-work/group_<group_number>/`.
-* **Teaching staff**: update lab instructions, starter code, or supporting scripts.
-* **External contributors**: open an issue first and wait for confirmation before sending a PR.
+- **Students**: add their lab deliverables under `group-work/group_<group_number>/`.
+- **Teaching staff**: update lab instructions, starter code, or supporting scripts.
+- **External contributors**: open an issue first and wait for confirmation before sending a PR.
 
 ---
 
@@ -44,11 +44,11 @@ npm run test:data
    git remote add upstream https://github.com/diogoribeiro7/nosql-databases-labs.git
    ```
 3. **Create a branch** for each task:
-   * Labs: `group_<number>-lab<nn>` (e.g. `group_05-lab01`)
-   * Repository maintenance: `chore/update-lab03-instructions`
+   - Labs: `group_<number>-lab<nn>` (e.g. `group_05-lab01`)
+   - Repository maintenance: `chore/update-lab03-instructions`
 4. **Do the work**:
-   * Students place deliverables in `group-work/group_<number>/<lab>/`.
-   * Instructors edit files inside `labs/`, `scripts/`, etc.
+   - Students place deliverables in `group-work/group_<number>/<lab>/`.
+   - Instructors edit files inside `labs/`, `scripts/`, etc.
 5. **Commit** with descriptive messages:
    ```
    git add <files>
@@ -60,17 +60,17 @@ npm run test:data
 
 ## 4. Coding & Documentation Standards
 
-* **JavaScript/TypeScript**: follow ESLint + Prettier settings provided in `eslint.config.js` and `.prettierrc.json`.
-* **MongoDB Scripts**: keep them idempotent and include comments on dataset expectations.
-* **Data Files**: verify large JSON/NDJSON/BSON files with `npm run test:data`.
-* **Markdown**: wrap lines at ~100 characters; use fenced code blocks with language hints.
-* **Commits**: prefer the imperative tone and include the group number or lab identifier when relevant.
+- **JavaScript/TypeScript**: follow ESLint + Prettier settings provided in `eslint.config.js` and `.prettierrc.json`.
+- **MongoDB Scripts**: keep them idempotent and include comments on dataset expectations.
+- **Data Files**: verify large JSON/NDJSON/BSON files with `npm run test:data`.
+- **Markdown**: wrap lines at ~100 characters; use fenced code blocks with language hints.
+- **Commits**: prefer the imperative tone and include the group number or lab identifier when relevant.
 
 When editing labs:
 
-* Update `instructions.md` or per-lab README if workflows change.
-* Add tests or validation scripts in `scripts/` to cover new datasets.
-* Mention breaking changes in the PR description and notify students via the course platform.
+- Update `instructions.md` or per-lab README if workflows change.
+- Add tests or validation scripts in `scripts/` to cover new datasets.
+- Mention breaking changes in the PR description and notify students via the course platform.
 
 ---
 
@@ -79,9 +79,9 @@ When editing labs:
 1. Review `group-work/README.md` for folder structure expectations.
 2. Create (or update) your group's folder using the `group_XX` naming convention (two digits).
 3. Include a mini `README.md` inside each lab folder describing:
-   * Lab number and goals
-   * Group members
-   * Extra setup steps, if any
+   - Lab number and goals
+   - Group members
+   - Extra setup steps, if any
 4. Keep raw datasets under 10 MB. If unavoidable, compress them or provide download instructions.
 
 ---
@@ -100,9 +100,9 @@ Issues without enough context may be closed until more details are provided.
 
 ## 7. Questions & Support
 
-* Use official course communication channels for teaching-related questions.
-* Mention `@diogoribeiro7` or the assigned TA in GitHub issues if feedback is time sensitive.
-* For privacy, avoid sharing grades or personal data in commits, issues, or PRs.
+- Use official course communication channels for teaching-related questions.
+- Mention `@diogoribeiro7` or the assigned TA in GitHub issues if feedback is time sensitive.
+- For privacy, avoid sharing grades or personal data in commits, issues, or PRs.
 
 Thank you for contributing and helping your peers learn NoSQL databases!
 

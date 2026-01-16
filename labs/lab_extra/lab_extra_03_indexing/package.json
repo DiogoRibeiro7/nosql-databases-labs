@@ -1,0 +1,23 @@
+{
+  "name": "lab-extra-03-indexing",
+  "version": "1.0.0",
+  "description": "Lab Extra 03 - MongoDB Indexing Strategies & Advanced Performance",
+  "main": "indexing_lab.js",
+  "scripts": {
+    "setup": "node setup_indexing.js",
+    "test": "node test_indexing.js",
+    "benchmark": "node run_benchmark.js"
+  },
+  "dependencies": {
+    "mongodb": "^5.0.0"
+  },
+  "keywords": [
+    "mongodb",
+    "indexing",
+    "performance",
+    "optimization",
+    "nosql"
+  ],
+  "author": "",
+  "license": "MIT"
+}

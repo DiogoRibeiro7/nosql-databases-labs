@@ -15,16 +15,29 @@
     "mongodb": "^6.3.0"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "jest": "^29.7.0",
-    "@jest/globals": "^29.7.0"
+    "jest-junit": "^16.0.0"
   },
   "jest": {
     "testEnvironment": "node",
     "transform": {},
-    "extensionsToTreatAsEsm": [".js"],
+    "extensionsToTreatAsEsm": [
+      ".js"
+    ],
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
-    }
+    },
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "./coverage/junit",
+          "outputName": "jest-results.xml"
+        }
+      ]
+    ]
   },
   "author": "Diogo Ribeiro",
   "license": "MIT"

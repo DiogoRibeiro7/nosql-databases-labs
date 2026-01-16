@@ -1,15 +1,38 @@
 {
   "name": "nosql-databases-labs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This repository contains the **practical work** for the *NoSQL Databases* course.\r Students will use this repo to work on weekly labs and (optionally) a final project.",
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"labs/**/*.js\" \"scripts/**/*.js\"",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "eslint \"labs/**/*.js\" \"scripts/**/*.js\" --fix",
     "format": "prettier --write \"labs/**/*.js\" \"scripts/**/*.js\"",
     "format:check": "prettier --check \"labs/**/*.js\" \"scripts/**/*.js\"",
+    "docs:lint": "markdownlint README.md CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md TROUBLESHOOTING.md docs/**/*.md --config .markdownlint.json",
     "test:data": "node scripts/data-smoke-test.js",
-    "test": "npm run lint && npm run test:data"
+    "test:unit": "node --test tests/unit/run_lab_tests.test.js",
+    "test": "yarn lint && yarn test:data && yarn test:unit",
+    "test:labs": "node scripts/run_lab_tests.js",
+    "verify:setup": "node scripts/setup_verification.js",
+    "standardize:groups": "node scripts/standardize_group_folders.js",
+    "standardize:groups:dry": "node scripts/standardize_group_folders.js --dry-run",
+    "grade:all": "node group-work/scripts/auto_grader.js --all",
+    "grade:group": "node group-work/scripts/auto_grader.js",
+    "grade:report": "node group-work/scripts/auto_grader.js --report",
+    "monitor:progress": "node group-work/scripts/progress_tracker.js",
+    "test:lab01": "node tests/test_lab01.js",
+    "test:lab02": "node tests/test_lab02.js",
+    "test:lab03": "node tests/test_lab03.js",
+    "test:lab04": "node tests/test_lab04.js",
+    "test:lab05": "node tests/test_lab05.js",
+    "test:coverage": "c8 yarn test:labs",
+    "help": "node scripts/help.js",
+    "version:bump": "node scripts/bump-version.js",
+    "version:major": "node scripts/bump-version.js major",
+    "version:minor": "node scripts/bump-version.js minor",
+    "version:patch": "node scripts/bump-version.js patch",
+    "release": "node scripts/bump-version.js",
+    "changelog": "git log --pretty=format:'- %s (%h)' $(git describe --tags --abbrev=0)..HEAD"
   },
   "repository": {
     "type": "git",
@@ -25,9 +48,17 @@
   "homepage": "https://github.com/DiogoRibeiro7/nosql-databases-labs#readme",
   "devDependencies": {
     "bson": "^7.0.0",
+    "c8": "^10.1.3",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
+    "jest-junit": "^16.0.0",
+    "markdownlint-cli": "^0.47.0",
     "prettier": "^3.7.4"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^17.2.3",
+    "mongodb": "^7.0.0"
   }
 }

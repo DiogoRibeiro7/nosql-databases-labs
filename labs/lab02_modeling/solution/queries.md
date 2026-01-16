@@ -2,7 +2,7 @@
 
 This document contains sample queries demonstrating how the data model supports required operations.
 
---------------------------------------------------------------------------------
+---
 
 ## 1\. Given a Customer, List Their Recent Orders
 
@@ -11,9 +11,7 @@ This document contains sample queries demonstrating how the data model supports 
 ### Query (MongoDB Shell)
 
 ```javascript
-db.orders.find(
-  { customer_id: "CUST001" }
-).sort({ order_date: -1 }).pretty();
+db.orders.find({ customer_id: "CUST001" }).sort({ order_date: -1 }).pretty();
 ```
 
 ### Query (Aggregation Pipeline)
@@ -21,10 +19,10 @@ db.orders.find(
 ```javascript
 db.orders.aggregate([
   {
-    $match: { customer_id: "CUST001" }
+    $match: { customer_id: "CUST001" },
   },
   {
-    $sort: { order_date: -1 }
+    $sort: { order_date: -1 },
   },
   {
     $project: {
@@ -32,9 +30,9 @@ db.orders.aggregate([
       order_date: 1,
       status: 1,
       total: 1,
-      items: 1
-    }
-  }
+      items: 1,
+    },
+  },
 ]);
 ```
 
@@ -68,7 +66,7 @@ db.orders.aggregate([
 ]
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 2\. Given an Order, Show All Its Items
 
@@ -92,7 +90,7 @@ db.orders.findOne(
     status: 1,
     items: 1,
     total: 1,
-    _id: 0
+    _id: 0,
   }
 );
 ```
@@ -132,7 +130,7 @@ db.orders.findOne(
 }
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. List Top N Products by Total Quantity Sold
 
@@ -152,8 +150,8 @@ db.orders.aggregate([
       product_name: { $first: "$items.product_name" },
       total_quantity_sold: { $sum: "$items.quantity" },
       total_revenue: { $sum: "$items.subtotal" },
-      order_count: { $sum: 1 }
-    }
+      order_count: { $sum: 1 },
+    },
   },
 
   // Sort by total quantity (descending)
@@ -170,9 +168,9 @@ db.orders.aggregate([
       product_name: 1,
       total_quantity_sold: 1,
       total_revenue: { $round: ["$total_revenue", 2] },
-      order_count: 1
-    }
-  }
+      order_count: 1,
+    },
+  },
 ]);
 ```
 
@@ -186,11 +184,11 @@ db.orders.aggregate([
       _id: "$items.product_id",
       product_name: { $first: "$items.product_name" },
       total_revenue: { $sum: "$items.subtotal" },
-      total_quantity_sold: { $sum: "$items.quantity" }
-    }
+      total_quantity_sold: { $sum: "$items.quantity" },
+    },
   },
   { $sort: { total_revenue: -1 } },
-  { $limit: 10 }
+  { $limit: 10 },
 ]);
 ```
 
@@ -199,7 +197,6 @@ db.orders.aggregate([
 - **Collection**: `orders`
 - **Index Used**: Index on `items.product_id` helps with grouping
 - **Efficiency**:
-
   - `$unwind` expands the items array
   - `$group` aggregates across all orders
   - Denormalized product names avoid extra lookups
@@ -228,7 +225,7 @@ db.orders.aggregate([
 ]
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Search or Filter Products by Category/Tag
 
@@ -237,40 +234,43 @@ db.orders.aggregate([
 ### Query: All Products in a Category
 
 ```javascript
-db.products.find(
-  { category: "Electronics" }
-).sort({ name: 1 });
+db.products.find({ category: "Electronics" }).sort({ name: 1 });
 ```
 
 ### Query: Products in Category with Price Range
 
 ```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 50, $lte: 300 }
-}).sort({ price: 1 });
+db.products
+  .find({
+    category: "Electronics",
+    price: { $gte: 50, $lte: 300 },
+  })
+  .sort({ price: 1 });
 ```
 
 ### Query: Products in Category, Sorted by Rating
 
 ```javascript
-db.products.find(
-  { category: "Electronics" }
-).sort({ "ratings.average": -1, "ratings.count": -1 }).limit(20);
+db.products
+  .find({ category: "Electronics" })
+  .sort({ "ratings.average": -1, "ratings.count": -1 })
+  .limit(20);
 ```
 
 ### Query: Full-Text Search Within Category
 
 ```javascript
-db.products.find(
-  {
-    $text: { $search: "wireless noise cancelling" },
-    category: "Electronics"
-  },
-  {
-    score: { $meta: "textScore" }
-  }
-).sort({ score: { $meta: "textScore" } });
+db.products
+  .find(
+    {
+      $text: { $search: "wireless noise cancelling" },
+      category: "Electronics",
+    },
+    {
+      score: { $meta: "textScore" },
+    }
+  )
+  .sort({ score: { $meta: "textScore" } });
 ```
 
 ### Query: Aggregation with Faceted Search
@@ -291,10 +291,10 @@ db.products.aggregate([
             boundaries: [0, 50, 100, 200, 500, 1000],
             default: "1000+",
             output: {
-              count: { $sum: 1 }
-            }
-          }
-        }
+              count: { $sum: 1 },
+            },
+          },
+        },
       ],
 
       // Rating distribution
@@ -305,10 +305,10 @@ db.products.aggregate([
             boundaries: [0, 1, 2, 3, 4, 5],
             default: "unrated",
             output: {
-              count: { $sum: 1 }
-            }
-          }
-        }
+              count: { $sum: 1 },
+            },
+          },
+        },
       ],
 
       // Products
@@ -321,12 +321,12 @@ db.products.aggregate([
             name: 1,
             price: 1,
             ratings: 1,
-            images: { $arrayElemAt: ["$images", 0] }
-          }
-        }
-      ]
-    }
-  }
+            images: { $arrayElemAt: ["$images", 0] },
+          },
+        },
+      ],
+    },
+  },
 ]);
 ```
 
@@ -334,13 +334,11 @@ db.products.aggregate([
 
 - **Collection**: `products`
 - **Indexes Used**:
-
   - Single index on `category`
   - Compound index on `(category, price)` for filtered queries
   - Text index on `(name, description)` for search
 
 - **Efficiency**:
-
   - Category browsing is a simple indexed query
   - Price filtering uses compound index
   - Text search provides relevance scoring
@@ -374,7 +372,7 @@ db.products.aggregate([
 ]
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Additional Queries
 
@@ -385,9 +383,11 @@ db.products.aggregate([
 const product = db.products.findOne({ product_id: "PROD001" });
 
 // Step 2: Get recent reviews for this product
-const reviews = db.reviews.find(
-  { product_id: "PROD001" }
-).sort({ created_at: -1 }).limit(10).toArray();
+const reviews = db.reviews
+  .find({ product_id: "PROD001" })
+  .sort({ created_at: -1 })
+  .limit(10)
+  .toArray();
 
 // Combine in application code or use $lookup:
 db.products.aggregate([
@@ -399,11 +399,11 @@ db.products.aggregate([
       pipeline: [
         { $match: { $expr: { $eq: ["$product_id", "$$prod_id"] } } },
         { $sort: { created_at: -1 } },
-        { $limit: 10 }
+        { $limit: 10 },
       ],
-      as: "recent_reviews"
-    }
-  }
+      as: "recent_reviews",
+    },
+  },
 ]);
 ```
 
@@ -413,7 +413,7 @@ db.products.aggregate([
 - Loading reviews separately in application layer
 - Embedding a "reviews summary" in products (e.g., recent 5 reviews)
 
---------------------------------------------------------------------------------
+---
 
 ### 5.2\. Customer Order History with Total Spending
 
@@ -427,76 +427,74 @@ db.orders.aggregate([
       total_spent: { $sum: "$total" },
       average_order_value: { $avg: "$total" },
       first_order: { $min: "$order_date" },
-      last_order: { $max: "$order_date" }
-    }
-  }
+      last_order: { $max: "$order_date" },
+    },
+  },
 ]);
 ```
 
---------------------------------------------------------------------------------
+---
 
 ### 5.3\. Update Product Rating After New Review
 
 ```javascript
 // After inserting a new review, recalculate product rating:
-db.reviews.aggregate([
-  { $match: { product_id: "PROD001" } },
-  {
-    $group: {
-      _id: "$product_id",
-      avg_rating: { $avg: "$rating" },
-      review_count: { $sum: 1 }
-    }
-  }
-]).forEach(result => {
-  db.products.updateOne(
-    { product_id: result._id },
+db.reviews
+  .aggregate([
+    { $match: { product_id: "PROD001" } },
     {
-      $set: {
-        "ratings.average": Math.round(result.avg_rating * 10) / 10,
-        "ratings.count": result.review_count
+      $group: {
+        _id: "$product_id",
+        avg_rating: { $avg: "$rating" },
+        review_count: { $sum: 1 },
+      },
+    },
+  ])
+  .forEach((result) => {
+    db.products.updateOne(
+      { product_id: result._id },
+      {
+        $set: {
+          "ratings.average": Math.round(result.avg_rating * 10) / 10,
+          "ratings.count": result.review_count,
+        },
       }
-    }
-  );
-});
+    );
+  });
 ```
 
 **Best Practice**: Run this as a background job or trigger after review inserts.
 
---------------------------------------------------------------------------------
+---
 
 ### 5.4\. Find All Orders Containing a Specific Product
 
 ```javascript
-db.orders.find(
-  { "items.product_id": "PROD001" }
-).sort({ order_date: -1 });
+db.orders.find({ "items.product_id": "PROD001" }).sort({ order_date: -1 });
 ```
 
 **Index Needed**: `db.orders.createIndex({ "items.product_id": 1 })`
 
---------------------------------------------------------------------------------
+---
 
 ### 5.5\. Products Low in Stock
 
 ```javascript
-db.products.find(
-  { stock_quantity: { $lt: 10 } }
-).sort({ stock_quantity: 1 });
+db.products.find({ stock_quantity: { $lt: 10 } }).sort({ stock_quantity: 1 });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Query Performance Summary
 
-Operation           | Collections           | Indexes Used              | Performance
-------------------- | --------------------- | ------------------------- | ----------------------------------
-Get customer orders | `orders`              | `customer_id, order_date` | ⚡ Fast (single indexed query)
-Get order details   | `orders`              | `order_id`                | ⚡ Fast (single document read)
-Top products        | `orders`              | `items.product_id`        | 🔶 Moderate (aggregation pipeline)
-Browse by category  | `products`            | `category`                | ⚡ Fast (indexed query)
-Product + reviews   | `products`, `reviews` | Multiple                  | 🔶 Moderate ($lookup or 2 queries)
-Text search         | `products`            | Text index                | ⚡ Fast (text index)
+| Operation           | Collections           | Indexes Used              | Performance                        |
+| ------------------- | --------------------- | ------------------------- | ---------------------------------- |
+| Get customer orders | `orders`              | `customer_id, order_date` | ⚡ Fast (single indexed query)     |
+| Get order details   | `orders`              | `order_id`                | ⚡ Fast (single document read)     |
+| Top products        | `orders`              | `items.product_id`        | 🔶 Moderate (aggregation pipeline) |
+| Browse by category  | `products`            | `category`                | ⚡ Fast (indexed query)            |
+| Product + reviews   | `products`, `reviews` | Multiple                  | 🔶 Moderate ($lookup or 2 queries) |
+| Text search         | `products`            | Text index                | ⚡ Fast (text index)               |
 
 **Legend**:
 
@@ -504,7 +502,7 @@ Text search         | `products`            | Text index                | ⚡ Fa
 - 🔶 Moderate: 10-100ms, may need optimization for large datasets
 - 🔴 Slow: > 100ms, requires optimization
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Conclusion
 

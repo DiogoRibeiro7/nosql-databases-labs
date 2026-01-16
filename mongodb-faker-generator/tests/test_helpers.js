@@ -5,6 +5,12 @@ import { faker } from "@faker-js/faker";
 
 faker.locale = "pt_PT";
 
+/**
+ * Lightweight copy of the real generator used to unit-test data shapes without I/O.
+ *
+ * @param {number} [n=100] - Number of mock users.
+ * @returns {Array<object>}
+ */
 export function generateUsers (n = 100) {
   const users = [];
 
@@ -63,6 +69,12 @@ export function generateUsers (n = 100) {
   return users;
 }
 
+/**
+ * Test helper that mirrors the product generator logic.
+ *
+ * @param {number} [n=500] - Product count.
+ * @returns {Array<object>}
+ */
 export function generateProducts (n = 500) {
   const products = [];
   const categories = ["Electronics", "Books", "Clothing", "Home & Garden", "Sports", "Toys"];
@@ -116,6 +128,14 @@ export function generateProducts (n = 500) {
   return products;
 }
 
+/**
+ * Produce transactions referencing provided test users/products.
+ *
+ * @param {Array<object>} users
+ * @param {Array<object>} products
+ * @param {number} [n=1000]
+ * @returns {Array<object>}
+ */
 export function generateTransactions (users, products, n = 1000) {
   const transactions = [];
 
@@ -194,6 +214,13 @@ export function generateTransactions (users, products, n = 1000) {
   return transactions;
 }
 
+/**
+ * Emit simple log events for unit tests without talking to MongoDB.
+ *
+ * @param {Array<object>} users
+ * @param {number} [n=5000]
+ * @returns {Array<object>}
+ */
 export function generateLogs (users, n = 5000) {
   const logs = [];
   const logLevels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"];

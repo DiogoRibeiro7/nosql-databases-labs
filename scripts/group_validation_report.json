@@ -1,0 +1,539 @@
+{
+  "groups": [
+    {
+      "name": "group_01",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_02",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_03",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_06",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_07",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_09",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_14",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_16",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_17",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_19",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_22",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    },
+    {
+      "name": "group_23",
+      "status": "valid",
+      "files": {
+        "README.md": {
+          "status": "valid",
+          "message": "README.md is valid",
+          "size": 6298,
+          "lines": 170,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": true,
+            "hasSections": true
+          }
+        },
+        "solution.md": {
+          "status": "valid",
+          "message": "solution.md is valid",
+          "size": 11619,
+          "lines": 515,
+          "checks": {
+            "hasHeadings": true,
+            "hasCodeBlocks": true,
+            "hasLinks": false,
+            "hasSections": true
+          }
+        }
+      },
+      "queries": {
+        "hasQueries": true,
+        "queryCount": 34,
+        "queryTypes": {
+          "find": 12,
+          "aggregate": 5,
+          "insert": 3,
+          "update": 3,
+          "delete": 2,
+          "createIndex": 9
+        },
+        "hasAdvancedQueries": true
+      },
+      "warnings": []
+    }
+  ],
+  "summary": {
+    "total": 12,
+    "complete": 12,
+    "incomplete": 0,
+    "missing": 0,
+    "warnings": []
+  }
+}

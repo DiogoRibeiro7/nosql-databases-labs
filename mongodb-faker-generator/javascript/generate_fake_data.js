@@ -1,3 +1,4 @@
+// Utility script to seed MongoDB with a realistic e-commerce workload using Faker.
 import { faker } from '@faker-js/faker';
 import { MongoClient } from 'mongodb';
 
@@ -9,7 +10,12 @@ const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
 const dbName = 'database_demo';
 
-// Data generators
+/**
+ * Build an array of mock user profiles with nested account/profile data.
+ *
+ * @param {number} [n=100] - Number of user documents to create.
+ * @returns {Array<object>} Generated user documents ready for MongoDB.
+ */
 function generateUsers(n = 100) {
     const users = [];
     
@@ -68,6 +74,12 @@ function generateUsers(n = 100) {
     return users;
 }
 
+/**
+ * Build an array of product documents spanning multiple categories.
+ *
+ * @param {number} [n=500] - Number of products to generate.
+ * @returns {Array<object>} Product payloads with pricing, inventory, etc.
+ */
 function generateProducts(n = 500) {
     const products = [];
     const categories = ['Electronics', 'Books', 'Clothing', 'Home & Garden', 'Sports', 'Toys'];
@@ -125,6 +137,14 @@ function generateProducts(n = 500) {
     return products;
 }
 
+/**
+ * Generate purchase transactions that reference the supplied users/products.
+ *
+ * @param {Array<object>} users - Previously generated user docs (for userId refs).
+ * @param {Array<object>} products - Product docs for SKU references.
+ * @param {number} [n=1000] - Number of transactions to create.
+ * @returns {Array<object>} Transaction documents with embedded items.
+ */
 function generateTransactions(users, products, n = 1000) {
     const transactions = [];
     
@@ -148,7 +168,8 @@ function generateTransactions(users, products, n = 1000) {
             subtotal += itemTotal;
         }
         
-        const tax = subtotal * 0.23; // Portuguese VAT
+        // Apply Portuguese VAT and a random shipping fee to mirror real totals.
+        const tax = subtotal * 0.23;
         const shipping = parseFloat(faker.commerce.price({ min: 0, max: 20, dec: 2 }));
         
         const transaction = {
@@ -191,6 +212,13 @@ function generateTransactions(users, products, n = 1000) {
     return transactions;
 }
 
+/**
+ * Generate synthetic application logs optionally tied to user ids.
+ *
+ * @param {Array<object>} users - User docs to pick IDs from.
+ * @param {number} [n=5000] - Number of log entries to emit.
+ * @returns {Array<object>} Log documents spanning multiple levels/types.
+ */
 function generateLogs(users, n = 5000) {
     const logs = [];
     const logLevels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'];
@@ -228,6 +256,11 @@ function generateLogs(users, n = 5000) {
 }
 
 // Main function to insert data
+/**
+ * Connect to MongoDB, regenerate datasets, insert them, and run sample queries.
+ *
+ * @returns {Promise<void>}
+ */
 async function insertDataToMongoDB() {
     try {
         // Connect to MongoDB
@@ -313,7 +346,12 @@ async function insertDataToMongoDB() {
     }
 }
 
-// Example queries
+/**
+ * Print a handful of business-driven queries/aggregations to validate the dataset.
+ *
+ * @param {import("mongodb").Db} db - Active database connection.
+ * @returns {Promise<void>}
+ */
 async function runExampleQueries(db) {
     console.log('\n🔍 Example Queries:');
     
@@ -337,8 +375,8 @@ async function runExampleQueries(db) {
     console.log(`2. Products with rating >= 4.5: ${highRatedProducts.length}`);
     
     // 3. Recent large transactions
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
     
     const largeTransactions = await db.collection('transactions')
         .find({

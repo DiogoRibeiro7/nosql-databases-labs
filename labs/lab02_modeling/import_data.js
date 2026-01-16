@@ -15,7 +15,13 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 // Collection names
 const COLLECTIONS = ["customers", "products", "orders", "reviews"];
 
-async function loadJSONFile (filePath) {
+/**
+ * Read a JSON file from disk and parse it into JavaScript objects.
+ *
+ * @param {string} filePath - Absolute path to the JSON file.
+ * @returns {Promise<object[]>} Parsed JSON contents.
+ */
+async function loadJSONFile(filePath) {
   try {
     const data = await fs.readFile(filePath, "utf8");
     return JSON.parse(data);
@@ -25,7 +31,24 @@ async function loadJSONFile (filePath) {
   }
 }
 
-async function importData () {
+/**
+ * Main entry point that connects to MongoDB, loads all seed documents,
+ * and ensures indexes are created for every collection in the model.
+ *
+ * @returns {Promise<void>}
+ */
+function handleConnectionError(error) {
+  if (error?.name === "MongoServerSelectionError" || error?.message?.includes("ECONNREFUSED")) {
+    console.error("\n⚠️ Unable to connect to MongoDB at", MONGODB_URI);
+    console.error("   • Make sure the mongod service is running");
+    console.error("   • If you are using Docker, start the MongoDB container first");
+    console.error("   • You can change the connection URI via the MONGODB_URI env var\n");
+    return true;
+  }
+  return false;
+}
+
+async function importData() {
   let client;
 
   try {
@@ -54,6 +77,7 @@ async function importData () {
 
     // Import data for each collection
     console.log("\nImporting sample data...");
+    // Source JSON sits inside the starter pack so instructors can tweak samples easily.
     const dataDir = path.join(__dirname, "starter", "data");
 
     for (const collectionName of COLLECTIONS) {
@@ -69,7 +93,7 @@ async function importData () {
         }
 
         // Convert Extended JSON format if needed
-        const processedDocs = documents.map(doc => {
+        const processedDocs = documents.map((doc) => {
           // Convert MongoDB Extended JSON format
           return JSON.parse(JSON.stringify(doc), (key, value) => {
             // Convert $oid to ObjectId
@@ -98,6 +122,7 @@ async function importData () {
 
     // Verify import
     console.log("\nVerifying data import...");
+    // Print document counts so students can confirm dataset size matches expectations.
     for (const collectionName of COLLECTIONS) {
       const count = await db.collection(collectionName).countDocuments();
       console.log(`${collectionName}: ${count} documents`);
@@ -106,7 +131,9 @@ async function importData () {
     console.log("\n✓ Data import completed successfully!");
     console.log(`Database "${DATABASE_NAME}" is ready for use.`);
   } catch (error) {
-    console.error("\nError during import:", error);
+    if (!handleConnectionError(error)) {
+      console.error("\nError during import:", error.message || error);
+    }
     process.exit(1);
   } finally {
     if (client) {
@@ -116,7 +143,13 @@ async function importData () {
   }
 }
 
-async function createIndexes (db) {
+/**
+ * Create the indexes required by the lab's query workload.
+ *
+ * @param {import("mongodb").Db} db - Active database handle.
+ * @returns {Promise<void>}
+ */
+async function createIndexes(db) {
   try {
     // Customers collection indexes
     await db.collection("customers").createIndex({ customer_id: 1 }, { unique: true });
