@@ -1,6 +1,6 @@
 // Query 03: Listings by Room Type Distribution
 // Property portfolio analysis
-// Usage: mongosh queries/03_room_type_distribution.mongosh.js
+// Usage : mongosh queries/03_room_type_distribution.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 

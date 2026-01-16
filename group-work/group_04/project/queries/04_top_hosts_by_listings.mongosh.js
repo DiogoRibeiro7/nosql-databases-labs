@@ -1,6 +1,6 @@
 // Query 04: Top Hosts by Number of Listings
 // Identifies professional hosts and property managers
-// Usage: mongosh queries/04_top_hosts_by_listings.mongosh.js
+// Usage : mongosh queries/04_top_hosts_by_listings.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 
