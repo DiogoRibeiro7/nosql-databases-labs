@@ -2,17 +2,6 @@
 
 This solution demonstrates a complete MongoDB implementation of a Porto Airbnb listings database. The project transforms the sample JSON data into an optimized document model, leveraging MongoDB's embedded documents and flexible schema design to support a vacation rental analytics platform with listings, hosts, and booking management.
 
-## Contributors
-#### GROUP 04 - TSIW - 2026
-
-| Name | Student ID | Email | Contribution % |
-| ---- | ---------- | ----- | -------------- |
-| Pedro Rodrigues | 40240239 | 40240239@esmad.ipp.pt | 33,3% |
-| Mariana Ferreira | 40240450 | 40240450@esmad.ipp.pt | 33,3% |
-| Miguel Caldas | 40240221 | 40240221@esmad.ipp.pt | 33,3% |
-
-**Total:** 100%
-
 ## Deliverables in This Folder
 
 | Path | Purpose |
@@ -148,6 +137,17 @@ The project includes two versions of a complex aggregation query to demonstrate 
 | 20 | Aggregation (No Indexes) | Performance | Baseline measurement |
 | 20b | Aggregation (With Indexes) | Performance | Optimized measurement |
 | 21 | Collection Statistics | Admin | Database metrics |
+
+## Contributors
+#### GROUP 04 - TSIW - 2026
+
+| Name | Student ID | Email | Contribution % |
+| ---- | ---------- | ----- | -------------- |
+| Pedro Rodrigues | 40240239 | 40240239@esmad.ipp.pt | 33,3% |
+| Mariana Ferreira | 40240450 | 40240450@esmad.ipp.pt | 33,3% |
+| Miguel Caldas | 40240221 | 40240221@esmad.ipp.pt | 33,3% |
+
+**Total:** 100%
 
 ## Teacher
 
