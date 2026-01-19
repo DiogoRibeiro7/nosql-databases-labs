@@ -1,33 +1,130 @@
 
 // queries/index_blueprint.mongosh.js
 
-
-// Connect to the group_10_db database
 db = db.getSiblingDB("group_10_db");
+
 print(`Using database: ${db.getName()}`);
 
-print("Applying unique/reference indexes...");
+print("\nRecreating recommended indexes...");
 
-// Evitar clientes duplicados por email
-printjson(db.customers.createIndex({ email: 1 }, { unique: true }));
-// Pesquisa nominal (apelido+nome) e ordenação
-printjson(db.customers.createIndex({ lastName: 1, firstName: 1 }));
-// Geo e postal para segmentação local
-printjson(db.customers.createIndex({ "address.postalCode": 1 }));
-printjson(db.customers.createIndex({ "address.location": "2dsphere" }));
 
-print("\nApplying catalog indexes...");
-// Pesquisa por texto no catálogo de filmes
-// (se já existir um texto, remove e recria se mudares os campos)
-printjson(db.films.createIndex({ title: "text" }));
-printjson(db.films.createIndex({ releaseYear: 1 }));
+// ============================================================================
+// CUSTOMERS
+// ============================================================================
 
-print("\nApplying rentals (operational/analytics) indexes...");
-// Histórico por cliente (timeline recente)
-printjson(db.rentals.createIndex({ customerId: 1, rentalDate: -1 }));
-// Dashboards por loja/estado/prazo
-printjson(db.rentals.createIndex({ storeId: 1 }));
-printjson(db.rentals.createIndex({ status: 1 }));
-printjson(db.rentals.createIndex({ dueDate: 1 }));
+// Prevent duplicate accounts and support login/email lookups
+db.customers.createIndex(
+  { email: 1 },
+  { unique: true, name: "uniq_email" }
+);
 
-print("\nDone. Inspect with db.<collection>.getIndexes().");
+// Fast filtering for active/inactive segmentations
+db.customers.createIndex(
+  { active: 1 },
+  { name: "idx_active" }
+);
+
+// Regional reports and city-based segmentation
+db.customers.createIndex(
+  { "address.city": 1 },
+  { name: "idx_city" }
+);
+
+
+// ============================================================================
+// FILMS
+// ============================================================================
+
+// Text search on titles (supports multi‑word queries)
+db.films.createIndex(
+  { title: "text" },
+  { name: "idx_text_title" }
+);
+
+// For sorting movies by release year
+db.films.createIndex(
+  { releaseYear: 1 },
+  { name: "idx_release_year" }
+);
+
+// For filtering by price range
+db.films.createIndex(
+  { rentalRate: 1 },
+  { name: "idx_rental_rate" }
+);
+
+
+// ============================================================================
+// STORES
+// ============================================================================
+
+// Enforce store identity (unique code)
+db.stores.createIndex(
+  { storeId: 1 },
+  { unique: true, name: "uniq_storeId" }
+);
+
+// Alphabetical listing, reports by store name
+db.stores.createIndex(
+  { storeName: 1 },
+  { name: "idx_store_name" }
+);
+
+// Geospatial index for $near and geo analytics
+db.stores.createIndex(
+  { "address.location": "2dsphere" },
+  { name: "idx_geo_location" }
+);
+
+
+// ============================================================================
+// RENTALS
+// ============================================================================
+
+// Customer history, sorted by rentalDate
+db.rentals.createIndex(
+  { customerId: 1, rentalDate: -1 },
+  { name: "idx_customer_history" }
+);
+
+// Fast lookup of overdue/rented/returned rentals
+db.rentals.createIndex(
+  { status: 1, rentalDate: -1 },
+  { name: "idx_status_date" }
+);
+
+// Revenue aggregation by store
+db.rentals.createIndex(
+  { storeId: 1, rentalDate: -1 },
+  { name: "idx_store_revenue" }
+);
+
+// For analytics on film popularity
+db.rentals.createIndex(
+  { "films.filmId": 1 },
+  { name: "idx_film_usage" }
+);
+
+
+// ============================================================================
+// Summary
+// ============================================================================
+print("\nIndexes successfully (re)created. Current index list:");
+
+print("\nCUSTOMERS:");
+printjson(db.customers.getIndexes());
+
+print("\nFILMS:");
+printjson(db.films.getIndexes());
+
+print("\nSTORES:");
+printjson(db.stores.getIndexes());
+
+print("\nRENTALS:");
+printjson(db.rentals.getIndexes());
+
+print("\nDone.");
+
+// ============================================================================
+// End of index_blueprint.mongosh.js
+// ============================================================================

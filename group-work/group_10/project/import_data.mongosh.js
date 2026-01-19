@@ -13,6 +13,154 @@ print("Dropping previous data (if any)...");
 db.dropDatabase();
 
 
+
+
+// Schemas
+
+db.createCollection("customers", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["customerId", "firstName", "lastName", "email", "phone", "active", "createDate", "address"],
+      additionalProperties: false,
+      properties: {
+        _id: {},
+        customerId: { bsonType: "string", pattern: "^CUST-[0-9]{3}$" },
+        firstName: { bsonType: "string" },
+        lastName: { bsonType: "string" },
+        email: { bsonType: "string", pattern: "^[^@]+@[^@]+\\.[^@]+$"},
+        phone: { bsonType: "string" },
+        active: { bsonType: "bool" },
+        createDate: { bsonType: "date" },
+        lastUpdate: { bsonType: ["date", "null"] },
+        address: {
+          bsonType: "object",
+          required: ["address", "district", "city", "postalCode"],
+          additionalProperties: false,
+          properties: {
+            address: { bsonType: "string" },
+            address2: { bsonType: ["string", "null"] },
+            district: { bsonType: "string" },
+            city: { bsonType: "string" },
+            postalCode: { bsonType: "string" }
+          }
+        }
+      }
+    }
+  }
+});
+
+
+
+db.createCollection("films", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["filmId", "title", "releaseYear", "rentalDurationDays", "rentalRate"],
+      additionalProperties: false,
+      properties: {
+        _id: {},
+        filmId: { bsonType: "string", pattern: "^FILM-[0-9]{3}$" },
+        title: { bsonType: "string" },
+        description: { bsonType: ["string", "null"] },
+        releaseYear: { bsonType: "int" },
+        rentalDurationDays: { bsonType: "int" },
+        rentalRate: { bsonType: ["double", "int"], minimum: 0 },
+        stockPolicy: {
+          bsonType: ["object", "null"],
+          additionalProperties: false,
+          properties: {
+            maxLateFeePerRental: { bsonType: ["double", "int"], minimum: 0 }
+          }
+        },
+        lastUpdate: { bsonType: ["date", "null"] }
+      }
+    }
+  }
+});
+
+
+db.createCollection("stores", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["storeId", "storeName", "manager", "address"],
+      additionalProperties: false,
+      properties: {
+        _id: {},
+        storeId: { bsonType: "string", pattern: "^STORE-[0-9]{2}$" },
+        storeName: { bsonType: "string" },
+        manager: {
+          bsonType: "object",
+          required: ["name"],
+          additionalProperties: false,
+          properties: {
+            name: { bsonType: "string" },
+            staffId: { bsonType: ["int", "null"] }
+          }
+        },
+        address: {
+          bsonType: "object",
+          required: ["city", "location"],
+          additionalProperties: false,
+          properties: {
+            city: { bsonType: "string" },
+            location: {
+              bsonType: "object",
+              required: ["type", "coordinates"],
+              additionalProperties: false,
+              properties: {
+                type: { enum: ["Point"] },
+                coordinates: {
+                  bsonType: "array",
+                  minItems: 2,
+                  maxItems: 2,
+                  items: { bsonType: "double" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+
+db.createCollection("rentals", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["rentalDate", "dueDate", "status", "films", "customerId", "storeId"],
+      additionalProperties: false,
+      properties: {
+        _id: {},
+        rentalDate: { bsonType: "date" },
+        dueDate: { bsonType: "date" },
+        status: { bsonType: "string", enum: ["rented", "returned", "overdue", "cancelled"] },
+        films: {
+          bsonType: "array",
+          minItems: 1,
+          items: {
+            bsonType: "object",
+            required: ["filmId", "title", "amount"],
+            additionalProperties: false,
+            properties: {
+              filmId: { bsonType: "string", pattern: "^FILM-[0-9]{3}$" },
+              title: { bsonType: "string" },
+              amount: { bsonType: ["double", "int"], minimum: 0 }
+            }
+          }
+        },
+        customerId: { bsonType: "string", pattern: "^CUST-[0-9]{3}$" },
+        storeId: { bsonType: "string", pattern: "^STORE-[0-9]{2}$" }
+      }
+    }
+  }
+});
+
+
+
 // Reference data 
 
 const customers = [
@@ -571,7 +719,7 @@ const stores = [
   { storeId: "STORE-05", storeName: "Video Centro Faro", manager: { name: "João Pacheco" }, address: { city: "Faro", location: { type: "Point", coordinates: [-7.9352, 37.0194] } } }
 ];
 
-// 4. RENTALS (8) com denormalização 
+// 4. RENTALS 
 const rentals = [
   {
     rentalDate: ISODate("2025-01-01"), dueDate: ISODate("2025-01-08"), status: "returned",
@@ -668,12 +816,12 @@ const rentals = [
 
 // Insert data ----------------------------------------------------------------
 print("\nImporting reference data...");
-db.customers.insertMany(customers);
-db.films.insertMany(films);
-db.stores.insertMany(stores);
+db.customers.insertMany(customers,{ ordered: true });
+db.films.insertMany(films,{ ordered: true });
+db.stores.insertMany(stores,{ ordered: true });
 
 print("Importing rentals...");
-db.rentals.insertMany(rentals);
+db.rentals.insertMany(rentals,{ ordered: true });
 
 
 //// minimal indexes so analytical queries in the /queries folder have good plans.
