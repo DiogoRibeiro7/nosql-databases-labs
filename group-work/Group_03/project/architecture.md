@@ -23,6 +23,7 @@ availability, and trend detection. Key business drivers in the supplied scripts 
 1. `listings`
    The main collection storing all property information with embedded host, location, and review data.
 
+```
 {
 listing_id: Number, // Primary identifier
 name: String, // Property name
@@ -56,6 +57,7 @@ review_scores_rating: Number
 created_at: Date,
 last_update: Date
 }
+```
 
 Design Rationale:
 
@@ -67,6 +69,7 @@ Design Rationale:
 2. `hosts`
    Aggregated host collection for host-centric analytics.
 
+```
 {
 host_id: Number, // Primary identifier
 host_name: String,
@@ -83,10 +86,12 @@ Design Rationale:
 - Denormalized from listings for fast host analytics
 - Pre-computed aggregates avoid expensive runtime calculations
 - Arrays store unique values for portfolio diversity analysis
+```
 
 3. `bookings`
    Transactional collection for revenue and booking analytics.
 
+```
 {
 booking_id: Number, // Primary identifier
 listing_id: Number, // Reference to listing
@@ -103,6 +108,7 @@ total_price: Decimal128, // Pre-computed total
 status: String, // "completed", "cancelled"
 created_at: Date
 }
+```
 
 Design Rationale:
 
