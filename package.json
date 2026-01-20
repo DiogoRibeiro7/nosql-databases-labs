@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/DiogoRibeiro7/nosql-databases-labs#readme",
   "devDependencies": {
-    "bson": "^7.0.0",
+    "bson": "^7.1.1",
     "c8": "^10.1.3",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
