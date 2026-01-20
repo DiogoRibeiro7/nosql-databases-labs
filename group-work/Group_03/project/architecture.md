@@ -80,13 +80,13 @@ room_types: [String], // Array of unique room types
 avg_price: Decimal128, // Pre-computed average
 created_at: Date
 }
+```
 
 Design Rationale:
 
 - Denormalized from listings for fast host analytics
 - Pre-computed aggregates avoid expensive runtime calculations
 - Arrays store unique values for portfolio diversity analysis
-```
 
 3. `bookings`
    Transactional collection for revenue and booking analytics.
