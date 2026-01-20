@@ -80,7 +80,7 @@ The scripts assume a MongoDB instance is available at the default `mongodb://127
 - **Why mongosh only?**  
   All data import, indexing, and analysis tasks are implemented exclusively using `mongosh` to ensure the project is fully reproducible, easy to audit, and independent of external programming languages or MongoDB drivers. Each script is idempotent and relies on standard MongoDB shell operations and aggregation pipelines.
 
-##Data Model Highlights
+## Data Model Highlights
 
 **Key Query Patterns Demonstrated**
 
@@ -113,7 +113,7 @@ The project also includes two versions of a related aggregation to demonstrate i
 - Data Source: Porto Airbnb Listings (JSON)
 - Visualization: MongoDB Compass (optional)
 
-##Queries Summary
+## Queries Summary
 
 | Num | Query file                                                  | Type                   | Description                                                                  |
 | --- | ----------------------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------- |
@@ -148,7 +148,7 @@ The project also includes two versions of a related aggregation to demonstrate i
 | 28  | `queries/28_filter_by_price_roomtype.mongosh.js`            | Find / Filter          | Filter listings by price range and room type.                                |
 | 29  | `queries/29_performance_check.mongosh.js`                   | Performance / Utility  | Collection stats, indexes list, and `explain()` for a representative query.  |
 
-##Contributors
+## Contributors
 
 | Name            | Student ID | Email                 | Contribution % |
 | --------------- | ---------- | --------------------- | -------------- |
@@ -162,7 +162,7 @@ The project also includes two versions of a related aggregation to demonstrate i
 
 Professor Diogo Filipe de Bastos Sousa Ribeiro
 
-##Data Model Summary
+## Data Model Summary
 
 For details on the data model and rationale see `architecture.md`. For index creation re-run `mongosh queries/index_blueprint.mongosh.js`.
 

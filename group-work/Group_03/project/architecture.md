@@ -18,59 +18,97 @@ availability, and trend detection. Key business drivers in the supplied scripts 
 | `bookings` | Fact / event stream     | Each booking/transaction with status, nights, prices and dates         |
 | `hosts`    | Reference / analytics   | Host-level aggregates and portfolio metadata                           |
 
-### Schema Highlights
+### Collection Schemas
 
-// listings
+1. `listings`
+   The main collection storing all property information with embedded host, location, and review data.
+
 {
-\_id: ObjectId,
-name: String,
-host: {
-id: String,
-name: String
+listing_id: Number, // Primary identifier
+name: String, // Property name
+host: { // Embedded host info
+host_id: Number,
+host_name: String
 },
-location: {
+location: { // Embedded location
 neighbourhood: String,
 coordinates: {
-type: "Point",
-coordinates: [lon, lat]
+latitude: Number,
+longitude: Number
 }
 },
-pricing: {
-daily_price: Number
+room_type: String, // "Entire home/apt", "Private room", etc.
+price: Decimal128, // Nightly price in EUR
+price_category: String, // "budget", "mid-range", "premium", "luxury"
+capacity: { // Embedded capacity info
+accommodates: Number,
+bedrooms: Number,
+beds: Number
 },
-details: {
-room_type: String
+booking_rules: { // Embedded booking rules
+minimum_nights: Number,
+availability_365: Number
 },
-reviews: {
-rating: Number,
-count: Number
+reviews: { // Embedded review summary
+number_of_reviews: Number,
+review_scores_rating: Number
 },
-availability: {
-days_available_365: Number
-}
+created_at: Date,
+last_update: Date
 }
 
-// bookings
+Design Rationale:
+
+- Host info is embedded since it's frequently accessed with listing data
+- Location uses nested structure for geographical queries
+- Price category is computed at import time for fast segmentation queries
+- Reviews are embedded as summary stats (not individual reviews) for performance
+
+2. `hosts`
+   Aggregated host collection for host-centric analytics.
+
 {
-\_id: ObjectId,
-listing_id: ObjectId, // reference to listings.\_id
-host_id: String, // denormalized for host-level rollups
-booking_date: ISODate,
-status: "confirmed" | "completed" | "cancelled",
-nights: Number,
-total_price: Number,
-total_revenue: Number // optional: stored to simplify revenue aggregations
+host_id: Number, // Primary identifier
+host_name: String,
+listings_count: Number, // Pre-computed count
+total_capacity: Number, // Sum of all accommodates
+neighbourhoods: [String], // Array of unique neighbourhoods
+room_types: [String], // Array of unique room types
+avg_price: Decimal128, // Pre-computed average
+created_at: Date
 }
 
-// hosts
+Design Rationale:
+
+- Denormalized from listings for fast host analytics
+- Pre-computed aggregates avoid expensive runtime calculations
+- Arrays store unique values for portfolio diversity analysis
+
+3. `bookings`
+   Transactional collection for revenue and booking analytics.
+
 {
-\_id: ObjectId,
-host_id: String, // stable external identifier
-name: String,
-listings_count: Number, // number of active listings
-avg_price: Number, // average daily price across listings
-total_revenue: Number // optional denormalized metric for analytics
+booking_id: Number, // Primary identifier
+listing_id: Number, // Reference to listing
+listing_name: String, // Denormalized for display
+host_id: Number, // Reference to host
+guest: { // Embedded guest info
+guest_id: Number,
+guest_name: String
+},
+check_in: Date,
+check_out: Date,
+nights: Number, // Pre-computed duration
+total_price: Decimal128, // Pre-computed total
+status: String, // "completed", "cancelled"
+created_at: Date
 }
+
+Design Rationale:
+
+- Keep high-volume transactional booking events separate from `listings` to avoid growth and update contention
+- Denormalize `listing_name` and `host_id` to simplify reporting and reduce lookups when presenting booking summaries
+- Store pre-computed totals and durations to speed up aggregations
 
 ## Embedding vs Referencing Decisions
 
