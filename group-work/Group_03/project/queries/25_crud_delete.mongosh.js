@@ -2,7 +2,6 @@
 // Query name: CRUD Delete Example
 // Query question: How to delete listings for a test host and cascade remove bookings?
 // Business purpose: demonstrate safe delete patterns and cleanup for test data
-// Usage: mongosh crud_delete.mongosh.js
 
 db = db.getSiblingDB("group_03_airbnb");
 print("=== CRUD: DELETE ===");
