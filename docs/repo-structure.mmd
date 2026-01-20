@@ -1,0 +1,47 @@
+```mermaid
+graph TD
+    root((nosql-databases-labs))
+
+    subgraph "Learning Resources"
+        docs[docs/ - guides & theory primers]
+        exercises[exercises/ - practice sets]
+        data[data/ - sample datasets]
+        sebenta[sebenta/ - syllabus companion]
+    end
+
+    subgraph "Hands-on Work"
+        labs[labs/ - Lab 01-05 + modern tracks]
+        lab01[lab01_intro]
+        lab02[lab02_modeling]
+        lab03[lab03_queries]
+        lab04[lab04_aggregation]
+        lab05[lab05_replication]
+        modern[lab_modern_features]
+        group[group-work/ - team deliverables]
+        faker[mongodb-faker-generator/ - Python dataset builder]
+
+        labs --> lab01
+        labs --> lab02
+        labs --> lab03
+        labs --> lab04
+        labs --> lab05
+        labs --> modern
+    end
+
+    subgraph "Automation & QA"
+        scripts[scripts/ - CLI + validation helpers]
+        tests[tests/ - shared Jest harness]
+        workflows[.github/workflows/ - CI pipelines]
+    end
+
+    root --> docs
+    root --> exercises
+    root --> data
+    root --> sebenta
+    root --> labs
+    root --> group
+    root --> faker
+    root --> scripts
+    root --> tests
+    root --> workflows
+```

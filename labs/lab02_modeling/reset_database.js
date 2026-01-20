@@ -10,7 +10,12 @@ const { MongoClient } = require("mongodb");
 const DATABASE_NAME = "lab02_ecommerce";
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
-async function resetDatabase () {
+/**
+ * Drop the entire lab02 database after confirming it exists.
+ *
+ * @returns {Promise<void>}
+ */
+async function resetDatabase() {
   let client;
 
   try {
@@ -21,9 +26,10 @@ async function resetDatabase () {
     console.log("Connected successfully to MongoDB");
 
     // Check if database exists
+    // Query the admin DB to check if the target database is present.
     const admin = client.db().admin();
     const databases = await admin.listDatabases();
-    const dbExists = databases.databases.some(db => db.name === DATABASE_NAME);
+    const dbExists = databases.databases.some((db) => db.name === DATABASE_NAME);
 
     if (!dbExists) {
       console.log(`\nDatabase "${DATABASE_NAME}" does not exist.`);
@@ -39,7 +45,7 @@ async function resetDatabase () {
     const collections = await db.listCollections().toArray();
     if (collections.length > 0) {
       console.log("Collections to be removed:");
-      collections.forEach(col => console.log(`  - ${col.name}`));
+      collections.forEach((col) => console.log(`  - ${col.name}`));
     }
 
     // Drop the entire database
@@ -48,7 +54,7 @@ async function resetDatabase () {
 
     // Verify deletion
     const updatedDatabases = await admin.listDatabases();
-    const stillExists = updatedDatabases.databases.some(db => db.name === DATABASE_NAME);
+    const stillExists = updatedDatabases.databases.some((db) => db.name === DATABASE_NAME);
 
     if (!stillExists) {
       console.log("✓ Database reset completed.");
@@ -68,18 +74,24 @@ async function resetDatabase () {
 }
 
 // Add confirmation prompt when run directly
-async function promptConfirmation () {
+/**
+ * Ask the user to confirm destructive work before running resetDatabase.
+ *
+ * @returns {Promise<boolean>} Whether the user typed yes/y.
+ */
+async function promptConfirmation() {
   const readline = require("readline");
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  return new Promise(resolve => {
+  // Wrap readline question into a Promise so callers can await the answer.
+  return new Promise((resolve) => {
     rl.question(
       `\n⚠️  WARNING: This will delete the entire "${DATABASE_NAME}" database!\n` +
         "Are you sure you want to continue? (yes/no): ",
-      answer => {
+      (answer) => {
         rl.close();
         resolve(answer.toLowerCase() === "yes" || answer.toLowerCase() === "y");
       }

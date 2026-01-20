@@ -1,0 +1,29 @@
+# Requirements for Medical Records MongoDB Database System
+# Install with: pip install -r requirements.txt
+
+# Data Generation
+faker>=20.0.0
+faker-healthcare>=0.1.0  # Optional: additional medical data generators
+
+# Data Processing
+pandas>=1.5.0
+numpy>=1.24.0
+
+# MongoDB Connection
+pymongo>=4.0.0
+
+# Date/Time Handling
+python-dateutil>=2.8.0
+
+# Optional: Data Visualization (for future analytics dashboards)
+matplotlib>=3.6.0
+seaborn>=0.12.0
+
+# Optional: Progress bars for large dataset generation
+tqdm>=4.65.0
+
+# Optional: Configuration management
+python-dotenv>=1.0.0
+
+# Optional: Data validation
+jsonschema>=4.17.0

@@ -1,0 +1,255 @@
+name: Release and Version Control
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine version bump
+        id: version_bump
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "bump_type=${{ github.event.inputs.version_bump }}" >> $GITHUB_OUTPUT
+          else
+            # Analyze commit messages to determine version bump
+            # Default to patch, use minor for feat:, major for BREAKING CHANGE
+            COMMIT_MSG=$(git log -1 --pretty=%B $GITHUB_SHA)
+            if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE\|!:"; then
+              echo "bump_type=major" >> $GITHUB_OUTPUT
+            elif echo "$COMMIT_MSG" | grep -q "^feat\|^feature"; then
+              echo "bump_type=minor" >> $GITHUB_OUTPUT
+            else
+              echo "bump_type=patch" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Calculate new version
+        id: new_version
+        run: |
+          CURRENT_VERSION="${{ steps.current_version.outputs.version }}"
+          BUMP_TYPE="${{ steps.version_bump.outputs.bump_type }}"
+
+          # Split version into components
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          # Bump the appropriate version component
+          case $BUMP_TYPE in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update package.json version
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          npm version $NEW_VERSION --no-git-tag-version
+
+      - name: Commit version bump
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          FILES_TO_ADD="package.json"
+          if [ -f package-lock.json ]; then
+            FILES_TO_ADD="$FILES_TO_ADD package-lock.json"
+          fi
+          git add $FILES_TO_ADD
+          git commit -m "chore: bump version to v$NEW_VERSION [skip ci]" || echo "No changes to commit"
+
+      - name: Create release branch
+        id: release_branch
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          RELEASE_BRANCH="release/v$NEW_VERSION"
+          git checkout -b "$RELEASE_BRANCH"
+          echo "branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Push changes
+        run: |
+          RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
+          git push --force-with-lease origin HEAD:"$RELEASE_BRANCH"
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          echo "## Release v$NEW_VERSION" > release_notes.md
+          echo "" >> release_notes.md
+          echo "### Changes in this release:" >> release_notes.md
+          echo "" >> release_notes.md
+
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "Initial release" >> release_notes.md
+          else
+            git log $PREVIOUS_TAG..HEAD --pretty=format:"- %s (%h)" >> release_notes.md
+          fi
+
+          echo "" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### Contributors:" >> release_notes.md
+          git log $PREVIOUS_TAG..HEAD --pretty=format:"%an" | sort | uniq | sed 's/^/- @/' >> release_notes.md
+
+      - name: Create release PR
+        if: env.RELEASE_PR_TOKEN != ''
+        uses: actions/github-script@v8
+        env:
+          NEW_VERSION: ${{ steps.new_version.outputs.version }}
+          RELEASE_BRANCH: ${{ steps.release_branch.outputs.branch }}
+          PR_TOKEN: ${{ secrets.RELEASE_PR_TOKEN }}
+        with:
+          github-token: ${{ secrets.RELEASE_PR_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            const headBranch = process.env.RELEASE_BRANCH;
+            const baseBranch = 'main';
+            const newVersion = process.env.NEW_VERSION;
+            let body = `Automated release PR for version ${newVersion}.`;
+            if (fs.existsSync('release_notes.md')) {
+              body = fs.readFileSync('release_notes.md', 'utf8');
+            }
+            const title = `Release v${newVersion}`;
+            const existing = await github.rest.pulls.list({
+              owner,
+              repo,
+              head: `${owner}:${headBranch}`,
+              base: baseBranch,
+              state: 'open',
+            });
+            if (existing.data.length > 0) {
+              core.info(`Release PR already exists: ${existing.data[0].html_url}`);
+            } else {
+              const pr = await github.rest.pulls.create({
+                owner,
+                repo,
+                head: headBranch,
+                base: baseBranch,
+                title,
+                body,
+              });
+              core.info(`Created release PR: ${pr.data.html_url}`);
+            }
+
+      - name: Create and push tag
+        id: tag
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          TAG_NAME="v$NEW_VERSION"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            git tag -d "$TAG_NAME"
+          fi
+          if git ls-remote --tags origin "$TAG_NAME" | grep -q "$TAG_NAME"; then
+            git push origin ":refs/tags/$TAG_NAME"
+          fi
+          git tag -a "$TAG_NAME" -m "Release version $NEW_VERSION"
+          git push origin "$TAG_NAME"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          release_name: Release ${{ steps.new_version.outputs.version }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+
+      - name: Update CHANGELOG.md
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          DATE=$(date +%Y-%m-%d)
+
+          if [ ! -f CHANGELOG.md ]; then
+            echo "# Changelog" > CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            echo "All notable changes to this project will be documented in this file." >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+
+          # Create temporary file with new entry
+          echo "## [v$NEW_VERSION] - $DATE" > temp_changelog.md
+          echo "" >> temp_changelog.md
+          cat release_notes.md | tail -n +2 >> temp_changelog.md
+          echo "" >> temp_changelog.md
+          echo "---" >> temp_changelog.md
+          echo "" >> temp_changelog.md
+
+          # Append existing changelog
+          if [ -f CHANGELOG.md ]; then
+            tail -n +5 CHANGELOG.md >> temp_changelog.md 2>/dev/null || true
+          fi
+
+          # Create new CHANGELOG
+          echo "# Changelog" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "All notable changes to this project will be documented in this file." >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          cat temp_changelog.md >> CHANGELOG.md
+          rm temp_changelog.md
+
+          # Commit CHANGELOG
+          git add CHANGELOG.md
+          git commit -m "docs: update CHANGELOG for v$NEW_VERSION [skip ci]"
+          RELEASE_BRANCH="${{ steps.release_branch.outputs.branch }}"
+          git push origin HEAD:"$RELEASE_BRANCH"

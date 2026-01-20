@@ -30,7 +30,7 @@ git status
 
 This shows:
 
-- Modified files  
+- Modified files
 - Untracked files (new files not yet in Git)
 
 #### Step 2 — Stage the changes
@@ -71,10 +71,10 @@ git push -u origin my-branch-name
 
 That’s the basic loop:
 
-1. Edit files  
-2. `git status`  
-3. `git add ...`  
-4. `git commit -m "..."`  
+1. Edit files
+2. `git status`
+3. `git add ...`
+4. `git commit -m "..."`
 5. `git push`
 
 ---
@@ -109,11 +109,11 @@ feat(auth): add refresh token endpoint
 
 ### 3.1 Core Types
 
-| Type   | Meaning                                   | Example                                                |
-|--------|-------------------------------------------|--------------------------------------------------------|
-| `feat` | New feature / functionality               | `feat: add password reset flow`                        |
-| `fix`  | Bug fix                                   | `fix: handle null user id in login`                    |
-| `chore`| Maintenance, no user-facing change        | `chore: update eslint config`                          |
+| Type    | Meaning                            | Example                             |
+| ------- | ---------------------------------- | ----------------------------------- |
+| `feat`  | New feature / functionality        | `feat: add password reset flow`     |
+| `fix`   | Bug fix                            | `fix: handle null user id in login` |
+| `chore` | Maintenance, no user-facing change | `chore: update eslint config`       |
 
 **`feat`**  
 Use when you add new behaviour or functionality that users can see or use.
@@ -124,25 +124,25 @@ Use when you correct wrong behaviour (bugs, exceptions, incorrect outputs).
 **`chore`**  
 Use for tasks that do not change the app’s behaviour from the user’s point of view, e.g.:
 
-- Updating dependencies  
-- Renaming folders  
-- Cleaning config files  
+- Updating dependencies
+- Renaming folders
+- Cleaning config files
 - Minor project maintenance
 
 ---
 
 ### 3.2 Other Very Common Types
 
-| Type    | Meaning                                                   | Example                                             |
-|---------|-----------------------------------------------------------|-----------------------------------------------------|
-| `docs`  | Documentation only                                       | `docs: add setup instructions to readme`           |
-| `refactor` | Restructure code without changing external behaviour | `refactor: extract user service from controller`   |
-| `test`  | Add or update tests                                      | `test: add integration tests for login`            |
-| `perf`  | Performance improvements                                 | `perf: cache user profile lookups`                 |
-| `style` | Formatting / style only, no logic change                 | `style: run black on project`                      |
-| `build` | Build system or dependencies                             | `build: bump numpy to 2.0`                         |
-| `ci`    | Continuous Integration / pipelines                        | `ci: add python 3.12 to test matrix`               |
-| `revert`| Revert a previous commit                                 | `revert: "feat: add experimental dashboard"`       |
+| Type       | Meaning                                              | Example                                          |
+| ---------- | ---------------------------------------------------- | ------------------------------------------------ |
+| `docs`     | Documentation only                                   | `docs: add setup instructions to readme`         |
+| `refactor` | Restructure code without changing external behaviour | `refactor: extract user service from controller` |
+| `test`     | Add or update tests                                  | `test: add integration tests for login`          |
+| `perf`     | Performance improvements                             | `perf: cache user profile lookups`               |
+| `style`    | Formatting / style only, no logic change             | `style: run black on project`                    |
+| `build`    | Build system or dependencies                         | `build: bump numpy to 2.0`                       |
+| `ci`       | Continuous Integration / pipelines                   | `ci: add python 3.12 to test matrix`             |
+| `revert`   | Revert a previous commit                             | `revert: "feat: add experimental dashboard"`     |
 
 Notes:
 
@@ -213,8 +213,8 @@ Using these types consistently helps to:
 
 Imagine you:
 
-1. Implement a new analytics dashboard  
-2. Fix a bug in an API endpoint  
+1. Implement a new analytics dashboard
+2. Fix a bug in an API endpoint
 3. Add tests for that bug
 
 You can do:
@@ -254,16 +254,16 @@ git push             # Push to GitHub
 
 **Common commit types:**
 
-- `feat`: New feature  
-- `fix`: Bug fix  
-- `chore`: Maintenance / housekeeping  
-- `docs`: Documentation  
-- `refactor`: Internal refactoring  
-- `test`: Tests  
-- `perf`: Performance improvements  
-- `style`: Formatting, no logic changes  
-- `build`: Build system / dependencies  
-- `ci`: CI pipeline changes  
-- `revert`: Revert previous commit  
+- `feat`: New feature
+- `fix`: Bug fix
+- `chore`: Maintenance / housekeeping
+- `docs`: Documentation
+- `refactor`: Internal refactoring
+- `test`: Tests
+- `perf`: Performance improvements
+- `style`: Formatting, no logic changes
+- `build`: Build system / dependencies
+- `ci`: CI pipeline changes
+- `revert`: Revert previous commit
 
-Use them consistently and your future self will thank you. 
+Use them consistently and your future self will thank you.

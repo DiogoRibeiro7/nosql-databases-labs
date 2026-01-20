@@ -1,13 +1,29 @@
-# NoSQL Databases – Practical Labs (`nosql-databases-labs`)
+﻿![image](https://user-images.githubusercontent.com/38021615/66250308-be901380-e6f5-11e9-90cf-e53c90735e24.png)
 
-This repository contains the **practical work** for the *NoSQL Databases* course.
-Students will use this repo to work on weekly labs and (optionally) a final project.
+# NoSQL Databases - Practical Labs (`nosql-databases-labs`)
 
-> **Repository name:** `nosql-databases-labs`
+[![CI](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/ci.yml)
+[![Quick Node Quality](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/quick-node-quality.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/quick-node-quality.yml)
+[![Dataset Consistency](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/dataset-consistency.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/dataset-consistency.yml)
+[![Lab Artifacts](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/lab-artifacts.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/lab-artifacts.yml)
+[![Mongo Compatibility Matrix](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/mongo-compat.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/mongo-compat.yml)
+[![Security Scans](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/security-scans.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/security-scans.yml)
+[![Docs Lint](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/docs-lint.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/docs-lint.yml)
+[![Release & Version Control](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/release.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/release.yml)
+[![Version Preview](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/version-preview.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/version-preview.yml)
+[![Node.js](https://img.shields.io/badge/Node.js-20.x-026e00?logo=node.js&logoColor=white)](#tooling--setup-checklist)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](#tooling--setup-checklist)
+[![Codecov](https://codecov.io/gh/diogoribeiro7/nosql-databases-labs/branch/main/graph/badge.svg)](https://codecov.io/gh/diogoribeiro7/nosql-databases-labs)
+
+Hands-on home for the NoSQL Databases course. Clone the repo, run the mongosh-first lab scripts, and document your findings inside each lab folder. Every lab ships with import scripts, tests, and optional practice exercises. Use this README as your quick reference while lab READMEs dive into specifics.
+
+> **Quick Navigation**
 >
-> **Audience:** Students enrolled in the NoSQL Databases class.
->
-> **Main focus:** Hands-on experience with NoSQL data modeling, querying, consistency, and performance.
+> - Essential tooling & setup checklist
+> - Lab overview (Labs 01-05 + Modern Features + Practice Sets)
+> - Data catalog (`data/`)
+> - Testing, submissions, and collaboration workflow
+> - Remember: use the [Issues](https://github.com/diogoribeiro7/nosql-databases-labs/issues) tab for bugs/requests and the [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) tab to ask questions or share solutions with the instructor/TAs. Always review [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) before posting.
 
 ---
 
@@ -15,67 +31,118 @@ Students will use this repo to work on weekly labs and (optionally) a final proj
 
 By completing these labs, you should be able to:
 
-* Understand the key differences between relational and NoSQL databases.
-* Design schemas for document, key–value, column-family, and/or graph databases.
-* Implement typical operations: CRUD, indexing, aggregation, and simple analytics.
-* Reason about consistency, replication, and sharding in NoSQL systems.
-* Evaluate trade-offs between modeling choices and query performance.
+- Understand the key differences between relational and NoSQL databases.
+- Design schemas for document, key-value, column-family, and/or graph databases.
+- Implement typical operations: CRUD, indexing, aggregation, and simple analytics.
+- Reason about consistency, replication, and sharding in NoSQL systems.
+- Evaluate trade-offs between modeling choices and query performance.
 
 The exact topics and depth may vary by edition of the course; see `syllabus.md` if provided.
 
 ---
 
-## 2. Technologies & Tools
+## 2. Tooling & Setup Checklist
 
-This course primarily focuses on:
+| Tool                          | Purpose                                                          |
+| ----------------------------- | ---------------------------------------------------------------- |
+| MongoDB Community Edition 6.x | Run local single instances + replica sets                        |
+| mongosh                       | Primary interface (all `solutions.js` scripts are mongosh-based) |
+| MongoDB Database Tools        | `mongoimport`, `mongorestore`, `mongodump`, etc.                 |
+| Node.js 18+ (optional)        | Some helper scripts/tests use Node                               |
+| Git + Editor                  | Manage submissions, edit scripts, take notes                     |
 
-* **MongoDB** – Document database for all labs
-* **MongoDB Shell (mongosh)** – Interactive MongoDB shell
-* **MongoDB Database Tools** – Including `mongoimport` and `mongorestore`
-* **Node.js** (optional) – For programmatic database access
-* **Sample Datasets** – 30+ real-world datasets included in the repository
+### First-Time Setup
 
-Prerequisites:
-* MongoDB Community Edition (latest stable version)
-* MongoDB Database Tools
-* Text editor or IDE of your choice
+```bash
+git clone https://github.com/diogoribeiro7/nosql-databases-labs.git
+cd nosql-databases-labs
+npm install        # optional, needed for lint/tests
+```
+
+- Copy `.env.example` files where applicable (e.g., `labs/lab_modern_features/.env.example` -> `.env`).
+- Start MongoDB locally or `docker compose up` if you prefer containers.
+- Import starter data via `mongosh labs/<lab>/import_data*.js`.
+- Read [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) before making contributions or opening PRs.
 
 ---
 
-## 3. Repository structure
+## 3. Repository Structure (What Matters Where)
 
-A typical structure for this repository is:
-
-```text
+```
 nosql-databases-labs/
-├── README.md                 # You are here
-├── instructions.md           # MongoDB data import guide
-├── syllabus.md               # (Optional) Course outline and schedule
-├── data/                     # Sample datasets (JSON/BSON files)
-│   ├── datasets/             # General purpose datasets
-│   ├── sample_*/             # MongoDB sample datasets
-│   └── ColoradoScooters/     # BSON format examples
-├── instructions/
-│   └── project_guidelines.md # Final project specification
-└── labs/
-    ├── lab01_intro/
-    │   ├── README.md         # Lab specification
-    │   └── starter/          # Optional starter code / data
-    ├── lab02_modeling/
-    │   ├── README.md
-    │   └── starter/
-    ├── lab03_queries/
-    │   ├── README.md
-    │   └── starter/
-    └── ...
+|-- README.md
+|-- instructions/
+|   |-- project_guidelines.md
+|   |-- submission_guide.md
+|-- data/
+|-- docs/
+|-- exercises/
+|-- labs/
+|   |-- lab01_intro/
+|   |-- lab02_modeling/
+|   |-- lab03_queries/
+|   |-- lab04_aggregation/
+|   |-- lab05_replication/
+|   |-- lab_modern_features/
+|   |-- mongoDb_chash_course/
+|-- scripts/
 ```
 
-Key repository components:
+Each lab folder contains:
 
-* **`instructions.md`** – Comprehensive guide for importing data into MongoDB
-* **`data/`** – Extensive collection of sample datasets in JSON and BSON formats
-* **`labs/`** – Practical exercises with step-by-step instructions
-* Each lab includes setup scripts, query examples, and test files
+1. `README.md`, `NOTES.md`, and exercise markdowns.
+2. Mongosh-first scripts (`import_data*.js`, `queries_mongosh.js`, `solutions.js`).
+3. Automated tests (Node or mongosh) invoked by GitHub Actions + `npm run test:labs`.
+
+### 3.1 Visual Repository Map
+
+```mermaid
+graph TD
+    root((nosql-databases-labs))
+
+    subgraph "Learning Resources"
+        docs[docs/ - guides & theory primers]
+        exercises[exercises/ - practice sets]
+        data[data/ - sample datasets]
+        sebenta[sebenta/ - syllabus companion]
+    end
+
+    subgraph "Hands-on Work"
+        labs[labs/ - Lab 01-05 + modern tracks]
+        lab01[lab01_intro]
+        lab02[lab02_modeling]
+        lab03[lab03_queries]
+        lab04[lab04_aggregation]
+        lab05[lab05_replication]
+        modern[lab_modern_features]
+        group[group-work/ - team deliverables]
+        faker[mongodb-faker-generator/ - Python dataset builder]
+
+        labs --> lab01
+        labs --> lab02
+        labs --> lab03
+        labs --> lab04
+        labs --> lab05
+        labs --> modern
+    end
+
+    subgraph "Automation & QA"
+        scripts[scripts/ - CLI + validation helpers]
+        tests[tests/ - shared Jest harness]
+        workflows[.github/workflows/ - CI pipelines]
+    end
+
+    root --> docs
+    root --> exercises
+    root --> data
+    root --> sebenta
+    root --> labs
+    root --> group
+    root --> faker
+    root --> scripts
+    root --> tests
+    root --> workflows
+```
 
 ---
 
@@ -93,7 +160,7 @@ cd nosql-databases-labs
 
 Before starting the labs, import the sample datasets into MongoDB:
 
-1. **Quick Start**: See the [**MongoDB Data Import Instructions**](./instructions.md) for detailed guidance
+1. **Quick Start**: See the [MongoDB Data Import Instructions](./instructions.md) for detailed guidance.
 2. **Example**: Import a dataset using mongoimport:
    ```bash
    mongoimport --db training --collection books --file data/datasets/books.json --jsonArray
@@ -101,104 +168,91 @@ Before starting the labs, import the sample datasets into MongoDB:
 
 ### 4.3. Working on Labs
 
-Currently available:
+| Lab                        | Folder                      | Core Topics                                                      | Quick Start                                                                                                                      |
+| -------------------------- | --------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Lab 01 - Intro & Setup     | `labs/lab01_intro/`         | CRUD, indexing, mongosh basics                                   | `mongosh labs/lab01_intro/solutions.js`                                                                                          |
+| Lab 02 - Data Modeling     | `labs/lab02_modeling/`      | Embedding vs referencing, validation, perf                       | `mongosh labs/lab02_modeling/solutions.js`                                                                                       |
+| Lab 03 - Queries & Indexes | `labs/lab03_queries/`       | Aggregations, explain plans, perf harness                        | `mongosh labs/lab03_queries/solutions.js`                                                                                        |
+| Lab 04 - Aggregation       | `labs/lab04_aggregation/`   | Multi-stage analytics, window functions                          | `mongosh labs/lab04_aggregation/solutions.js`                                                                                    |
+| Lab 05 - Replication       | `labs/lab05_replication/`   | Replica set setup, failover drills                               | `mongosh labs/lab05_replication/replica_set_setup.js`                                                                            |
+| Modern Features Lab        | `labs/lab_modern_features/` | Change streams, time-series, Atlas/Vector Search, GridFS, Charts | `cd labs/lab_modern_features && npm install && node setup/initialize_data.js && mongosh exercises/01_change_streams/solution.js` |
+| MongoDB Crash Course       | `labs/mongoDb_chash_course/` | Seed/reset demo DB, CRUD patterns, aggregation & indexes         | `mongosh labs/mongoDb_chash_course/01setup.mongodb.js` followed by the numbered `.mongodb.js` walkthrough scripts                |
 
-* **Lab 01 – Introduction & Setup**
-  * Location: `labs/lab01_intro/`
-  * Features: MongoDB setup, basic CRUD operations, indexing
-  * Includes: `import_data.js`, `queries.js`, `test_queries.js`
-  * Setup guide: `SETUP_MONGOSH.md` for MongoDB Shell installation
+Each lab also has optional practice exercises documented in `exercises/` with corresponding solutions in `exercises/solutions/` for self-paced students.
 
-To start Lab 01:
+### 4.4. Performance Expectations
+
+Each lab includes target data sizes, latency goals, and timing budgets so you can verify your environment before tackling the deeper exercises. Review [`docs/performance_expectations.md`](docs/performance_expectations.md) for the per-lab checklist and link it from your lab notes when reporting metrics.
+
+### 4.5. Testing & Validation
+
+Automated test suites exist for Labs 01-05. Run them locally with:
+
 ```bash
-cd labs/lab01_intro
-mongosh --file import_data.js  # Load sample data
-mongosh --file queries.js      # Run example queries
+npm run test:labs
 ```
+
+See [`docs/testing_framework.md`](docs/testing_framework.md) for per-lab commands, advanced benchmarks, and CI integration details.
+
+### 4.6. Extending the Lab Framework
+
+Instructors or contributors who want to add new labs should follow [`docs/extending_lab_framework.md`](docs/extending_lab_framework.md). It covers directory structure, README expectations, starter data/scripts, and how to update repository metadata when introducing additional content.
+
+### 4.7. Self-Paced Learning Paths
+
+Not sure what to tackle next? Follow the recommended sequences in [`docs/self_paced_paths.md`](docs/self_paced_paths.md). It outlines the core labs, advanced tracks, modern features lab, and optional projects.
+
+### 4.8. Feedback & Collaboration
+
+- **Issues:** Report bugs/missing instructions or propose enhancements via the [Issues tab](https://github.com/diogoribeiro7/nosql-databases-labs/issues). Tag the relevant lab (`lab03`, `docs`, `data`, etc.) so maintainers triage quickly.
+- **Discussions:** Ask conceptual questions, share your solutions, or suggest improvements in the [Discussions tab](https://github.com/diogoribeiro7/nosql-databases-labs/discussions). The instructor and TAs monitor these threads and often highlight best practices. Always search existing threads before opening a new one.
+- **Code of Conduct:** All interactions must follow [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
 
 ---
 
 ## 5. Available Datasets
 
-The repository includes 30+ sample datasets for practice:
-
-### Core Datasets (`data/datasets/`)
-* **books.json** – Book catalog with titles, authors, and categories
-* **companies.json** – Company information and financial data
-* **products.json** – Product inventory and pricing
-* **restaurant.json** – Restaurant listings and ratings
-* **students.json** – Student records and grades
-* **countries-big.json** & **countries-small.json** – Geographic data
-
-### MongoDB Sample Datasets
-* **sample_airbnb/** – Vacation rental listings and reviews
-* **sample_analytics/** – Financial accounts and transactions
-* **sample_geospatial/** – Shipwreck locations with coordinates
-* **sample_mflix/** – Movie database with reviews and theaters
-* **sample_supplies/** – Sales and inventory data
-* **sample_training/** – Various datasets for learning (tweets, trips, zips, etc.)
-* **sample_weatherdata/** – Weather observations
-
-### BSON Format Examples
-* **ColoradoScooters/** – Scooter rental data in BSON format
-
-> **📚 Import Guide:** See [**MongoDB Data Import Instructions**](./instructions.md) for detailed steps on loading these datasets
+See `data/README.md` for an overview of the 30+ JSON/NDJSON/BSON datasets bundled with the repo, including sample_airbnb, sample_mflix, sample_supplies, and more.  
+Remember to run the data smoke tests (`npm run test:data`) any time you pull new changes so data integrity issues are caught early.
 
 ---
 
-
-## 6. Getting help
-
-If you have questions about a lab, please:
-
-1. Read the lab `README.md` carefully.
-2. Check any FAQs or announcements on the course platform.
-3. Ask during lab sessions or office hours.
-4. Use the official communication channels (forum, email, etc.).
-
-When asking for help, always include:
-
-* The **lab number** and, if relevant, the **exercise number**.
-* A short description of what you tried.
-* Any relevant error messages or unexpected results.
-
-This helps the teaching staff answer you faster and more effectively.
-
----
-
-## 7. Tooling & Quality Checks
-
-This repository ships with a lightweight JavaScript toolchain to keep scripts and datasets consistent:
+## 6. Tooling & Quality Checks
 
 ```bash
-npm install        # install dev dependencies
-npm run lint       # ESLint + Prettier checks for labs/**/*.js and scripts/**
-npm run test:data  # dataset smoke tests (JSON/NDJSON/BSON integrity)
+npm install
+npm run lint
+npm run test:data
+npm run test:labs
 ```
 
-`npm test` runs both the linters and the dataset smoke tests, and the GitHub Actions workflow executes this command before spinning up MongoDB for the lab scripts. Dataset expectations live in `scripts/data-manifest.json`; update the manifest if you intentionally add or remove records so smoke tests stay green.
+`npm test` runs lint + data smoke tests. CI mirrors these steps, then spins up MongoDB to execute lab scripts. If you add/remove data files, update `scripts/data-manifest.json` so the smoke tests remain accurate.
 
 ---
 
-## 8. Contributing & Pull Requests
+## 7. Contributing & Pull Requests
 
-* Read [`CONTRIBUTING.md`](./CONTRIBUTING.md) for workflow, tooling, and submission standards.
-* Review the detailed [Pull Request Guide](./pull_requests.md) and use the template stored in `.github/PULL_REQUEST_TEMPLATE.md`.
-* Follow the [Code of Conduct](./CODE_OF_CONDUCT.md) in every interaction.
-* Group deliverables must follow the structure defined in [`group-work/README.md`](./group-work/README.md).
-* When filing issues, select the appropriate template under `.github/ISSUE_TEMPLATE/`.
-
----
-
-## 9. License
-
-This repository is provided under the **MIT License**.
-
-See [`LICENSE`](LICENSE) for details.
+- Read [`CONTRIBUTING.md`](./CONTRIBUTING.md) for workflow, tooling, and submission standards.
+- Review the detailed [Pull Request Guide](./pull_requests.md) and use the template stored in `.github/PULL_REQUEST_TEMPLATE.md`.
+- Follow the [Code of Conduct](./CODE_OF_CONDUCT.md) in every interaction.
+- Group deliverables must follow the structure defined in [`group-work/README.md`](./group-work/README.md).
+- When filing issues, select the appropriate template under `.github/ISSUE_TEMPLATE/`.
 
 ---
 
-## Instructor
+## 8. License
 
-**Diogo Ribeiro**
+This repository is provided under the MIT License. See [`LICENSE`](LICENSE) for details.
+
+---
+
+## 9. Instructor & Support
+
+**Diogo Ribeiro**  
 GitHub: [@diogoribeiro7](https://github.com/diogoribeiro7)
+
+Need help?
+
+- Open a [Discussion](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) for conceptual questions or lab clarifications.
+- File an [Issue](https://github.com/diogoribeiro7/nosql-databases-labs/issues) if you find bugs or have feature requests.
+- Mention lab number + reproduction steps when asking for assistance.

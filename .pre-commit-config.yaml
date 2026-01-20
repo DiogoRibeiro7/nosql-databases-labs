@@ -1,0 +1,108 @@
+# Pre-commit hooks configuration
+# Install with: pip install pre-commit && pre-commit install
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^(data/|\.json$|\.md$)
+      - id: end-of-file-fixer
+        exclude: ^(data/|\.json$)
+      - id: check-yaml
+      - id: check-json
+        exclude: ^data/.*\.json$
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+        exclude: ^data/
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+  # Python specific
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3
+        args: ['--line-length=100']
+        exclude: ^(venv/|data/)
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=100', '--ignore=E203,W503']
+        exclude: ^(venv/|data/)
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--profile', 'black', '--line-length', '100']
+        exclude: ^(venv/|data/)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        args: ['--ignore-missing-imports', '--no-strict-optional']
+        exclude: ^(venv/|data/|tests/)
+        additional_dependencies: ['types-PyYAML', 'types-requests']
+  # JavaScript/Node.js specific
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.56.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx)$
+        exclude: ^(data/|node_modules/)
+        args: ['--fix']
+        additional_dependencies:
+          - eslint@8.56.0
+          - eslint-config-standard@17.1.0
+          - eslint-plugin-import@2.29.1
+          - eslint-plugin-n@16.6.1
+          - eslint-plugin-promise@6.1.1
+  # Markdown
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        exclude: ^(data/|node_modules/)
+  # Security checks
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: ^(data/|\.env\.example|docker-compose\.yml)
+  # MongoDB specific checks (custom)
+  - repo: local
+    hooks:
+      - id: check-mongodb-connection-strings
+        name: Check MongoDB Connection Strings
+        entry: python scripts/check_mongodb_strings.py
+        language: python
+        files: \.(py|js|json|yml|yaml)$
+        exclude: ^(data/|venv/|\.env\.example)
+        pass_filenames: true
+      - id: validate-lab-structure
+        name: Validate Lab Structure
+        entry: python scripts/validate_labs.py
+        language: python
+        files: ^labs/.*\.(js|py|md)$
+        pass_filenames: false
+# Configuration for specific tools
+default_language_version:
+  python: python3.11
+fail_fast: false
+exclude: |-
+  (?x)^(
+    data/.*|
+    venv/.*|
+    \.git/.*|
+    \.pytest_cache/.*|
+    __pycache__/.*|
+    node_modules/.*|
+    .*\.min\.js|
+    .*\.min\.css
+  )$

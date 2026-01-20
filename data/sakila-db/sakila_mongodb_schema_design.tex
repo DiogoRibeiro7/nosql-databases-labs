@@ -1,0 +1,765 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+% Define colors for code listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Define JavaScript language
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let, async, await},
+  keywordstyle=\color{magenta},
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{magenta},
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{codegreen},
+  stringstyle=\color{codepurple},
+  morestring=[b]",
+  morestring=[b]'
+}
+
+% JavaScript style for listings
+\lstdefinestyle{javascript}{
+    language=JavaScript,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=javascript}
+
+\title{\textbf{MongoDB Schema Design for Sakila Database}\\
+\large From Relational to Document-Oriented: A Moderate Denormalization Approach}
+
+\author{Diogo Ribeiro\\
+ESMAD - Instituto Politécnico do Porto\\
+\texttt{dfr@esmad.ipp.pt}}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document presents a comprehensive analysis of the schema design decisions for transforming the Sakila relational database into a MongoDB document-oriented structure. We explore the rationale behind choosing a moderately denormalized approach with four collections, balancing the trade-offs between read performance, write efficiency, and data consistency. The design principles presented here serve as a practical example for NoSQL database courses, demonstrating real-world application of MongoDB best practices.
+\end{abstract}
+
+\section{Introduction}
+
+The transformation from a relational database schema to a document-oriented NoSQL schema requires fundamental reconsideration of data organization principles. Unlike the normalized approach of relational databases, MongoDB encourages denormalization to optimize read performance and reduce the need for joins. However, excessive denormalization can lead to data redundancy, update anomalies, and storage inefficiency.
+
+Our approach for the Sakila database transformation adopts what we term ``Goldilocks Denormalization'' — not too normalized, not too denormalized, but just right for the specific use case of a DVD rental system.
+
+\section{Schema Design Overview}
+
+\subsection{The Four-Collection Architecture}
+
+Our MongoDB schema consists of four primary collections, reduced from the original 16 tables in the relational model:
+
+\begin{enumerate}
+    \item \textbf{films}: Movie catalog with embedded actors, categories, and language information
+    \item \textbf{customers}: Customer records with embedded address hierarchy
+    \item \textbf{stores}: Physical store locations with embedded manager and address details
+    \item \textbf{rentals}: Transaction records with embedded payments and references to other collections
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Collection Structure Summary}
+\begin{tabularx}{\textwidth}{|l|X|X|X|}
+\hline
+\textbf{Collection} & \textbf{Document Count} & \textbf{Embedded Data} & \textbf{References} \\
+\hline
+films & $\sim$1,000 & actors[], categories[], spoken\_language & None \\
+\hline
+customers & $\sim$600 & address.city.country & store\_id \\
+\hline
+stores & 2 & address, manager & None \\
+\hline
+rentals & $\sim$16,000 & payments[] & customer\_id, film\_id, staff\_id, store\_id \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Design Rationale}
+
+\subsection{Access Pattern Analysis}
+
+The schema design is fundamentally driven by query patterns observed in typical DVD rental operations. We analyzed the frequency and importance of various queries to inform our embedding decisions.
+
+\begin{table}[H]
+\centering
+\caption{Query Pattern Analysis and Design Decisions}
+\begin{tabularx}{\textwidth}{|X|c|c|X|}
+\hline
+\textbf{Query Pattern} & \textbf{Frequency} & \textbf{Priority} & \textbf{Design Solution} \\
+\hline
+Find films by actor & Very High & Critical & Actors embedded in films \\
+\hline
+Find films by category & Very High & Critical & Categories embedded in films \\
+\hline
+Retrieve customer details & High & Critical & Address embedded in customers \\
+\hline
+List customer rentals & High & Critical & Index on rentals.customer\_id \\
+\hline
+Get film for rental & High & Important & Reference with \$lookup when needed \\
+\hline
+Calculate customer payment & High & Critical & Payments embedded in rentals \\
+\hline
+Find rentals by date & Medium & Important & Index on rentals.rental\_date \\
+\hline
+Update film information & Low & Normal & Single document update in films \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Relationship Cardinality Analysis}
+
+The decision to embed or reference data is primarily influenced by the cardinality and volatility of relationships:
+
+\subsubsection{Embedding Criteria}
+We embed data when the following conditions are met:
+\begin{itemize}
+    \item \textbf{Cardinality}: One-to-one or one-to-few relationships (typically $<$ 100 items)
+    \item \textbf{Volatility}: Data that rarely changes after creation
+    \item \textbf{Access Pattern}: Data always or frequently accessed together
+    \item \textbf{Size Constraint}: Embedded data doesn't risk exceeding MongoDB's 16MB document limit
+\end{itemize}
+
+\subsubsection{Reference Criteria}
+We use references when:
+\begin{itemize}
+    \item \textbf{Cardinality}: One-to-many or many-to-many relationships
+    \item \textbf{Volatility}: Frequently updated data
+    \item \textbf{Access Pattern}: Data sometimes accessed independently
+    \item \textbf{Size Constraint}: Embedding would create excessively large documents
+\end{itemize}
+
+\section{Detailed Collection Design}
+
+\subsection{Films Collection}
+
+The films collection represents the movie catalog with full denormalization of related entities that have stable relationships.
+
+\begin{lstlisting}[caption={Films Collection Document Structure}]
+{
+  film_id: 1,
+  title: "ACADEMY DINOSAUR",
+  description: "A Epic Drama of a Feminist...",
+  release_year: 2006,
+  rental_duration: 6,
+  rental_rate: 0.99,
+  length: 86,
+  replacement_cost: 20.99,
+  rating: "PG",
+  special_features: ["Deleted Scenes", "Behind the Scenes"],
+  spoken_language: {
+    language_id: 1,
+    name: "English"
+  },
+  original_language: null,
+  actors: [
+    {
+      actor_id: 1,
+      first_name: "PENELOPE",
+      last_name: "GUINESS"
+    },
+    // ... more actors (typically 5-10)
+  ],
+  categories: [
+    {
+      category_id: 6,
+      name: "Documentary"
+    }
+    // ... typically 1-3 categories
+  ]
+}
+\end{lstlisting}
+
+\textbf{Design Justification:}
+\begin{itemize}
+    \item \textbf{Embedded Actors}: Films have a bounded set of actors (average 5-10), and the cast doesn't change after film creation
+    \item \textbf{Embedded Categories}: Films belong to 1-3 categories that remain constant
+    \item \textbf{Embedded Language}: Language is an inherent property of the film
+    \item \textbf{Document Size}: Average document size $\approx$ 3-5KB, well below the 16MB limit
+\end{itemize}
+
+\subsection{Customers Collection}
+
+The customers collection embeds the complete address hierarchy, eliminating three joins from the relational model.
+
+\begin{lstlisting}[caption={Customers Collection Document Structure}]
+{
+  customer_id: 1,
+  store_id: 1,
+  first_name: "MARY",
+  last_name: "SMITH",
+  email: "MARY.SMITH@sakilacustomer.org",
+  active: true,
+  create_date: ISODate("2006-02-14T00:00:00Z"),
+  address: {
+    address_id: 5,
+    address: "1913 Hanoi Way",
+    address2: null,
+    district: "Nagasaki",
+    postal_code: "35200",
+    phone: "28303384290",
+    city: {
+      city_id: 463,
+      city: "Sasebo"
+    },
+    country: {
+      country_id: 50,
+      country: "Japan"
+    }
+  }
+}
+\end{lstlisting}
+
+\textbf{Design Justification:}
+\begin{itemize}
+    \item \textbf{Embedded Address}: One-to-one relationship, always accessed together
+    \item \textbf{Nested City/Country}: Provides complete location context without joins
+    \item \textbf{Reference to Store}: Many customers per store, store details not always needed
+\end{itemize}
+
+\subsection{Stores Collection}
+
+The stores collection represents physical locations with embedded manager information.
+
+\begin{lstlisting}[caption={Stores Collection Document Structure}]
+{
+  store_id: 1,
+  address: {
+    address_id: 1,
+    address: "47 MySakila Drive",
+    district: "Alberta",
+    postal_code: "",
+    phone: "",
+    city: {
+      city_id: 300,
+      city: "Lethbridge"
+    },
+    country: {
+      country_id: 20,
+      country: "Canada"
+    }
+  },
+  manager: {
+    staff_id: 1,
+    first_name: "Mike",
+    last_name: "Hillyer",
+    email: "Mike.Hillyer@sakilastaff.com",
+    username: "Mike",
+    active: true,
+    address: {
+      // ... manager's personal address
+    }
+  }
+}
+\end{lstlisting}
+
+\textbf{Design Justification:}
+\begin{itemize}
+    \item \textbf{Embedded Manager}: One-to-one relationship at any given time
+    \item \textbf{Embedded Address}: Store location is fundamental to the store entity
+    \item \textbf{Small Collection}: Only 2 documents, making normalization unnecessary
+\end{itemize}
+
+\subsection{Rentals Collection}
+
+The rentals collection uses a hybrid approach: embedding for tightly coupled data (payments) and references for entities that exist independently.
+
+\begin{lstlisting}[caption={Rentals Collection Document Structure}]
+{
+  rental_id: 1,
+  rental_date: ISODate("2005-05-24T22:53:30Z"),
+  return_date: ISODate("2005-05-26T22:04:30Z"),
+  customer_id: 130,      // Reference
+  film_id: 334,          // Reference
+  inventory_id: 1525,    // Reference
+  staff_id: 1,           // Reference
+  store_id: 1,           // Reference
+  payments: [            // Embedded
+    {
+      payment_id: 1,
+      amount: 4.99,
+      payment_date: ISODate("2005-05-25T11:30:37Z")
+    }
+    // Usually 1-2 payments per rental
+  ]
+}
+\end{lstlisting}
+
+\textbf{Design Justification:}
+\begin{itemize}
+    \item \textbf{Referenced Entities}: Prevents massive duplication of film/customer data
+    \item \textbf{Embedded Payments}: One-to-few relationship, always accessed with rental
+    \item \textbf{Lean Documents}: Average size $<$ 500 bytes, enabling efficient queries
+\end{itemize}
+
+\section{Trade-off Analysis}
+
+\subsection{Storage Efficiency}
+
+\begin{table}[H]
+\centering
+\caption{Storage Comparison: Full Denormalization vs. Our Approach}
+\begin{tabularx}{\textwidth}{|l|X|X|X|}
+\hline
+\textbf{Metric} & \textbf{Full Denormalization} & \textbf{Our Approach} & \textbf{Savings} \\
+\hline
+Document Size & $\sim$15KB per rental & $\sim$500B per rental & 96.7\% \\
+\hline
+Total Storage & $\sim$240MB & $\sim$25MB & 89.6\% \\
+\hline
+Film Duplication & 16,000 copies & 1,000 copies & 93.8\% \\
+\hline
+Customer Duplication & Multiple per rental & Once per customer & $\sim$95\% \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Update Complexity}
+
+Consider the impact of common update operations under different denormalization strategies:
+
+\begin{table}[H]
+\centering
+\caption{Update Operation Complexity}
+\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\hline
+\textbf{Update Scenario} & \textbf{Full Embed} & \textbf{Our Design} & \textbf{Full Normalize} \\
+\hline
+Change actor name & 1000s of updates & 1 update & 1 update \\
+\hline
+Update customer address & 100s of updates & 1 update & 1 update \\
+\hline
+Modify film rating & 1000s of updates & 1 update & 1 update \\
+\hline
+Add payment to rental & 1 update & 1 update & 1 insert \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection{Query Performance}
+
+\begin{table}[H]
+\centering
+\caption{Query Performance Characteristics}
+\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\hline
+\textbf{Query Type} & \textbf{Joins Required} & \textbf{Index Usage} & \textbf{Performance} \\
+\hline
+Find films by actor & 0 & actors.actor\_id & Excellent \\
+\hline
+Get customer with address & 0 & customer\_id & Excellent \\
+\hline
+List rentals by date & 0 & rental\_date & Excellent \\
+\hline
+Get rental with film details & 1 (\$lookup) & film\_id & Good \\
+\hline
+Customer rental history & 1 (\$lookup) & customer\_id & Good \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{MongoDB Best Practices Applied}
+
+\subsection{Principle 1: Data Accessed Together, Stored Together}
+
+Our design embeds data that is consistently accessed as a unit:
+\begin{itemize}
+    \item Films are always displayed with their cast and categories
+    \item Customers are always shown with their complete address
+    \item Payments are always retrieved with their associated rental
+\end{itemize}
+
+\subsection{Principle 2: Avoid Unbounded Arrays}
+
+All embedded arrays in our schema have natural bounds:
+\begin{itemize}
+    \item \texttt{films.actors[]}: Typically 5-10 actors (bounded by production constraints)
+    \item \texttt{films.categories[]}: Typically 1-3 categories (bounded by classification system)
+    \item \texttt{rentals.payments[]}: Typically 1-2 payments (bounded by business logic)
+\end{itemize}
+
+\subsection{Principle 3: Consider Document Size Limits}
+
+MongoDB enforces a 16MB document size limit. Our largest documents are in the films collection:
+
+\begin{equation}
+\text{Max Film Document Size} = \text{Base Fields} + (\text{Actors} \times \text{Actor Size}) + \text{Categories}
+\end{equation}
+
+\begin{equation}
+\approx 1\text{KB} + (20 \times 150\text{B}) + 200\text{B} \approx 4.2\text{KB} \ll 16\text{MB}
+\end{equation}
+
+\subsection{Principle 4: Design for Common Queries}
+
+Following the Pareto principle, we optimize for the 80\% of queries that generate the majority of system load:
+
+\begin{lstlisting}[caption={Optimized Query Examples}]
+// Fast: No join required
+db.films.find({"categories.name": "Action"})
+
+// Fast: Complete customer info in one query
+db.customers.findOne({"email": "john@example.com"})
+
+// Acceptable: Single join for less common query
+db.rentals.aggregate([
+  {$match: {rental_id: 123}},
+  {$lookup: {
+    from: "films",
+    localField: "film_id",
+    foreignField: "film_id",
+    as: "film"
+  }}
+])
+\end{lstlisting}
+
+\section{Implementation Considerations}
+
+\subsection{Index Strategy}
+
+Proper indexing is crucial for maintaining query performance in our denormalized schema:
+
+\begin{lstlisting}[caption={Recommended Indexes}]
+// Films Collection
+db.films.createIndex({"film_id": 1})           // Primary lookup
+db.films.createIndex({"title": "text"})        // Text search
+db.films.createIndex({"categories.name": 1})   // Category filtering
+db.films.createIndex({"actors.actor_id": 1})   // Actor lookup
+db.films.createIndex({"rating": 1})            // Rating filters
+
+// Customers Collection
+db.customers.createIndex({"customer_id": 1})   // Primary lookup
+db.customers.createIndex({"email": 1})         // Email lookup
+db.customers.createIndex({"address.city.city": 1})    // Geographic queries
+db.customers.createIndex({"address.country.country": 1})
+
+// Rentals Collection
+db.rentals.createIndex({"rental_id": 1})       // Primary lookup
+db.rentals.createIndex({"rental_date": -1})    // Date range queries
+db.rentals.createIndex({"customer_id": 1})     // Customer history
+db.rentals.createIndex({"film_id": 1})         // Film rental history
+db.rentals.createIndex({                       // Compound for reports
+  "customer_id": 1, 
+  "rental_date": -1
+})
+\end{lstlisting}
+
+\subsection{Migration Strategy}
+
+The transformation from relational to document-oriented requires careful data migration:
+
+\begin{enumerate}
+    \item \textbf{Extract Phase}: Load all MySQL tables into memory-indexed dictionaries
+    \item \textbf{Transform Phase}: Build denormalized documents using nested lookups
+    \item \textbf{Load Phase}: Batch insert documents (recommended batch size: 1000)
+    \item \textbf{Verify Phase}: Validate document counts and sample data integrity
+    \item \textbf{Index Phase}: Create indexes after data load for optimal performance
+\end{enumerate}
+
+\subsection{Consistency Maintenance}
+
+While MongoDB doesn't enforce foreign key constraints, our design minimizes consistency risks:
+
+\begin{itemize}
+    \item \textbf{Immutable References}: Film and customer IDs in rentals never change
+    \item \textbf{Embedded Redundancy}: Limited to slowly-changing data (actor names, addresses)
+    \item \textbf{Application-Level Validation}: Enforce referential integrity in application layer
+\end{itemize}
+
+\section{Performance Metrics}
+
+\subsection{Query Response Times}
+
+Based on typical MongoDB deployments with our schema:
+
+\begin{table}[H]
+\centering
+\caption{Expected Query Performance}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Operation} & \textbf{Response Time} & \textbf{Documents Scanned} \\
+\hline
+Find film by ID & $<$ 1ms & 1 \\
+\hline
+Films by category (indexed) & $<$ 5ms & $\sim$50-200 \\
+\hline
+Customer with address & $<$ 1ms & 1 \\
+\hline
+Recent rentals (date range) & $<$ 10ms & $\sim$100-500 \\
+\hline
+Rental with film details (\$lookup) & $<$ 5ms & 2 \\
+\hline
+Full customer history with films & $<$ 50ms & $\sim$50-100 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Scalability Considerations}
+
+Our schema scales well for typical DVD rental operations:
+
+\begin{itemize}
+    \item \textbf{Horizontal Scaling}: Rentals can be sharded by rental\_date or customer\_id
+    \item \textbf{Read Replicas}: Film catalog queries can be distributed across replicas
+    \item \textbf{Cache Efficiency}: Small, consistent document sizes improve cache hit rates
+\end{itemize}
+
+\section{Comparison with Alternative Approaches}
+
+\subsection{Alternative 1: Fully Normalized (16 Collections)}
+
+\textbf{Pros:}
+\begin{itemize}
+    \item Minimal data redundancy
+    \item Simple updates
+    \item Familiar for SQL developers
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Excessive \$lookup operations
+    \item Poor read performance
+    \item Loses MongoDB's document model advantages
+\end{itemize}
+
+\subsection{Alternative 2: Single Collection (Complete Denormalization)}
+
+\textbf{Pros:}
+\begin{itemize}
+    \item No joins ever required
+    \item Simplest possible queries
+    \item Maximum read performance
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Massive data duplication (10-50x storage)
+    \item Update anomalies and complexity
+    \item Risk of document size limits
+    \item Difficult to maintain consistency
+\end{itemize}
+
+\subsection{Alternative 3: Two Collections (Films + Transactions)}
+
+\textbf{Pros:}
+\begin{itemize}
+    \item Simpler than our approach
+    \item Clear separation of catalog and transactions
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Customer data duplicated in each rental
+    \item Store information not well organized
+    \item Less flexible for customer-centric queries
+\end{itemize}
+
+\section{Pedagogical Value}
+
+This schema design serves as an excellent teaching example for NoSQL courses because it demonstrates:
+
+\subsection{Core NoSQL Concepts}
+\begin{enumerate}
+    \item \textbf{Denormalization Trade-offs}: Balancing read/write performance with storage
+    \item \textbf{Document Modeling}: Choosing embedding vs. referencing
+    \item \textbf{Query-Driven Design}: Schema shaped by access patterns
+    \item \textbf{Polyglot Persistence}: When NoSQL is appropriate vs. RDBMS
+\end{enumerate}
+
+\subsection{Practical Challenges}
+\begin{enumerate}
+    \item \textbf{Reserved Field Names}: The ``language'' field conflict
+    \item \textbf{Type Conversions}: Handling MySQL SET types, decimals, dates
+    \item \textbf{Batch Processing}: Efficient ETL for large datasets
+    \item \textbf{Index Planning}: Strategic index creation for performance
+\end{enumerate}
+
+\subsection{Real-World Patterns}
+\begin{enumerate}
+    \item \textbf{Bounded vs. Unbounded Relationships}: When to embed arrays
+    \item \textbf{Reference Patterns}: Using \$lookup for occasional joins
+    \item \textbf{Hybrid Approaches}: Combining embedding and referencing
+    \item \textbf{Migration Strategies}: Moving from relational to document stores
+\end{enumerate}
+
+\section{Conclusion}
+
+The transformation of the Sakila database from a 16-table relational model to a 4-collection MongoDB schema demonstrates the practical application of document-oriented design principles. Our ``Goldilocks Denormalization'' approach achieves:
+
+\begin{itemize}
+    \item \textbf{90\% storage reduction} compared to full denormalization
+    \item \textbf{80\% of queries require no joins}, compared to 0\% in the relational model
+    \item \textbf{Simple update patterns} with single-document modifications
+    \item \textbf{Predictable performance} with bounded document sizes
+    \item \textbf{Maintainable consistency} through limited, strategic embedding
+\end{itemize}
+
+This design serves not only as a functional MongoDB schema but also as a comprehensive teaching tool for understanding the principles, trade-offs, and best practices of NoSQL database design. The balance achieved between the extremes of full normalization and complete denormalization illustrates the nuanced decision-making required in real-world database architecture.
+
+\section{Future Considerations}
+
+\subsection{Evolution Paths}
+
+As the system grows, consider these potential optimizations:
+
+\begin{enumerate}
+    \item \textbf{Time-Series Optimization}: Separate historical rentals into time-bucketed collections
+    \item \textbf{Caching Layer}: Implement Redis for frequently accessed film data
+    \item \textbf{Search Enhancement}: Integrate Elasticsearch for advanced film search
+    \item \textbf{Analytics Pipeline}: Stream rentals to a data warehouse for business intelligence
+\end{enumerate}
+
+\subsection{Monitoring Metrics}
+
+Key performance indicators to track:
+
+\begin{itemize}
+    \item Average document size growth
+    \item Query response time percentiles (P50, P95, P99)
+    \item Index hit ratios
+    \item Update operation latency
+    \item Storage growth rate
+\end{itemize}
+
+\appendix
+
+\section{Sample Aggregation Pipelines}
+
+\begin{lstlisting}[caption={Customer Lifetime Value Calculation}]
+db.rentals.aggregate([
+  // Join with customer data
+  {$lookup: {
+    from: "customers",
+    localField: "customer_id",
+    foreignField: "customer_id",
+    as: "customer"
+  }},
+  {$unwind: "$customer"},
+  
+  // Calculate total per customer
+  {$unwind: "$payments"},
+  {$group: {
+    _id: "$customer_id",
+    customer_name: {$first: {$concat: [
+      "$customer.first_name", " ", "$customer.last_name"
+    ]}},
+    email: {$first: "$customer.email"},
+    total_spent: {$sum: "$payments.amount"},
+    rental_count: {$sum: 1},
+    avg_payment: {$avg: "$payments.amount"},
+    first_rental: {$min: "$rental_date"},
+    last_rental: {$max: "$rental_date"}
+  }},
+  
+  // Calculate customer lifetime in days
+  {$addFields: {
+    lifetime_days: {$divide: [
+      {$subtract: ["$last_rental", "$first_rental"]},
+      1000 * 60 * 60 * 24
+    ]}
+  }},
+  
+  // Sort by total spent
+  {$sort: {total_spent: -1}},
+  {$limit: 20}
+])
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Film Performance Analytics}]
+db.rentals.aggregate([
+  // Group by film
+  {$group: {
+    _id: "$film_id",
+    rental_count: {$sum: 1},
+    total_revenue: {$sum: {$sum: "$payments.amount"}},
+    avg_rental_duration: {$avg: {
+      $divide: [
+        {$subtract: ["$return_date", "$rental_date"]},
+        1000 * 60 * 60 * 24
+      ]
+    }}
+  }},
+  
+  // Join with film details
+  {$lookup: {
+    from: "films",
+    localField: "_id",
+    foreignField: "film_id",
+    as: "film"
+  }},
+  {$unwind: "$film"},
+  
+  // Calculate ROI
+  {$addFields: {
+    roi: {$multiply: [
+      {$divide: [
+        "$total_revenue",
+        "$film.replacement_cost"
+      ]},
+      100
+    ]},
+    revenue_per_rental: {$divide: [
+      "$total_revenue",
+      "$rental_count"
+    ]}
+  }},
+  
+  // Project final results
+  {$project: {
+    title: "$film.title",
+    rating: "$film.rating",
+    categories: "$film.categories.name",
+    rental_count: 1,
+    total_revenue: {$round: ["$total_revenue", 2]},
+    roi_percentage: {$round: ["$roi", 1]},
+    avg_rental_days: {$round: ["$avg_rental_duration", 1]},
+    revenue_per_rental: {$round: ["$revenue_per_rental", 2]}
+  }},
+  
+  // Sort by ROI
+  {$sort: {roi_percentage: -1}},
+  {$limit: 25}
+])
+\end{lstlisting}
+
+\end{document}

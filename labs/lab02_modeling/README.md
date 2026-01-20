@@ -45,6 +45,8 @@ You do **not** need to implement the full application UI, but your **data model*
 
 ## 3. Tasks
 
+**Important:** Before running any JavaScript files, please refer to [FILE_USAGE_GUIDE.md](FILE_USAGE_GUIDE.md) to understand which files should be run with Node.js vs MongoDB Shell (mongosh).
+
 ### 3.1. Conceptual model
 
 1. Identify the main **entities** and their **attributes**.
@@ -78,10 +80,9 @@ Based on the operations listed in Section 2:
 
 1. For each required operation, write a **sample query** (pseudo-code or real query in your database's language).
 2. Explain how your model supports this query efficiently:
-
-   * Which collection is read first?
-   * Do you need joins/lookups/extra round-trips?
-   * Are there fields that should be indexed?
+   - Which collection is read first?
+   - Do you need joins/lookups/extra round-trips?
+   - Are there fields that should be indexed?
 
 You can save sample queries in:
 
@@ -93,9 +94,8 @@ labs/lab02_modeling/queries.md
 
 1. Propose at least **two indexes** that would be useful for the expected workload.
 2. For each index, explain:
-
-   * Which query (from 3.3) it helps.
-   * Potential trade-offs (e.g. slower writes, more storage).
+   - Which query (from 3.3) it helps.
+   - Potential trade-offs (e.g. slower writes, more storage).
 
 Add this discussion to `model.md` or `NOTES.md`.
 
@@ -105,9 +105,9 @@ Add this discussion to `model.md` or `NOTES.md`.
 
 Inside `labs/lab02_modeling/`, you should have at least:
 
-* `model.md` – your NoSQL schema design and explanation of embedding/reference choices.
-* `queries.md` – sample queries for the required operations.
-* `NOTES.md` – how to read your files, any assumptions, and optional diagrams (you may link to images).
+- `model.md` – your NoSQL schema design and explanation of embedding/reference choices.
+- `queries.md` – sample queries for the required operations.
+- `NOTES.md` – how to read your files, any assumptions, and optional diagrams (you may link to images).
 
 If you create example JSON documents, place them under:
 
@@ -120,15 +120,16 @@ Follow the general submission rules in
 
 ---
 
-## 5. Grading (summary)
+## 5. Self-Assessment Checklist
 
-This lab will be graded according to the general rubric in
-[`instructions/grading_rubric.md`](../../instructions/grading_rubric.md). A typical breakdown is:
+Use this informal rubric to gauge whether you’ve covered the essentials:
 
-* Quality and clarity of the data model: **40%**
-* Justification of embedding vs referencing and relationships: **25%**
-* Quality and correctness of sample queries: **20%**
-* Documentation and organization (`model.md`, `queries.md`, `NOTES.md`): **15%**
+- Conceptual model clearly identifies entities, attributes, and relationships.
+- Embedding vs referencing decisions are justified in `model.md` or `NOTES.md`.
+- Sample queries demonstrate each required workload from Section 2.
+- Proposed indexes include trade-off discussions (write cost, storage).
+
+If you can explain each bullet to a peer, you’ve extracted the intended lessons.
 
 ---
 
@@ -136,8 +137,33 @@ This lab will be graded according to the general rubric in
 
 The following items are optional but recommended if you finish early:
 
-* Propose a **version 2** of your model optimized for a different workload (e.g. analytics vs transactional use).
-* Discuss how your model would change if you needed to support **multi-region** or **sharded** deployments.
-* Sketch how you would migrate from a relational schema to this NoSQL schema.
+- Propose a **version 2** of your model optimized for a different workload (e.g. analytics vs transactional use).
+- Discuss how your model would change if you needed to support **multi-region** or **sharded** deployments.
+- Sketch how you would migrate from a relational schema to this NoSQL schema.
 
 If you do any extensions, briefly describe them in `NOTES.md`.
+
+---
+
+### Basic Warm-up (Optional)
+
+New to data modeling? Start with the lightweight prompts in [`BASIC_EXERCISES.md`](BASIC_EXERCISES.md). They walk you through listing entities, mapping relationships, drafting embed vs reference decisions, and writing a tiny sample document before you commit to the full deliverables.
+
+---
+
+### Advanced Challenges (Bonus)
+
+Structured stretch goals are documented in [`ADVANCED_EXERCISES.md`](ADVANCED_EXERCISES.md). They cover:
+
+1. Designing multi-tenant strategies.
+2. Building an index prioritization/backlog process.
+3. Planning a relational-to-document migration.
+
+Record any progress in the “Advanced Exercises Summary” section of your `NOTES.md` and link to the supporting files you created.
+
+---
+
+### Feedback & Collaboration
+
+- File ideas or bugs in the [Issues tab](https://github.com/diogoribeiro7/nosql-databases-labs/issues) with the `lab02` label.
+- Share modeling tips or diagrams via [Discussions](https://github.com/diogoribeiro7/nosql-databases-labs/discussions) so others can benefit.
