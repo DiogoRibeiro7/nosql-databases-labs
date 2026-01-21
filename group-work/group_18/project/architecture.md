@@ -14,7 +14,7 @@
 ```
 
 ## Coleção: posts
-
+```json
 {
   "_id": ObjectId(),
   "userId": ObjectId("..."),
@@ -24,7 +24,7 @@
   "likes": 52,
   "createdAt": ISODate()
 }
-
+```
 
 ## Coleção: comments
 
