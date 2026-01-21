@@ -10,10 +10,11 @@ This solution demonstrates a complete MongoDB implementation of a Porto Airbnb l
 | `architecture.md`                                 | Design rationale covering collection schemas, embedding strategies, and index decisions.          |
 | `data/`                                           | Source JSON file with Porto Airbnb listings data.                                                 |
 | `queries/01-16_*.mongosh.js`                      | Business intelligence queries covering pricing analysis, host insights, and inventory management. |
-| `queries/17-19_*.mongosh.js`                      | CRUD operations demonstrating insert, update, and delete patterns.                                |
-| `queries/20_aggregation_with_explain.mongosh.js`  | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline.   |
-| `queries/20b_aggregation_with_explain.mongosh.js` | Same aggregation optimized with indexes for performance comparison.                               |
-| `queries/21_collection_stats.mongosh.js`          | Collection statistics and storage metrics.                                                        |
+| `queries/17_aggregation_with_explain.mongosh.js`  | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline.   |
+| `queries/17b_aggregation_with_explain.mongosh.js` | Same aggregation optimized with indexes for performance comparison.                               |
+| `queries/18_collection_stats.mongosh.js`          | Collection statistics and storage metrics.                                                        |
+| `queries/19_capacity_by_neighbourhood.mongosh.js` | Capacity analysis by neighbourhood for tourism planning.                                          |
+| `queries/20_price_rating_analysis.mongosh.js`     | Price vs rating correlation analysis.                                                             |
 | `queries/index_blueprint.mongosh.js`              | Idempotent script that creates all required indexes for optimal query performance.                |
 
 ## How to Run Everything (Local MongoDB)
@@ -48,11 +49,13 @@ mongosh queries/15_listing_text_search.mongosh.js
 mongosh queries/16_revenue_by_neighbourhood_roomtype.mongosh.js
 
 # 6. Analyze performance (with and without indexes)
-mongosh queries/20_aggregation_with_explain.mongosh.js
-mongosh queries/20b_aggregation_with_explain.mongosh.js
+mongosh queries/17_aggregation_with_explain.mongosh.js
+mongosh queries/17b_aggregation_with_explain.mongosh.js
 
-# 7. Collection statistics
-mongosh queries/21_collection_stats.mongosh.js
+# 7. Advanced analytics
+mongosh queries/18_collection_stats.mongosh.js
+mongosh queries/19_capacity_by_neighbourhood.mongosh.js
+mongosh queries/20_price_rating_analysis.mongosh.js
 ```
 
 The scripts assume a MongoDB instance is available at the default `mongodb://127.0.0.1:27017`. If you use a different URI, export the `MONGODB_URI` environment variable before running the commands.
@@ -95,8 +98,8 @@ The sample data is transformed into an optimized document model with strategic e
 
 The project includes two versions of a complex aggregation query to demonstrate the impact of indexes:
 
-- **Query 20 (No Indexes)**: Forces collection scan using `hint: {$natural: 1}` to establish a performance baseline.
-- **Query 20b (With Indexes)**: Same aggregation but leverages compound indexes for optimized execution.
+- **Query 17 (No Indexes)**: Forces collection scan using `hint: {$natural: 1}` to establish a performance baseline.
+- **Query 17b (With Indexes)**: Same aggregation but leverages compound indexes for optimized execution.
 
 ## Technologies & Tools Used
 
@@ -129,9 +132,11 @@ The project includes two versions of a complex aggregation query to demonstrate 
 | 17  | Insert New Listing                   | CRUD - Create | Insert operation                      |
 | 18  | Update Listing Price                 | CRUD - Update | Update operation                      |
 | 19  | Delete Test Listing                  | CRUD - Delete | Delete operation                      |
-| 20  | Aggregation (No Indexes)             | Performance   | Baseline measurement                  |
-| 20b | Aggregation (With Indexes)           | Performance   | Optimized measurement                 |
-| 21  | Collection Statistics                | Admin         | Database metrics                      |
+| 17  | Aggregation (No Indexes)             | Performance   | Baseline measurement                  |
+| 17b | Aggregation (With Indexes)           | Performance   | Optimized measurement                 |
+| 18  | Collection Statistics                | Admin         | Database metrics                      |
+| 19  | Capacity by Neighbourhood            | Analytics     | Accommodation capacity distribution   |
+| 20  | Price vs Rating Analysis             | Analytics     | Price-rating correlation analysis     |
 
 ## Contributors
 
