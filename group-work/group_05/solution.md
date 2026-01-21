@@ -10,9 +10,9 @@
 
 | Name | Student ID | Email | Contribution % |
 | ---- | ---------- | ----- | -------------- |
-| João Oliveira | TBD | TBD | TBD |
-| Miguel Neto | TBD | TBD | TBD |
-| Miguel Basso | TBD | TBD | TBD |
+| João Oliveira | 40240391 | 40240391@esmad.ipp.pt | 33.3 |
+| Miguel Neto | 40240358 | 40240358@esmad.ipp.pt | 33.3 |
+| Miguel Basso | 40240207 | 40240207@esmad.ipp.pt | 33.3 |
 
 **Total:** 100%
 

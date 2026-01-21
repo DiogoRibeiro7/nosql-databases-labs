@@ -1,47 +1,85 @@
 db = db.getSiblingDB("airbnb");
 
 /**
- * USE CASE: "City-by-City Apartment Catalog"
- * * User Story:
- * "As a user planning a multi-city trip, I want to view all available apartments
- * organized by district (Lisbon, Porto, etc.) so that I can easily browse
- * options for each destination in a single list."
- * * Technical Goal:
- * Transform a flat list of listings into a hierarchical structure
- * (District -> List of Apartments) to power a "Browse by City" feature.
+ * ==================================================================================
+ * USE CASE: "Regional Discovery & Road Trip Planner"
+ * ==================================================================================
+ * * USER STORY:
+ * "As a traveler planning a road trip across Portugal, I want to see a 
+ * consolidated catalog of apartments grouped by city (e.g., Lisbon, Porto). 
+ * This allows me to assess availability and average ratings for each destination 
+ * in a single view, rather than searching for each city individually."
+ * * TECHNICAL GOAL:
+ * Perform a "Left Outer Join" between the 'listings' and 'hosts' collections 
+ * to resolve the location of each property. Then, dynamically aggregate the 
+ * flat list into a hierarchical structure (City -> List of Properties).
+ * ==================================================================================
  */
-const listingsByDistrict = db.airbnb_data.aggregate([
+
+const listingsByDistrict = db.listings.aggregate([
   {
-    // Extract 'district' from 'host_name'
-    $addFields: {
-      district: {
-        $arrayElemAt: [{ $split: ["$host_name", "_"] }, 0],
-      },
-    },
+    // Link 'listings' to 'hosts' to find the true location
+    // We match 'listings.host_id' with 'hosts.id'
+    $lookup: {
+      from: "hosts",
+      localField: "host_id",
+      foreignField: "id",
+      as: "host_details"
+    }
   },
   {
-    // Group by district and push listings into an array
+    // Deconstruct the array from the lookup 
+    // (Since 1 listing has exactly 1 host, this flattens the result)
+    $unwind: "$host_details"
+  },
+  {
+    // Parse the city name from the host's "location" string
+    // "Porto, Portugal" -> Split by "," -> Take 1st part -> Trim whitespace
+    $addFields: {
+      derived_city: {
+        $trim: { 
+          input: { $arrayElemAt: [{ $split: ["$host_details.location", ","] }, 0] } 
+        }
+      }
+    }
+  },
+  {
+    // Create the hierarchy (City -> Listings)
     $group: {
-      _id: "$district",
-      total_listings: { $sum: 1 },
-      listings: {
+      _id: "$derived_city",
+      
+      // aggregations metrics
+      total_properties: { $sum: 1 },
+      avg_city_rating: { $avg: "$review_scores_rating" },
+      min_price: { $min: "$price" },
+      
+      // The actual list of apartments
+      catalog: {
         $push: {
           name: "$name",
-          price: "$price",
           neighbourhood: "$neighbourhood",
           room_type: "$room_type",
-        },
-      },
-    },
+          price: "$price",
+          rating: "$review_scores_rating"
+        }
+      }
+    }
   },
   {
+    // Format the final output
     $project: {
       _id: 0,
-      district: "$_id",
-      total_listings: 1,
-      listings: 1,
-    },
+      destination: "$_id",
+      total_properties: 1,
+      avg_city_rating: { $round: ["$avg_city_rating", 2] }, // Round to 2 decimals
+      min_price: 1,
+      catalog: 1
+    }
   },
-]);
+  {
+    // Alphabetical order by Destination
+    $sort: { destination: 1 }
+  }
+])
 
-print(listingsByDistrict);
+printjson(listingsByDistrict);

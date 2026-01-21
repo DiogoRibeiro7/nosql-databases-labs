@@ -1,30 +1,61 @@
 // Switch to the airbnb database
 db = db.getSiblingDB("airbnb");
-print(`Using database: ${db.getName()}`);
 
 /**
  * USE CASE: "Host Portfolio & Geographic Spread"
- * * User Story:
- * "As a market analyst, I want to analyze the portfolio of a specific property
- * management brand in Lisbon. I need to know exactly
- * which neighbourhoods they are active in and the total number of properties
- * they manage."
+ * * * User Story:
+ * "As a market analyst, I want to analyze the portfolio of the 'Lisbon' property 
+ * management brand. I need to see their full geographic footprint (unique neighbourhoods)
+ * and the total volume of their managed inventory to assess their market dominance."
  * * * Technical Goal:
- * Filter documents using a Regex pattern, then perform a global grouping
- * (_id: null) to consolidate data into a single summary document containing
- * a distinct array of values ($addToSet) and a total document count.
+ * Perform a "Filter by Parent" operation. We join the 'listings' with 'hosts', 
+ * apply a Regex filter on the joined host name, and then perform a global grouping 
+ * ($group: _id: null) to calculate distinct sets and total counts.
  */
-const neighbourhoodListings = db.airbnb_data.aggregate([
-  // For efficiency clean all non Lisbon Properties
-  { $match: { host_name: /^Lisbon/ } },
-  {
-    $group: {
-      _id: null,
-      unique_neighbourhoods: { $addToSet: "$neighbourhood" },
-      total_listings: { $count: {} },
-    },
-  },
-  { $project: { _id: 0, unique_neighbourhoods: 1, total_listings: 1 } },
-]);
 
-print("Unique neighbourhoods for hosts named 'Lisbon...': ", neighbourhoodListings);
+const portfolioAnalysis = db.listings.aggregate([
+  {
+    // Bring in Host data to check the name
+    $lookup: {
+      from: "hosts",
+      localField: "host_id",
+      foreignField: "id",
+      as: "host_info"
+    }
+  },
+  {
+    // Flatten the array to access fields directly
+    $unwind: "$host_info"
+  },
+  {
+    // Match only hosts belonging to the "Lisbon" brand
+    // (Simulating a brand search using Regex)
+    $match: {
+      "host_info.name": /^Lisbon/ 
+    }
+  },
+  {
+    // Consolidate all matching documents into one summary
+    $group: {
+      _id: null, // null = Group everything into one bucket
+      unique_neighbourhoods: { $addToSet: "$neighbourhood" }, // distinct values
+      total_listings: { $sum: 1 } // count the docs
+    }
+  },
+  {
+    // Format the output
+    $project: {
+      _id: 0,
+      brand_filter: "Lisbon*",
+      total_listings: 1,
+      unique_neighbourhoods: 1
+    }
+  }
+])
+
+// Execute and Print
+if (portfolioAnalysis.length > 0) {
+    printjson(portfolioAnalysis[0]);
+} else {
+    print("No listings found for this brand.");
+}

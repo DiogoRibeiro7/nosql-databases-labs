@@ -1,58 +1,66 @@
 // Switch to the airbnb database
 db = db.getSiblingDB("airbnb");
-print(`Using database: ${db.getName()}`);
 
 /**
- * USE CASE: "Central Group Hotel Search"
+ * USE CASE: "Top Reviews per Listing"
  * * User Story:
- * "As a travel agent booking for a family of 4+, I need to find 'Hotel room'
- * style listings located within a 5km radius of the city center (Avenida dos Aliados),
- * ensuring they are close to the main tourist attractions."
+ * "As a potential guest, I want to see the 'Highlights' for every apartment.
+ * Specifically, I want to see the 5 highest-rated reviews for each property
+ * so I can quickly read the best experiences others have had."
  * * * Technical Goal:
- * Perform a schema migration to construct valid GeoJSON Point objects from raw
- * coordinates, create a '2dsphere' index to support spatial queries, and execute
- * a proximity search ($near) combined with scalar filters.
+ * Perform a "One-to-Many" join using a $lookup pipeline.
+ * Inside the lookup, we Match -> Sort (Desc) -> Limit (5) to efficiently 
+ * retrieve only the subset of relevant sub-documents.
  */
 
-// Update documents to use correct geojson format
-db.airbnb_data.updateMany({}, [
+const topReviewsPerListing = db.listings.aggregate([
   {
-    $set: {
-      location: {
-        type: "Point",
-        coordinates: ["$longitude", "$latitude"],
-      },
-    },
+    // 1. JOIN with Pipeline: Efficiently fetch only the needed reviews
+    $lookup: {
+      from: "reviews",
+      let: { local_id: "$id" }, // Pass the Listing ID to the pipeline
+      pipeline: [
+        { 
+          // Match reviews belonging to this listing
+          $match: { 
+            $expr: { $eq: ["$listing_id", "$$local_id"] } 
+          } 
+        },
+        { 
+          // Sort by Rating (Highest first), then Date (Newest first)
+          $sort: { rating: -1, date: -1 } 
+        },
+        { 
+          // Only keep the top 5
+          $limit: 5 
+        },
+        {
+          // Clean up the review object for display
+          $project: { 
+            _id: 0, 
+            reviewer_name: 1, 
+            rating: 1, 
+            date: 1,
+            comments: 1 
+          }
+        }
+      ],
+      as: "reviews" // The output array name
+    }
   },
-]);
-
-const centerPoint = [-8.610403, 41.148831]; // Coordinates for Avenida dos Aliados
-
-// Get all hotel rooms within 5km of avenida dos aliados that accommodate at least 4 people
-db.airbnb_data.createIndex({ location: "2dsphere" });
-
-const geospatial = db.airbnb_data.find(
   {
-    accommodates: { $gte: 4 },
-    room_type: { $eq: "Hotel room" },
-    location: {
-      $near: {
-        $geometry: { type: "Point", coordinates: centerPoint },
-        $maxDistance: 5000, // 5000 meters = 5km
-      },
-    },
+    // Format the final listing document
+    $project: {
+      _id: 0,
+      listing_name: "$name",
+      neighbourhood: "$neighbourhood",
+      reviews: 1
+    }
   },
   {
-    name: 1,
-    neighbourhood: 1,
-    room_type: 1,
-    price: 1,
-    review_scores_rating: 1,
-    number_of_reviews: 1,
-    beds: 1,
-    accommodates: 1,
-    _id: 0,
+    // Optional: Just limiting the result to 3 listings so we don't flood the console
+    $limit: 3
   }
-);
+]).toArray();
 
-print("All listings within 5km from avenida dos aliados: ", geospatial);
+printjson(topReviewsPerListing);
