@@ -168,7 +168,9 @@ The project also includes two versions of a related aggregation to demonstrate i
 
 - **MongoDB installation & tooling issues:** Several team members had problems installing and configuring `mongod`, `mongosh`, and `MongoDB Compass` on Windows (service startup failures, PATH and permission issues, and version mismatches). These setup delays impacted our pace.
 
-## Lessons Learned and Improvements
+- **Team Work:** Overall, we collaborated more or less well as a team, dividing tasks according to individual strengths and supporting each other through challenges. Regular meetings helped us stay aligned on goals and progress.
+
+## Lessons Learned
 
 - **Importance of planning & communication:** We learned that clear upfront planning, defined roles, and regular communication are crucial for team projects to avoid misunderstandings and ensure steady progress.
 
@@ -177,6 +179,30 @@ The project also includes two versions of a related aggregation to demonstrate i
 ## Gaps remaining
 
 - **MongoDB:** We need to be more efficient in writing complex aggregation pipelines and optimizing queries with indexes. Another gap is that we need to deepen our understanding of data modeling best practices for NoSQL databases.
+
+## Difficulties faced
+
+- **Choosing the right data model:** We struggled with deciding when to embed versus reference data, balancing query performance against data duplication.
+
+- **Indexing strategies:** Determining the optimal indexes to support our query patterns without over-indexing was challenging.
+
+- **Aggregation complexity:** Writing and debugging complex aggregation pipelines took more time than anticipated, especially for multi-stage operations.
+
+- **Tooling issues:** Setting up MongoDB and related tools on different operating systems caused delays and frustration.
+
+## What was good
+
+- **Hands-on experience:** The project provided valuable practical experience in designing and implementing a NoSQL database from scratch.
+
+- **Team collaboration:** Working as a team helped us learn from each other and tackle challenges collectively.
+
+- **The first well designed project size:** This was our first project of this size where we could apply theoretical knowledge in a practical setting and something that could be reused in the future.
+
+## What could be improved
+
+- **Project management:** Better upfront planning, defined roles, and regular check-ins could improve team coordination and progress tracking.
+
+- **Version control practices:** Adopting consistent branching strategies and commit conventions would enhance collaboration and reduce merge conflicts.
 
 ## Contributors
 
