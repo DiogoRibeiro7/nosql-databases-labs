@@ -12,4 +12,4 @@ db.rental.aggregate([
 	},
 	{ $unwind: { path: "$staff" } },
 	{ $project: { staff_id: "$_id", name: { $concat: ["$staff.first_name", " ", "$staff.last_name"] }, rentals: 1, _id: 0 } }
-]).forEach(doc => printjson(doc)); s
+]).forEach(doc => printjson(doc));
