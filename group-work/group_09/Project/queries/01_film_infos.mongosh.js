@@ -1,6 +1,9 @@
+// Mostra os dados de cada filme, incluindo atores e categoria.
+// Correr: mongosh queries/01_film_infos.mongosh.js
+
 db = db.getSiblingDB("sakila");
 
-db.films.aggregate([
+db.film.aggregate([
 	{
 		$lookup: {
 			from: "film_actor",

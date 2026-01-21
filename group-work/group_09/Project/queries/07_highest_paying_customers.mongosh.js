@@ -1,3 +1,8 @@
+// Mostra os 20 clientes que mais gastaram, e quanto gastaram. Ordenado por gasto total
+// Correr: mongosh queries/07_highest_paying_customers.mongosh.js
+
+db = db.getSiblingDB("sakila");
+
 print("Top 20 clientes por gasto total:");
 db.payment.aggregate([
 	{

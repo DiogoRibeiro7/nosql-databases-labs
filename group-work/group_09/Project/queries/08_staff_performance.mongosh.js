@@ -1,3 +1,8 @@
+// Mostra quantos alugeres cada "staff" fez, ordenado em ordem decrescente.
+// Correr: mongosh queries/08_staff_performance.mongosh.js
+
+db = db.getSiblingDB("sakila");
+
 print("Alugueres processados por staff:");
 db.rental.aggregate([
 	{ $group: { _id: "$staff_id", rentals: { $sum: 1 } } },

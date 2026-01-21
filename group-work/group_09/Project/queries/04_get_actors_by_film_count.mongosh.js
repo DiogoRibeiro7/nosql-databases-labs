@@ -1,3 +1,8 @@
+// Mostra os 20 atores com o maior número de filmes.
+// Correr: mongosh queries/04_get_actors_by_film_count.mongosh.js
+
+db = db.getSiblingDB("sakila");
+
 print("Atores com mais filmes:");
 db.film_actor.aggregate([
 	{
