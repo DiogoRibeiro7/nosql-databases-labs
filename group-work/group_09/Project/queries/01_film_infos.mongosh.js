@@ -35,6 +35,39 @@ db.film
         ],
         as: "actor"
     } },
+    { $lookup: {
+        from: "film_category",
+        localField: "film_id",
+        foreignField: "film_id",
+        pipeline: [
+            {
+                $lookup: {
+                    from: "category",
+                    localField: "category_id",
+                    foreignField: "category_id",
+                    pipeline: [
+                        {
+                            $project: { 
+                                _id: 0,
+                                category_id: 0,
+                                last_update: 0
+                            } 
+                        }
+                    ],
+                    as: "category"
+                },
+            },
+            { 
+                $project: { 
+                    _id: 0,
+                    film_id: 0,
+                    category_id: 0,
+                    last_update: 0
+                } 
+            }
+        ],
+        as: "category"
+    } },
     { $project: {
         _id: 0,
         film_id: 0,
