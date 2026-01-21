@@ -4,17 +4,17 @@ This solution demonstrates a complete MongoDB implementation of a Porto Airbnb l
 
 ## Deliverables in This Folder
 
-| Path | Purpose |
-| ---- | ------- |
-| `import_data.mongosh.js` | Bootstrap script that transforms JSON data into denormalized MongoDB collections. |
-| `architecture.md` | Design rationale covering collection schemas, embedding strategies, and index decisions. |
-| `data/` | Source JSON file with Porto Airbnb listings data. |
-| `queries/01-16_*.mongosh.js` | Business intelligence queries covering pricing analysis, host insights, and inventory management. |
-| `queries/17-19_*.mongosh.js` | CRUD operations demonstrating insert, update, and delete patterns. |
-| `queries/20_aggregation_with_explain.mongosh.js` | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline. |
-| `queries/20b_aggregation_with_explain.mongosh.js` | Same aggregation optimized with indexes for performance comparison. |
-| `queries/21_collection_stats.mongosh.js` | Collection statistics and storage metrics. |
-| `queries/index_blueprint.mongosh.js` | Idempotent script that creates all required indexes for optimal query performance. |
+| Path                                              | Purpose                                                                                           |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `import_data.mongosh.js`                          | Bootstrap script that transforms JSON data into denormalized MongoDB collections.                 |
+| `architecture.md`                                 | Design rationale covering collection schemas, embedding strategies, and index decisions.          |
+| `data/`                                           | Source JSON file with Porto Airbnb listings data.                                                 |
+| `queries/01-16_*.mongosh.js`                      | Business intelligence queries covering pricing analysis, host insights, and inventory management. |
+| `queries/17-19_*.mongosh.js`                      | CRUD operations demonstrating insert, update, and delete patterns.                                |
+| `queries/20_aggregation_with_explain.mongosh.js`  | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline.   |
+| `queries/20b_aggregation_with_explain.mongosh.js` | Same aggregation optimized with indexes for performance comparison.                               |
+| `queries/21_collection_stats.mongosh.js`          | Collection statistics and storage metrics.                                                        |
+| `queries/index_blueprint.mongosh.js`              | Idempotent script that creates all required indexes for optimal query performance.                |
 
 ## How to Run Everything (Local MongoDB)
 
@@ -46,11 +46,6 @@ mongosh queries/13_neighbourhood_comparison.mongosh.js
 mongosh queries/14_luxury_listings.mongosh.js
 mongosh queries/15_listing_text_search.mongosh.js
 mongosh queries/16_revenue_by_neighbourhood_roomtype.mongosh.js
-
-# 5. Test CRUD operations
-mongosh queries/17_insert_new_listing.mongosh.js
-mongosh queries/18_update_listing_price.mongosh.js
-mongosh queries/19_delete_test_listing.mongosh.js
 
 # 6. Analyze performance (with and without indexes)
 mongosh queries/20_aggregation_with_explain.mongosh.js
@@ -87,14 +82,14 @@ The sample data is transformed into an optimized document model with strategic e
 
 ## Key Query Patterns Demonstrated
 
-| Pattern | Description | Collections |
-| ------- | ----------- | ----------- |
-| Pricing Analysis | Average prices, price categories, luxury segment | listings |
-| Host Insights | Top hosts, performance metrics, multi-listing hosts | hosts, listings, bookings |
-| Market Segmentation | Room type distribution, neighbourhood comparison | listings |
-| Booking Analytics | Revenue by category, monthly patterns, profitable listings | bookings, listings |
-| Inventory Management | Availability analysis, underperforming listings | listings, bookings |
-| Performance Testing | Index impact measurement via complex aggregations | bookings, listings |
+| Pattern              | Description                                                | Collections               |
+| -------------------- | ---------------------------------------------------------- | ------------------------- |
+| Pricing Analysis     | Average prices, price categories, luxury segment           | listings                  |
+| Host Insights        | Top hosts, performance metrics, multi-listing hosts        | hosts, listings, bookings |
+| Market Segmentation  | Room type distribution, neighbourhood comparison           | listings                  |
+| Booking Analytics    | Revenue by category, monthly patterns, profitable listings | bookings, listings        |
+| Inventory Management | Availability analysis, underperforming listings            | listings, bookings        |
+| Performance Testing  | Index impact measurement via complex aggregations          | bookings, listings        |
 
 ## Index Performance Comparison
 
@@ -113,39 +108,40 @@ The project includes two versions of a complex aggregation query to demonstrate 
 
 ## Query Summary
 
-| # | Query | Type | Description |
-|---|-------|------|-------------|
-| 01 | Top Listings by Reviews | Analytics | Most popular properties for marketing |
-| 02 | Avg Price by Neighbourhood | Analytics | Market pricing analysis |
-| 03 | Room Type Distribution | Analytics | Property portfolio breakdown |
-| 04 | Top Hosts by Listings | Analytics | Professional host identification |
-| 05 | Listing Details | Lookup | Customer service dashboard |
-| 06 | High Availability Listings | Filter | Investment opportunities |
-| 07 | Low-Rated Listings | Filter | Quality control |
-| 08 | Revenue by Price Category | Aggregation | Financial segmentation |
-| 09 | Most Profitable Listings | Aggregation | Revenue leaders |
-| 10 | Booking Patterns by Month | Aggregation | Seasonal analysis |
-| 11 | Host Performance Metrics | Aggregation | Host evaluation |
-| 12 | Listings Without Bookings | Comparison | Underperforming inventory |
-| 13 | Neighbourhood Comparison | Aggregation | Geographic dashboard |
-| 14 | Luxury Listings | Filter | Premium market segment |
-| 15 | Text Search | Search | Search functionality |
-| 16 | Revenue by Neighbourhood & Room Type | Aggregation | Cross-dimensional analysis |
-| 17 | Insert New Listing | CRUD - Create | Insert operation |
-| 18 | Update Listing Price | CRUD - Update | Update operation |
-| 19 | Delete Test Listing | CRUD - Delete | Delete operation |
-| 20 | Aggregation (No Indexes) | Performance | Baseline measurement |
-| 20b | Aggregation (With Indexes) | Performance | Optimized measurement |
-| 21 | Collection Statistics | Admin | Database metrics |
+| #   | Query                                | Type          | Description                           |
+| --- | ------------------------------------ | ------------- | ------------------------------------- |
+| 01  | Top Listings by Reviews              | Analytics     | Most popular properties for marketing |
+| 02  | Avg Price by Neighbourhood           | Analytics     | Market pricing analysis               |
+| 03  | Room Type Distribution               | Analytics     | Property portfolio breakdown          |
+| 04  | Top Hosts by Listings                | Analytics     | Professional host identification      |
+| 05  | Listing Details                      | Lookup        | Customer service dashboard            |
+| 06  | High Availability Listings           | Filter        | Investment opportunities              |
+| 07  | Low-Rated Listings                   | Filter        | Quality control                       |
+| 08  | Revenue by Price Category            | Aggregation   | Financial segmentation                |
+| 09  | Most Profitable Listings             | Aggregation   | Revenue leaders                       |
+| 10  | Booking Patterns by Month            | Aggregation   | Seasonal analysis                     |
+| 11  | Host Performance Metrics             | Aggregation   | Host evaluation                       |
+| 12  | Listings Without Bookings            | Comparison    | Underperforming inventory             |
+| 13  | Neighbourhood Comparison             | Aggregation   | Geographic dashboard                  |
+| 14  | Luxury Listings                      | Filter        | Premium market segment                |
+| 15  | Text Search                          | Search        | Search functionality                  |
+| 16  | Revenue by Neighbourhood & Room Type | Aggregation   | Cross-dimensional analysis            |
+| 17  | Insert New Listing                   | CRUD - Create | Insert operation                      |
+| 18  | Update Listing Price                 | CRUD - Update | Update operation                      |
+| 19  | Delete Test Listing                  | CRUD - Delete | Delete operation                      |
+| 20  | Aggregation (No Indexes)             | Performance   | Baseline measurement                  |
+| 20b | Aggregation (With Indexes)           | Performance   | Optimized measurement                 |
+| 21  | Collection Statistics                | Admin         | Database metrics                      |
 
 ## Contributors
+
 #### GROUP 04 - TSIW - 2026
 
-| Name | Student ID | Email | Contribution % |
-| ---- | ---------- | ----- | -------------- |
-| Pedro Rodrigues | 40240239 | 40240239@esmad.ipp.pt | 33,3% |
-| Mariana Ferreira | 40240450 | 40240450@esmad.ipp.pt | 33,3% |
-| Miguel Caldas | 40240221 | 40240221@esmad.ipp.pt | 33,3% |
+| Name             | Student ID | Email                 | Contribution % |
+| ---------------- | ---------- | --------------------- | -------------- |
+| Pedro Rodrigues  | 40240239   | 40240239@esmad.ipp.pt | 33,3%          |
+| Mariana Ferreira | 40240450   | 40240450@esmad.ipp.pt | 33,3%          |
+| Miguel Caldas    | 40240221   | 40240221@esmad.ipp.pt | 33,3%          |
 
 **Total:** 100%
 

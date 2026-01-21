@@ -1,6 +1,6 @@
-// Query 21: Collection Statistics
+// Query 18: Collection Statistics
 // Analysis of size and performance of collections
-// Usage: mongosh queries/21_collection_stats.mongosh.js
+// Usage: mongosh queries/18_collection_stats.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 
@@ -10,7 +10,7 @@ const collections = ["listings", "hosts", "bookings"];
 
 collections.forEach((collName) => {
   const stats = db[collName].stats();
-  
+
   print(`\n${collName.toUpperCase()}:`);
   printjson({
     namespace: stats.ns,
@@ -18,9 +18,9 @@ collections.forEach((collName) => {
     avgDocSize: stats.avgObjSize,
     dataSizeMB: (stats.size / (1024 * 1024)).toFixed(4),
     storageSizeMB: (stats.storageSize / (1024 * 1024)).toFixed(4),
-    totalIndexes: stats.nindexes
+    totalIndexes: stats.nindexes,
   });
-  
+
   // Show indexes for each collection
   print(`  Indexes on ${collName}:`);
   db[collName].getIndexes().forEach((idx) => {
@@ -39,7 +39,7 @@ printjson({
   dataSizeMB: (dbStats.dataSize / (1024 * 1024)).toFixed(4),
   storageSizeMB: (dbStats.storageSize / (1024 * 1024)).toFixed(4),
   indexes: dbStats.indexes,
-  indexSizeMB: (dbStats.indexSize / (1024 * 1024)).toFixed(4)
+  indexSizeMB: (dbStats.indexSize / (1024 * 1024)).toFixed(4),
 });
 
 print("\n✓ Query executed successfully\n");

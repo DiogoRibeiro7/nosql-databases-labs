@@ -1,6 +1,6 @@
-// Query 20b: Complex Aggregation with Indexes
+// Query 17b: Complex Aggregation with Indexes
 // Performance comparison with indexes applied
-// Usage: mongosh queries/20b_aggregation_with_explain.mongosh.js
+// Usage: mongosh queries/17b_aggregation_with_explain.mongosh.js
 
 db = db.getSiblingDB("group_04_airbnb");
 
@@ -21,8 +21,8 @@ const pipeline = [
       from: "listings",
       localField: "listing_id",
       foreignField: "listing_id",
-      as: "listing"
-    }
+      as: "listing",
+    },
   },
   { $unwind: "$listing" },
   // Group by neighbourhood
@@ -33,8 +33,8 @@ const pipeline = [
       bookings: { $sum: 1 },
       total_nights: { $sum: "$nights" },
       unique_guests: { $addToSet: "$guest.guest_id" },
-      unique_listings: { $addToSet: "$listing_id" }
-    }
+      unique_listings: { $addToSet: "$listing_id" },
+    },
   },
   // Add computed fields
   {
@@ -46,11 +46,11 @@ const pipeline = [
       unique_guests_count: { $size: "$unique_guests" },
       unique_listings_count: { $size: "$unique_listings" },
       avg_revenue_per_booking: { $divide: ["$revenue", "$bookings"] },
-      avg_nights_per_booking: { $divide: ["$total_nights", "$bookings"] }
-    }
+      avg_nights_per_booking: { $divide: ["$total_nights", "$bookings"] },
+    },
   },
   { $sort: { revenue: -1 } },
-  { $limit: 10 }
+  { $limit: 10 },
 ];
 
 print("Aggregation results:");
@@ -60,13 +60,15 @@ db.bookings.aggregate(pipeline).forEach((doc) => printjson(doc));
 print("\n=== Execution Statistics (WITH INDEXES) ===\n");
 const explainResult = db.bookings.explain("executionStats").aggregate(pipeline);
 
-const execStats = explainResult.stages ? explainResult.stages[0].$cursor.executionStats : explainResult.executionStats;
+const execStats = explainResult.stages
+  ? explainResult.stages[0].$cursor.executionStats
+  : explainResult.executionStats;
 
 printjson({
   executionTimeMillis: execStats.executionTimeMillis,
   totalDocsExamined: execStats.totalDocsExamined,
   totalKeysExamined: execStats.totalKeysExamined,
-  nReturned: execStats.nReturned
+  nReturned: execStats.nReturned,
 });
 
 print("\n✓ Query executed successfully\n");
