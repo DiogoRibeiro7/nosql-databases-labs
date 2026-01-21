@@ -12,98 +12,88 @@ print("\nRecreating recommended indexes...");
 // CUSTOMERS
 // ============================================================================
 
-// Prevent duplicate accounts and support login/email lookups
+// Garante que não existem dois clientes com o mesmo email (segurança e login). Índice Único (unique: true): Além de performance, serve como uma regra de negócio (impede emails duplicados).
+
 db.customers.createIndex(
   { email: 1 },
-  { unique: true, name: "uniq_email" }
-);
+  { unique: true});
 
-// Fast filtering for active/inactive segmentations
-db.customers.createIndex(
-  { active: 1 },
-  { name: "idx_active" }
-);
+// Acelera a filtragem de listas de clientes "Ativos" ou "Inativos".
 
-// Regional reports and city-based segmentation
 db.customers.createIndex(
-  { "address.city": 1 },
-  { name: "idx_city" }
-);
+  { active: 1 },);
+
+// Permite encontrar rapidamente clientes de uma determinada cidade.
+
+db.customers.createIndex(
+  { "address.city": 1 },);
 
 
 // ============================================================================
 // FILMS
 // ============================================================================
 
-// Text search on titles (supports multi‑word queries)
-db.films.createIndex(
-  { title: "text" },
-  { name: "idx_text_title" }
-);
+// Transforma o título num índice de pesquisa. Permite procurar por palavras soltas.
 
-// For sorting movies by release year
 db.films.createIndex(
-  { releaseYear: 1 },
-  { name: "idx_release_year" }
-);
+  { title: "text" });
 
-// For filtering by price range
+// Otimiza a ordenação (ex: "Mostrar filmes mais recentes primeiro").
+
 db.films.createIndex(
-  { rentalRate: 1 },
-  { name: "idx_rental_rate" }
-);
+  { releaseYear: 1 });
+
+// Acelera queries que procuram filmes por preço (ex: "Filmes até 3€").
+
+db.films.createIndex(
+  { rentalRate: 1 });
 
 
 // ============================================================================
 // STORES
 // ============================================================================
 
-// Enforce store identity (unique code)
+// // Fundamental para ligar os alugueres (Rentals) às lojas sem erros.
+
 db.stores.createIndex(
   { storeId: 1 },
-  { unique: true, name: "uniq_storeId" }
-);
+  { unique: true });
 
-// Alphabetical listing, reports by store name
-db.stores.createIndex(
-  { storeName: 1 },
-  { name: "idx_store_name" }
-);
+// Facilita a listagem alfabética das lojas no sistema.
 
-// Geospatial index for $near and geo analytics
 db.stores.createIndex(
-  { "address.location": "2dsphere" },
-  { name: "idx_geo_location" }
-);
+  { storeName: 1 });
+
+// Geospatial index for $near and geo analytics - Permite cálculos de mapas (ex: "Qual a loja mais próxima de mim?").
+
+db.stores.createIndex(
+  { "address.location": "2dsphere" });
 
 
 // ============================================================================
 // RENTALS
 // ============================================================================
 
-// Customer history, sorted by rentalDate
-db.rentals.createIndex(
-  { customerId: 1, rentalDate: -1 },
-  { name: "idx_customer_history" }
-);
+// // Índice Composto: Mostra o histórico de um cliente específico ordenado pela data.
 
-// Fast lookup of overdue/rented/returned rentals
 db.rentals.createIndex(
-  { status: 1, rentalDate: -1 },
-  { name: "idx_status_date" }
-);
+  { customerId: 1, rentalDate: -1 });
 
-// Revenue aggregation by store
-db.rentals.createIndex(
-  { storeId: 1, rentalDate: -1 },
-  { name: "idx_store_revenue" }
-);
+// Ajuda a gestão a encontrar rapidamente todos os alugueres com estado "overdue" (atrasado).
 
-// For analytics on film popularity
 db.rentals.createIndex(
-  { "films.filmId": 1 },
-  { name: "idx_film_usage" }
-);
+  { status: 1, rentalDate: -1 });
+
+// Essencial para relatórios de faturação: agrupa vendas por loja e por tempo.
+
+db.rentals.createIndex(
+  { storeId: 1, rentalDate: -1 });
+
+// Como "films" é uma lista dentro do aluguer, este índice permite saber 
+// rapidamente quais os filmes mais alugados de sempre.
+
+db.rentals.createIndex(
+  { "films.filmId": 1 });
 
 
 // ============================================================================

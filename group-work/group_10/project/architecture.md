@@ -221,7 +221,6 @@ As escolhas feitas permitem que:
 - Consultas geoespaciais funcionem de imediato  
 - O sistema seja escalável sem sobrecarregar coleções
 
-Estratégias adicionais descritas em `performance_analysis.md`.
 
 ---
 

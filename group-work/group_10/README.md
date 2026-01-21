@@ -1,8 +1,9 @@
 # Grupo 10 — Projeto Final NoSQL (MongoDB)
 
 ## Membros
-- Gerson Castro  
-- Paulo Santos
+
+- Gerson Castro  40220397
+- Paulo Santos 40220394
 
 ## Descrição
 
@@ -20,14 +21,20 @@ Inclui:
 - Dados reais pré-carregados
 - Schemas com validadores JSON
 - Indexes pensados para performance
-- Mais de 20 queries (CRUD + Aggregation)
-- Testes de integridade
-- Análise de performance
+- Queries (CRUD + Aggregation)
+
 
 
 ## Como correr o projeto
 
 1. Abrir o terminal:
+```bash
+cd group-work/group_10/project
+
+mongosh 
+
+# 1. Criar e adicionar a base de dados
+mongosh load("import_data.mongosh.js")
 
 
 mongosh project/queries/05_top_films_aggregation.mongosh.js

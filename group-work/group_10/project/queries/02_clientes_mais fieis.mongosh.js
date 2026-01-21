@@ -1,6 +1,6 @@
 db = db.getSiblingDB("group_10_db");
 print("--- Tabela de Fidelidade: Clientes com 2 ou mais alugueres ---");
-
+            //Aggregation Pipeline
 
 db.rentals.aggregate([
     // 1. Agrupar por cliente para contar alugueres e capturar dados
@@ -8,7 +8,8 @@ db.rentals.aggregate([
         $group: {
             _id: "$customerId",
             totalRentals: { $sum: 1 },
-            // Captura os IDs únicos dos filmes que o cliente já alugou
+            // Captura os IDs únicos dos filmes que o cliente já alugou,  $addToSet adiciona um valor a um array apenas se esse valor ainda não existir no conjunto
+            
             filmsRented: { $addToSet: "$films.title" }, 
             // Encontra a data do aluguer mais recente
             lastRentalDate: { $max: "$rentalDate" },

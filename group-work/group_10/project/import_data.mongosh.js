@@ -8,7 +8,7 @@
 db = db.getSiblingDB("group_10_db");
 print(`Using database: ${db.getName()}`);
 
-// Reset the database before every run so inserts remain idempotent.
+// Reset the database before every run so inserts remain idempotent. 
 print("Dropping previous data (if any)...");
 db.dropDatabase();
 
@@ -908,7 +908,7 @@ db.rentals
 
 print("\n=================================");
 print("Database setup completed!");
-print("Next: load('queries/01_total_revenue_by_store.mongosh.js')");
+print("Next: load('queries/01_receita_por_loja_e_filme.mongosh.js')");
 print("=================================");
 
 

@@ -159,10 +159,3 @@ db.rentals.updateOne(
 db.rentals.deleteOne({ _id: ObjectId("ID_DO_RENTAL") })
 
 
-
-// ============================================================================
-// SAMPLE EXECUTIONS (comment out if not needed)
-// ============================================================================
-
-
-

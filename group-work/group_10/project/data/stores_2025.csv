@@ -1,6 +1,0 @@
-storeId,storeName,manager_name,manager_staffId,city,longitude,latitude,lastUpdate
-STORE-01,Centro Video Lisboa,Carlos Almeida,1,Lisboa,-9.1393,38.7223,2006-02-15T04:57:12Z
-STORE-02,Centro Video Porto,Ana Ribeiro,2,Porto,-8.611,41.1496,2006-02-15T04:57:12Z
-STORE-03,Video Clube Coimbra,Miguel Santos,,Coimbra,-8.4292,40.2033,
-STORE-04,Centro Video Braga,Rita Fernandes,,Braga,-8.4265,41.5454,
-STORE-05,Video Centro Faro,João Pacheco,,Faro,-7.9352,37.0194,

@@ -12,6 +12,7 @@ db.rentals.aggregate([
   { $unwind: "$films" },
 
   // Agrupamos por Loja e por Filme
+  
   { $group: {
       _id: { 
         storeId: "$storeId", 
