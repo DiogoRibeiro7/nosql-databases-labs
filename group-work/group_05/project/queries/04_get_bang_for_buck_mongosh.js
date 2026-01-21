@@ -15,7 +15,7 @@ db = db.getSiblingDB("airbnb");
 
 const bestValueListings = db.listings.aggregate([
   {
-    // 1. TRANSFORM: Clean the price field
+    // Clean the price field
     // The data is stored as strings ("€50"), so we must strip the symbol 
     // and convert to a number for math operations.
     $addFields: {
@@ -30,7 +30,7 @@ const bestValueListings = db.listings.aggregate([
     }
   },
   {
-    // 2. FILTER: Ensure data quality
+    // Ensure data quality
     // We only want listings with a valid price and high ratings (4.5+)
     $match: {
       numeric_price: { $gt: 0 },
@@ -38,7 +38,7 @@ const bestValueListings = db.listings.aggregate([
     }
   },
   {
-    // 3. CALCULATION: Compute the custom "Value Score"
+    // Compute the custom "Value Score"
     // Formula: (Rating * Capacity) / Price
     // A higher score means you get "more quality & space per euro".
     $project: {
@@ -62,11 +62,11 @@ const bestValueListings = db.listings.aggregate([
     }
   },
   {
-    // 4. SORT: Highest value first
+    // Highest value first
     $sort: { value_score: -1 }
   },
   {
-    // 5. LIMIT: Top 5 results
+    // Top 5 results
     $limit: 5
   }
 ]).toArray();

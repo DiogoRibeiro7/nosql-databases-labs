@@ -15,7 +15,7 @@ db = db.getSiblingDB("airbnb");
 
 const topReviewsPerListing = db.listings.aggregate([
   {
-    // 1. JOIN with Pipeline: Efficiently fetch only the needed reviews
+    // JOIN with Pipeline: Efficiently fetch only the needed reviews
     $lookup: {
       from: "reviews",
       let: { local_id: "$id" }, // Pass the Listing ID to the pipeline
@@ -58,7 +58,7 @@ const topReviewsPerListing = db.listings.aggregate([
     }
   },
   {
-    // Optional: Just limiting the result to 3 listings so we don't flood the console
+    // Just limiting the result to 3 listings so we don't flood the console
     $limit: 3
   }
 ]).toArray();
