@@ -9,5 +9,6 @@ db.customer
 		{ active: 1 },
 		{ _id: 0, first_name: 1, last_name: 1 }
 	)
+	//.limit(10)
 	.sort({ first_name: 1, last_name: 1 })
 	.forEach((customer) => printjson(customer))
