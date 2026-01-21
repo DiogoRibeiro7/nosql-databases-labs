@@ -168,7 +168,7 @@ The project also includes two versions of a related aggregation to demonstrate i
 
 - **MongoDB installation & tooling issues:** Several team members had problems installing and configuring `mongod`, `mongosh`, and `MongoDB Compass` on Windows (service startup failures, PATH and permission issues, and version mismatches). These setup delays impacted our pace.
 
-- **Team Work:** Overall, we collaborated more or less well as a team, dividing tasks according to individual strengths and supporting each other through challenges. Regular meetings helped us stay aligned on goals and progress.
+- **Team Work:** Overall, we collaborated more or less well as a team by having divided tasks and helping each other when needed. However, we could have improved our communication and planning to avoid last-minute rushes. Our meetings where via Discord by sending messages and at 20th January we had a in-person meeting at the ESMAD Bar.
 
 ## Lessons Learned
 
