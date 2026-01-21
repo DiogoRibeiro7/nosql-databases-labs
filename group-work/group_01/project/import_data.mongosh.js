@@ -24,19 +24,59 @@ function loadJSONFile(filePath) {
 
 // Load reference data
 const airlinesRaw = loadJSONFile("data/airlines.json");
-const airports = loadJSONFile("data/airports.json");
+const airportsRaw = loadJSONFile("data/airports.json");
 const countries = loadJSONFile("data/countries.json");
 const users = loadJSONFile("data/users.json");
 
 // Remove duplicate airlines by IATA code (keep first occurrence)
+// Also rename iata to airlineIata to match flights collection and indexes
 const seenIata = new Set();
-const airlines = airlinesRaw.filter((airline) => {
-  if (!airline.iata || seenIata.has(airline.iata)) {
-    return false;
-  }
-  seenIata.add(airline.iata);
-  return true;
-});
+const airlines = airlinesRaw
+  .filter((airline) => {
+    // Filter out airlines with null, undefined, or empty IATA codes
+    if (!airline.iata || airline.iata.trim() === "") {
+      return false;
+    }
+    // Filter out duplicates (keep first occurrence)
+    if (seenIata.has(airline.iata)) {
+      return false;
+    }
+    seenIata.add(airline.iata);
+    return true;
+  })
+  .map((airline) => {
+    // Rename iata to airlineIata to match flights collection
+    const { iata, ...rest } = airline;
+    return {
+      ...rest,
+      airlineIata: iata
+    };
+  });
+
+// Remove duplicate airports by ident (keep first occurrence)
+// Also rename ident to airportIdent to match flights collection and indexes
+const seenIdent = new Set();
+const airports = airportsRaw
+  .filter((airport) => {
+    // Filter out airports with null, undefined, or empty ident codes
+    if (!airport.ident || airport.ident.trim() === "") {
+      return false;
+    }
+    // Filter out duplicates (keep first occurrence)
+    if (seenIdent.has(airport.ident)) {
+      return false;
+    }
+    seenIdent.add(airport.ident);
+    return true;
+  })
+  .map((airport) => {
+    // Rename ident to airportIdent to match flights collection
+    const { ident, ...rest } = airport;
+    return {
+      ...rest,
+      airportIdent: ident
+    };
+  });
 
 // Load fact data
 const flightsRaw = loadJSONFile("data/flights.json");
@@ -88,6 +128,8 @@ printjson({
   flights: db.flights.countDocuments(),
   reservations: db.reservations.countDocuments(),
 });
+
+load("queries/index_blueprint.mongosh.js");
 
 print("\n=================================");
 print("Database setup completed!");

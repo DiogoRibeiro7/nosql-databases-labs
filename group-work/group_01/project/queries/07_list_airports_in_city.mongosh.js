@@ -10,7 +10,7 @@ db.airports
       $match: { municipality: "Porto" }
     },
     {
-      $project: { _id: 0, ident: 1, name: 1, country: 1 }
+      $project: { _id: 0, airportIdent: 1, name: 1, country: 1 }
     }
   ])
   .forEach((doc) => printjson(doc));

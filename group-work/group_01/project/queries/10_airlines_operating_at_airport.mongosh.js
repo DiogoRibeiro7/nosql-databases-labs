@@ -27,7 +27,7 @@ db.flights.aggregate([
     $lookup: {
       from: "airlines",
       localField: "_id",
-      foreignField: "iata",
+      foreignField: "airlineIata",
       as: "airline"
     }
   },
@@ -38,7 +38,7 @@ db.flights.aggregate([
     $project: {
       _id: 0,
       name: "$airline.name",
-      iata: "$airline.iata",
+      iata: "$airline.airlineIata",
       flightsCount: 1
     }
   },
