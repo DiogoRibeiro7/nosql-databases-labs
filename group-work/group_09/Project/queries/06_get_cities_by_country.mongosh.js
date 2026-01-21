@@ -1,3 +1,7 @@
+// Mostra os países e que cidades a elas pertencem.
+// Correr: mongosh queries/06_get_cities_by_country.mongosh.js
+
+db = db.getSiblingDB("sakila");
 db.country.aggregate([
 	{
 		$lookup: {

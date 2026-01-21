@@ -1,3 +1,7 @@
+// Mostra as cidades e que endereços a elas pertencem.
+// Correr: mongosh queries/05_get_adresses_by_city.mongosh.js
+
+db = db.getSiblingDB("sakila");
 db.city.aggregate([
 	{
 		$lookup: {
