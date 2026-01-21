@@ -3,7 +3,7 @@
 
 db = db.getSiblingDB("sakila");
 print("Lista de clientes ativos (ordenados por nome):");
-db.customers
+db.customer
 	// Filtrar por ativos e depois tirar o primeiro e ultimo nome apenas
 	.find(
 		{ active: 1 },
