@@ -132,60 +132,60 @@ Todas as coleções utilizam `$jsonSchema` para assegurar:
   - `storeId`: `STORE-XX`
   - `email`
 
-➡️ Permite capturar erros **antes da inserção**, garantindo qualidade.
+Permite capturar erros **antes da inserção**, garantindo qualidade.
 
 ---
 
-# 5. Índices e Razões de Existência
+# 5. Índices
 
 ## 5.1 customers
 - `{ email: 1 }` (unique)  
-  → Evita duplicações e suporta login.
+   Evita duplicações e suporta login.
 
 - `{ active: 1 }`  
-  → Usado para listagens rápidas de clientes ativos.
+   Usado para listagens rápidas de clientes ativos.
 
 - `{ "address.city": 1 }`  
-  → Utilizado em relatórios por região.
+   Utilizado em relatórios por região.
 
 ---
 
 ## 5.2 films
 - `{ title: "text" }`  
-  → Pesquisa por palavras no título.
+   Pesquisa por palavras no título.
 
 - `{ releaseYear: 1 }`  
-  → Ordenação cronológica mais eficiente.
+  Ordenação cronológica mais eficiente.
 
 - `{ rentalRate: 1 }`  
-  → Filtros por preço (filmes até X €).
+   Filtros por preço (filmes até X €).
 
 ---
 
 ## 5.3 stores
 - `{ storeId: 1 }` (unique)  
-  → Integridade no sistema.
+   Integridade no sistema.
 
 - `{ storeName: 1 }`  
-  → Listagens ordenadas.
+   Listagens ordenadas.
 
 - `{ "address.location": "2dsphere" }`  
-  → Obrigatório para consultas geoespaciais.
+   Obrigatório para consultas geoespaciais.
 
 ---
 
 ## 5.4 rentals
 - `{ customerId: 1, rentalDate: -1 }`  
-  → Histórico ordenado por cliente.
+   Histórico ordenado por cliente.
 
 - `{ status: 1, rentalDate: -1 }`  
-  → Relatórios por estado (ex.: overdue).
+   Relatórios por estado (ex.: overdue).
 
 - `{ storeId: 1, rentalDate: -1 }`  
-  → Faturação e contadores por loja.
+   Faturação e contadores por loja.
 
 - `{ "films.filmId": 1 }`  
-  → Identificar rapidamente todos os alugueres envolvendo determinado filme.
+   Identificar rapidamente todos os alugueres envolvendo determinado filme.
 
 ---
 
