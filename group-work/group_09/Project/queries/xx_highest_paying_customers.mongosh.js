@@ -18,7 +18,7 @@ db.payment.aggregate([
 			as: "customer"
 		}
 	},
-	{ $unwind: { path: "$customer", preserveNullAndEmptyArrays: true } },
+	{ $unwind: { path: "$customer" } },
 	{
 		$project: {
 			customer_id: "$_id",
