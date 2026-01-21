@@ -1,41 +1,26 @@
+db = db.getSiblingDB("food_express");
+print("Optimizing the engine for: ${db.getName()}");
 
-db = db.getSiblingDB("Food_express");
+// Do not allow repeted order numbers.
+printjson(db.orders.createIndex({ orderNumber: 1 }, { unique: true }));
 
-print("Create sort index");
+// price cheapeast to most expensive and date newest to oldest
+printjson(db.orders.createIndex({ totalPrice: 1, createdAt: -1 }));
 
-//
-// ÍNDICES PARA A COLEÇÃO ORDERS
-//
+// restaurantId lowest to biggest
+printjson(db.orders.createIndex({ restaurantId: 1 }));
 
-// Índice composto para queries que:
-// - filtram por totalPrice
-// - ordenam por data (createdAt)
-// Usado em queries de encomendas recentes e de valor elevado
-db.orders.createIndex(
-  { totalPrice: 1, createdAt: -1 }
-);
+// status alphabetical
+printjson(db.orders.createIndex({ status: 1 }));
 
-// Índice para ordenar encomendas por data (mais recentes primeiro)
-db.orders.createIndex(
-  { createdAt: -1 }
-);
 
-// Índice composto para:
-// - filtrar por status
-// - agrupar e ordenar por hora (createdAt)
-db.orders.createIndex(
-  { status: 1, createdAt: 1 }
-);
+// adress city ascending and rating biggest to lowest
+printjson(db.restaurants.createIndex({ "address.city": 1, rating: -1 }));
 
-//
-// ÍNDICES PARA A COLEÇÃO RESTAURANTS
-//
+//type alphabetical 
+printjson(db.restaurants.createIndex({ type: 1 }));
 
-// Índice para queries que:
-// - filtram por cidade
-// - ordenam por rating
-db.restaurants.createIndex(
-  { "address.city": 1, rating: -1 }
-);
+// menu category alphabetical and price cheapest to most expensive
+printjson(db.restaurants.createIndex({ "menu.category": 1, "menu.price": 1 }));
 
-print("Índices criados com sucesso.");
+print("\nAll performance layers are active. Run 'db.getCollectionNames().forEach(c => printjson(db[c].getIndexes()))' to inspect the results.");

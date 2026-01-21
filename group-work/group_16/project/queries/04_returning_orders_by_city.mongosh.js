@@ -1,15 +1,14 @@
-// Aggregation example:
-// Identificar restaurantes com encomendas repetidas, agrupados por cidade.
-// Uso: mongosh queries/13_returning_orders_by_city.mongosh.js
 
-// Seleciona a base de dados do projeto
-db = db.getSiblingDB("Food_express");
+// Identificar restaurantes com encomendas repetidas, agrupados por cidade.
+
+
+
+db = db.getSiblingDB("food_express");
 
 print("Cities with restaurants that receive repeat order:");
 
-// Executa a pipeline de agregação sobre a coleção orders
-db.orders
-  .aggregate([
+
+db.orders.aggregate([
     // Agrupa as encomendas por restaurante
     // Conta quantas encomendas existem por restaurante
     {
@@ -20,14 +19,12 @@ db.orders
     },
 
     // Filtra apenas restaurantes com pelo menos 2 encomendas
-    // (considerados restaurantes com clientes recorrentes)
     {
       $match: {
         totalOrders: { $gte: 2 },
       },
     },
 
-    // Junta a coleção restaurants para obter a cidade do restaurante
     {
       $lookup: {
         from: "restaurants",
@@ -37,11 +34,10 @@ db.orders
       },
     },
 
-    // Converte o array restaurant num documento simples
+   
     { $unwind: "$restaurant" },
 
-    // Agrupa por cidade do restaurante
-    // Conta quantos restaurantes têm encomendas repetidas
+    
     {
       $group: {
         _id: "$restaurant.address.city",
@@ -50,7 +46,6 @@ db.orders
       },
     },
 
-    // Ordena as cidades por número de restaurantes com recorrência (decrescente)
     {
       $sort: {
         restaurantesComRecorrencia: -1,
@@ -58,5 +53,4 @@ db.orders
     },
   ])
 
-  // Imprime cada resultado de forma legível
   .forEach((doc) => printjson(doc));

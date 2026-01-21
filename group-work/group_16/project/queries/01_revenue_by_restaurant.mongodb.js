@@ -1,4 +1,4 @@
-// Shows total revenue and order count per restaurant using interconnected collections.
+// Shows total revenue and order count per restaurant
 
 db = db.getSiblingDB("food_express");
 
