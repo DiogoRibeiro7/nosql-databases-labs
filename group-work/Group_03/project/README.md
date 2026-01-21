@@ -19,10 +19,14 @@ All database operations — data import, indexing, and analytics — are perform
 ```bash
 cd group-work/group_03/project
 
-# 1. Seed the database with nothing but mongosh
+# 1. Import the raw data using mongoimport (adjust path as needed)
+# Note: ensure mongoimport is installed and in your PATH
+cd mongoimport --db=group_03_airbnb --collection=raw_listings --file=./data/sample_lisbon_listings.json --jsonArray
+
+# 2. Seed the database with nothing but mongosh
 mongosh import_data.mongosh.js
 
-# 2. Explore the curated use cases (run any file you need)
+# 3. Explore the curated use cases (run any file you need)
 mongosh queries/01_top_listings_by_reviews.mongosh.js
 mongosh queries/02_top_listings_by_rating.mongosh.js
 mongosh queries/03_average_price_per_neighbourhood.mongosh.js
@@ -31,7 +35,7 @@ mongosh queries/05_top_listings_by_availability.mongosh.js
 mongosh queries/06_listings_count_per_host.mongosh.js
 mongosh queries/07_average_price_by_room_type.mongosh.js
 mongosh queries/08_high_value_listings.mongosh.js
-mongosh queries/09_top_listings_by_total_renvenue.mongosh.js
+mongosh queries/09_top_listings_by_total_revenue.mongosh.js
 mongosh queries/10a_revenue_by_neighbourhood_simple.mongosh.js
 mongosh queries/10b_revenue_by_neighbourhood_lookup.mongosh.js
 mongosh queries/11_monthly_booking_trends.mongosh.js
@@ -54,7 +58,7 @@ mongosh queries/27_filter_by_neighbourhood.mongosh.js
 mongosh queries/28_filter_by_price_roomtype.mongosh.js
 mongosh queries/29_performance_check.mongosh.js
 
-# 3. Re-apply indexes if you changed anything (optional)
+# 4. Re-apply indexes if you changed anything (optional)
 mongosh queries/index_blueprint.mongosh.js
 
 ```
@@ -147,6 +151,32 @@ The project also includes two versions of a related aggregation to demonstrate i
 | 27  | `queries/27_filter_by_neighbourhood.mongosh.js`             | Find / Filter          | Filter listings by neighbourhood for localized search.                       |
 | 28  | `queries/28_filter_by_price_roomtype.mongosh.js`            | Find / Filter          | Filter listings by price range and room type.                                |
 | 29  | `queries/29_performance_check.mongosh.js`                   | Performance / Utility  | Collection stats, indexes list, and `explain()` for a representative query.  |
+
+# Learning Outcomes
+
+- Through this project, we gained hands-on experience in designing and implementing a NoSQL database using MongoDB.
+- We learned to model data effectively for analytical queries, balancing embedding and referencing strategies.
+- We developed proficiency in writing complex aggregation pipelines to derive insights from real-world datasets.
+- We understood the importance of indexing strategies to optimize query performance in a NoSQL context.
+- We enhanced our skills in using mongosh for database operations, ensuring reproducibility and ease of deployment.
+
+## Team Reflection
+
+- **Collaborative work (Git & GitHub):** We experienced real problems coordinating via `git` and GitHub: infrequent pushes, unclear branch usage, several merge conflicts, and inconsistent commit messages and PR descriptions.
+
+- **Project scale & first-time experience:** This was the first time our team worked on a long, multi-week project of this size. Coordinating tasks, estimating effort, and keeping context across weeks was challenging.
+
+- **MongoDB installation & tooling issues:** Several team members had problems installing and configuring `mongod`, `mongosh`, and `MongoDB Compass` on Windows (service startup failures, PATH and permission issues, and version mismatches). These setup delays impacted our pace.
+
+## Lessons Learned and Improvements
+
+- **Importance of planning & communication:** We learned that clear upfront planning, defined roles, and regular communication are crucial for team projects to avoid misunderstandings and ensure steady progress.
+
+- **Version control best practices:** We recognized the need for consistent use of branches, meaningful commit messages, and frequent pushes to avoid merge conflicts and maintain a clear project history.
+
+## Gaps remaining
+
+- **MongoDB:** We need to be more efficient in writing complex aggregation pipelines and optimizing queries with indexes. Another gap is that we need to deepen our understanding of data modeling best practices for NoSQL databases.
 
 ## Contributors
 

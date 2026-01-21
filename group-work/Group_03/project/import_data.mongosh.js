@@ -10,17 +10,15 @@ db.listings.drop();
 db.bookings.drop(); // We will generate mock bookings for analysis
 print("✓ Dropped existing 'listings' and 'bookings' collections.");
 
-// 3. Load the raw JSON file
-const fs = require("fs");
-// NOTE: Ensure 'sample_lisbon_listings.json' is in the same directory
-let rawData;
-try {
-  rawData = JSON.parse(fs.readFileSync("./data/sample_lisbon_listings.json", "utf8"));
-  print(`✓ Loaded ${rawData.length} raw records.`);
-} catch (e) {
-  print("Error: Could not read file. Make sure 'sample_lisbon_listings.json' exists.");
+// 3. Load the raw data (assumed imported into a temporary collection via mongoimport)
+// Example mongoimport command (run from your shell, not inside mongosh):
+//   mongoimport --db=group_03_airbnb --collection=raw_listings --file=./data/sample_lisbon_listings.json --jsonArray
+let rawData = db.raw_listings.find().toArray();
+if (!rawData || rawData.length === 0) {
+  print("Error: No raw data found in 'raw_listings' collection. Make sure you ran mongoimport.");
   quit();
 }
+print(`✓ Loaded ${rawData.length} raw records from 'raw_listings'.`);
 
 // 4. Transform Data
 const transformedListings = rawData.map((item) => {
@@ -28,7 +26,7 @@ const transformedListings = rawData.map((item) => {
   const priceVal = parseFloat(item.price.replace("€", ""));
 
   // Categorize price
-  let category = "Standard";
+  let category;
   if (priceVal < 80) category = "Budget";
   else if (priceVal > 200) category = "Luxury";
   else category = "Premium";
