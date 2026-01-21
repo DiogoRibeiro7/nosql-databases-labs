@@ -7,13 +7,14 @@
  * This script creates the database, collections, and loads sample documents
  */
 
+// Switch to the lab database before doing any destructive work.
 use("lab02_ecommerce");
 
 print("=".repeat(60));
 print("Lab 02 - E-Commerce Data Import");
 print("=".repeat(60));
 
-// Drop existing collections
+// Drop existing collections so the import is idempotent for repeated runs.
 print("\nDropping existing collections...");
 db.customers.drop();
 db.products.drop();
@@ -27,6 +28,7 @@ print("✓ Collections dropped");
 print("\nImporting customers...");
 
 const customers = [
+  // Customer profile shows embedded address, loyalty points, and created_at audit info.
   {
     _id: ObjectId("65a1b2c3d4e5f6a7b8c9d0e1"),
     customer_id: "CUST001",
@@ -89,6 +91,7 @@ print(`✓ Imported ${custResult.insertedIds.length} customers`);
 print("\nImporting products...");
 
 const products = [
+  // Rich product documents with nested specs/ratings illustrate flexible MongoDB modeling.
   {
     _id: ObjectId("65a1b2c3d4e5f6a7b8c9d0f1"),
     product_id: "PROD001",
@@ -195,6 +198,7 @@ print(`✓ Imported ${prodResult.insertedIds.length} products`);
 print("\nImporting orders...");
 
 const orders = [
+  // Each order embeds shipping/billing data and denormalized item details for fast reads.
   {
     _id: ObjectId("65a1b2c3d4e5f6a7b8c9d101"),
     order_id: "ORD001",
@@ -364,6 +368,7 @@ print(`✓ Imported ${ordResult.insertedIds.length} orders`);
 print("\nImporting reviews...");
 
 const reviews = [
+  // Store customer/product metadata with each review so historical data remains intact.
   {
     _id: ObjectId("65a1b2c3d4e5f6a7b8c9d201"),
     review_id: "REV001",
@@ -459,12 +464,12 @@ print(`✓ Imported ${revResult.insertedIds.length} reviews`);
 // ========================================================================
 print("\nCreating indexes...");
 
-// Customers collection
+// Customers collection indexes enforce uniqueness and speed lookups.
 db.customers.createIndex({ customer_id: 1 }, { unique: true });
 db.customers.createIndex({ email: 1 }, { unique: true });
 print("✓ Created indexes for customers");
 
-// Products collection
+// Products collection indexes support faceted search and text search demos.
 db.products.createIndex({ product_id: 1 }, { unique: true });
 db.products.createIndex({ category: 1 });
 db.products.createIndex({ price: 1 });
@@ -472,7 +477,7 @@ db.products.createIndex({ category: 1, price: 1 });
 db.products.createIndex({ name: "text", description: "text" }, { name: "product_text_search" });
 print("✓ Created indexes for products");
 
-// Orders collection
+// Orders collection indexes cover customer drill-downs and item lookups.
 db.orders.createIndex({ order_id: 1 }, { unique: true });
 db.orders.createIndex({ customer_id: 1 });
 db.orders.createIndex({ order_date: -1 });
@@ -481,7 +486,7 @@ db.orders.createIndex({ status: 1 });
 db.orders.createIndex({ "items.product_id": 1 });
 print("✓ Created indexes for orders");
 
-// Reviews collection
+// Reviews collection indexes support product/reviewer filters and timelines.
 db.reviews.createIndex({ review_id: 1 }, { unique: true });
 db.reviews.createIndex({ product_id: 1 });
 db.reviews.createIndex({ customer_id: 1 });
@@ -503,6 +508,7 @@ print(`  Orders: ${db.orders.countDocuments()}`);
 print(`  Reviews: ${db.reviews.countDocuments()}`);
 
 print("\nSample data:");
+// Print a few example docs so the student can eyeball the imported shape quickly.
 const sampleCustomer = db.customers.findOne();
 print(`  Customer: ${sampleCustomer.name} (${sampleCustomer.email})`);
 

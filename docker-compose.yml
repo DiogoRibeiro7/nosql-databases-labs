@@ -1,0 +1,129 @@
+services:
+  # MongoDB Primary Instance
+  mongodb:
+    image: mongo:7.0
+    container_name: nosql-labs-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: nosql_labs
+    volumes:
+      - mongodb_data:/data/db
+      - ./data:/docker-entrypoint-initdb.d/data:ro
+      - ./scripts/docker-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - nosql-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # MongoDB Express - Web-based MongoDB admin interface
+  mongo-express:
+    image: mongo-express:latest
+    container_name: nosql-labs-mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin123@mongodb:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - nosql-network
+
+  # MongoDB Replica Set Member 1 (for Lab 05)
+  mongodb-replica-1:
+    image: mongo:7.0
+    container_name: nosql-labs-mongodb-replica-1
+    restart: always
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_replica1_data:/data/db
+    networks:
+      - nosql-network
+    command: mongod --replSet rs0 --bind_ip_all
+    profiles:
+      - replication
+
+  # MongoDB Replica Set Member 2 (for Lab 05)
+  mongodb-replica-2:
+    image: mongo:7.0
+    container_name: nosql-labs-mongodb-replica-2
+    restart: always
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_replica2_data:/data/db
+    networks:
+      - nosql-network
+    command: mongod --replSet rs0 --bind_ip_all
+    profiles:
+      - replication
+
+  # MongoDB Replica Set Member 3 (for Lab 05)
+  mongodb-replica-3:
+    image: mongo:7.0
+    container_name: nosql-labs-mongodb-replica-3
+    restart: always
+    ports:
+      - "27020:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_replica3_data:/data/db
+    networks:
+      - nosql-network
+    command: mongod --replSet rs0 --bind_ip_all
+    profiles:
+      - replication
+
+  # Python environment for running tests and scripts
+  python-env:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: nosql-labs-python
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - nosql-network
+    profiles:
+      - development
+    command: tail -f /dev/null  # Keep container running
+
+volumes:
+  mongodb_data:
+    name: nosql-labs-mongodb-data
+  mongodb_replica1_data:
+    name: nosql-labs-mongodb-replica1-data
+  mongodb_replica2_data:
+    name: nosql-labs-mongodb-replica2-data
+  mongodb_replica3_data:
+    name: nosql-labs-mongodb-replica3-data
+
+networks:
+  nosql-network:
+    name: nosql-labs-network
+    driver: bridge

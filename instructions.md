@@ -13,6 +13,7 @@ This guide explains how to import JSON and BSON files from the `data` folder int
 The `data` folder contains various datasets in JSON and BSON formats:
 
 ### JSON Files
+
 - **datasets/** - General purpose datasets (books, companies, products, etc.)
 - **sample_airbnb/** - Airbnb listings and reviews
 - **sample_analytics/** - Financial analytics data
@@ -23,6 +24,7 @@ The `data` folder contains various datasets in JSON and BSON formats:
 - **sample_weatherdata/** - Weather data samples
 
 ### BSON Files
+
 - **ColoradoScooters/** - Scooter rental data with zipcodes
 
 ## Method 1: Import JSON Files using mongoimport
@@ -30,6 +32,7 @@ The `data` folder contains various datasets in JSON and BSON formats:
 The `mongoimport` tool is the standard way to import JSON files into MongoDB.
 
 ### Basic Syntax
+
 ```bash
 mongoimport --db <database_name> --collection <collection_name> --file <path_to_json_file> --jsonArray
 ```
@@ -37,6 +40,7 @@ mongoimport --db <database_name> --collection <collection_name> --file <path_to_
 ### Examples
 
 #### Import a single JSON file
+
 ```bash
 # Import books.json into the 'bookstore' database, 'books' collection
 mongoimport --db bookstore --collection books --file data/datasets/books.json --jsonArray
@@ -49,6 +53,7 @@ mongoimport --db food --collection restaurants --file data/datasets/restaurant.j
 ```
 
 #### Import with authentication (if MongoDB requires auth)
+
 ```bash
 mongoimport --host localhost:27017 \
   --username myuser \
@@ -61,6 +66,7 @@ mongoimport --host localhost:27017 \
 ```
 
 #### Import to MongoDB Atlas (cloud)
+
 ```bash
 mongoimport --uri "mongodb+srv://username:password@cluster.mongodb.net/database" \
   --collection movies \
@@ -69,6 +75,7 @@ mongoimport --uri "mongodb+srv://username:password@cluster.mongodb.net/database"
 ```
 
 ### Common Options
+
 - `--drop`: Drop the collection before importing
 - `--jsonArray`: Treat input as a JSON array
 - `--type json`: Specify file type (default is JSON)
@@ -79,6 +86,7 @@ mongoimport --uri "mongodb+srv://username:password@cluster.mongodb.net/database"
 BSON files are MongoDB's binary format and require `mongorestore`.
 
 ### Basic Syntax
+
 ```bash
 mongorestore --db <database_name> --collection <collection_name> <path_to_bson_file>
 ```
@@ -86,6 +94,7 @@ mongorestore --db <database_name> --collection <collection_name> <path_to_bson_f
 ### Examples
 
 #### Import BSON files from ColoradoScooters
+
 ```bash
 # Import scooters collection
 mongorestore --db colorado --collection scooters data/ColoradoScooters/scooters.bson
@@ -95,6 +104,7 @@ mongorestore --db colorado --collection zipcodes data/ColoradoScooters/zipcodes.
 ```
 
 #### Restore entire directory
+
 ```bash
 # This will restore all BSON files in the directory
 mongorestore --db colorado data/ColoradoScooters/
@@ -105,6 +115,7 @@ mongorestore --db colorado data/ColoradoScooters/
 You can also load data directly from the MongoDB shell.
 
 ### Load JSON file in mongosh
+
 ```javascript
 // Connect to MongoDB
 mongosh
@@ -118,15 +129,17 @@ db.books.insertMany(data)
 ```
 
 ### Using a script file
+
 ```javascript
 // Create a script file (e.g., import_script.js)
-db = db.getSiblingDB('myDatabase');
-const books = JSON.parse(cat('data/datasets/books.json'));
+db = db.getSiblingDB("myDatabase");
+const books = JSON.parse(cat("data/datasets/books.json"));
 db.books.insertMany(books);
-print('Imported ' + books.length + ' books');
+print("Imported " + books.length + " books");
 ```
 
 Run the script:
+
 ```bash
 mongosh --file import_script.js
 ```
@@ -145,24 +158,24 @@ mongosh --file import_script.js
 ## Method 5: Programmatic Import (Node.js Example)
 
 ```javascript
-const { MongoClient } = require('mongodb');
-const fs = require('fs');
-const path = require('path');
+const { MongoClient } = require("mongodb");
+const fs = require("fs");
+const path = require("path");
 
 async function importData() {
-  const uri = 'mongodb://localhost:27017';
+  const uri = "mongodb://localhost:27017";
   const client = new MongoClient(uri);
 
   try {
     await client.connect();
-    const database = client.db('myDatabase');
-    const collection = database.collection('myCollection');
+    const database = client.db("myDatabase");
+    const collection = database.collection("myCollection");
 
-    const filePath = path.join(__dirname, 'data', 'datasets', 'books.json');
-    const raw = fs.readFileSync(filePath, 'utf8');
+    const filePath = path.join(__dirname, "data", "datasets", "books.json");
+    const raw = fs.readFileSync(filePath, "utf8");
 
     const docs = raw
-      .split('\n')
+      .split("\n")
       .map((line) => line.trim())
       .filter((line) => line.length > 0)
       .map((line) => {
@@ -171,8 +184,8 @@ async function importData() {
         // convert { "$date": "..." } → Date
         if (
           doc.publishedDate &&
-          typeof doc.publishedDate === 'object' &&
-          typeof doc.publishedDate.$date === 'string'
+          typeof doc.publishedDate === "object" &&
+          typeof doc.publishedDate.$date === "string"
         ) {
           doc.publishedDate = new Date(doc.publishedDate.$date);
         }
@@ -195,6 +208,7 @@ importData().catch(console.error);
 For importing multiple files at once, create a batch script:
 
 ### Windows (batch_import.bat)
+
 ```batch
 @echo off
 echo Importing all datasets...
@@ -208,6 +222,7 @@ echo Import complete!
 ```
 
 ### Linux/Mac (batch_import.sh)
+
 ```bash
 #!/bin/bash
 echo "Importing all datasets..."
@@ -269,6 +284,7 @@ db.myCollection.find().limit(5).pretty()
 ## Best Practices
 
 1. **Always backup before dropping collections**
+
    ```bash
    mongodump --db myDatabase --out backup/
    ```
@@ -279,8 +295,9 @@ db.myCollection.find().limit(5).pretty()
    - Test queries
 
 3. **Use indexes after import**
+
    ```javascript
-   db.collection.createIndex({ field: 1 })
+   db.collection.createIndex({ field: 1 });
    ```
 
 4. **Consider data types**
@@ -295,11 +312,11 @@ db.myCollection.find().limit(5).pretty()
 
 ## Quick Reference
 
-| File Type | Tool | Basic Command |
-|-----------|------|---------------|
-| JSON | mongoimport | `mongoimport --db dbname --collection collname --file data.json --jsonArray` |
-| BSON | mongorestore | `mongorestore --db dbname --collection collname data.bson` |
-| CSV | mongoimport | `mongoimport --db dbname --collection collname --type csv --headerline --file data.csv` |
+| File Type | Tool         | Basic Command                                                                           |
+| --------- | ------------ | --------------------------------------------------------------------------------------- |
+| JSON      | mongoimport  | `mongoimport --db dbname --collection collname --file data.json --jsonArray`            |
+| BSON      | mongorestore | `mongorestore --db dbname --collection collname data.bson`                              |
+| CSV       | mongoimport  | `mongoimport --db dbname --collection collname --type csv --headerline --file data.csv` |
 
 ## Additional Resources
 

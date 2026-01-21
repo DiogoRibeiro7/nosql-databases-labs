@@ -1,0 +1,43 @@
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install MongoDB shell (mongosh)
+RUN curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
+    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor && \
+    echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/debian bullseye/mongodb-org/7.0 main" | \
+    tee /etc/apt/sources.list.d/mongodb-org-7.0.list && \
+    apt-get update && \
+    apt-get install -y mongodb-mongosh && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /workspace
+
+# Copy requirements if they exist
+COPY requirements*.txt ./
+RUN pip install --no-cache-dir -r requirements.txt || true
+RUN pip install --no-cache-dir -r requirements-dev.txt || true
+
+# Install additional useful packages for development
+RUN pip install --no-cache-dir \
+    ipython \
+    jupyter \
+    pytest \
+    pytest-cov \
+    black \
+    flake8 \
+    pylint \
+    mypy
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash developer && \
+    chown -R developer:developer /workspace
+
+USER developer
+
+CMD ["/bin/bash"]

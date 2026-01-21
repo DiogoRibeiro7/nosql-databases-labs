@@ -1,0 +1,115 @@
+{
+  "summary": {
+    "total": 17,
+    "passed": 17,
+    "failed": 0,
+    "successRate": "100.00%",
+    "totalDuration": "161ms",
+    "averageDuration": "9.47ms"
+  },
+  "tests": [
+    {
+      "test": "Connection and Database Creation",
+      "status": "PASSED",
+      "duration": 3,
+      "timestamp": "2025-12-13T11:33:34.069Z"
+    },
+    {
+      "test": "Collection Creation",
+      "status": "PASSED",
+      "duration": 5,
+      "timestamp": "2025-12-13T11:33:34.075Z"
+    },
+    {
+      "test": "Insert Single Document",
+      "status": "PASSED",
+      "duration": 14,
+      "timestamp": "2025-12-13T11:33:34.089Z"
+    },
+    {
+      "test": "Insert Multiple Documents",
+      "status": "PASSED",
+      "duration": 11,
+      "timestamp": "2025-12-13T11:33:34.100Z"
+    },
+    {
+      "test": "Find Documents",
+      "status": "PASSED",
+      "duration": 3,
+      "timestamp": "2025-12-13T11:33:34.103Z"
+    },
+    {
+      "test": "Find One Document",
+      "status": "PASSED",
+      "duration": 1,
+      "timestamp": "2025-12-13T11:33:34.104Z"
+    },
+    {
+      "test": "Update Document",
+      "status": "PASSED",
+      "duration": 2,
+      "timestamp": "2025-12-13T11:33:34.106Z"
+    },
+    {
+      "test": "Update Multiple Documents",
+      "status": "PASSED",
+      "duration": 2,
+      "timestamp": "2025-12-13T11:33:34.108Z"
+    },
+    {
+      "test": "Delete Document",
+      "status": "PASSED",
+      "duration": 12,
+      "timestamp": "2025-12-13T11:33:34.120Z"
+    },
+    {
+      "test": "Count Documents",
+      "status": "PASSED",
+      "duration": 3,
+      "timestamp": "2025-12-13T11:33:34.123Z"
+    },
+    {
+      "test": "Distinct Values",
+      "status": "PASSED",
+      "duration": 1,
+      "timestamp": "2025-12-13T11:33:34.124Z"
+    },
+    {
+      "test": "Sort Documents",
+      "status": "PASSED",
+      "duration": 1,
+      "timestamp": "2025-12-13T11:33:34.125Z"
+    },
+    {
+      "test": "Projection",
+      "status": "PASSED",
+      "duration": 1,
+      "timestamp": "2025-12-13T11:33:34.126Z"
+    },
+    {
+      "test": "Skip and Limit",
+      "status": "PASSED",
+      "duration": 2,
+      "timestamp": "2025-12-13T11:33:34.128Z"
+    },
+    {
+      "test": "Bulk Operations",
+      "status": "PASSED",
+      "duration": 13,
+      "timestamp": "2025-12-13T11:33:34.141Z"
+    },
+    {
+      "test": "Insert Performance",
+      "status": "PASSED",
+      "duration": 45,
+      "timestamp": "2025-12-13T11:33:34.186Z"
+    },
+    {
+      "test": "Query Performance",
+      "status": "PASSED",
+      "duration": 42,
+      "timestamp": "2025-12-13T11:33:34.228Z"
+    }
+  ],
+  "timestamp": "2025-12-13T11:33:34.229Z"
+}

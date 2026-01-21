@@ -6,16 +6,16 @@ Follow this checklist each time you submit work to `nosql-databases-labs`. Well-
 
 ## 1. Before You Start
 
-* Make sure you read `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `group-work/README.md`.
-* Confirm your local repository is synced:
+- Make sure you read `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `group-work/README.md`.
+- Confirm your local repository is synced:
   ```bash
   git fetch upstream
   git checkout main
   git pull upstream main
   ```
-* Create a new branch from `main`. Recommended formats:
-  * Student labs: `group_<nn>-lab<nn>` (e.g. `group_07-lab03`)
-  * Instructor updates: `chore/update-lab04-scripts`, `fix/lab02-data-import`
+- Create a new branch from `develop`. Recommended formats:
+  - Student labs: `group_<nn>-lab<nn>` (e.g. `group_07-lab03`)
+  - Instructor updates: `chore/update-lab04-scripts`, `fix/lab02-data-import`
 
 ---
 
@@ -23,9 +23,9 @@ Follow this checklist each time you submit work to `nosql-databases-labs`. Well-
 
 1. Place all lab deliverables inside `group-work/group_<nn>/<lab>/`.
 2. Include a short `README.md` in each lab folder that lists:
-   * Lab or project milestone
-   * Team members
-   * Special instructions or deviations
+   - Lab or project milestone
+   - Team members
+   - Special instructions or deviations
 3. Run tests and linters:
    ```bash
    npm run lint
@@ -37,13 +37,13 @@ Follow this checklist each time you submit work to `nosql-databases-labs`. Well-
 
 ## 3. Commit Standards
 
-* Commit early and often, but squash or rebase to keep history tidy before opening a PR.
-* Use descriptive messages:
+- Commit early and often, but squash or rebase to keep history tidy before opening a PR.
+- Use descriptive messages:
   ```
   group_07: add aggregation answers for lab 03
   docs: clarify lab02 import instructions
   ```
-* Reference GitHub issues when applicable (`Fixes #42`, `Related to #105`).
+- Reference GitHub issues when applicable (`Fixes #42`, `Related to #105`).
 
 ---
 
@@ -76,26 +76,26 @@ When you are ready to submit:
 
 ## 5. Review Expectations
 
-* Respond to feedback within 48 hours while the course is in session.
-* Push additional commits to the same branch; avoid force-pushing unless requested.
-* Resolve conversations in GitHub only after addressing the comments.
-* Keep PRs under ~300 lines of diff when possible. Large submissions should be split by lab or feature.
+- Respond to feedback within 48 hours while the course is in session.
+- Push additional commits to the same branch; avoid force-pushing unless requested.
+- Resolve conversations in GitHub only after addressing the comments.
+- Keep PRs under ~300 lines of diff when possible. Large submissions should be split by lab or feature.
 
 ---
 
 ## 6. After Approval
 
-* Instructors typically handle merging; students should wait for confirmation before deleting their branch.
-* If changes are requested, update your branch and re-run the validation commands.
-* Once merged, pull `upstream main` locally to stay up to date for the next lab.
+- Instructors typically handle merging; students should wait for confirmation before deleting their branch.
+- If changes are requested, update your branch and re-run the validation commands.
+- Once merged, pull `upstream main` locally to stay up to date for the next lab.
 
 ---
 
 ## 7. Common Pitfalls to Avoid
 
-* Missing `group_<nn>` folder or incorrect naming.
-* Including output datasets or binaries >10 MB without approval.
-* Skipping validation scripts, leading to failing CI.
-* Opening PRs from outdated branches that cause merge conflicts.
+- Missing `group_<nn>` folder or incorrect naming.
+- Including output datasets or binaries >10 MB without approval.
+- Skipping validation scripts, leading to failing CI.
+- Opening PRs from outdated branches that cause merge conflicts.
 
 By following this guide, you ensure reviews stay quick and your contributions are merged without delay. Happy coding!

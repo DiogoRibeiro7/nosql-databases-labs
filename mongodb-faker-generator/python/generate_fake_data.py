@@ -1,8 +1,10 @@
+"""Utility to build and seed a sample MongoDB dataset for demos/tests."""
+
 from faker import Faker
 from pymongo import MongoClient, ASCENDING, DESCENDING
 from datetime import datetime
 import random
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Callable
 
 # Initialize Faker and MongoDB
 fake = Faker("pt_PT")
@@ -10,11 +12,35 @@ client = MongoClient("mongodb://localhost:27017/")  # Adjust connection string a
 db = client["database_demo"]  # Database name
 
 
+def _faker_attr(name: str, fallback: Callable[[], str]) -> str:
+    """
+    Call a Faker provider if it exists, otherwise fall back.
+    """
+    provider = getattr(fake, name, None)
+    if callable(provider):
+        return provider()
+    return fallback()
+
+
 def generate_users(n: int = 100) -> List[Dict[str, Any]]:
-    """Generate fake user documents"""
+    """
+    Generate complex user documents containing profile, account, and metadata info.
+
+    Parameters
+    ----------
+    n : int, optional
+        Number of user records to create.
+
+    Returns
+    -------
+    list[dict]
+        List of Mongo-style user documents ready for insertion.
+    """
     users = []
 
     for _ in range(n):
+        birth_date = fake.date_of_birth(minimum_age=18, maximum_age=79)
+        birth_datetime = datetime.combine(birth_date, datetime.min.time())
         user = {
             "_id": fake.uuid4(),
             "username": fake.user_name(),
@@ -25,13 +51,13 @@ def generate_users(n: int = 100) -> List[Dict[str, Any]]:
                 "fullName": fake.name(),
                 "avatar": fake.image_url(),
                 "bio": fake.text(max_nb_chars=200),
-                "birthDate": fake.date_of_birth(minimum_age=18, maximum_age=80),
+                "birthDate": birth_datetime,
                 "gender": fake.random_element(["M", "F", "Other", None]),
                 "phone": fake.phone_number(),
                 "address": {
                     "street": fake.street_address(),
                     "city": fake.city(),
-                    "state": fake.state(),
+                    "state": _faker_attr("state", fake.city),
                     "country": "Portugal",
                     "postalCode": fake.postcode(),
                     "coordinates": {
@@ -69,7 +95,14 @@ def generate_users(n: int = 100) -> List[Dict[str, Any]]:
 
 
 def generate_products(n: int = 500) -> List[Dict[str, Any]]:
-    """Generate fake product documents"""
+    """
+    Generate product documents with nested pricing, inventory, and attribute fields.
+
+    Parameters
+    ----------
+    n : int, optional
+        Number of products to emit.
+    """
     products = []
     categories = ["Electronics", "Books", "Clothing", "Home & Garden", "Sports", "Toys"]
 
@@ -118,6 +151,8 @@ def generate_products(n: int = 500) -> List[Dict[str, Any]]:
             "createdAt": fake.date_time_between(start_date="-2y", end_date="now"),
             "updatedAt": fake.date_time_between(start_date="-30d", end_date="now"),
         }
+        if not product["inventory"]["inStock"]:
+            product["inventory"]["quantity"] = 0
         products.append(product)
 
     return products
@@ -126,7 +161,18 @@ def generate_products(n: int = 500) -> List[Dict[str, Any]]:
 def generate_transactions(
     users: List[Dict], products: List[Dict], n: int = 1000
 ) -> List[Dict[str, Any]]:
-    """Generate fake transaction documents linking users and products"""
+    """
+    Generate transactional orders that reference previously created users/products.
+
+    Parameters
+    ----------
+    users : list[dict]
+        User documents used to resolve userId references.
+    products : list[dict]
+        Product documents used to pull pricing/SKU details.
+    n : int, optional
+        Number of transactions to produce.
+    """
     transactions = []
 
     for _ in range(n):
@@ -138,16 +184,17 @@ def generate_transactions(
             product = fake.random_element(products)
             quantity = fake.random_int(min=1, max=3)
             item_price = product["price"]["amount"]
+            item_total = round(item_price * quantity, 2)
             items.append(
                 {
                     "productSku": product["sku"],
                     "productName": product["name"],
                     "quantity": quantity,
                     "unitPrice": item_price,
-                    "total": round(item_price * quantity, 2),
+                    "total": item_total,
                 }
             )
-            total += item_price * quantity
+            total += item_total
 
         transaction = {
             "orderId": fake.uuid4(),
@@ -174,34 +221,64 @@ def generate_transactions(
                 "trackingNumber": fake.ean13()
                 if fake.boolean(chance_of_getting_true=70)
                 else None,
-                "estimatedDelivery": fake.future_date(end_date="+30d"),
+                "estimatedDelivery": datetime.combine(
+                    fake.future_date(end_date="+30d"), datetime.min.time()
+                ),
             },
             "totals": {
                 "subtotal": round(total, 2),
-                "tax": round(total * 0.23, 2),  # Portuguese VAT
-                "shipping": round(fake.random.uniform(0, 20), 2),
-                "total": round(total * 1.23 + fake.random.uniform(0, 20), 2),
+                "tax": round(total * 0.23, 2),  # Portuguese VAT for realistic totals
+                "shipping": 0.0,
+                "total": 0,  # Placeholder, set below
             },
             "timestamps": {
                 "created": fake.date_time_between(start_date="-1y", end_date="now"),
                 "updated": fake.date_time_between(start_date="-30d", end_date="now"),
             },
         }
+        transaction["shipping"]["cost"] = round(fake.random.uniform(0, 20), 2)
+        transaction["totals"]["shipping"] = transaction["shipping"]["cost"]
+        subtotal = transaction["totals"]["subtotal"]
+        tax = transaction["totals"]["tax"]
+        shipping = transaction["totals"]["shipping"]
+        transaction["totals"]["total"] = round(subtotal + tax + shipping, 2)
+
+        if transaction["status"] == "delivered":
+            transaction["payment"]["status"] = "completed"
+        elif (
+            transaction["payment"]["status"] == "failed"
+            and transaction["status"] == "shipped"
+        ):
+            transaction["status"] = fake.random_element(["processing", "cancelled"])
         transactions.append(transaction)
 
     return transactions
 
 
 def generate_logs(users: List[Dict], n: int = 5000) -> List[Dict[str, Any]]:
-    """Generate fake application logs"""
-    log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    """
+    Generate application log entries for auth, API, and error events.
+
+    Parameters
+    ----------
+    users : list[dict]
+        Source user documents to associate optional userId values.
+    n : int, optional
+        Number of log entries to create.
+    """
+    level_cycle = ["INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL", "INFO"]
+    weighted_levels = ["INFO", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"]
     log_types = ["login", "logout", "page_view", "api_call", "error", "performance"]
 
     logs = []
-    for _ in range(n):
+    for idx in range(n):
+        if idx < len(level_cycle):
+            level = level_cycle[idx]
+        else:
+            level = fake.random_element(weighted_levels)
         log = {
             "timestamp": fake.date_time_between(start_date="-7d", end_date="now"),
-            "level": fake.random_element(log_levels),
+            "level": level,
             "type": fake.random_element(log_types),
             "userId": fake.random_element(users)["_id"]
             if fake.boolean(chance_of_getting_true=80)
@@ -231,7 +308,9 @@ def generate_logs(users: List[Dict], n: int = 5000) -> List[Dict[str, Any]]:
 
 
 def insert_data_to_mongodb():
-    """Insert all generated data into MongoDB"""
+    """
+    Regenerate every dataset, drop existing collections, insert data, and recreate indexes.
+    """
     print("🔄 Generating fake data...")
 
     # Generate data
@@ -302,7 +381,9 @@ def insert_data_to_mongodb():
 
 
 def query_examples():
-    """Show some example queries"""
+    """
+    Run several read/report examples so students can validate the dataset interactively.
+    """
     print("\n🔍 Example Queries:")
 
     # Example 1: Find premium users from Porto

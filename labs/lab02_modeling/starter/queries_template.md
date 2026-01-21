@@ -2,7 +2,7 @@
 
 This document contains sample queries demonstrating how your data model supports required operations.
 
---------------------------------------------------------------------------------
+---
 
 ## 1\. Given a Customer/User, List Their Recent Orders/Posts
 
@@ -33,7 +33,7 @@ db.[collection].find(
 }
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 2\. Given an Order/Post, Show All Its Items/Comments
 
@@ -57,7 +57,7 @@ db.[collection].find(
 // Show example result structure
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 3\. List Top N Products/Posts by Metric
 
@@ -87,7 +87,7 @@ db.[collection].aggregate([
 // Show example result structure
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 4\. Search/Filter by Category/Tag
 
@@ -111,7 +111,7 @@ db.[collection].aggregate([
 // Show example result structure
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## 5\. Additional Queries
 
@@ -123,17 +123,17 @@ db.[collection].aggregate([
 
 [Explain the query and its purpose]
 
---------------------------------------------------------------------------------
+---
 
 ## 6\. Query Performance Summary
 
-Operation     | Collections   | Indexes Used | Performance
-------------- | ------------- | ------------ | --------------------
-[Operation 1] | [Collections] | [Indexes]    | [Fast/Moderate/Slow]
-[Operation 2] | [Collections] | [Indexes]    | [Fast/Moderate/Slow]
-...           | ...           | ...          | ...
+| Operation     | Collections   | Indexes Used | Performance          |
+| ------------- | ------------- | ------------ | -------------------- |
+| [Operation 1] | [Collections] | [Indexes]    | [Fast/Moderate/Slow] |
+| [Operation 2] | [Collections] | [Indexes]    | [Fast/Moderate/Slow] |
+| ...           | ...           | ...          | ...                  |
 
---------------------------------------------------------------------------------
+---
 
 ## 7\. Conclusion
 
