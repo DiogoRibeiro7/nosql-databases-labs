@@ -9,8 +9,8 @@ db.patients.aggregate([
   {
     $project: {
       _id: 0,
-      "demographics.full_name": 1,
-      "medical_history.allergies": 1
+      Nome : "$demographics.full_name",
+      Alergias: "$medical_history.allergies"
     }
   }
 ]).forEach((doc) => printjson(doc));

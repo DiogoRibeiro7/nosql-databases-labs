@@ -13,5 +13,6 @@ db.patients.aggregate([
       City: "$_id",
       NumberOfPatients: "$count"
     }
-  }
+  },
+  { $sort: { NumberOfPatients: -1 } }
 ]).forEach((doc) => printjson(doc));
