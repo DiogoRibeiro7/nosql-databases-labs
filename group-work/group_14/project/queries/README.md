@@ -1,34 +1,40 @@
-# Group 14 - MongoDB NoSQL Database Project
+# Group 14 - MongoDB NoSQL Database Project - Medical Records System
 
-## Team Members
+## Group Information
 
-See our team composition in [group_members.md](../group_members.md#group-14)
+**Group Number:** group_14
+**Submission Date:** 2026-01-22
+
+### Team Members
+
+| Name | Student ID | Email | Contribution % |
+| ---- | ---------- | ----- | -------------- |
+| Gonçalo Duarte | 40240223 | 40240223@esmad.ipp.pt| 33% |
+| Lucas Silva | 40240224 | 40240223@esmad.ipp.pt | 34% |
+| Sérgio Gonçalves. | TBD | TBD | 33% |
+
+**Total:** 100%
 
 ## Project Overview
 
-This project demonstrates our comprehensive understanding of MongoDB database operations and NoSQL concepts. We have implemented a complete set of database solutions that showcase our ability to design schemas, insert data, and create complex queries for real-world scenarios.
+This project implements a clinical data analysis system using MongoDB. We developed a comprehensive solution for managing patient records, medical visits, and lab results, demonstrating the ability to model complex healthcare data, optimize query performance, and derive insights through aggregation pipelines within the Portuguese SNS context.
 
-### Learning Objectives Achieved
+## Learning Objectives Achieved
 
-- Mastered MongoDB query language and operators
-- Designed efficient document schemas following best practices
-- Implemented complex aggregation pipelines for data analysis
-- Created optimized indexes for query performance
-- Developed data insertion strategies for various use cases
+- Schema Design: Applied embedding strategies for medical history (fast reads) versus referencing for visits (avoiding unbounded arrays);
+- Aggregation Mastery: Mastered multi-stage pipelines using $lookup, $unwind, $group, $project, $sort, and $limit;
+- Performance: Implemented Compound and Text Indexes to support efficient filtering and sorting (Rule ESR);
+- Business Logic: Implemented complex filtering using $in, $gte, and Regex for clinical risk assessment.
 
 ## Database Design
 
-### Collections Created
+- patients: Core collection with Embedded arrays (medications, allergies, chronic_conditions) to prioritize data locality and read performance;
+- visits: Separate collection using Referencing (patient_id) to handle potentially large visit histories without hitting the 16MB document limit;
+- lab_results: Independent collection linked to patients, simulating high-volume ingestion from laboratory equipment.
 
-1. **Primary Collections**
-   - Structured document schemas with embedded documents
-   - Referenced relationships between collections
-   - Optimized field types and data structures
-
-2. **Schema Design Decisions**
-   - Denormalization strategies for read optimization
-   - Embedding vs referencing trade-offs
-   - Index planning based on query patterns
+## Schema Design Decisions
+- Denormalization: We referenced the patient_id in visits and results to allow for scalable growth (1-to-Many relationships);
+- Data Types: Ensured dates are stored as ISODate for correct range queries and calculations.
 
 ## Data Operations Implemented
 
@@ -36,60 +42,33 @@ This project demonstrates our comprehensive understanding of MongoDB database op
 
 - Created database with appropriate naming conventions
 - Established collections with validation rules
-- Set up indexes for optimal query performance
 
 ### 2. Data Insertion
 
-- **Bulk Insert Operations**: Efficient insertion of large datasets
-- **Single Document Inserts**: Individual record creation with validation
-- **Batch Processing**: Organized data imports from multiple sources
-- **Data Generation**: Created realistic test data using various patterns
+We utilize standard Bulk Import operations via mongoimport to efficiently load the synthetic JSON records from the DATA folder into the lab_results database.
 
 ### 3. Query Operations
 
 #### Basic Queries
 
-- Find operations with multiple filter conditions
-- Projection to retrieve specific fields
-- Sorting and limiting result sets
-- Regular expression searches for text patterns
+- Data Retrieval: Execution of fundamental 'find()' operations using precise equality matches and dot notation for accessing embedded fields;
+- Logical Operators: Implementation of complex boolean logic 'OR/AND' using operators like '$in' to efficienty filter documents based on multiple criteria within a single query execution;
+- Field Selection: Utilization of projections to limit the returned data, optimizing network bandwidth by retrieving only the necessary fields for the application context.
 
 #### Advanced Queries
 
-- Complex filtering with `$and`, `$or`, `$nor` operators
-- Array queries using `$elemMatch`, `$all`, `$size`
-- Nested document queries with dot notation
-- Comparison operators for range queries
+- Pattern Matching: Application of regular expressions '$regex' to perform flexible text searches within unstructured string fields;
+- Range Filtering: Use of comparison operators such as 'gte', '$lt' to analyze numerical data points and filter records based on specific threshold values;
+- Statistical Grouping: Implementation of grouping stages to calculate counts, sums, and averages, enabling the extraction of high-level operational metrics from raw data.
 
 ### 4. Aggregation Pipelines
 
-#### Data Analysis Pipelines
-
-- `$match` stages for filtering
-- `$group` operations for statistical analysis
-- `$project` for data transformation
-- `$sort` and `$limit` for result control
-
 #### Complex Aggregations
 
-- Multi-stage pipelines for business analytics
-- `$lookup` for joining collections
-- `$unwind` for array manipulation
-- `$facet` for multiple aggregation outputs
+- Relational Joins: Development of multi-stage pipelines using '$lookup' to join related documents across different collections, mimicking relational behavior in a NoSQL environment;
+- Array Manipulation: Advanced handling of embedded arrays using '$unwind' to deconstruct lists into individual documents for granular sorting and filtering;
+- Business Logic Implementation: Application of specific filtering rules within aggregation stages to answer complex domain-specific questions that require traversing multiple data structures.
 
-### 5. Update Operations
-
-- Single and multi-document updates
-- Array update operators (`$push`, `$pull`, `$addToSet`)
-- Field update operators (`$set`, `$unset`, `$inc`)
-- Conditional updates with query filters
-
-### 6. Index Management
-
-- Single field indexes for common queries
-- Compound indexes for complex query patterns
-- Text indexes for search functionality
-- Unique indexes for data integrity
 
 ## Technologies & Tools Used
 
@@ -107,12 +86,15 @@ This project demonstrates our comprehensive understanding of MongoDB database op
 - MongoDB Shell (mongosh) installed
 - MongoDB Compass (optional, for GUI access)
 
-### Running Our Solution
+### Running Our Solution ( 2 ways )
 
-1. **Start MongoDB Server**
+1. **Import Data**
+Run the following commands in your terminal (from the project folder):
 
    ```bash
-   mongod --dbpath /path/to/data/directory
+mongoimport --db lab_results --collection results --file "...\data\lab_results.json" --jsonArray
+mongoimport --db lab_results --collection patients --file "...data\patients.json" --jsonArray
+mongoimport --db lab_results --collection visits --file "...\data\visits.json" --jsonArray
    ```
 
 2. **Connect to MongoDB**
@@ -123,91 +105,71 @@ This project demonstrates our comprehensive understanding of MongoDB database op
 
 3. **Create and Use Database**
 
-   ```javascript
-   use group_14_db
+   ```bash
+   use lab_results
    ```
 
-4. **Execute Our Scripts**
+4. **Execute Our Queries**
 
    ```bash
-   mongosh < solution.js
+   copy any querie
    ```
 
-5. **Verify Data**
-   ```javascript
-   db.getCollectionNames();
-   db.collection_name.countDocuments();
-   ```
-
-## Query Examples from Our Solution
-
-### Example 1: Find Products by Category
+5. **Test: Find Patients with O+ Blood Type**
 
 ```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 100, $lte: 1000 },
-});
-```
-
-### Example 2: Aggregate Sales Data
-
-```javascript
-db.sales.aggregate([
-  { $match: { year: 2024 } },
-  {
-    $group: {
-      _id: "$month",
-      totalSales: { $sum: "$amount" },
-      avgSale: { $avg: "$amount" },
+db = db.getSiblingDB("lab_results");
+print("List of Patients with O+ Blood Type:");
+db.patients
+  .aggregate([
+    { $match: { "demographics.blood_type": "O+" } },
+    {
+      $project: {
+        _id: 0,
+        "demographics.blood_type": 1,
+        "demographics.full_name": 1,
+      },
     },
-  },
-  { $sort: { _id: 1 } },
-]);
-```
+  ]).forEach((doc) => printjson(doc));
 
-### Example 3: Update Inventory
-
-```javascript
-db.inventory.updateMany(
-  { quantity: { $lt: 10 } },
-  { $set: { status: "low_stock", lastUpdated: new Date() } }
-);
 ```
+# OR
+
+1. **Connect to MongoDB from the queries folder**
+
+   ```bash
+   mongosh
+   ```
+
+2. **Load any querie**
+
+    ```bash
+load ("NameOfTheQuerie.js")
+    ```
+**The Result Should appear in the terminal**
 
 ## Performance Optimizations
 
-1. **Query Optimization**
-   - Used covered queries where possible
-   - Implemented proper index strategies
-   - Avoided full collection scans
-
-2. **Data Modeling**
-   - Balanced between embedding and referencing
-   - Minimized document growth patterns
-   - Optimized for read-heavy workloads
-
-3. **Index Strategy**
-   - Created indexes based on query patterns
-   - Used compound indexes for sort operations
-   - Monitored index usage with explain()
+- Rule ESR: Queries were designed keeping Equality, Sort, and Range in mind;
+- Projection: Heavily utilized $project to minimize network overhead;
+- Pipeline Order: Ensured $match stages occur as early as possible to reduce dataset size before joins.
 
 ## Challenges and Solutions
 
-### Challenge 1: Complex Aggregations
+### Challenge 1: Sorting Embedded Chronological Data
 
-- **Problem**: Needed to analyze data across multiple collections
-- **Solution**: Used `$lookup` stages with optimized pipeline order
+- **Problem**: We needed to order surgeries chronologically, but they were stored inside an embedded array (Query 15), which standard sort operations cannot handle directly.
+- **Solution**: We applied the `$unwind` stage to deconstruct the array into individual documents, allowing us to perform a global `$sort` on the date field.
 
-### Challenge 2: Large Dataset Insertion
+### Challenge 2: Adapting to Collaborative Version Control
 
-- **Problem**: Inserting millions of documents efficiently
-- **Solution**: Implemented bulk write operations with ordered: false
+- **Problem**: As this was our first large-scale project using GitHub as a team, managing branches and the directory structure initially led to synchronization issues.
+- **Solution**: We established a clear workflow, communicating frequently before pushing code and adhering strictly to the required folder structure to avoid merge conflicts.
 
-### Challenge 3: Query Performance
+### Challenge 3: Local Environment Configuration
 
-- **Problem**: Slow queries on large collections
-- **Solution**: Created appropriate compound indexes and used projection
+- **Problem**: Setting up the MongoDB local server, configuring system PATH variables, and ensuring the Database Tools (specifically mongoimport) were correctly installed on different operating systems proved difficult.
+- **Solution**: We standardized the installation process across the team and verified the environment setup before starting the data ingestion phase.
 
 ## Testing & Validation
 
@@ -220,27 +182,18 @@ db.inventory.updateMany(
 
 Through this project, we gained practical experience in:
 
-- Database design patterns for NoSQL
-- Writing efficient MongoDB queries
-- Building complex aggregation pipelines
-- Performance optimization techniques
-- Data modeling best practices
+- Designing Hybrid NoSQL Data Models
+- Building Complex Aggregation Pipelines
+- Optimizing Query Performance via Indexing
+- Handling Embedded Array Structures
+- Configuring Local MongoDB Environments
+- Managing Collaborative Git Workflows
 
-## Future Enhancements
+## Declaration
 
-- Implement change streams for real-time data monitoring
-- Add time-series collections for temporal data
-- Explore sharding for horizontal scaling
-- Implement schema versioning strategies
-
-## Documentation
-
-Additional files in our submission:
-
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
+We declare that this submission is our own work and that all sources used have been properly cited.
 
 ## Contributors
 
-Group 14 - 2025
+Gonçalo Duarte, Lucas Silva, Sérgio Gonçalves.
+Group 14 - 2026
