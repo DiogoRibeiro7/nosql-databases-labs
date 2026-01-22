@@ -450,6 +450,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Install mongosh
+        run: npm install -g mongosh || true
+
       - name: Install dependencies for Group 22
         run: |
           cd group-work/group_22/project
