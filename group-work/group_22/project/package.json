@@ -8,6 +8,7 @@
   },
   "scripts": {
     "seed": "node data/seed.js",
+    "open-restaurants": "mongosh group_22 queries/01_open_restaurants_in_city.mongosh.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
