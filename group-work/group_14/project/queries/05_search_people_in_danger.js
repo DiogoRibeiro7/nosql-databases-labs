@@ -18,9 +18,12 @@ db.patients.aggregate([
     $project: {
       _id: 0,
       full_name : "$demographics.full_name",
-      symptoms: "$resultados.notes",
-      Range : "$resultados.normal_range",
-      Doctor : "$resultados.ordering_provider"
+      test:"$resultados.test_name",
+      notes: "$resultados.notes",
+      normal_range : "$resultados.normal_range",
+      result_value : "$resultados.value",
+      doctor : "$resultados.ordering_provider",
+
     }
   }
 ]).forEach((doc) => printjson(doc));
