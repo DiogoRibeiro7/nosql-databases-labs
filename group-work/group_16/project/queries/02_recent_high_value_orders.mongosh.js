@@ -1,6 +1,8 @@
+// Quais são as 10 encomendas mais recentes com um valor igual ou superior a 80€?
+
 db = db.getSiblingDB("food_express");
 
-print("Recent orders >= 20€:");
+print("Recent orders >= 80€:");
 
 // Procura na coleção "orders" por encomenda com o valor >= 80€
 db.orders.find( { totalPrice: { $gte: 80 } },

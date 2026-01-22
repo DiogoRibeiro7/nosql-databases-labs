@@ -1,3 +1,4 @@
+// Quais são todos os restaurantes localizados em Toulouse, Nice ou Paris, ordenados do melhor para o pior (pelo rating)?
 
 db = db.getSiblingDB("food_express");
 

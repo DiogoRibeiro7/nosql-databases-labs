@@ -1,8 +1,7 @@
+// "Qual é a cidade que gera mais dinheiro em encomendas de valor elevado (20€ ou mais)?" com relatório de performance usando índices
+
 db = db.getSiblingDB("food_express");
 print(`Revenue pipeline with INDEX USAGE for: ${db.getName()}`);
-
-// Modificámos a pipeline para começar com um $match. 
-// Isto obriga o MongoDB a usar o índice de totalPrice que criaste no Ficheiro 00.
 
 const pipeline = [
   // Filtra apenas encomendas com valor >= 20€
@@ -50,7 +49,7 @@ if (!stats && explain.stages) {
 if (stats) {
     print(`Execution time (ms): ${stats.executionTimeMillis}`);
     print(`Documents examined: ${stats.totalDocsExamined}`);
-    print(`Keys examined: ${stats.totalKeysExamined}`); // <--- AGORA ESTE VALOR NÃO SERÁ 0
+    print(`Keys examined: ${stats.totalKeysExamined}`); 
     print(`Stage: ${stats.executionStages ? stats.executionStages.stage : "IXSCAN (via Index)"}`);
 } else {
     print("Check if indexes from file 00 were applied.");

@@ -1,3 +1,5 @@
+//Quais são os restaurantes de comida Asiática ou Italiana, localizados em Toulouse ou Paris, que têm uma classificação (rating) de 4.0 ou superior?
+
 db = db.getSiblingDB("food_express");
 
 print("Top rated Asian or Italian restaurants in Toulouse or Paris:");

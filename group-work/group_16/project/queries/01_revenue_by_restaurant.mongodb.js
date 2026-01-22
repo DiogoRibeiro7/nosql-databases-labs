@@ -1,4 +1,5 @@
-// Shows total revenue and order count per restaurant
+// Qual é a faturação total e o volume de vendas de cada restaurante, por ordem de importância?
+
 
 db = db.getSiblingDB("food_express");
 
