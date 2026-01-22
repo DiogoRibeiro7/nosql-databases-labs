@@ -1,6 +1,5 @@
 ## Coleção: users
 
-```json
 {
   "_id": "ObjectId()",
   "username": "miguel",
@@ -11,10 +10,10 @@
   "followersCount": 120,
   "followingCount": 80
 }
-```
+
 
 ## Coleção: posts
-```json
+
 {
   "_id": ObjectId(),
   "userId": ObjectId("..."),
@@ -24,7 +23,7 @@
   "likes": 52,
   "createdAt": ISODate()
 }
-```
+
 
 ## Coleção: comments
 
@@ -46,6 +45,15 @@
   "createdAt": ISODate()
 }
 
+
 ## Coleção: messages
 
+{
+  "_id": ObjectId(),
+  "senderId": ObjectId(),
+  "receiverId": ObjectId(),
+  "body": "Olá!",
+  "createdAt": ISODate(),
+  "status": "sent"
+}
 
