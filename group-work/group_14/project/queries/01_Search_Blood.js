@@ -10,4 +10,5 @@ db.patients
         "demographics.full_name": 1,
       },
     },
-  ]).forEach((doc) => printjson(doc));
+  ])
+  .forEach((doc) => printjson(doc));
