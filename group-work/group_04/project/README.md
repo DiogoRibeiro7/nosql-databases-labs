@@ -111,29 +111,45 @@ The project includes two versions of a complex aggregation query to demonstrate 
 
 ## Query Summary
 
-| #   | Query                                | Type          | Description                           |
-| --- | ------------------------------------ | ------------- | ------------------------------------- |
-| 01  | Top Listings by Reviews              | Analytics     | Most popular properties for marketing |
-| 02  | Avg Price by Neighbourhood           | Analytics     | Market pricing analysis               |
-| 03  | Room Type Distribution               | Analytics     | Property portfolio breakdown          |
-| 04  | Top Hosts by Listings                | Analytics     | Professional host identification      |
-| 05  | Listing Details                      | Lookup        | Customer service dashboard            |
-| 06  | High Availability Listings           | Filter        | Investment opportunities              |
-| 07  | Low-Rated Listings                   | Filter        | Quality control                       |
-| 08  | Revenue by Price Category            | Aggregation   | Financial segmentation                |
-| 09  | Most Profitable Listings             | Aggregation   | Revenue leaders                       |
-| 10  | Booking Patterns by Month            | Aggregation   | Seasonal analysis                     |
-| 11  | Host Performance Metrics             | Aggregation   | Host evaluation                       |
-| 12  | Listings Without Bookings            | Comparison    | Underperforming inventory             |
-| 13  | Neighbourhood Comparison             | Aggregation   | Geographic dashboard                  |
-| 14  | Luxury Listings                      | Filter        | Premium market segment                |
-| 15  | Text Search                          | Search        | Search functionality                  |
-| 16  | Revenue by Neighbourhood & Room Type | Aggregation   | Cross-dimensional analysis            |
-| 17  | Aggregation (No Indexes)             | Performance   | Baseline measurement                  |
-| 17b | Aggregation (With Indexes)           | Performance   | Optimized measurement                 |
-| 18  | Collection Statistics                | Admin         | Database metrics                      |
-| 19  | Capacity by Neighbourhood            | Analytics     | Accommodation capacity distribution   |
-| 20  | Price vs Rating Analysis             | Analytics     | Price-rating correlation analysis     |
+| #   | Query                                | Type        | Description                           |
+| --- | ------------------------------------ | ----------- | ------------------------------------- |
+| 01  | Top Listings by Reviews              | Analytics   | Most popular properties for marketing |
+| 02  | Avg Price by Neighbourhood           | Analytics   | Market pricing analysis               |
+| 03  | Room Type Distribution               | Analytics   | Property portfolio breakdown          |
+| 04  | Top Hosts by Listings                | Analytics   | Professional host identification      |
+| 05  | Listing Details                      | Lookup      | Customer service dashboard            |
+| 06  | High Availability Listings           | Filter      | Investment opportunities              |
+| 07  | Low-Rated Listings                   | Filter      | Quality control                       |
+| 08  | Revenue by Price Category            | Aggregation | Financial segmentation                |
+| 09  | Most Profitable Listings             | Aggregation | Revenue leaders                       |
+| 10  | Booking Patterns by Month            | Aggregation | Seasonal analysis                     |
+| 11  | Host Performance Metrics             | Aggregation | Host evaluation                       |
+| 12  | Listings Without Bookings            | Comparison  | Underperforming inventory             |
+| 13  | Neighbourhood Comparison             | Aggregation | Geographic dashboard                  |
+| 14  | Luxury Listings                      | Filter      | Premium market segment                |
+| 15  | Text Search                          | Search      | Search functionality                  |
+| 16  | Revenue by Neighbourhood & Room Type | Aggregation | Cross-dimensional analysis            |
+| 17  | Aggregation (No Indexes)             | Performance | Baseline measurement                  |
+| 17b | Aggregation (With Indexes)           | Performance | Optimized measurement                 |
+| 18  | Collection Statistics                | Admin       | Database metrics                      |
+| 19  | Capacity by Neighbourhood            | Analytics   | Accommodation capacity distribution   |
+| 20  | Price vs Rating Analysis             | Analytics   | Price-rating correlation analysis     |
+
+## Testing & Validation
+
+We thoroughly tested all queries using our sample Airbnb datasets, ensuring that aggregation results matched expectations and that indexes provided measurable performance improvements. Data validation rules were applied to maintain consistency and reliability throughout the project.
+
+## Learning Outcomes
+
+This project allowed us to deepen our understanding of NoSQL modeling, develop advanced MongoDB queries, and apply best practices for data organization and optimization. We also improved our ability to design and troubleshoot aggregation pipelines for real-world analytics.
+
+## Team Reflection
+
+Working as a team, we learned the importance of clear communication and effective use of version control. Dividing tasks and adapting to changing requirements helped us deliver results efficiently, even when facing tight deadlines and a complex codebase.
+
+## Insights on MongoDB & NoSQL
+
+Throughout the project, we saw firsthand how MongoDB’s flexible schema and indexing options can accelerate development and analytics. Adapting to a denormalized, document-based approach required new thinking, but ultimately enabled faster queries and easier data evolution compared to traditional SQL models.
 
 ## Contributors
 
