@@ -1,14 +1,14 @@
 // Mostra os alugueres de todos clientes, e que staff fez cada aluguer.
-// Limitado aos primeiros 20 para não ter de se esperar meia hora que ele acabe.
+// Limitado aos primeiros 20 para testes rápidos.
 // Correr: mongosh queries/03_all_customer_rentals.mongosh.js
 
 // criar indexes
 db = db.getSiblingDB("sakila");
 
-db.rental.createIndex({ customer_id: 1 });
-db.inventory.createIndex({ inventory_id: 1 });
-db.film.createIndex({ film_id: 1 });
-db.staff.createIndex({ staff_id: 1 });
+db.rental.createIndex({ customer_id: 1 }, { unique: true });
+db.inventory.createIndex({ inventory_id: 1 }, { unique: true });
+db.film.createIndex({ film_id: 1 }, { unique: true });
+db.staff.createIndex({ staff_id: 1 }, { unique: true });
 
 db.customer.aggregate([
 	{
