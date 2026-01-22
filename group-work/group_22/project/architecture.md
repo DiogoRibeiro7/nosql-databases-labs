@@ -60,7 +60,7 @@ FoodExpress operates a network of restaurant partners that accept online orders 
 	restaurantId: "RST-1001",
 	customer: { customerId: "CUS-501", neighborhood: "LoDo", returning: true },
 	itemsSummary: [{ menuItemId: "MI-9001", qty: 2, lineTotal: NumberDecimal("25.00") }],
-	totalAmount: NumberDecimal("25.00"),
+	totalPrice: NumberDecimal("25.00"), 
 	status: "delivered",
 	createdAt: ISODate("2025-09-14T20:30:00Z")
 }
