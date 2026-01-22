@@ -26,14 +26,14 @@ mongosh import_data.mongosh.js
 mongosh queries/01_get_all_listings_group_by_district.mongosh.js
 mongosh queries/02_group_by_neighbourhood.mongosh.js
 mongosh queries/03_filter_listing_within_range_point.mongosh.js
-mongosh queries/04_get_best_deals.mongosh.js
+mongosh queries/04_get_bang_for_buck.mongosh.js
 mongosh queries/05_create_new_listing.mongosh.js
-mongosh queries/06_events_by_neighborhood.mongosh.js
-mongosh queries/07_recent_high_value_orders.mongosh.js
-mongosh queries/08_vendor_event_presence.mongosh.js
-mongosh queries/09_payment_mix_by_event.mongosh.js
-mongosh queries/10_feedback_distribution_by_vendor.mongosh.js
-mongosh queries/11_delete_most_expensive_listing_lisbon.mongosh.js
+mongosh queries/06_avg_price_by_neighbourhood.mongosh.js
+mongosh queries/07_popular_listings_by_reviews_availability.mongosh.js
+mongosh queries/08_edit_reservation_dates.mongosh.js
+mongosh queries/09_check_listing_availability.mongosh.js
+mongosh queries/10_check_price_per_bedroom_porto.mongosh.js
+mongosh queries/11_delete_most_expensive_listing_lisbon_porto.mongosh.js
 mongosh queries/12_find_cheapest_private_room_lisbon.mongosh.js
 mongosh queries/13_find_cheapest_team_stay_porto.mongosh.js
 mongosh queries/14_hosts_response_rate_over_95_stats.mongosh.js
@@ -55,7 +55,7 @@ The scripts assume a MongoDB instance is available at the default `mongodb://127
 ## Scenario Summary
 
 - **Airbnb Platform:** There is a new Airbnb style platform in Portugal, acting mainly in Porto and Lisbon, and we need to make queries for users.
-- **Key entities:** `vendors` (reference data), `events` (embedded venue metadata), `orders` (observational facts enriched with customer segments).
+- **Key entities:** `hosts` (reference data), `listings` (embedded venue metadata), `reservations` (observational facts enriched with customer segments), `reviews`.
 - **Why mongosh only?** Reproducing grading artifacts should never require installing driver dependencies. Each script is idempotent and interacts with the DB through standard mongosh helpers such as `cat()`, `insertMany()`, and aggregation pipelines.
 
 ## Suggested Presentation Flow

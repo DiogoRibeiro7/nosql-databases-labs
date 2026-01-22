@@ -11,7 +11,7 @@ async function importData() {
     await client.connect();
     console.log("Connected to MongoDB...");
 
-    const db = client.db("airbnb");
+    const db = client.db("group_05_final");
 
     // Helper function to load JSON file and insert into a specific collection
     const loadAndInsert = async (collectionName, fileName) => {

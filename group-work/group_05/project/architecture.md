@@ -12,11 +12,12 @@ The Airbnb Clone System manages vacation rentals, host portfolios, and guest rev
 
 ## Collections
 
-| Collection  | Role                    | Notes                                                                                       |
-| :---------- | :---------------------- | :------------------------------------------------------------------------------------------ |
-| `hosts`     | Reference/Master data   | Stores host profiles (`id`, `name`) and metadata (superhost status, location). Normalized to support brand analysis. |
-| `listings`  | Fact/Inventory data     | Represents rental units with geospatial data (`location`), capacity, pricing, and foreign key to `hosts`. |
-| `reviews`   | Fact/Transactional data | Captures individual guest feedback linked to a specific listing. Kept separate to ensure scalability. |
+| Collection     | Role                    | Notes                                                                                                                |
+| :------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| `hosts`        | Reference/Master data   | Stores host profiles (`id`, `name`) and metadata (superhost status, location). Normalized to support brand analysis. |
+| `listings`     | Fact/Inventory data     | Represents rental units with geospatial data (`location`), capacity, pricing, and foreign key to `hosts`.            |
+| `reviews`      | Fact/Transactional data | Captures individual guest feedback linked to a specific listing. Kept separate to ensure scalability.                |
+| `reservations` | Fact/Booking data       | Tracks booking dates and prevents double-booking conflicts through date range queries.                               |
 
 ### Schema Highlights
 
@@ -64,6 +65,18 @@ The Airbnb Clone System manages vacation rentals, host portfolios, and guest rev
   rating: 5.0,
   comments: "Great place to stay! Very central."
 }
+
+// reservations
+{
+  _id: ObjectId("..."),
+  id: "409f87f2-1a2c-4b5d-9e6f-8a0b1c2d3e4f",
+  listing_id: 10000,
+  host_id: 10000,
+  user_id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b4dnb6d",
+  dates: ["2026/02/10", "2026/02/15"],
+  createdAt: "2026/01/10",
+  payment_method: "debit"
+}
 ```
 
 ## Modeling Decisions
@@ -96,6 +109,7 @@ The Airbnb Clone System manages vacation rentals, host portfolios, and guest rev
 
 - `listings` → `hosts` (N:1 via `host_id`)
 - `reviews` → `listings` (N:1 via `listing_id`)
+- `reservations` → `listings` (N:1 via `listing_id`)
 
 ### Primary Query Patterns
 
@@ -104,34 +118,40 @@ The Airbnb Clone System manages vacation rentals, host portfolios, and guest rev
 - **Portfolio Analytics** – Aggregate inventory statistics (total properties, unique neighbourhoods) for specific property management brands using Regex.
 - **Top-Rated Search** – Find high-capacity listings with the highest ratings, sorting by a custom quality metric.
 - **Review Highlights** – Retrieve a limited subset (e.g., "Top 5") of reviews for a specific property using efficient lookup pipelines.
+- **Availability Checking** – Prevent double-booking by detecting overlapping date ranges in reservations.
 
 ## Index Blueprint
 
-Indexes are provisioned via `import_data.js` to strictly follow the ESR (Equality, Sort, Range) rule and support our specific access patterns:
+Indexes are provisioned via `import_data.mongosh.js` or `queries/index_blueprint.mongosh.js` to strictly follow the ESR (Equality, Sort, Range) rule and support our specific access patterns:
 
 ### 1. Hosts Collection
 
-* **`{ id: 1 }` (Unique)** – Name: `idx_hosts_id_unique`
-  * **Role:** Critical for the `$lookup` joins. Transforms the "City-by-City Catalog" query from a collection scan into an instant index seek.
+- **`{ id: 1 }` (Unique)** – Name: `idx_hosts_id_unique`
+  - **Role:** Critical for the `$lookup` joins. Transforms the "City-by-City Catalog" query from a collection scan into an instant index seek.
 
-* **`{ name: 1 }`** – Name: `idx_hosts_name`
-  * **Role:** Supports the "Portfolio Analysis" query, allowing the pipeline to filter hosts by brand name (Regex prefix) before joining with listings.
+- **`{ name: 1 }`** – Name: `idx_hosts_name`
+  - **Role:** Supports the "Portfolio Analysis" query, allowing the pipeline to filter hosts by brand name (Regex prefix) before joining with listings.
 
 ### 2. Listings Collection
 
-* **`{ id: 1 }` (Unique)** – Name: `idx_listings_id_unique`
-  * **Role:** Primary key; ensures data integrity and links reviews to listings.
+- **`{ id: 1 }` (Unique)** – Name: `idx_listings_id_unique`
+  - **Role:** Primary key; ensures data integrity and links reviews to listings.
 
-* **`{ location: "2dsphere", room_type: 1, accommodates: 1 }`** – Name: `idx_geo_hotel_capacity`
-  * **Role:** A powerful compound index. It allows the database to filter by distance (Geospatial), Property Type (Equality), and Capacity (Range) simultaneously. Essential for the "Central Group Hotel Search".
+- **`{ location: "2dsphere", room_type: 1, accommodates: 1 }`** – Name: `idx_geo_hotel_capacity`
+  - **Role:** A powerful compound index. It allows the database to filter by distance (Geospatial), Property Type (Equality), and Capacity (Range) simultaneously. Essential for the "Central Group Hotel Search".
 
-* **`{ host_id: 1 }`** – Name: `idx_listings_host_id`
-  * **Role:** Foreign key index. Speeds up the retrieval of inventory when querying from the Host perspective.
+- **`{ host_id: 1 }`** – Name: `idx_listings_host_id`
+  - **Role:** Foreign key index. Speeds up the retrieval of inventory when querying from the Host perspective.
 
-* **`{ review_scores_rating: -1 }`** – Name: `idx_listings_rating`
-  * **Role:** Supports the "Best Value" and "Top Rated" queries by pre-sorting listings by quality.
+- **`{ review_scores_rating: -1 }`** – Name: `idx_listings_rating`
+  - **Role:** Supports the "Best Value" and "Top Rated" queries by pre-sorting listings by quality.
 
 ### 3. Reviews Collection
 
-* **`{ listing_id: 1, rating: -1, date: -1 }`** – Name: `idx_reviews_lookup_optimized`
-  * **Role:** The "Perfect Index" for the Highlights pipeline. By including the sort keys (`rating`, `date`) in the index itself, MongoDB can fetch the "Top 5 Reviews" directly from the index tree without needing to load or sort documents in memory.
+- **`{ listing_id: 1, rating: -1, date: -1 }`** – Name: `idx_reviews_lookup_optimized`
+  - **Role:** The "Perfect Index" for the Highlights pipeline. By including the sort keys (`rating`, `date`) in the index itself, MongoDB can fetch the "Top 5 Reviews" directly from the index tree without needing to load or sort documents in memory.
+
+### 4. Reservations Collection
+
+- **`{ listing_id: 1, "dates.0": 1, "dates.1": 1 }`** – Name: `idx_reservations_availability`
+  - **Role:** Enables efficient conflict detection for double-booking prevention by supporting date range overlap queries.

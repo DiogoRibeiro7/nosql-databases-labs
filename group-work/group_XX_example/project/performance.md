@@ -16,43 +16,13 @@
 After running `queries/index_blueprint.mongosh.js`, the collection stats show:
 
 ```
-Current Indexes on 'listings':
-[
-  { v: 2, key: { _id: 1 }, name: '_id_' },
-  {
-    v: 2,
-    key: { id: 1 },
-    name: 'idx_listings_id_unique',
-    unique: true
-  },
-  { v: 2, key: { host_id: 1 }, name: 'idx_listings_host_id' },
-  {
-    v: 2,
-    key: { location: '2dsphere', room_type: 1, accommodates: 1 },
-    name: 'idx_geo_hotel_capacity',
-    '2dsphereIndexVersion': 3
-  },
-  {
-    v: 2,
-    key: { review_scores_rating: -1 },
-    name: 'idx_listings_rating'
-  }
-]
-Current Indexes on 'hosts':
-[
-  { v: 2, key: { _id: 1 }, name: '_id_' },
-  { v: 2, key: { id: 1 }, name: 'idx_hosts_id_unique', unique: true },
-  { v: 2, key: { name: 1 }, name: 'idx_hosts_name' }
-]
-Current Indexes on 'reviews':
-[
-  { v: 2, key: { _id: 1 }, name: '_id_' },
-  {
-    v: 2,
-    key: { listing_id: 1, rating: -1, date: -1 },
-    name: 'idx_reviews_lookup_optimized'
-  }
-]
+orders:
+  - { eventCode: 1, vendorId: 1, createdAt: 1 }  // supports revenueByEventVendor + timeline queries
+  - { customer.customerId: 1 }                    // supports loyalty detection
+vendors:
+  - { vendorId: 1 } unique                        // guards reference integrity
+events:
+  - { eventCode: 1 } unique                       // guards reference integrity
 ```
 
 ## Explain Samples

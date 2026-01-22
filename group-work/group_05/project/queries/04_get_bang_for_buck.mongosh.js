@@ -1,6 +1,5 @@
 /* eslint-disable */
-// Switch to the airbnb database
-db = db.getSiblingDB("airbnb");
+db = db.getSiblingDB("group_05_final");
 
 /**
  * USE CASE: "Best Value Group Stays"
@@ -17,31 +16,31 @@ db = db.getSiblingDB("airbnb");
 const bestValueListings = db.listings.aggregate([
   {
     // Clean the price field
-    // The data is stored as strings ("€50"), so we must strip the symbol 
+    // The data is stored as strings ("€50"), so we must strip the symbol
     // and convert to a number for math operations.
     $addFields: {
       numeric_price: {
         $toDouble: {
           $trim: {
             input: "$price",
-            chars: "€" // explicit character removal
-          }
-        }
-      }
-    }
+            chars: "€", // explicit character removal
+          },
+        },
+      },
+    },
   },
   {
     // Ensure data quality
     // We only want listings with a valid price and high ratings (4.5+)
     $match: {
       numeric_price: { $gt: 0 },
-      review_scores_rating: { $gte: 4.5 }
-    }
+      review_scores_rating: { $gte: 4.5 },
+    },
   },
   {
-    // Compute the custom "Value Score"
+    // Compute the custom Value Score
     // Formula: (Rating * Capacity) / Price
-    // A higher score means you get "more quality & space per euro".
+    // A higher score means you get more quality and space per euro.
     $project: {
       _id: 0,
       name: 1,
@@ -51,26 +50,23 @@ const bestValueListings = db.listings.aggregate([
       // Calculate and round the score for readability
       value_score: {
         $round: [
-          { 
-            $divide: [ 
-              { $multiply: ["$review_scores_rating", "$accommodates"] }, 
-              "$numeric_price" 
-            ] 
-          }, 
-          2 
-        ]
-      }
-    }
+          {
+            $divide: [{ $multiply: ["$review_scores_rating", "$accommodates"] }, "$numeric_price"],
+          },
+          2,
+        ],
+      },
+    },
   },
   {
     // Highest value first
-    $sort: { value_score: -1 }
+    $sort: { value_score: -1 },
   },
   {
     // Top 5 results
-    $limit: 5
-  }
-])
+    $limit: 5,
+  },
+]);
 
 print("Top 5 Best Value Listings:");
-printjson(bestValueListings);
+print(bestValueListings);

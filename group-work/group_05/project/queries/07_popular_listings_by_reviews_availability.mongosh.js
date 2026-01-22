@@ -1,4 +1,13 @@
-db = db.getSiblingDB("airbnb");
+/* eslint-disable */
+/**
+ * USE CASE: "Listing performance scoring"
+ * * * User Story:
+ * "As a user, I want to know wich listing are more popular."
+ * * * Technical Goal:
+ * Perform a switch case, labeling listings by their yearly availability and number of user reviews, through three different branches and sorting for most rented listings',
+ */
+
+db = db.getSiblingDB("group_05_final");
 
 const rating = db.listings.aggregate([
   {

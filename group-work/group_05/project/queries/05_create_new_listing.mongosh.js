@@ -1,6 +1,5 @@
 /* eslint-disable */
-
-db = db.getSiblingDB("airbnb");
+db = db.getSiblingDB("group_05_final");
 
 /**
  * USE CASE: "Host Onboarding & Initial Review"
@@ -36,14 +35,13 @@ db.hosts.updateOne(
     $set: {
       id: formSubmission.host_id,
       name: formSubmission.host_name,
-      // Add default fields if this is a brand new host
       location: "Porto, Portugal",
       is_superhost: false,
     },
   },
   { upsert: true }
 );
-print(`✅ Host '${formSubmission.host_name}' (ID: ${formSubmission.host_id}) assigned/updated.`);
+print(`Host '${formSubmission.host_name}' (ID: ${formSubmission.host_id}) assigned/updated.`);
 
 // Insert the Listing
 // We remove 'host_name' to keep the table clean, but add 'location' for the map search.
