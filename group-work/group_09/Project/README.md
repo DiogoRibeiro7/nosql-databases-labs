@@ -39,6 +39,10 @@ mongosh queries/13_most_popular_actors_by_rentals.mongosh.js
 mongosh queries/14_revenue_per_store.mongosh.js
 mongosh queries/15_average_rental_time.mongosh.js
 mongosh queries/16_get_movies_the.mongosh.js
+mongosh queries/17_film_stats.mongosh.js
+mongosh queries/18_most_rended_categories_with_explain.mongosh.js
+mongosh queries/19_customer_stats.mongosh.js
+mongosh queries/20_film_infos_with_explain.mongosh.js
 
 # 3. Re-apply indexes if you changed anything (optional)
 mongosh queries/index_blueprint.mongosh.js
