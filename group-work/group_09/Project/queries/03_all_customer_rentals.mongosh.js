@@ -5,11 +5,6 @@
 // criar indexes
 db = db.getSiblingDB("sakila");
 
-db.rental.createIndex({ customer_id: 1 }, { unique: true });
-db.inventory.createIndex({ inventory_id: 1 }, { unique: true });
-db.film.createIndex({ film_id: 1 }, { unique: true });
-db.staff.createIndex({ staff_id: 1 }, { unique: true });
-
 db.customer.aggregate([
 	{
 		$lookup: {
@@ -80,9 +75,3 @@ db.customer.aggregate([
 	{ $sort: { first_name: 1 } },
 	{ $limit: 20 }
 ]).forEach(doc => printjson(doc));
-
-//para teste
-db.rental.dropIndexes();
-db.inventory.dropIndexes();
-db.film.dropIndexes();
-db.staff.dropIndexes();

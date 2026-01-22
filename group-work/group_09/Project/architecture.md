@@ -2,26 +2,32 @@
 
 ## Domain Snapshot
 
+Sakila is a DVD store chain that spans across multiple countries. Each store rents out movies of different categories and languages to their customers. The project needs to answer:
+
+1. What are the most rented movies (individual, category, actors...)?
+2. Which stores get the most/least rentals? Where are they, and who staffs them?
+3. Which locations drive the most revenue?
 
 ## Collections
 
 | Collection | Role | Notes |
 | ---------- | ---- | ----- |
-| `actor` |  | |
-| `address` |  | |
-| `category` |  | |
-| `city` |  | |
-| `country` |  | |
-| `customer` |  | |
-| `film_actor` |  | |
-| `film_category` |  | |
-| `film` |  | |
-| `inventory` |  | |
-| `language` |  | |
-| `payment` |  | |
-| `rental` |  | |
-| `staff` |  | |
-| `store` |  | |
+| `country` | Geographic Reference | Stores Country Names. Used to group up cities. |
+| `city` | Geographic Subdivision | Stores cities and links them to countries. Used to group up addresses. |
+| `address` | Location Entity | Stores addresses for customers, staff, and stores. Contains spatial data and references city. |
+| `customer` | Customer Entity | Stores customer information, status, and links to an address and a store. Primary entity for rentals and payments. |
+| `store` | Business Location | Stores store locations. References address and staff. |
+| `staff` | Employee Entity | Stores staff information, including login credentials and assigned store. Used in rentals and payments. |
+| `payment` | Financial Transaction | Stores payment records linked to customers, rentals, and staff. |
+| `rental` | Customer–Film Connector | Stores rental transactions linking customers, inventory items, and staff, including rental and return dates. |
+| `inventory` | Stock Reference | Represents film copies currently in stock at each store. |
+| `film` | Media Entity | Stores film metadata (title, description, rating, pricing). Primary entity for rentals and payments. |
+| `film_actor` | Film–Actor Relationship | Many-to-many connection between films and actors. |
+| `actor` | Performer Entity | Stores actor information. |
+| `film_category` | Film–Category Relationship | Many-to-many connection between films and categories. |
+| `category` | Genre Classification | Stores film categories (e.g., Action, Comedy). |
+| `language` | Language Reference | Stores available languages for films. |
+
 
 ### Schema Highlights
 
@@ -189,4 +195,4 @@
 
 ## Index Blueprint
 
-- unique indexes for rental's `{ customer_id: 1 }`, inventory's `{ inventory_id: 1 }`, film's `{ film_id: 1 }` and staff's `{ staff_id: 1 }` - speeds up query `02_get_active_customers_by_name`.
+- unique indexes for rental's `{ customer_id: 1 }`, inventory's `{ inventory_id: 1 }`, film's `{ film_id: 1 }` and staff's `{ staff_id: 1 }` - speeds up queries

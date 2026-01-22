@@ -1,4 +1,4 @@
-//quantos filmes tem em cada loja e a sua localisação
+//quantos filmes tem em cada loja e a sua localização
 db = db.getSiblingDB("sakila");
 
 db.store.aggregate([
