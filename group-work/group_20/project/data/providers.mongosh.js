@@ -13,5 +13,5 @@ db.Providers.insertMany([
     "specialty": "Medicina Interna",
     "organization": "Hospital de Braga"
   }
-]);
+].forEach(doc => { insertIfNotExists("Patients", { patientId: doc.patientId }, doc); }));
 

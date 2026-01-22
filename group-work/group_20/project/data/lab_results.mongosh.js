@@ -11,4 +11,4 @@ db.LabResults.insertMany([
   { labResultId: "L5008", patientId: "P0008", encounterId: "E1008", testType: "Glicemia", collectedAt: "2024-02-01T10:00:00Z" },
   { labResultId: "L5009", patientId: "P0009", encounterId: "E1009", testType: "PCR", collectedAt: "2024-02-03T18:30:00Z" },
   { labResultId: "L5010", patientId: "P0010", encounterId: "E1010", testType: "Hemograma", collectedAt: "2024-02-05T07:30:00Z" }
-]);
+].forEach(doc => { insertIfNotExists("Patients", { patientId: doc.patientId }, doc); }));

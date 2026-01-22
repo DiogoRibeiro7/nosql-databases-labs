@@ -11,4 +11,4 @@ db.ClinicalEncounters.insertMany([
   { encounterId: "E1008", patientId: "P0008", type: "consulta", date: "2024-02-01T10:30:00Z", providerId: "PR003" },
   { encounterId: "E1009", patientId: "P0009", type: "urgencia", date: "2024-02-03T19:00:00Z", providerId: "PR002" },
   { encounterId: "E1010", patientId: "P0010", type: "consulta", date: "2024-02-05T08:00:00Z", providerId: "PR004" }
-]);
+].forEach(doc => { insertIfNotExists("Patients", { patientId: doc.patientId }, doc); }));

@@ -20,4 +20,4 @@ db.AuditLogs.insertMany([
     "resourceId": "E1002",
     "ipAddress": "192.168.1.11"
   }
-]);
+].forEach(doc => { insertIfNotExists("Patients", { patientId: doc.patientId }, doc); }));

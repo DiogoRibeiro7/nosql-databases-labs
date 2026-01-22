@@ -11,4 +11,4 @@ db.Patients.insertMany([
   { patientId: "P0008", name: { first: "Hugo", last: "Martins" }, birthDate: "1975-01-19", gender: "M" },
   { patientId: "P0009", name: { first: "Inês", last: "Ribeiro" }, birthDate: "1995-06-03", gender: "F" },
   { patientId: "P0010", name: { first: "João", last: "Carvalho" }, birthDate: "1982-08-27", gender: "M" }
-]);
+].forEach(doc => { insertIfNotExists("Patients", { patientId: doc.patientId }, doc); }));

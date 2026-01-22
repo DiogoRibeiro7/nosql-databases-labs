@@ -1,18 +1,24 @@
-// Selecionar base de dados
 use("healthcare");
 
-// Importar ficheiros JSON diretamente da pasta data/
-const patients = JSON.parse(("./project/data/patients.json"));
-const encounters = JSON.parse(("./project/data/clinical_encounters.json"));
-const labs = JSON.parse(("./project/data/lab_results.json"));
-const providers = JSON.parse(("./project/data/providers.json"));
-const logs = JSON.parse(("./project/data/audit_logs.json"));
+// Função para inserir apenas se não existir
+function insertIfNotExists(collection, query, document) {
+  const exists = db[collection].findOne(query);
+  if (!exists) {
+    db[collection].insertOne(document);
+    print("✔ Inserido:", JSON.stringify(query));
+  } else {
+    print("⏭ Ignorado (já existe):", JSON.stringify(query));
+  }
+}
 
-// Inserir dados nas coleções
-db.Patients.insertMany(patients);
-db.ClinicalEncounters.insertMany(encounters);
-db.LabResults.insertMany(labs);
-db.Providers.insertMany(providers);
-db.AuditLogs.insertMany(logs);
+// Tornar a função global para os ficheiros carregados
+globalThis.insertIfNotExists = insertIfNotExists;
 
-print("✔ Dados importados com sucesso!");
+// Carregar ficheiros de dados
+load("./project/data/patients.mongosh.js");
+load("./project/data/clinical_encounters.mongosh.js");
+load("./project/data/lab_results.mongosh.js");
+load("./project/data/providers.mongosh.js");
+load("./project/data/audit_logs.mongosh.js");
+
+print("✔ Dados importados com sucesso (com verificação de duplicados)!");
