@@ -1,14 +1,22 @@
-use('travel_booking');
+use('travel_booking'); // [cite: 497]
 
-// Q1: Preço Médio por Bairro 
+// --- 1. CRIAÇÃO DE ÍNDICES (Otimização conforme requisito 6.2) --- 
+// Devem ser criados para melhorar a performance das queries 
+db.porto_listings.createIndex({ neighbourhood: 1, room_type: 1 });
+db.porto_listings.createIndex({ price: 1 });
+db.porto_listings.createIndex({ neighbourhood: 1, beds: 1, review_scores_rating: -1 });
+
+// --- 2. PIPELINES DE AGREGAÇÃO ---
+
+// Q1: Preço Médio por Bairro
+// Resolve problemas de tipos de dados convertendo string para número [cite: 298]
 db.porto_listings.aggregate([
   {
     $project: {
       neighbourhood: 1,
-      // Remove o símbolo € do início, independentemente dos bytes
       price_clean: { 
         $ltrim: { 
-          input: "$price", 
+          input: { $ifNull: ["$price", "€0"] }, 
           chars: "€" 
         } 
       }
@@ -17,8 +25,7 @@ db.porto_listings.aggregate([
   {
     $project: {
       neighbourhood: 1,
-      // Agora converte o texto limpo para número
-      price_numeric: { $toInt: "$price_clean" }
+      price_numeric: { $convert: { input: "$price_clean", to: "double", onError: 0 } }
     }
   },
   {
@@ -31,75 +38,38 @@ db.porto_listings.aggregate([
   { $sort: { avgPrice: -1 } }
 ]);
 
-// Top 5 Alojamentos com Maior Receita Potencial
+// Q4: Interconexão de Dados (Requisito: 3+ coleções)
+// Cruza Listings com as coleções Hosts e Reviews 
 db.porto_listings.aggregate([
-    { $project: { 
-        name: 1, 
-        price_num: { $toInt: { $ltrim: { input: "$price", chars: "€" } } },
-        availability_365: 1 
-    }},
-    { $project: { 
-        name: 1, 
-        potential_revenue: { $multiply: ["$price_num", "$availability_365"] } 
-    }},
-    { $sort: { potential_revenue: -1 } },
-    { $limit: 5 }
-  ]);
-
-// Estatisticas por tipo de quarto
-db.porto_listings.aggregate([
-    { $group: { 
-        _id: "$room_type", 
-        total: { $sum: 1 }, 
-        avgRating: { $avg: "$review_scores_rating" } 
-    }},
-    { $sort: { total: -1 } }
-  ]);
-
-// Bairros com as Melhores Reviews (Apenas com mais de 10 alojamentos)
-db.porto_listings.aggregate([
-    { $group: { 
-        _id: "$neighbourhood", 
-        avgRating: { $avg: "$review_scores_rating" },
-        count: { $sum: 1 } 
-    }},
-    { $match: { count: { $gte: 10 } } },
-    { $sort: { avgRating: -1 } }
-  ]);
-
-
-//fazer a soma total de listings por tipo de quarto
-db.porto_listings.aggregate([
+  { 
+    $match: { 
+      neighbourhood: "Ribeira",
+      review_scores_rating: { $gte: 4.0 } 
+    } 
+  },
   {
-    $group: {
-      _id: "$room_type",
-      total: { $sum: 1 }
-    }
-  }
-]);
-//listar os alojamentos no bairro Baixa com 3 ou mais camas e rating superior a 4.2
-db.porto_listings.find({
-  neighbourhood: "Baixa",
-  beds: { $gte: 3 },
-  review_scores_rating: { $gte: 4.2 }
-});
-//listar todas as zonas e dizer quantos hosts existem em cada zona
-db.porto_listings.aggregate([
-  {
-    $group: {
-      _id: {
-        neighbourhood: "$neighbourhood",
-        host_id: "$host_id"
-      }
+    $lookup: {
+      from: "hosts",
+      localField: "host_id", 
+      foreignField: "id",    
+      as: "host_details"
     }
   },
   {
-    $group: {
-      _id: "$_id.neighbourhood",
-      total_hosts: { $sum: 1 }
+    $lookup: {
+      from: "reviews",
+      localField: "id",
+      foreignField: "listing_id",
+      as: "customer_reviews"
     }
   },
   {
-    $sort: { total_hosts: -1 }
-  }
+    $project: {
+      name: 1,
+      price: 1,
+      host_info: { $arrayElemAt: ["$host_details", 0] },
+      top_reviews: { $slice: ["$customer_reviews", 3] }
+    }
+  },
+  { $limit: 10 } 
 ]);

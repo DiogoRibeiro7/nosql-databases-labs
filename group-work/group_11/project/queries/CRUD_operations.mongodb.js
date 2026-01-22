@@ -1,30 +1,44 @@
 use('travel_booking');
 
-// Create: Adicionar um novo apartamento
+// 1. CREATE: Inserção de um alojamento com estrutura completa
 db.porto_listings.insertOne({
-    id: 10100,
-    name: "Porto Riverside View",
-    host_id: 2000,
+    id: 99999,
+    name: "Luxury Loft Porto",
+    host_id: 5050,
     host_name: "Marcio Tavares",
-    neighbourhood: "Ribeira",
+    neighbourhood: "Paranhos",
     room_type: "Entire home/apt",
-    price: "€120",
+    price: "€150",
     accommodates: 4,
     bedrooms: 2,
-    review_scores_rating: 5.0
+    beds: 2,
+    amenities: ["Wifi", "Elevator", "Heating"], // Exemplo de array
+    review_scores_rating: 4.8
 });
 
-// Read : Procurar o apartamento que criei acima
-db.porto_listings.find({host_name:"Marcio Tavares"});
+// 2. READ: Leitura de controlo (diferente das Business Queries)
+// Verificar apenas se o documento que inseri existe, projetando apenas 2 campos
+db.porto_listings.find({ id: 99999 }, { name: 1, host_name: 1, _id: 0 });
 
-// Update: Mudar o preço do "Charming Porto Apartement 2"(ID: 10001)
-db.porto_listings.updateOne({id:10001},{$set:{price:"€60"}});
+// 3. UPDATE: Uso de operadores complexos 
+// Aumentar o rating de um alojamento em 0.2 pontos
+db.porto_listings.updateOne(
+    { id: 10001 },
+    { $inc: { review_scores_rating: 0.2 } }
+);
 
-// Delete: Remover o apartamento que criei acima
-db.porto_listings.deleteOne({id:10100});
+// Adicionar uma nova comodidade (amenity) sem apagar as anteriores
+db.porto_listings.updateOne(
+    { id: 10001 },
+    { $push: { amenities: "Coffee Machine" } }
+);
 
-//remover todos os alojamentos com menos de 2 camas
-db.porto_listings.deleteMany({beds:{$lt:2}});
-
-
-
+// 4. DELETE: Limpeza de dados irrelevantes
+// Remover alojamentos que têm preço zero ou não têm camas (dados corrompidos)
+db.porto_listings.deleteMany({
+    $or: [
+        { price: "€0" },
+        { beds: { $exists: false } },
+        { beds: 0 }
+    ]
+});
