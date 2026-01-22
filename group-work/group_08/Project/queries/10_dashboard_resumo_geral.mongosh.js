@@ -7,6 +7,7 @@ db.grades
   .aggregate([
     {
       $facet: { // $facet permite múltiplas pipelines paralelas
+        // pipeline similar a subtabelas no SQL
         // Pipeline 1: Estatísticas gerais
         generalStats: [
           {
