@@ -1,9 +1,10 @@
-# Group XX Example
+## Group 14 - Medical Records System
+This folder contains the complete final project submission for Group 14, implementing a NoSQL solution for clinical data management within the Portuguese SNS context.
 
-This folder contains a complete, instructor-provided sample of the final project deliverables so that every group understands the expected depth and structure.
+📂 project/ – Fully working solution containing the DATA folder (JSON sources) and QUERIES folder (mongosh scripts).
 
-- 📂 `project/` – fully working example that follows `group-work/instructions/project_guidelines.md`.
-- 🧠 Focus – shows how to keep everything inside mongosh scripts (no `mongoimport`, drivers, or ORMs).
-- ✅ Use it as a benchmark for folder layout, documentation tone, and query coverage. Do **not** copy it verbatim into your own submission.
+🧠 Focus – Demonstrates efficient Schema Design (Hybrid approach), complex Aggregation Pipelines, and Performance Optimization without reliance on external drivers or ORMs.
 
-> Tip: run `mongosh project/import_data.mongosh.js` from this folder to bootstrap the sample dataset locally, then execute the scripts inside `project/queries/` to explore the analysis flow.
+✅ Deliverables – Includes validated JSON datasets, 16 distinct analytical queries, and performance index strategies.
+
+Tip: Navigate to the project/ folder to view the main README.md. There you will find the specific mongoimport commands to bootstrap the lab_results database locally and instructions to execute the scripts inside project/QUERIES/.

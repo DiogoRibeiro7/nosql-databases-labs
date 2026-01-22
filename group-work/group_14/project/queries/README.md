@@ -7,11 +7,11 @@
 
 ### Team Members
 
-| Name | Student ID | Email | Contribution % |
-| ---- | ---------- | ----- | -------------- |
-| Gonçalo Duarte | 40240223 | 40240223@esmad.ipp.pt| 33% |
-| Lucas Silva | 40240224 | 40240223@esmad.ipp.pt | 34% |
-| Sérgio Gonçalves. | TBD | TBD | 33% |
+| Name              | Student ID            | Email                 | Contribution % |
+| ----------------- | --------------------- | --------------------- | -------------- |
+| Gonçalo Duarte    | 40240223              | 40240223@esmad.ipp.pt | 33%            |
+| Lucas Silva       | 40240224              | 40240223@esmad.ipp.pt | 34%            |
+| Sérgio Gonçalves  | 40220220              | 40220220@esmad.ipp.pt | 33%            |
 
 **Total:** 100%
 
@@ -147,6 +147,18 @@ db.patients
 load ("NameOfTheQuerie.js")
     ```
 **The Result Should appear in the terminal**
+
+## Performance and Indexing Strategy
+
+We focused only on the first five queries for this
+
+1. **Load "index_setup.js"**
+
+2. **Use any of the queries with "..._With_Index.js"**
+
+these queries contain .explain("...")
+
+3. **Check if you see 'COLLSCAN' or 'IXSCAN'**
 
 ## Performance Optimizations
 
