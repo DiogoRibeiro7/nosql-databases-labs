@@ -65,12 +65,4 @@ O sistema é composto pelas seguintes coleções principais:
 
 ### Setup Instructions
 
-```bash
-# Instalar dependências
-npm install
-
-# Popular a base de dados com dados sintéticos
-node data/seed.js
-
-# Executar queries
-node queries.js
+**Read - Solutions.md**
