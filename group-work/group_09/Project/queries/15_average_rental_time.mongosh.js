@@ -18,4 +18,4 @@ db.film.aggregate([
 			totalFilms: 1
 		}
 	}
-]);.forEach(doc => printjson(doc));
+]).forEach(doc => printjson(doc));
