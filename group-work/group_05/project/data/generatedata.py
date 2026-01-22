@@ -6,13 +6,18 @@ from datetime import datetime, timedelta
 # ==========================================
 # 1. SETUP PATHS
 # ==========================================
-# This gets the folder where you are currently executing the script
-current_folder = os.getcwd()
+# Define base path relative to current execution
+BASE_DIR = os.path.join("group-work", "group_05", "project", "data")
+
+# Ensure the directory exists
+if not os.path.exists(BASE_DIR):
+    os.makedirs(BASE_DIR)
+    print(f"Created directory: {BASE_DIR}")
 
 FILENAMES = {
-    "hosts":  "./group-work/group_05/project/data/hosts.json",
-    "listings": "./group-work/group_05/project/data/listings.json",
-    "reviews": "./group-work/group_05/project/data/reviews.json"
+    "hosts":    os.path.join(BASE_DIR, "hosts.json"),
+    "listings": os.path.join(BASE_DIR, "listings.json"),
+    "reviews":  os.path.join(BASE_DIR, "reviews.json")
 }
 
 # ==========================================
@@ -33,6 +38,15 @@ def generate_email(name):
     clean_name = name.lower().replace(" ", "_").replace(",", "")
     domains = ["gmail.com", "outlook.com", "yahoo.com", "sapo.pt", "hotmail.com"]
     return f"{clean_name}@{random.choice(domains)}"
+
+def get_random_coords(center_lat, center_lon, radius=0.04):
+    """
+    Generates random coordinates within a small radius of a city center.
+    radius 0.04 is roughly 4-5km.
+    """
+    lat = center_lat + random.uniform(-radius, radius)
+    lon = center_lon + random.uniform(-radius, radius)
+    return round(lat, 6), round(lon, 6)
 
 def get_review_content(rating):
     if rating >= 4.8:
@@ -79,141 +93,117 @@ def generate_dataset():
     
     review_global_id = 1
     
-    # --- Generate Porto Data ---
-    porto_neighbourhoods = ["Cedofeita", "Ribeira", "Baixa", "Bonfim", "Campanhã", "Paranhos", "Ramalde"]
+    # --- Config: Cities ---
+    cities = {
+        "Porto": {
+            "center": (41.1496, -8.6109), # Aliados
+            "neighbourhoods": ["Cedofeita", "Ribeira", "Baixa", "Bonfim", "Campanhã", "Paranhos", "Ramalde"],
+            "id_start": 10000,
+            "host_prefix": "Porto_Host_"
+        },
+        "Lisbon": {
+            "center": (38.7223, -9.1393), # Marques de Pombal
+            "neighbourhoods": ["Alfama", "Baixa", "Chiado", "Belém", "Príncipe Real", "Campo de Ourique"],
+            "id_start": 20000,
+            "host_prefix": "Lisbon_Host_"
+        }
+    }
+    
     room_types = ["Entire home/apt", "Private room", "Shared room", "Hotel room"]
     
-    for i in range(100):
-        l_id = 10000 + i
-        h_id = 1000 + (i % 20) # 20 unique hosts
-        host_name = f"Porto_Host_{i % 20}"
+    # Generate 100 listings for each city
+    for city_name, data in cities.items():
+        center_lat, center_lon = data["center"]
         
-        # Create Host if not exists
-        if h_id not in hosts_dict:
-            hosts_dict[h_id] = {
-                "id": h_id,
-                "name": host_name,
-                "email": generate_email(host_name),
-                "phone": generate_phone(),
-                "location": "Porto, Portugal",
-                "join_date": random_date(2015, 2019),
-                "is_superhost": random.choice([True, False]),
-                "response_rate": f"{random.randint(90, 100)}%"
+        for i in range(100):
+            l_id = data["id_start"] + i
+            # Reuse hosts (1 host manages multiple listings)
+            h_id = (l_id // 1000) * 1000 + (i % 20) 
+            host_name = f"{data['host_prefix']}{i % 20}"
+            
+            # --- 1. Create Host (if new) ---
+            if h_id not in hosts_dict:
+                hosts_dict[h_id] = {
+                    "id": h_id,
+                    "name": host_name,
+                    "email": generate_email(host_name),
+                    "phone": generate_phone(),
+                    "location": f"{city_name}, Portugal",
+                    "join_date": random_date(2015, 2019),
+                    "is_superhost": random.choice([True, False]),
+                    "response_rate": f"{random.randint(90, 100)}%"
+                }
+
+            # --- 2. Create Listing with GeoJSON ---
+            lat, lon = get_random_coords(center_lat, center_lon)
+            
+            listing = {
+                "id": l_id,
+                "host_id": h_id,
+                "name": f"Charming {city_name} Apartment {i + 1}",
+                "neighbourhood": data["neighbourhoods"][i % len(data["neighbourhoods"])],
+                
+                # GEOJSON FIELD (Critical for Mongo Geospatial Queries)
+                "location": {
+                    "type": "Point",
+                    "coordinates": [lon, lat] # Note: MongoDB uses [Long, Lat]
+                },
+                # Keep scalar values for reference if needed
+                "latitude": lat,
+                "longitude": lon,
+                
+                "room_type": room_types[i % len(room_types)],
+                "price": f"€{40 + (i % 10) * 15}",
+                "accommodates": 2 + (i % 6),
+                "bedrooms": 1 + (i % 4),
+                "beds": 1 + (i % 5),
+                "minimum_nights": 1 + (i % 5),
+                "number_of_reviews": i * 3 if i < 10 else (i % 50) * 3,
+                "review_scores_rating": round(4.0 + (i % 10) * 0.1, 1),
+                "availability_365": 180 + i
             }
+            listings.append(listing)
 
-        # Create Listing
-        listing = {
-            "id": l_id,
-            "host_id": h_id,
-            "name": f"Charming Porto Apartment {i + 1}",
-            "neighbourhood": porto_neighbourhoods[i % len(porto_neighbourhoods)],
-            "latitude": 41.1496 + (i * 0.001),
-            "longitude": -8.6109 + (i * 0.001),
-            "room_type": room_types[i % len(room_types)],
-            "price": f"€{40 + (i % 10) * 15}",
-            "accommodates": 2 + (i % 6),
-            "bedrooms": 1 + (i % 4),
-            "beds": 1 + (i % 5),
-            "minimum_nights": 1 + (i % 5),
-            "number_of_reviews": i * 3 if i < 10 else (i % 50) * 3,
-            "review_scores_rating": round(4.0 + (i % 10) * 0.1, 1),
-            "availability_365": 180 + i
-        }
-        listings.append(listing)
-
-        # Generate Reviews
-        count_reviews = listing["number_of_reviews"]
-        base_rating = listing["review_scores_rating"]
-        
-        for _ in range(count_reviews):
-            r_score = round(min(5.0, max(1.0, base_rating + random.uniform(-0.5, 0.5))), 1)
-            reviews.append({
-                "id": review_global_id,
-                "listing_id": l_id,
-                "date": random_date(2022, 2024),
-                "reviewer_id": random.randint(500000, 999999),
-                "reviewer_name": random.choice(["John", "Maria", "Soraia", "Pedro", "Ana", "Luis", "Claire"]),
-                "rating": r_score,
-                "comments": get_review_content(r_score)
-            })
-            review_global_id += 1
-
-    # --- Generate Lisbon Data ---
-    lisbon_neighbourhoods = ["Alfama", "Baixa", "Chiado", "Belém", "Príncipe Real", "Campo de Ourique"]
-    
-    for i in range(100):
-        l_id = 20000 + i
-        h_id = 2000 + (i % 20)
-        host_name = f"Lisbon_Host_{i % 20}"
-
-        if h_id not in hosts_dict:
-            hosts_dict[h_id] = {
-                "id": h_id,
-                "name": host_name,
-                "email": generate_email(host_name),
-                "phone": generate_phone(),
-                "location": "Lisbon, Portugal",
-                "join_date": random_date(2016, 2020),
-                "is_superhost": random.choice([True, False]),
-                "response_rate": f"{random.randint(85, 100)}%"
-            }
-
-        listing = {
-            "id": l_id,
-            "host_id": h_id,
-            "name": f"Beautiful Lisbon Flat {i + 1}",
-            "neighbourhood": lisbon_neighbourhoods[i % len(lisbon_neighbourhoods)],
-            "latitude": 38.7223 + (i * 0.001),
-            "longitude": -9.1393 + (i * 0.001),
-            "room_type": room_types[i % len(room_types)],
-            "price": f"€{50 + (i % 10) * 20}",
-            "accommodates": 2 + (i % 8),
-            "bedrooms": 1 + (i % 5),
-            "beds": 1 + (i % 6),
-            "minimum_nights": 2 + (i % 4),
-            "number_of_reviews": i * 4 if i < 10 else (i % 60) * 4,
-            "review_scores_rating": round(4.1 + (i % 9) * 0.09, 2),
-            "availability_365": 200 + i
-        }
-        listings.append(listing)
-
-        count_reviews = listing["number_of_reviews"]
-        base_rating = listing["review_scores_rating"]
-
-        for _ in range(count_reviews):
-            r_score = round(min(5.0, max(1.0, base_rating + random.uniform(-0.5, 0.5))), 1)
-            reviews.append({
-                "id": review_global_id,
-                "listing_id": l_id,
-                "date": random_date(2022, 2024),
-                "reviewer_id": random.randint(500000, 999999),
-                "reviewer_name": random.choice(["James", "Sofia", "Tiago", "Ines", "Rui", "Emma", "Lucas"]),
-                "rating": r_score,
-                "comments": get_review_content(r_score)
-            })
-            review_global_id += 1
+            # --- 3. Generate Reviews ---
+            count_reviews = listing["number_of_reviews"]
+            base_rating = listing["review_scores_rating"]
+            
+            for _ in range(count_reviews):
+                # Randomize rating slightly around the listing average
+                r_score = round(min(5.0, max(1.0, base_rating + random.uniform(-0.8, 0.5))), 1)
+                
+                reviews.append({
+                    "id": review_global_id,
+                    "listing_id": l_id,
+                    "date": random_date(2022, 2024),
+                    "reviewer_id": random.randint(500000, 999999),
+                    "reviewer_name": random.choice(["John", "Maria", "Soraia", "Pedro", "Ana", "Luis", "Claire"]),
+                    "rating": r_score,
+                    "comments": get_review_content(r_score)
+                })
+                review_global_id += 1
 
     return list(hosts_dict.values()), listings, reviews
 
 # ==========================================
-# 4. WRITE FILES TO CURRENT FOLDER
+# 4. EXECUTE & WRITE FILES
 # ==========================================
 
-print(f"Starting data generation in: {current_folder}")
+print(f"Starting data generation...")
+print(f"Target Directory: {BASE_DIR}")
 
 hosts_data, listings_data, reviews_data = generate_dataset()
 
-print(f" Writing {len(hosts_data)} hosts to {FILENAMES['hosts']}...")
+print(f"-> Generating {len(hosts_data)} hosts...")
 with open(FILENAMES['hosts'], 'w', encoding='utf-8') as f:
     json.dump(hosts_data, f, indent=2, ensure_ascii=False)
 
-print(f" Writing {len(listings_data)} listings to {FILENAMES['listings']}...")
+print(f"-> Generating {len(listings_data)} listings...")
 with open(FILENAMES['listings'], 'w', encoding='utf-8') as f:
     json.dump(listings_data, f, indent=2, ensure_ascii=False)
 
-print(f" Writing {len(reviews_data)} reviews to {FILENAMES['reviews']}...")
+print(f"-> Generating {len(reviews_data)} reviews...")
 with open(FILENAMES['reviews'], 'w', encoding='utf-8') as f:
     json.dump(reviews_data, f, indent=2, ensure_ascii=False)
 
-print("\nSUCCESS! Data has been written to the current folder:")
-print(f" -> {current_folder}")
+print("\n✅ SUCCESS! All files generated in project/data/ folder.")

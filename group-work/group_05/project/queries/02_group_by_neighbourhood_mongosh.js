@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Switch to the airbnb database
 db = db.getSiblingDB("airbnb");
 
@@ -13,37 +14,39 @@ db = db.getSiblingDB("airbnb");
  * ($group: _id: null) to calculate distinct sets and total counts.
  */
 
-const portfolioAnalysis = db.listings.aggregate([
+// Switch to the airbnb database
+db = db.getSiblingDB("airbnb");
+
+const optimizedPortfolio = db.hosts.aggregate([
   {
-    // Bring in Host data to check the name
-    $lookup: {
-      from: "hosts",
-      localField: "host_id",
-      foreignField: "id",
-      as: "host_info"
-    }
-  },
-  {
-    // Flatten the array to access fields directly
-    $unwind: "$host_info"
-  },
-  {
-    // Match only hosts belonging to the "Lisbon" brand
-    // (Simulating a brand search using Regex)
+    // Since we start with 'hosts', we can use the 'name' index immediately.
     $match: {
-      "host_info.name": /^Lisbon/ 
+      name: /^Lisbon/
     }
   },
   {
-    // Consolidate all matching documents into one summary
+    // Go get the listings for these specific hosts
+    $lookup: {
+      from: "listings",
+      localField: "id",
+      foreignField: "host_id",
+      as: "property_portfolio"
+    }
+  },
+  {
+    // Expand the list of properties
+    $unwind: "$property_portfolio"
+  },
+  {
+    // Calculate the stats
+    // Note: We now reference fields inside the 'property_portfolio' array
     $group: {
-      _id: null, // null = Group everything into one bucket
-      unique_neighbourhoods: { $addToSet: "$neighbourhood" }, // distinct values
-      total_listings: { $sum: 1 } // count the docs
+      _id: null,
+      unique_neighbourhoods: { $addToSet: "$property_portfolio.neighbourhood" },
+      total_listings: { $sum: 1 }
     }
   },
   {
-    // Format the output
     $project: {
       _id: 0,
       brand_filter: "Lisbon*",
@@ -51,11 +54,7 @@ const portfolioAnalysis = db.listings.aggregate([
       unique_neighbourhoods: 1
     }
   }
-])
+]);
 
-// Execute and Print
-if (portfolioAnalysis.length > 0) {
-    printjson(portfolioAnalysis[0]);
-} else {
-    print("No listings found for this brand.");
-}
+// Print the plan
+printjson(optimizedPortfolio);

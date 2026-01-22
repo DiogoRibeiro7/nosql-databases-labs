@@ -1,66 +1,99 @@
+/* eslint-disable */
 // Switch to the airbnb database
 db = db.getSiblingDB("airbnb");
 
 /**
- * USE CASE: "Top Reviews per Listing"
- * * User Story:
- * "As a potential guest, I want to see the 'Highlights' for every apartment.
- * Specifically, I want to see the 5 highest-rated reviews for each property
- * so I can quickly read the best experiences others have had."
+ * USE CASE: "Central Stays & Quality Assurance"
+ * * * User Story:
+ * "As a traveler planning a trip to Porto, I want to find listings located 
+ * within a 5km radius of the main city square (Avenida dos Aliados). 
+ * For each result, I need to see the host's identity and the top 3 best reviews 
+ * immediately, so I can validate the property's quality without browsing 
+ * individual detail pages."
  * * * Technical Goal:
- * Perform a "One-to-Many" join using a $lookup pipeline.
- * Inside the lookup, we Match -> Sort (Desc) -> Limit (5) to efficiently 
- * retrieve only the subset of relevant sub-documents.
+ * Execute a high-performance "Geospatial Discovery" query. We prioritize the 
+ * spatial filter ($geoNear using 2dsphere index) to drastically reduce the 
+ * working dataset first. Then, we perform cascading $lookup joins to enrich 
+ * the result with Host metadata and a subset of Reviews (sorted and limited 
+ * via an internal pipeline) to optimize read throughput.
  */
 
-const topReviewsPerListing = db.listings.aggregate([
+const centerPoint = [-8.6104, 41.1488]; // Avenida dos Aliados
+
+const centralListingsWithReviews = db.listings.aggregate([
   {
-    // JOIN with Pipeline: Efficiently fetch only the needed reviews
+    // Start here to reduce the dataset immediately
+    $geoNear: {
+      near: { type: "Point", coordinates: centerPoint },
+      distanceField: "distance_from_center", // Output field for distance
+      maxDistance: 5000, // 5km radius
+      key: "location",
+      spherical: true
+    }
+  },
+  {
+    // Get the Host details
+    $lookup: {
+      from: "hosts",
+      localField: "host_id",
+      foreignField: "id",
+      as: "host_doc"
+    }
+  },
+  {
+    // Flatten the host array (since 1 listing = 1 host)
+    $unwind: "$host_doc"
+  },
+  {
+    // Get Top 3 Highest Rated
     $lookup: {
       from: "reviews",
-      let: { local_id: "$id" }, // Pass the Listing ID to the pipeline
+      let: { local_id: "$id" },
       pipeline: [
         { 
-          // Match reviews belonging to this listing
+          // Match reviews for this listing
           $match: { 
             $expr: { $eq: ["$listing_id", "$$local_id"] } 
           } 
         },
         { 
-          // Sort by Rating (Highest first), then Date (Newest first)
+          // Sort by Rating (5.0 -> 1.0)
           $sort: { rating: -1, date: -1 } 
         },
         { 
-          // Only keep the top 5
-          $limit: 5 
+          // Limit to Top 3
+          $limit: 3 
         },
         {
-          // Clean up the review object for display
+          // Clean up review output
           $project: { 
             _id: 0, 
-            reviewer_name: 1, 
+            reviewer: "$reviewer_name", 
             rating: 1, 
-            date: 1,
-            comments: 1 
+            comment: "$comments" 
           }
         }
       ],
-      as: "reviews" // The output array name
+      as: "top_reviews"
     }
   },
   {
-    // Format the final listing document
+    // FORMAT OUTPUT
     $project: {
       _id: 0,
       listing_name: "$name",
-      neighbourhood: "$neighbourhood",
-      reviews: 1
+      // Convert distance to km and round
+      distance_km: { $round: [{ $divide: ["$distance_from_center", 1000] }, 2] },
+      host_name: "$host_doc.name",
+      avg_rating: "$review_scores_rating", // Using the listing's pre-calculated avg
+      top_3_reviews: "$top_reviews"
     }
   },
   {
-    // Just limiting the result to 3 listings so we don't flood the console
+    // Limit result set for readability in console
     $limit: 3
   }
-]).toArray();
+]);
 
-printjson(topReviewsPerListing);
+print("--- CENTRAL LISTINGS (With Host & Top 3 Reviews) ---");
+printjson(centralListingsWithReviews);

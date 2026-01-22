@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Switch to the airbnb database
 db = db.getSiblingDB("airbnb");
 
@@ -69,7 +70,7 @@ const bestValueListings = db.listings.aggregate([
     // Top 5 results
     $limit: 5
   }
-]).toArray();
+])
 
 print("Top 5 Best Value Listings:");
 printjson(bestValueListings);

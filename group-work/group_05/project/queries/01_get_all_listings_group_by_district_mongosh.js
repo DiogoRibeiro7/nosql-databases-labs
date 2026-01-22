@@ -1,3 +1,4 @@
+/* eslint-disable */
 db = db.getSiblingDB("airbnb");
 
 /**
@@ -80,6 +81,6 @@ const listingsByDistrict = db.listings.aggregate([
     // Alphabetical order by Destination
     $sort: { destination: 1 }
   }
-])
+]);
 
 printjson(listingsByDistrict);

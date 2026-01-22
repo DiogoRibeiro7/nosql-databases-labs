@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 db = db.getSiblingDB("airbnb");
 
 /**
