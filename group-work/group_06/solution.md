@@ -1,5 +1,13 @@
 # Group 06 – MongoDB Solution Summary
 
+## Members
+
+| Name | Student ID | Email | Contribution % |
+| ---- | ---------- | ----- | -------------- |
+| Pedro Castro | 40240400 | 40240400@esmad.ipp.pt | 33% |
+| Rodrigo Gonçalves | 40240398 | 40240398@esmad.ipp.pt | 33% |
+| Tiago Gonçalves | 40240199 | 40240199@esmad.ipp.pt | 33% |
+
 ## Purpose
 
 This lab demonstrates how MongoDB can support simple yet realistic medical operations. We focus on extracting insights from concrete clinical collections, keeping each script short, well-documented, and executable directly with `mongosh` so reviewers can reproduce the steps without overengineering.
