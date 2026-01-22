@@ -139,58 +139,72 @@ This project demonstrates our comprehensive understanding of MongoDB database op
    db.collection_name.countDocuments();
    ```
 
-## Query Examples from Our Solution
+## Query Scripts
 
-### Example 1: Find Products by Category
+All query logic lives under `group-work/group_06/project/queries` and targets the `medical_database` collections. The folder holds 10 scripts, each documented inline and focusing on realistic MongoDB interactions:
 
-```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 100, $lte: 1000 },
-});
-```
+- `01_patients_by_age_and_gender.mongosh.js` – aggregation that filters Lisbon women aged 18‑65 and sorts them by descending age.
+- `02_chronic_patients_by_condition.mongosh.js` – find operation projecting only identifiers for patients with Diabetes or Hypertension.
+- `03_insert_new_patient.mongosh.js` – simple insert to register a new triage patient.
+- `04_update_patient_contact.mongosh.js` – update that keeps patient communication data current.
+- `05_delete_inactive_patient.mongosh.js` – delete flow targeting inactive records to keep storage lean.
+- `06_recent_visits_for_patient.mongosh.js` – read helper showing the five most recent visits per patient.
+- `07_visits_by_department_with_index.mongosh.js` – aggregation that counts visits per department while taking advantage of the `department` index.
+- `08_update_and_insert_lab_result.mongosh.js` – upsert for lab results so the latest record replaces or inserts as needed.
+- `09_list_prescription_medications.mongosh.js` – projection for visits where `Lisinopril` was prescribed, ideal for pharmacovigilance reporting.
+- `10_visit_indexes.mongosh.js` – index creation script that builds the compound `department + visit_date` index and the chronic-conditions index used across the queries.
 
-### Example 2: Aggregate Sales Data
-
-```javascript
-db.sales.aggregate([
-  { $match: { year: 2024 } },
-  {
-    $group: {
-      _id: "$month",
-      totalSales: { $sum: "$amount" },
-      avgSale: { $avg: "$amount" },
-    },
-  },
-  { $sort: { _id: 1 } },
-]);
-```
-
-### Example 3: Update Inventory
-
-```javascript
-db.inventory.updateMany(
-  { quantity: { $lt: 10 } },
-  { $set: { status: "low_stock", lastUpdated: new Date() } }
-);
-```
+Each file can be executed via `mongosh` to inspect its output or confirm its effect.
 
 ## Performance Optimizations
 
 1. **Query Optimization**
-   - Used covered queries where possible
-   - Implemented proper index strategies
-   - Avoided full collection scans
+   - Filter early in pipelines to keep cursor volume minimal.
+   - Project only the fields needed for dashboards and reports.
+   - Sort after limiting result sets whenever possible.
 
 2. **Data Modeling**
-   - Balanced between embedding and referencing
-   - Minimized document growth patterns
-   - Optimized for read-heavy workloads
+   - Embedded demographics inside patients for quick read access.
+   - Arrays mirror the real-world structure of visits, prescriptions, and labs.
+   - Designed queries to touch indexed fields such as department or chronic conditions.
 
 3. **Index Strategy**
-   - Created indexes based on query patterns
-   - Used compound indexes for sort operations
-   - Monitored index usage with explain()
+   - Created `department + visit_date` compound index for frequent filter+sort operations.
+   - Indexed `medical_history.chronic_conditions` for analytic lookups.
+   - Reused unique identifiers (`patient_id`, `result_id`) across scripts.
+
+## Running Our Solution
+
+1. **Start MongoDB (if it is not already running)**
+
+   ```bash
+   mongod --dbpath /path/to/data/directory
+   ```
+
+2. **Connect with mongosh**
+
+   ```bash
+   mongosh
+   ```
+
+3. **Use the production dataset**
+
+   ```javascript
+   use medical_database
+   ```
+
+4. **Run a query script**
+
+   ```bash
+   mongosh group-work/group_06/project/queries/01_patients_by_age_and_gender.mongosh.js
+   ```
+
+5. **Confirm state**
+
+   ```javascript
+   db.getCollectionNames();
+   db.patients.countDocuments();
+   ```
 
 ## Challenges and Solutions
 
@@ -237,9 +251,9 @@ Through this project, we gained practical experience in:
 
 Additional files in our submission:
 
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
+- `solution.md` - Complete write-up describing the group’s MongoDB queries and operations.
+- `project/queries/` - Twelve `mongosh` scripts covering the CRUD, aggregation, index, and reporting workflows discussed above.
+- `project/data/` - Sample JSON exports (`patients.json`, `visits.json`, `lab_results.json`) used for testing these queries.
 
 ## Contributors
 
