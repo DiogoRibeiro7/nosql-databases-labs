@@ -1,25 +1,14 @@
-// This query focuses on acidity-related fields. It is long because it checks
-// multiple acidity indicators at once, but all conditions are simple comparisons.
+// Esta query foca-se em vinhos com acidez bem controlada.
+// Aplica vários filtros relacionados com diferentes tipos de acidez e densidade,
+// ideais para identificar vinhos com perfil ácido equilibrado.
 
 db.wine.find({
 
-  // pH must be in a narrow range
-  pH: { $gte: 3.1, $lte: 3.4 },
-
-  // Volatile acidity must be low
-  volatile_acidity: { $gte: 0.1, $lte: 0.5 },
-
-  // Fixed acidity must be moderate
-  fixed_acidity: { $gte: 5, $lte: 9 },
-
-  // Citric acid must be within a typical range
-  citric_acid: { $gte: 0.1, $lte: 0.5 },
-
-  // Density must match acidity expectations
-  density: { $gte: 0.990, $lte: 1.005 },
-
-  // Quality must be at least acceptable
-  quality: { $gte: 6 }
+  pH: { $gte: 3.1, $lte: 3.4 },                 // pH entre 3.1 e 3.4 (acidez equilibrada)
+  volatile_acidity: { $gte: 0.1, $lte: 0.5 },   // Acidez volátil entre 0.1 e 0.5 (não agressiva)
+  fixed_acidity: { $gte: 5, $lte: 9 },          // Acidez fixa entre 5 e 9 (estrutura do vinho)
+  citric_acid: { $gte: 0.1, $lte: 0.5 },        // Ácido cítrico equilibrado (frescura)
+  density: { $gte: 0.990, $lte: 1.005 },        // Densidade dentro do intervalo típico
+  quality: { $gte: 6 }                          // Qualidade mínima de 6 (vinhos equilibrados)
 
 })
-

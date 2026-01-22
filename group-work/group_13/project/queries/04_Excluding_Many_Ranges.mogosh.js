@@ -1,25 +1,9 @@
-// Esta query utiliza o operador $not para excluir vários intervalos.
-// É longa, mas extremamente simples e direta.
-
+// Esta query exclui vinhos com características indesejadas
 db.wine.find({
-
-  // Excluir vinhos com teor alcoólico muito baixo
-  alcohol: { $not: { $lt: 9 } },
-
-  // Excluir vinhos muito doces
-  residual_sugar: { $not: { $gt: 20 } },
-
-  // Excluir vinhos com acidez volátil muito elevada
-  volatile_acidity: { $not: { $gt: 1.0 } },
-
-  // Excluir vinhos com pH muito baixo
-  pH: { $not: { $lt: 2.8 } },
-
-  // Excluir vinhos com densidade demasiado alta
-  density: { $not: { $gt: 1.010 } },
-
-  // Excluir vinhos com sulfatos muito baixos
-  sulphates: { $not: { $lt: 0.3 } }
-
+  alcohol: { $not: { $lt: 9 } },             // Excluir vinhos com álcool < 9%
+  residual_sugar: { $not: { $gt: 20 } },     // Excluir vinhos muito doces
+  volatile_acidity: { $not: { $gt: 1.0 } },  // Excluir acidez volátil extrema
+  pH: { $not: { $lt: 2.8 } },                // Excluir pH muito baixo
+  density: { $not: { $gt: 1.015 } },         // Excluir densidade muito alta
+  sulphates: { $not: { $lt: 0.3 } }          // Excluir sulfatos muito baixos
 })
-
