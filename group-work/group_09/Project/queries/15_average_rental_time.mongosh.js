@@ -3,33 +3,19 @@
 
 db = db.getSiblingDB("sakila");
 
-db.rental.aggregate([
-	{
-		$lookup: {
-			from: "inventory",
-			localField: "inventory_id",
-			foreignField: "inventory_id",
-			as: "inv"
-		}
-	},
-	{ $unwind: "$inv" },
-	{
-		$project: {
-			storeId: "$inv.store_id",
-			durationHours: {
-				$divide: [
-					{ $subtract: [ { $toDate: "$return_date" }, { $toDate: "$rental_date" } ] },
-					1000 * 60 * 60
-				]
-			}
-		}
-	},
+db.film.aggregate([
 	{
 		$group: {
-			_id: "$storeId",
-			avgRentalHours: { $avg: "$durationHours" },
-			rentalCount: { $sum: 1 }
+			_id: null,
+			avgRentalDuration: { $avg: "$rental_duration" },
+			totalFilms: { $sum: 1 }
 		}
 	},
-	{ $sort: { avgRentalHours: -1 } }
+	{
+		$project: {
+			_id: 0,
+			avgRentalDuration: 1,
+			totalFilms: 1
+		}
+	}
 ]).forEach(doc => printjson(doc));
