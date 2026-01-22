@@ -450,10 +450,19 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Install mongosh
+        run: npm install -g mongosh || true
+
       - name: Install dependencies for Group 22
         run: |
           cd group-work/group_22/project
           npm install
+
+      - name: Set up .env for CI
+        run: |
+          echo "MONGODB_URI=mongodb://localhost:27017" > .env
+          echo "MONGODB_DB_NAME=group_22" >> .env
+        working-directory: group-work/group_22/project
 
       - name: Seed database for Group 22
         run: |
