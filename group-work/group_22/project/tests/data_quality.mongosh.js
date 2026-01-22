@@ -52,8 +52,27 @@ const expectations = [
   },
 ];
 
+// Optional: enable strict-mode to assert exact counts based on fixtures in `data/`
+// Set `strictMode` to `true` to fail the checks if counts don't match expectations.
+const strictMode = true;
+const expectedCounts = {
+  restaurants: 50,
+  orders: 50,
+  menu_items: 100,
+  order_items: 100,
+};
+
+if (strictMode) {
+  expectations.push(
+    { label: "restaurants count", validator: () => db.restaurants.countDocuments({}), expected: expectedCounts.restaurants },
+    { label: "orders count", validator: () => db.orders.countDocuments({}), expected: expectedCounts.orders },
+    { label: "menu_items count", validator: () => db.menu_items.countDocuments({}), expected: expectedCounts.menu_items },
+    { label: "order_items count", validator: () => db.order_items.countDocuments({}), expected: expectedCounts.order_items }
+  );
+}
+
 let failures = 0;
-expectations.forEach((check) => {
+expectations.forEach((check) => { 
   let actual;
   if (check.validator) {
     actual = check.validator();
