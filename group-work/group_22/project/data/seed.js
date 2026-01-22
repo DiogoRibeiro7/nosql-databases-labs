@@ -16,7 +16,26 @@ async function main() {
   await orderItemsCol.deleteMany({});
 
   // Load base data files and populate `restaurants` and `orders` collections
-  const dataRoot = path.resolve(__dirname, "../../../..", "data", "food_express");
+  // Prefer the group's project `data/` directory if both JSON files are present there,
+  // otherwise fall back to the workspace `data/food_express` copy.
+  const workspaceDataRoot = path.resolve(__dirname, "../../../..", "data", "food_express");
+  const projectDataRoot = path.resolve(__dirname);
+  let dataRoot = projectDataRoot;
+  const projectRestaurants = path.join(projectDataRoot, "foodexpress_db.restaurants.json");
+  const projectOrders = path.join(projectDataRoot, "foodexpress_db.orders.json");
+
+  if (fs.existsSync(projectRestaurants) && fs.existsSync(projectOrders)) {
+    dataRoot = projectDataRoot;
+    console.log(`Using project-local data: ${dataRoot}`);
+  } else if (fs.existsSync(path.join(workspaceDataRoot, "foodexpress_db.restaurants.json")) && fs.existsSync(path.join(workspaceDataRoot, "foodexpress_db.orders.json"))) {
+    dataRoot = workspaceDataRoot;
+    console.log(`Using workspace data: ${dataRoot}`);
+  } else {
+    // default to project directory (will show missing-file messages later)
+    dataRoot = projectDataRoot;
+    console.log(`Using project-local data by default: ${dataRoot}`);
+  }
+
   const restaurantsFile = path.join(dataRoot, "foodexpress_db.restaurants.json");
   const ordersFile = path.join(dataRoot, "foodexpress_db.orders.json");
 
@@ -26,7 +45,29 @@ async function main() {
       return 0;
     }
     const text = fs.readFileSync(filePath, "utf8");
-    const docs = EJSON.parse(text);
+    let docs = EJSON.parse(text);
+    // Normalize common Extended JSON date shapes to JS Date so times are preserved
+    function normalizeDates(obj) {
+      if (obj && typeof obj === "object") {
+        if (obj.$date) {
+          const d = obj.$date;
+          if (typeof d === "string") return new Date(d);
+          if (typeof d === "object" && d.$numberLong) return new Date(Number(d.$numberLong));
+        }
+        for (const k of Object.keys(obj)) {
+          obj[k] = normalizeDates(obj[k]);
+        }
+        return obj;
+      }
+      // convert ISO strings to Date (defensive)
+      if (typeof obj === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(obj)) {
+        return new Date(obj);
+      }
+      return obj;
+    }
+    if (Array.isArray(docs) && docs.length) {
+      docs = docs.map((d) => normalizeDates(d));
+    }
     if (!Array.isArray(docs)) {
       throw new Error(`${name} file did not contain an array`);
     }
