@@ -129,9 +129,6 @@ The project includes two versions of a complex aggregation query to demonstrate 
 | 14  | Luxury Listings                      | Filter        | Premium market segment                |
 | 15  | Text Search                          | Search        | Search functionality                  |
 | 16  | Revenue by Neighbourhood & Room Type | Aggregation   | Cross-dimensional analysis            |
-| 17  | Insert New Listing                   | CRUD - Create | Insert operation                      |
-| 18  | Update Listing Price                 | CRUD - Update | Update operation                      |
-| 19  | Delete Test Listing                  | CRUD - Delete | Delete operation                      |
 | 17  | Aggregation (No Indexes)             | Performance   | Baseline measurement                  |
 | 17b | Aggregation (With Indexes)           | Performance   | Optimized measurement                 |
 | 18  | Collection Statistics                | Admin         | Database metrics                      |
