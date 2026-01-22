@@ -22,3 +22,4 @@ db.porto_listings.updateOne({id:10001},{$set:{price:"€60"}});
 
 // Delete: Remover o apartamento que criei acima
 db.porto_listings.deleteOne({id:10100});
+
