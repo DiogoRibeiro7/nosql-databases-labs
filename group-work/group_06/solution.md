@@ -3,16 +3,16 @@
 ## Group Information
 
 **Group Number:** group_06
-**Submission Date:** 2026-01-06
+**Submission Date:** 2026-01-22
 **Lab Assignment:** MongoDB Database Operations Lab
 
 ### Team Members
 
 | Name | Student ID | Email | Contribution % |
 | ---- | ---------- | ----- | -------------- |
-| Pedro Castro | TBD | TBD | TBD |
-| Rodrigo Gonçalves | TBD | TBD | TBD |
-| Tiago Gonçalves | TBD | TBD | TBD |
+| Pedro Castro | 40240400 | 40240400@esmad.ipp.pt | TBD |
+| Rodrigo Gonçalves | 40240398 | 40240398@esmad.ipp.pt | TBD |
+| Tiago Gonçalves | 40240199 | 40240199@esmad.ipp.pt | TBD |
 
 **Total:** 100%
 
