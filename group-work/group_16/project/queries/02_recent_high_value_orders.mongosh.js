@@ -2,10 +2,10 @@ db = db.getSiblingDB("food_express");
 
 print("Recent orders >= 20€:");
 
-// Search in the collection "orders" for orders with totalPrice >= 80€
+// Procura na coleção "orders" por encomenda com o valor >= 80€
 db.orders.find( { totalPrice: { $gte: 80 } },
 
-    // Projeção: define quais os campos a mostrar (0 = esconder, 1 = mostrar)
+    // Mostra apenas os valores que quero (0 = esconder, 1 = mostrar)
     {
       _id: 0, orderNumber: 1,restaurantId: 1,totalPrice: 1,status: 1,createdAt: 1
     }
@@ -17,5 +17,5 @@ db.orders.find( { totalPrice: { $gte: 80 } },
 
   .limit(10)
 
-
+// Imprime cada documento no terminal
   .forEach((doc) => printjson(doc));

@@ -3,11 +3,14 @@ print(`Revenue pipeline with INDEX USAGE for: ${db.getName()}`);
 
 // Modificámos a pipeline para começar com um $match. 
 // Isto obriga o MongoDB a usar o índice de totalPrice que criaste no Ficheiro 00.
+
 const pipeline = [
+  // Filtra apenas encomendas com valor >= 20€
   {
-    $match: { totalPrice: { $gte: 20 } } // <--- NOVO: Filtro inicial para ativar o índice
+    $match: { totalPrice: { $gte: 20 } } 
   },
   {
+    // Junta informação do restaurante
     $lookup: {
       from: "restaurants",
       localField: "restaurantId",
@@ -17,12 +20,16 @@ const pipeline = [
   },
   { $unwind: "$restaurant" },
   {
+     // Agrupa por cidade do restaurante
     $group: {
       _id: "$restaurant.address.city",
+      // Soma total da faturação
       totalRevenue: { $sum: "$totalPrice" },
+      // Número total de encomendas
       orderCount: { $sum: 1 }
     }
   },
+  // Ordena as cidades por faturação (decrescente)
   { $sort: { totalRevenue: -1 } }
 ];
 
@@ -39,6 +46,7 @@ if (!stats && explain.stages) {
     if (stageWithStats && stageWithStats.$cursor) stats = stageWithStats.$cursor.executionStats;
 }
 
+// Apresenta métricas relevantes de performance
 if (stats) {
     print(`Execution time (ms): ${stats.executionTimeMillis}`);
     print(`Documents examined: ${stats.totalDocsExamined}`);

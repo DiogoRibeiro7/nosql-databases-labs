@@ -13,6 +13,7 @@ db.restaurants.find(
         } 
       } 
     }, 
+    // Mostra apenas os valores que quero (0 = esconder, 1 = mostrar)
     { 
       _id: 0, 
       name: 1, 
@@ -21,8 +22,8 @@ db.restaurants.find(
       menu: 1 
     }
   )
-
+// Ordena os restaurantes que oferecem sobremesas económicas (do o menor para o maior)
   .sort({ name: 1 })
   
-
+// Imprime cada documento no terminal
   .forEach((doc) => printjson(doc));

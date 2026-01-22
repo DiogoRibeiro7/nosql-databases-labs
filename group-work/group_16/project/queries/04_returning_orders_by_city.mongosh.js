@@ -1,8 +1,6 @@
 
 // Identificar restaurantes com encomendas repetidas, agrupados por cidade.
 
-
-
 db = db.getSiblingDB("food_express");
 
 print("Cities with restaurants that receive repeat order:");
@@ -18,13 +16,13 @@ db.orders.aggregate([
       },
     },
 
-    // Filtra apenas restaurantes com pelo menos 2 encomendas
+    // Filtra apenas restaurantes com pelo menos 2 ou mais encomendas
     {
       $match: {
         totalOrders: { $gte: 2 },
       },
     },
-
+    //Obtém os dados do restaurante (incluindo a cidade)
     {
       $lookup: {
         from: "restaurants",
@@ -37,7 +35,7 @@ db.orders.aggregate([
    
     { $unwind: "$restaurant" },
 
-    
+    // Conta quantos restaurantes com encomendas repetidas existem em cada cidade
     {
       $group: {
         _id: "$restaurant.address.city",
@@ -45,7 +43,7 @@ db.orders.aggregate([
         restaurantIds: { $addToSet: "$restaurant._id" },
       },
     },
-
+    //Ordena as cidades pelo número de restaurantes com recorrência
     {
       $sort: {
         restaurantesComRecorrencia: -1,
@@ -53,4 +51,5 @@ db.orders.aggregate([
     },
   ])
 
+// Imprime cada documento no terminal
   .forEach((doc) => printjson(doc));

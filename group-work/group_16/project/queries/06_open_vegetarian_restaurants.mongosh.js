@@ -12,6 +12,7 @@ db.restaurants.find(
       "rating": { $gte: 3.5 }
     }, 
     { 
+      // Mostra apenas os valores que quero (0 = esconder, 1 = mostrar)
       _id: 0, 
       name: 1, 
       type: 1, 
