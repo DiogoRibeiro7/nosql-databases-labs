@@ -1,0 +1,1100 @@
+[{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc78fb"
+  },
+  "restaurantId": {
+    "$oid": "51fe29d3685d4a0a9f055a87"
+  },
+  "item": "Tiramisu",
+  "price": 15.92,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc78fc"
+  },
+  "restaurantId": {
+    "$oid": "51fe29d3685d4a0a9f055a87"
+  },
+  "item": "Lasagnes",
+  "price": 11.99,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc78fd"
+  },
+  "restaurantId": {
+    "$oid": "ee66d59431d343ed98b98d63"
+  },
+  "item": "Tiramisu",
+  "price": 10.84,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc78fe"
+  },
+  "restaurantId": {
+    "$oid": "ee66d59431d343ed98b98d63"
+  },
+  "item": "Pâtes Carbonara",
+  "price": 14.58,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc78ff"
+  },
+  "restaurantId": {
+    "$oid": "d99065d526464d9ba63b797b"
+  },
+  "item": "Tiramisu",
+  "price": 11.16,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7900"
+  },
+  "restaurantId": {
+    "$oid": "d99065d526464d9ba63b797b"
+  },
+  "item": "Curry de Légumes",
+  "price": 9.36,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7901"
+  },
+  "restaurantId": {
+    "$oid": "eeba23e0b92245a9b46fd60e"
+  },
+  "item": "Pizza Margherita",
+  "price": 19.32,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7902"
+  },
+  "restaurantId": {
+    "$oid": "eeba23e0b92245a9b46fd60e"
+  },
+  "item": "Burrito",
+  "price": 17.27,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7903"
+  },
+  "restaurantId": {
+    "$oid": "b60d8f3580f644eb99f5f8f1"
+  },
+  "item": "Tacos au Boeuf",
+  "price": 13.56,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7904"
+  },
+  "restaurantId": {
+    "$oid": "b60d8f3580f644eb99f5f8f1"
+  },
+  "item": "Mochi Glacé",
+  "price": 16.93,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7905"
+  },
+  "restaurantId": {
+    "$oid": "1380efbff4db4ac39795807f"
+  },
+  "item": "Soupe Miso",
+  "price": 18.21,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7906"
+  },
+  "restaurantId": {
+    "$oid": "1380efbff4db4ac39795807f"
+  },
+  "item": "Baklava",
+  "price": 18.18,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7907"
+  },
+  "restaurantId": {
+    "$oid": "1ba01377a32e4cb39daf0da7"
+  },
+  "item": "Crème Brûlée",
+  "price": 17.41,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7908"
+  },
+  "restaurantId": {
+    "$oid": "1ba01377a32e4cb39daf0da7"
+  },
+  "item": "Mochi Glacé",
+  "price": 9.53,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7909"
+  },
+  "restaurantId": {
+    "$oid": "3420b2b2d26b4b16a0cef33b"
+  },
+  "item": "Burger Gourmet",
+  "price": 19.08,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc790a"
+  },
+  "restaurantId": {
+    "$oid": "3420b2b2d26b4b16a0cef33b"
+  },
+  "item": "Naan au Fromage",
+  "price": 18.15,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc790b"
+  },
+  "restaurantId": {
+    "$oid": "7dc6ed5b90ad40d493c0e185"
+  },
+  "item": "Pizza Margherita",
+  "price": 10.81,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc790c"
+  },
+  "restaurantId": {
+    "$oid": "7dc6ed5b90ad40d493c0e185"
+  },
+  "item": "Burrito",
+  "price": 16.54,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc790d"
+  },
+  "restaurantId": {
+    "$oid": "0c050ac956ba4ec1a8768472"
+  },
+  "item": "Pizza Margherita",
+  "price": 11.24,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc790e"
+  },
+  "restaurantId": {
+    "$oid": "0c050ac956ba4ec1a8768472"
+  },
+  "item": "Sushi Saumon",
+  "price": 8.46,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc790f"
+  },
+  "restaurantId": {
+    "$oid": "d2765bd01a5d42c1a23c2d3f"
+  },
+  "item": "Soupe Miso",
+  "price": 14.8,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7910"
+  },
+  "restaurantId": {
+    "$oid": "d2765bd01a5d42c1a23c2d3f"
+  },
+  "item": "Burrito",
+  "price": 8.11,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7911"
+  },
+  "restaurantId": {
+    "$oid": "f1500a54d00f4745970bdcda"
+  },
+  "item": "Poulet Curry",
+  "price": 14.22,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7912"
+  },
+  "restaurantId": {
+    "$oid": "f1500a54d00f4745970bdcda"
+  },
+  "item": "Lasagnes",
+  "price": 9.9,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7913"
+  },
+  "restaurantId": {
+    "$oid": "8b55313eefe644cabbd6d3ac"
+  },
+  "item": "Salade César",
+  "price": 9.13,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7914"
+  },
+  "restaurantId": {
+    "$oid": "8b55313eefe644cabbd6d3ac"
+  },
+  "item": "Smoothie Vert",
+  "price": 14.36,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7915"
+  },
+  "restaurantId": {
+    "$oid": "3d830dc02d304c98a506cba1"
+  },
+  "item": "Crème Brûlée",
+  "price": 13.11,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7916"
+  },
+  "restaurantId": {
+    "$oid": "3d830dc02d304c98a506cba1"
+  },
+  "item": "Lasagnes",
+  "price": 16.45,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7917"
+  },
+  "restaurantId": {
+    "$oid": "120dc7aacb6849fd971f91ec"
+  },
+  "item": "Crème Brûlée",
+  "price": 12.94,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7918"
+  },
+  "restaurantId": {
+    "$oid": "120dc7aacb6849fd971f91ec"
+  },
+  "item": "Burrito",
+  "price": 8.29,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7919"
+  },
+  "restaurantId": {
+    "$oid": "c4bdc8be142b4065be0334f3"
+  },
+  "item": "Soupe Miso",
+  "price": 9.66,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc791a"
+  },
+  "restaurantId": {
+    "$oid": "c4bdc8be142b4065be0334f3"
+  },
+  "item": "Baklava",
+  "price": 9.24,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc791b"
+  },
+  "restaurantId": {
+    "$oid": "7e5085f5d0db4a738ff1799a"
+  },
+  "item": "Riz Cantonais",
+  "price": 8.76,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc791c"
+  },
+  "restaurantId": {
+    "$oid": "7e5085f5d0db4a738ff1799a"
+  },
+  "item": "Smoothie Vert",
+  "price": 8.54,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc791d"
+  },
+  "restaurantId": {
+    "$oid": "c3cc6e095df94e29ae429545"
+  },
+  "item": "Salade César",
+  "price": 10.99,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc791e"
+  },
+  "restaurantId": {
+    "$oid": "c3cc6e095df94e29ae429545"
+  },
+  "item": "Baklava",
+  "price": 16.89,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc791f"
+  },
+  "restaurantId": {
+    "$oid": "9cde40e34be140018cc73289"
+  },
+  "item": "Tiramisu",
+  "price": 14.39,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7920"
+  },
+  "restaurantId": {
+    "$oid": "9cde40e34be140018cc73289"
+  },
+  "item": "Baklava",
+  "price": 9.78,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7921"
+  },
+  "restaurantId": {
+    "$oid": "bb055357dd764e119481a69d"
+  },
+  "item": "Tiramisu",
+  "price": 9.2,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7922"
+  },
+  "restaurantId": {
+    "$oid": "bb055357dd764e119481a69d"
+  },
+  "item": "Sushi Saumon",
+  "price": 16.59,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7923"
+  },
+  "restaurantId": {
+    "$oid": "8108e8c9b4864643ba69ef27"
+  },
+  "item": "Burger Gourmet",
+  "price": 17.67,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7924"
+  },
+  "restaurantId": {
+    "$oid": "8108e8c9b4864643ba69ef27"
+  },
+  "item": "Pâtes Carbonara",
+  "price": 11.02,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7925"
+  },
+  "restaurantId": {
+    "$oid": "1230e8240f1049acb4abac36"
+  },
+  "item": "Tiramisu",
+  "price": 16.77,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7926"
+  },
+  "restaurantId": {
+    "$oid": "1230e8240f1049acb4abac36"
+  },
+  "item": "Lasagnes",
+  "price": 19.93,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7927"
+  },
+  "restaurantId": {
+    "$oid": "067f7d3d9be342e3957ff81d"
+  },
+  "item": "Burger Gourmet",
+  "price": 16.6,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7928"
+  },
+  "restaurantId": {
+    "$oid": "067f7d3d9be342e3957ff81d"
+  },
+  "item": "Pâtes Carbonara",
+  "price": 17.91,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7929"
+  },
+  "restaurantId": {
+    "$oid": "db80f41b04be4b4fa3a3fa44"
+  },
+  "item": "Salade César",
+  "price": 8.84,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc792a"
+  },
+  "restaurantId": {
+    "$oid": "db80f41b04be4b4fa3a3fa44"
+  },
+  "item": "Soupe à l'Oignon",
+  "price": 12.7,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc792b"
+  },
+  "restaurantId": {
+    "$oid": "7a42b136e2ea484f9396503a"
+  },
+  "item": "Tacos au Boeuf",
+  "price": 10.66,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc792c"
+  },
+  "restaurantId": {
+    "$oid": "7a42b136e2ea484f9396503a"
+  },
+  "item": "Smoothie Vert",
+  "price": 11.76,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc792d"
+  },
+  "restaurantId": {
+    "$oid": "48e98632dafb4090bdaf8f12"
+  },
+  "item": "Falafel",
+  "price": 16.14,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc792e"
+  },
+  "restaurantId": {
+    "$oid": "48e98632dafb4090bdaf8f12"
+  },
+  "item": "Naan au Fromage",
+  "price": 10.39,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc792f"
+  },
+  "restaurantId": {
+    "$oid": "beda3ecca93749ee804aa9ab"
+  },
+  "item": "Tiramisu",
+  "price": 16.2,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7930"
+  },
+  "restaurantId": {
+    "$oid": "beda3ecca93749ee804aa9ab"
+  },
+  "item": "Baklava",
+  "price": 18.97,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7931"
+  },
+  "restaurantId": {
+    "$oid": "2fbfa3d26e824501b4f55706"
+  },
+  "item": "Crème Brûlée",
+  "price": 12.18,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7932"
+  },
+  "restaurantId": {
+    "$oid": "2fbfa3d26e824501b4f55706"
+  },
+  "item": "Lasagnes",
+  "price": 12.11,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7933"
+  },
+  "restaurantId": {
+    "$oid": "524ea426cd044239a488e626"
+  },
+  "item": "Tacos au Boeuf",
+  "price": 10.88,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7934"
+  },
+  "restaurantId": {
+    "$oid": "524ea426cd044239a488e626"
+  },
+  "item": "Curry de Légumes",
+  "price": 13.76,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7935"
+  },
+  "restaurantId": {
+    "$oid": "26801ec1d2db4247997a8ddd"
+  },
+  "item": "Salade César",
+  "price": 9,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7936"
+  },
+  "restaurantId": {
+    "$oid": "26801ec1d2db4247997a8ddd"
+  },
+  "item": "Mochi Glacé",
+  "price": 16.31,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7937"
+  },
+  "restaurantId": {
+    "$oid": "7e431e4bd7e749dd88e6f3cb"
+  },
+  "item": "Soupe Miso",
+  "price": 19.46,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7938"
+  },
+  "restaurantId": {
+    "$oid": "7e431e4bd7e749dd88e6f3cb"
+  },
+  "item": "Mochi Glacé",
+  "price": 9.4,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7939"
+  },
+  "restaurantId": {
+    "$oid": "47efabbc33e4499890f734a7"
+  },
+  "item": "Poulet Curry",
+  "price": 11.15,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc793a"
+  },
+  "restaurantId": {
+    "$oid": "47efabbc33e4499890f734a7"
+  },
+  "item": "Mochi Glacé",
+  "price": 19.45,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc793b"
+  },
+  "restaurantId": {
+    "$oid": "6fb5a9b56a484751b049e19f"
+  },
+  "item": "Poulet Curry",
+  "price": 17.79,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc793c"
+  },
+  "restaurantId": {
+    "$oid": "6fb5a9b56a484751b049e19f"
+  },
+  "item": "Burrito",
+  "price": 15.12,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc793d"
+  },
+  "restaurantId": {
+    "$oid": "14aae5eef166492fa4b4d1cf"
+  },
+  "item": "Burger Gourmet",
+  "price": 10.11,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc793e"
+  },
+  "restaurantId": {
+    "$oid": "14aae5eef166492fa4b4d1cf"
+  },
+  "item": "Naan au Fromage",
+  "price": 12.13,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc793f"
+  },
+  "restaurantId": {
+    "$oid": "14e073638ead428e92c02827"
+  },
+  "item": "Tacos au Boeuf",
+  "price": 18.15,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7940"
+  },
+  "restaurantId": {
+    "$oid": "14e073638ead428e92c02827"
+  },
+  "item": "Soupe à l'Oignon",
+  "price": 16.87,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7941"
+  },
+  "restaurantId": {
+    "$oid": "e500e5d8ff064c28a48ab76c"
+  },
+  "item": "Burger Gourmet",
+  "price": 18.65,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7942"
+  },
+  "restaurantId": {
+    "$oid": "e500e5d8ff064c28a48ab76c"
+  },
+  "item": "Lasagnes",
+  "price": 10.6,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7943"
+  },
+  "restaurantId": {
+    "$oid": "30b9bfd3e1c24fd3bec9d066"
+  },
+  "item": "Falafel",
+  "price": 19.18,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7944"
+  },
+  "restaurantId": {
+    "$oid": "30b9bfd3e1c24fd3bec9d066"
+  },
+  "item": "Curry de Légumes",
+  "price": 11.28,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7945"
+  },
+  "restaurantId": {
+    "$oid": "6bac72ae5dbe4b3bbf367fc4"
+  },
+  "item": "Crème Brûlée",
+  "price": 19.48,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7946"
+  },
+  "restaurantId": {
+    "$oid": "6bac72ae5dbe4b3bbf367fc4"
+  },
+  "item": "Sushi Saumon",
+  "price": 15.48,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7947"
+  },
+  "restaurantId": {
+    "$oid": "1dcf12d2638743c08e3b71ca"
+  },
+  "item": "Salade César",
+  "price": 13.76,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7948"
+  },
+  "restaurantId": {
+    "$oid": "1dcf12d2638743c08e3b71ca"
+  },
+  "item": "Sushi Saumon",
+  "price": 9.86,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7949"
+  },
+  "restaurantId": {
+    "$oid": "e3fd102661514bc1aa03c54a"
+  },
+  "item": "Falafel",
+  "price": 9.98,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc794a"
+  },
+  "restaurantId": {
+    "$oid": "e3fd102661514bc1aa03c54a"
+  },
+  "item": "Lasagnes",
+  "price": 14.01,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc794b"
+  },
+  "restaurantId": {
+    "$oid": "cc052fc9fadb47e3af0edb0d"
+  },
+  "item": "Falafel",
+  "price": 15.74,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc794c"
+  },
+  "restaurantId": {
+    "$oid": "cc052fc9fadb47e3af0edb0d"
+  },
+  "item": "Mochi Glacé",
+  "price": 18.73,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc794d"
+  },
+  "restaurantId": {
+    "$oid": "c0af9078048e43b39fe85fee"
+  },
+  "item": "Tacos au Boeuf",
+  "price": 17.09,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc794e"
+  },
+  "restaurantId": {
+    "$oid": "c0af9078048e43b39fe85fee"
+  },
+  "item": "Lasagnes",
+  "price": 16.7,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc794f"
+  },
+  "restaurantId": {
+    "$oid": "93a0b35ee3bc4eb5b4184746"
+  },
+  "item": "Tacos au Boeuf",
+  "price": 17.52,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7950"
+  },
+  "restaurantId": {
+    "$oid": "93a0b35ee3bc4eb5b4184746"
+  },
+  "item": "Curry de Légumes",
+  "price": 8.35,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7951"
+  },
+  "restaurantId": {
+    "$oid": "fed1f4fd95b545d480784f73"
+  },
+  "item": "Tiramisu",
+  "price": 19.37,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7952"
+  },
+  "restaurantId": {
+    "$oid": "fed1f4fd95b545d480784f73"
+  },
+  "item": "Pâtes Carbonara",
+  "price": 8.8,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7953"
+  },
+  "restaurantId": {
+    "$oid": "2ed1728885034337b6c1d733"
+  },
+  "item": "Salade César",
+  "price": 19.81,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7954"
+  },
+  "restaurantId": {
+    "$oid": "2ed1728885034337b6c1d733"
+  },
+  "item": "Naan au Fromage",
+  "price": 19.12,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7955"
+  },
+  "restaurantId": {
+    "$oid": "860bd4e9aa6547afab944052"
+  },
+  "item": "Crème Brûlée",
+  "price": 10.17,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7956"
+  },
+  "restaurantId": {
+    "$oid": "860bd4e9aa6547afab944052"
+  },
+  "item": "Curry de Légumes",
+  "price": 11.48,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7957"
+  },
+  "restaurantId": {
+    "$oid": "24cf0092f1f147d1914a87a7"
+  },
+  "item": "Salade César",
+  "price": 16.43,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7958"
+  },
+  "restaurantId": {
+    "$oid": "24cf0092f1f147d1914a87a7"
+  },
+  "item": "Sushi Saumon",
+  "price": 14.08,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc7959"
+  },
+  "restaurantId": {
+    "$oid": "3f5d0a961b0a4bb2b776c174"
+  },
+  "item": "Soupe Miso",
+  "price": 16.77,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc795a"
+  },
+  "restaurantId": {
+    "$oid": "3f5d0a961b0a4bb2b776c174"
+  },
+  "item": "Soupe à l'Oignon",
+  "price": 16.47,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc795b"
+  },
+  "restaurantId": {
+    "$oid": "221bbb868af947ee81548ea8"
+  },
+  "item": "Burger Gourmet",
+  "price": 15.65,
+  "category": "plat"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc795c"
+  },
+  "restaurantId": {
+    "$oid": "221bbb868af947ee81548ea8"
+  },
+  "item": "Naan au Fromage",
+  "price": 10.2,
+  "category": "dessert"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc795d"
+  },
+  "restaurantId": {
+    "$oid": "39144362edc04fa29f5533ea"
+  },
+  "item": "Falafel",
+  "price": 13.22,
+  "category": "entrée"
+},
+{
+  "_id": {
+    "$oid": "6970f1def91a1b5085cc795e"
+  },
+  "restaurantId": {
+    "$oid": "39144362edc04fa29f5533ea"
+  },
+  "item": "Burrito",
+  "price": 19.04,
+  "category": "plat"
+}]
