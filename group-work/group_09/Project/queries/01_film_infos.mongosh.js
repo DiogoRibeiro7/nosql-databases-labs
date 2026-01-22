@@ -1,4 +1,4 @@
-// Mostra os dados de cada filme, incluindo atores e categoria.
+// Mostra os dados de cada filme, incluindo atores, categoria e tipo de filme.
 // Correr: mongosh queries/01_film_infos.mongosh.js
 
 db = db.getSiblingDB("sakila");
