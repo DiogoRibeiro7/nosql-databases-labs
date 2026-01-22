@@ -18,4 +18,4 @@ db.rental.aggregate([
 	}},
 	{ $sort: { rentals: -1 }},
 	{ $limit: 10 }
-]);
+]).forEach(doc => printjson(doc));
