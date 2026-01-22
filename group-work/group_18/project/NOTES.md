@@ -1,0 +1,5 @@
+- Usámos referência para followers porque é uma relação many-to-many não limitada.
+- Comentários também ficam em coleção separada para evitar documentos gigantes.
+- Likes são contados no próprio post para leitura rápida.
+- Feed é híbrido: pré-calculado para utilizadores normais, calculado em leitura para contas grandes.
+- Índices foram criados com base nos padrões de acesso mais frequentes.
