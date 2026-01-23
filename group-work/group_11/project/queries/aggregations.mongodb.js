@@ -1,4 +1,4 @@
-use('travel_booking'); // [cite: 497]
+use('travel_booking'); 
 
 // --- 1. CRIAÇÃO DE ÍNDICES (Otimização conforme requisito 6.2) --- 
 // Devem ser criados para melhorar a performance das queries 
@@ -38,52 +38,41 @@ db.porto_listings.aggregate([
   { $sort: { avgPrice: -1 } }
 ]);
 
-// Q4: Interconexão de Dados (Requisito: 3+ coleções)
-// Cruza Listings com as coleções Hosts e Reviews 
+// Q4: Interconexão de Dados (Requirement: Referenced Collections)
+// Cruzamos a coleção porto_listings com a coleção hosts
+print("--- Q4: Detalhes do Alojamento e do Anfitrião (Join) ---");
 db.porto_listings.aggregate([
   { 
     $match: { 
       neighbourhood: "Ribeira",
-      review_scores_rating: { $gte: 4.0 } 
+      review_scores_rating: { $gte: 90 } // Ajustado para a escala do teu JSON
     } 
   },
   {
     $lookup: {
-      from: "hosts",
-      localField: "host_id", 
-      foreignField: "id",    
-      as: "host_details"
-    }
-  },
-  {
-    $lookup: {
-      from: "reviews",
-      localField: "id",
-      foreignField: "listing_id",
-      as: "customer_reviews"
+      from: "hosts",         // Coleção de destino
+      localField: "host_id", // Campo na porto_listings
+      foreignField: "id",    // Campo na hosts
+      as: "host_details"     // Nome do array de saída
     }
   },
   {
     $project: {
       name: 1,
       price: 1,
-      host_info: { $arrayElemAt: ["$host_details", 0] },
-      top_reviews: { $slice: ["$customer_reviews", 3] }
+      "host_details.name": 1,
+      _id: 0
     }
   },
-  { $limit: 10 } 
-]);
+  { $limit: 5 }
+]).forEach(printjson);
 
-// --- 3. SECÇÃO DE PERFORMANCE (O exemplo do professor) ---
-// Aqui escolhemos UMA query para provar a performance com o explain
-
+// --- SECÇÃO DE PERFORMANCE ---
 print("\n--- ANÁLISE TÉCNICA DE PERFORMANCE (Explain) ---");
-
-const myPipeline = [
+const performancePipeline = [
   { $match: { neighbourhood: "Ribeira" } },
   { $group: { _id: "$room_type", count: { $sum: 1 } } }
 ];
 
-// Mostra o resultado da análise de performance
-const explain = db.porto_listings.explain("executionStats").aggregate(myPipeline);
-printjson(explain.executionStats);
+const explainResult = db.porto_listings.explain("executionStats").aggregate(performancePipeline);
+printjson(explainResult.executionStats);
