@@ -2,9 +2,9 @@
 
 ## Team Members
 
-* **Délcio Cunha**
-* **Marcio Tavares**
-* **Thiago Luz**
+* **Délcio Cunha - 40240378**
+* **Marcio Tavares - 40240379**
+* **Thiago Luz - 40240380**
 
 ---
 
@@ -161,4 +161,4 @@ This project demonstrates the practical application of MongoDB in a **Travel & B
 
 ---
 
-**Group 11 – 2025**
+**Group 11 – 2026**
