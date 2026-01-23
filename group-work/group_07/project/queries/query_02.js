@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 2: Encontrar os primeiros 10 documentos
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Consulta simples
@@ -15,5 +19,6 @@
 // como processar e analisar os dados para insights de negócio.
 // ============================================
 
-db.motion_data.find().limit(10).pretty();
+print("Top 10 Documents:");
+db.motion_data.find().limit(10).forEach(printjson);
 

@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 1: Contar o total de documentos
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Contagem básica
@@ -15,5 +19,5 @@
 // que a base de dados está completa antes de análises críticas de negócio.
 // ============================================
 
-db.motion_data.countDocuments();
-
+print("Total Documents:");
+print(db.motion_data.countDocuments());

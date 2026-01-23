@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 12: Calcular correlação entre aceleração e rotação
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Agregação com cálculos
@@ -51,5 +55,5 @@ db.motion_data.aggregate([
       maxRotationMag: { $max: "$rotationMagnitude" }
     }
   }
-]);
+]).forEach(printjson);
 

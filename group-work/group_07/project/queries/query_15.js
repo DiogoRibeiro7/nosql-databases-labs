@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 15: Análise completa de padrões de movimento
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Agregação complexa e abrangente
@@ -96,5 +100,5 @@ db.motion_data.aggregate([
       }
     }
   }
-]);
+]).forEach(printjson);
 

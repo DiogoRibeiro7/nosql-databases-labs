@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 11: Encontrar documentos com valores extremos de yaw
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Filtro com múltiplas condições
@@ -23,5 +27,5 @@ db.motion_data.find({
     { "attitude.yaw": { $lt: -3.0 } },
     { "attitude.yaw": { $gt: 3.0 } }
   ]
-}).sort({ "attitude.yaw": 1 }).limit(20);
+}).sort({ "attitude.yaw": 1 }).limit(20).forEach(printjson);
 

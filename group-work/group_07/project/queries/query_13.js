@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 13: Encontrar períodos de movimento estável (baixa aceleração e rotação)
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Filtro com expressões complexas
@@ -53,5 +57,5 @@ db.motion_data.find({
       }
     }
   ]
-}).limit(30);
+}).limit(30).forEach(printjson);
 

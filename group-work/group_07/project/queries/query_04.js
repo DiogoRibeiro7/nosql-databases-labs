@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 4: Calcular estatísticas de aceleração do utilizador
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Agregação com estatísticas
@@ -32,5 +36,5 @@ db.motion_data.aggregate([
       minAccelZ: { $min: "$userAcceleration.z" }
     }
   }
-]);
+]).forEach(printjson);
 

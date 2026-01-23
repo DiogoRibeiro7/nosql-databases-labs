@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 7: Encontrar documentos com orientação específica (pitch negativo)
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Filtro simples
@@ -19,5 +23,5 @@
 
 db.motion_data.find({
   "attitude.pitch": { $lt: -1.0 }
-}).limit(20);
+}).limit(20).forEach(printjson);
 

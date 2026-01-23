@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 6: Calcular a magnitude total da aceleração do utilizador
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Cálculo e projeção
@@ -45,5 +49,5 @@ db.motion_data.aggregate([
   {
     $limit: 20
   }
-]);
+]).forEach(printjson);
 

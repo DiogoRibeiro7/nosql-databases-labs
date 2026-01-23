@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 10: Agrupar por faixas de aceleração e contar ocorrências
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Agregação com buckets
@@ -44,5 +48,5 @@ db.motion_data.aggregate([
       }
     }
   }
-]);
+]).forEach(printjson);
 

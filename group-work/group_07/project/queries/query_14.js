@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 14: Calcular percentis de aceleração
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Agregação avançada
@@ -52,5 +56,5 @@ db.motion_data.aggregate([
       count: { $size: "$values" }
     }
   }
-]);
+]).forEach(printjson);
 

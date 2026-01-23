@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 3: Encontrar documentos com aceleração do utilizador alta (> 1.0 m/s²)
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Filtro com condições
@@ -24,5 +28,5 @@ db.motion_data.find({
     { "userAcceleration.y": { $gt: 1.0 } },
     { "userAcceleration.z": { $gt: 1.0 } }
   ]
-}).limit(20);
+}).limit(20).forEach(printjson);
 

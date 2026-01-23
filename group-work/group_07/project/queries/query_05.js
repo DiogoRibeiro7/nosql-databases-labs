@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 5: Encontrar documentos com taxa de rotação elevada (> 2.0 rad/s)
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Filtro e ordenação
@@ -24,5 +28,5 @@ db.motion_data.find({
     { "rotationRate.y": { $gt: 2.0 } },
     { "rotationRate.z": { $gt: 2.0 } }
   ]
-}).sort({ "rotationRate.x": -1 }).limit(10);
+}).sort({ "rotationRate.x": -1 }).limit(10).forEach(printjson);
 

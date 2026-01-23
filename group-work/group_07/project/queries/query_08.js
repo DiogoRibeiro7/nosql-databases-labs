@@ -1,6 +1,10 @@
 // ============================================
 // QUERY 8: Calcular média de gravidade por componente
 // ============================================
+
+// Switch to the correct database
+db = db.getSiblingDB('iot_sensors');
+
 // Base de dados: iot_sensors
 // Coleção: motion_data
 // Tipo: Agregação com desvio padrão
@@ -29,5 +33,5 @@ db.motion_data.aggregate([
       stdDevGravityZ: { $stdDevPop: "$gravity.z" }
     }
   }
-]);
+]).forEach(printjson);
 
