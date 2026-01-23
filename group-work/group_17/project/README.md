@@ -40,12 +40,6 @@ See [architecture.md](architecture.md) for a detailed description of the data mo
 4. Discuss how the data model supports typical cinema operations and reporting.
 5. Mention possible extensions, such as online ticketing or advanced analytics.
 
-## Authors
-
-Group 17:
-- Diana Teles
-- Guilherme Sampaio
-
 ## License
 
 This project is for educational purposes.
