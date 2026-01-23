@@ -73,3 +73,17 @@ db.porto_listings.aggregate([
   },
   { $limit: 10 } 
 ]);
+
+// --- 3. SECÇÃO DE PERFORMANCE (O exemplo do professor) ---
+// Aqui escolhemos UMA query para provar a performance com o explain
+
+print("\n--- ANÁLISE TÉCNICA DE PERFORMANCE (Explain) ---");
+
+const myPipeline = [
+  { $match: { neighbourhood: "Ribeira" } },
+  { $group: { _id: "$room_type", count: { $sum: 1 } } }
+];
+
+// Mostra o resultado da análise de performance
+const explain = db.porto_listings.explain("executionStats").aggregate(myPipeline);
+printjson(explain.executionStats);

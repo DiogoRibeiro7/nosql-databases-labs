@@ -31,3 +31,25 @@ db.porto_listings.find({
     latitude: { $gte: 41.1400, $lte: 41.1500 },
     longitude: { $gte: -8.6200, $lte: -8.6100 }
 }).limit(5);
+
+// Q6: Pesquisa por Anfitrião Específico (Filtro simples)
+// Útil para quando um utilizador quer ver todas as propriedades de um host
+db.porto_listings.find({ host_name: "Porto_Host_17" });
+
+// Q7: Filtro para Famílias (Capacidade e Quartos)
+// Procura alojamentos com pelo menos 3 camas e mais que 1 quarto
+db.porto_listings.find({ 
+    beds: { $gte: 3 }, 
+    bedrooms: { $gt: 1 } 
+}).sort({ accommodates: -1 });
+
+// Q8: Urgência/Disponibilidade
+// Encontrar alojamentos com pouca disponibilidade (menos de 30 dias/ano)
+db.porto_listings.find({ availability_365: { $lte: 30 } });
+
+// Q9: Segmentação por Tipo de Quarto e Bairro
+// Ideal para viajantes individuais que procuram quartos privados em Paranhos
+db.porto_listings.find({ 
+    neighbourhood: "Paranhos", 
+    room_type: "Private room" 
+});
