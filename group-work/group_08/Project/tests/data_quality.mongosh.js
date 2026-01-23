@@ -1,16 +1,16 @@
 // Lightweight checks to keep the dataset consistent.
 // Run with: mongosh tests/data_quality.mongosh.js
 
-db = db.getSiblingDB("group_08_example_final");
+db = db.getSiblingDB("group_08_school_final");
 const expectations = [
   // Ensure seed counts match the script after every import.
-  { label: "grades", collection: "grades", query: {}, expected: 10 },
+  { label: "grades", collection: "grades", query: {}, expected: 13 },
   { label: "students", collection: "students", query: {}, expected: 10 },
   { label: "subjects", collection: "subjects", query: {}, expected: 10 },
   // Cross-check that every grade references an existing subject.
   {
     label: "referential integrity",
-    validator: () => db.grades.countDocuments({ subjectCode: { $nin: db.subject.distinct("subjectCode") } }),
+    validator: () => db.grades.countDocuments({ subjectCode: { $nin: db.subjects.distinct("subjectCode") } }),
     expected: 0,
   },
 ];
