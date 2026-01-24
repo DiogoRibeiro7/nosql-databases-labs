@@ -1,12 +1,10 @@
 # Group 19 - MongoDB NoSQL Database Project
 
-## Team Members
-| Name | Student ID | Email | Contribution % |
-| ---- | ---------- | ----- | -------------- |
-| Nuno SIlva | 40210353 | 40210353@esmad.ipp.pt | 33,3% |
-| Diogo Vieira | 40210454 | 40210454@esmad.ipp.pt | 33,3% |
-| Francisco Araújo | 40220422 | 40220422@esmad.ipp.pt | 33,3% |
+Ao longo deste projeto percebemos que por mais que soubéssemos a teoria de NoSql, saber aplicá-la na prática era diferente, no início começamos por subestimar a complexidade do projeto e adiámos algumas decisões, o que levou a momentos de pressão desnecessária perto da entrega. Isso obrigou-nos a assumir responsabilidades à pressa e a corrigir coisas em cima do prazo, o que não é sustentável. Foi um bom reality check sobre gestão de tempo e prioridades, e que sem este projeto não teríamos aprendido 1/3 do que sabemos agora sobre NoSql . 
 
+A comunicação dentro do grupo nem sempre foi eficaz. Começamos por dividir as tarefas por cada elemento, acabando cada um a trabalhar isolado na sua parte, sem alinhamento claro, e isso gerou retrabalho e dúvidas repetidas. Só quando começámos a parar para discutir em conjunto é que o projeto começou a ganhar coerência. Com isto aprendemos que num trabalho de grupo temos que estar todos alinhados no que cada um está a fazer, e que não é só dividir tarefas por cada um e depois juntamos tudo. No entanto, a questão de termos deixado “para a última” também atrapalhou um bocado neste processo de coerência entre os elementos. 
+
+No final, concluímos que apesar deste projeto ter sido “chato” no sentido de ser mais um projeto para entregar na última semana (a juntar a todos os outros que também tínhamos que entregar e sendo o 2º projeto da mesma cadeira), revelou-se necessário para a obtenção de conhecimento da matéria lecionada. Sentimos que com este projeto ficamos mais “equipa” e com mais conhecimento prático a nível de Git e de NoSql. 
 
 # Projeto Final MongoDB — Dataset Books
 
