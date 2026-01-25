@@ -30,6 +30,28 @@ MongoDB é amplamente utilizado em empresas que lidam com grandes volumes de dad
 
 ---
 
+## Uso do Git e Controlo de Versões
+O Git teve um papel essencial na organização e desenvolvimento do projeto. Para além de facilitar a colaboração, permitiu‑nos trabalhar de forma mais profissional e estruturada.
+
+Aprendemos a:
+
+-**Criar e gerir branches, mantendo o trabalho separado e evitando conflitos.**
+
+-**Fazer commits frequentes e descritivos, o que tornou o histórico claro e fácil de seguir.**
+
+-**Resolver conflitos de forma colaborativa, analisando diferenças e escolhendo a melhor solução.**
+
+-**Utilizar pull requests, permitindo revisão de código antes de integrar alterações.**
+
+-**Manter o projeto seguro, sabendo que qualquer erro podia ser revertido rapidamente.**
+
+-**Esta experiência mostrou‑nos como o Git é indispensável em qualquer projeto de software moderno e reforçou a importância do controlo de versões no trabalho em equipa.**
+
+---
+
 ## Conclusão
 
 Este projeto permitiu‑nos crescer tanto a nível técnico como a nível de trabalho em equipa. A experiência com MongoDB/NoSQL e a colaboração entre os dois foram fundamentais para alcançarmos um resultado final consistente, organizado e funcional.
+
+
+reflexao git

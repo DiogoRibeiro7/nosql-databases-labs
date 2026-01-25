@@ -1,25 +1,27 @@
-# Projeto: Rede Social em MongoDB
+# Plataforma de Descoberta de Restaurantes
 
-## Objetivo
-Criar o backend de uma rede social moderna, escalável e otimizada para leitura, usando boas práticas de modelação NoSQL.
+## Descrição
+Permite:
+- Listar restaurantes
+- Filtrar por tipo de comida e rating
+- Adicionar reviews
+- Marcar restaurantes como favoritos
+- Gerar estatísticas (top restaurantes, média de ratings, etc.)
+
+## Dataset utilizado
+- Ficheiro: `restaurant.json`
+- Localização: `group-work/group_18/project/data/restaurant.json`
+- Origem: pasta `data/datasets/restaurant.json` do repositório do professor
 
 ## Coleções
-- users
-- posts
-- comments
-- follows
-- messages
+- `restaurants` — dados base dos restaurantes (dataset original)
+- `reviews` — avaliações de utilizadores
+- `favorites` — restaurantes marcados como favoritos por utilizadores
 
-## Funcionalidades
-- Criar utilizadores
-- Seguir / deixar de seguir
-- Criar posts com hashtags
-- Comentar e gostar
-- Feed personalizado
-- Pesquisa por hashtags
-- Mensagens privadas
+## Como preparar a base de dados
 
-## Como correr
-1. Iniciar MongoDB
-2. Executar `mongosh < data/seed.js`
-3. Explorar queries em `queries/`
+1. Iniciar o MongoDB (local ou Atlas).
+2. Importar o dataset de restaurantes:
+
+```bash
+mongoimport --db foodfinder --collection restaurants --file group-work/group_05/project/data/restaurant.json --jsonArray
