@@ -5,19 +5,19 @@ db = db.getSiblingDB("sakila");
 
 db.film.aggregate([
 	{
-		$lookup: {
+		$lookup: { //juntar categorias do filme
 			from: "film_category",
 			localField: "film_id",
 			foreignField: "film_id",
 			pipeline: [
 				{
-					$lookup: {
+					$lookup: { //buscar nome da categoria
 						from: "category",
 						localField: "category_id",
 						foreignField: "category_id",
 						pipeline: [
 							{
-								$project: {
+								$project: { //excluir campos desnecessários
 									_id: 0,
 									category_id: 0,
 									last_update: 0
@@ -28,7 +28,7 @@ db.film.aggregate([
 					},
 				},
 				{
-					$project: {
+					$project: { //excluir campos desnecessários
 						_id: 0,
 						film_id: 0,
 						category_id: 0,
@@ -36,16 +36,16 @@ db.film.aggregate([
 					}
 				}
 			],
-			as: "category"
+			as: "category" //campo final
 		}
 	},
 	{
-		$lookup: {
+		$lookup: { //buscar linguagem
 			from: "language",
 			localField: "language_id",
 			foreignField: "language_id",
 			pipeline: [{
-				$project: {
+				$project: { //excluir campos desnecessários
 					_id: 0,
 					language_id: 0,
 					last_update: 0
@@ -54,23 +54,24 @@ db.film.aggregate([
 			as: "linguagem"
 		}
 	},
-	{ $unwind: "$category" },
+	{ $unwind: "$category" }, //expandir as listas
 	{ $unwind: "$category.category" },
 	{ $unwind: "$linguagem" },
+
 	{
-		$lookup: {
+		$lookup: { //juntar atores
 			from: "film_actor",
 			localField: "film_id",
 			foreignField: "film_id",
 			pipeline: [
 				{
-					$lookup: {
+					$lookup: { //buscar nome do ator
 						from: "actor",
 						localField: "actor_id",
 						foreignField: "actor_id",
 						pipeline: [
 							{
-								$project: {
+								$project: { //remover campos
 									_id: 0,
 									actor_id: 0,
 									last_update: 0
@@ -81,7 +82,7 @@ db.film.aggregate([
 					}
 				},
 				{
-					$project: {
+					$project: { //excluir campos desnecessários
 						_id: 0,
 						film_id: 0,
 						actor_id: 0,
@@ -93,7 +94,7 @@ db.film.aggregate([
 		}
 	},
 	{
-		$project: {
+		$project: { //campos finais
 			_id: 0,
 			title: 1,
 			description: 1,
@@ -108,7 +109,6 @@ db.film.aggregate([
 			actor: 1,
 		}
 	},
-	{ $sort: { _id: 1 } },
-	{ $limit: 5 }
-])
-	.forEach((doc) => printjson(doc));
+	{ $sort: { _id: 1 } }, //ordenar por id
+	{ $limit: 5 } //limitar a 5
+]).forEach((doc) => printjson(doc)); //mostrar resultado

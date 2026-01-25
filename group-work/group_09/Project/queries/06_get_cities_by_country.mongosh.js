@@ -4,7 +4,7 @@
 db = db.getSiblingDB("sakila");
 db.country.aggregate([
 	{
-		$lookup: {
+		$lookup: { //juntar cidades do pais
 			from: "city",
 			localField: "country_id",
 			foreignField: "country_id",
@@ -12,12 +12,12 @@ db.country.aggregate([
 		}
 	},
 	{
-		$project: {
+		$project: { //campos finais
 			_id: 0,
 			country_id: 1,
-			country: 1,
+			country: 1, //nome do pais
 			cities: {
-				$map: {
+				$map: { //mapear cidades
 					input: "$cities",
 					as: "c",
 					in: {

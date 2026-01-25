@@ -5,14 +5,14 @@ db = db.getSiblingDB("sakila");
 
 db.film.aggregate([
 	{
-		$group: {
+		$group: { //agrupar métricas de filmes
 			_id: null,
-			avgRentalDuration: { $avg: "$rental_duration" },
-			totalFilms: { $sum: 1 }
+			avgRentalDuration: { $avg: "$rental_duration" }, //média duração aluguer
+			totalFilms: { $sum: 1 } //contar total de filmes
 		}
 	},
 	{
-		$project: {
+		$project: { //campos finais
 			_id: 0,
 			avgRentalDuration: 1,
 			totalFilms: 1

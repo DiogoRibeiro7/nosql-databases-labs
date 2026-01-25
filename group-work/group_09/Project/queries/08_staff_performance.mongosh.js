@@ -5,16 +5,16 @@ db = db.getSiblingDB("sakila");
 
 print("Alugueres processados por staff:");
 db.rental.aggregate([
-	{ $group: { _id: "$staff_id", rentals: { $sum: 1 } } },
-	{ $sort: { rentals: -1 } },
+	{ $group: { _id: "$staff_id", rentals: { $sum: 1 } } }, //contar alugueres por funcionário
+	{ $sort: { rentals: -1 } }, //ordenar por numero de alugueres
 	{
-		$lookup: {
+		$lookup: { //juntar dados do funcionário
 			from: "staff",
 			localField: "_id",
 			foreignField: "staff_id",
 			as: "staff"
 		}
 	},
-	{ $unwind: { path: "$staff" } },
-	{ $project: { staff_id: "$_id", name: { $concat: ["$staff.first_name", " ", "$staff.last_name"] }, rentals: 1, _id: 0 } }
+	{ $unwind: { path: "$staff" } }, //expandir funcionário
+	{ $project: { staff_id: "$_id", name: { $concat: ["$staff.first_name", " ", "$staff.last_name"] }, rentals: 1, _id: 0 } } //campos finais
 ]).forEach(doc => printjson(doc));

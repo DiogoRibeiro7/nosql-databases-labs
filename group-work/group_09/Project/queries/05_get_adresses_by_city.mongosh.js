@@ -4,7 +4,7 @@
 db = db.getSiblingDB("sakila");
 db.city.aggregate([
 	{
-		$lookup: {
+		$lookup: { //juntar moradas da cidade
 			from: "address",
 			localField: "city_id",
 			foreignField: "city_id",
@@ -12,11 +12,11 @@ db.city.aggregate([
 		}
 	},
 	{
-		$project: {
+		$project: { //campos finais
 			_id: 0,
-			City: "$city",
+			City: "$city", //nome da cidade
 			Addresses: {
-				$map: {
+				$map: { //mapear moradas
 					input: "$addresses",
 					as: "a",
 					in: {

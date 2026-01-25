@@ -2,57 +2,57 @@
 // Limitado aos primeiros 20 para testes rápidos.
 // Correr: mongosh queries/03_all_customer_rentals.mongosh.js
 
-// criar indexes
 db = db.getSiblingDB("sakila");
 
 db.customer.aggregate([
 	{
-		$lookup: {
+		$lookup: { //juntar alugueres do cliente
 			from: "rental",
 			localField: "customer_id",
 			foreignField: "customer_id",
 			as: "rentals"
 		}
 	},
-	{ $unwind: "$rentals" },
+	{ $unwind: "$rentals" }, //expandir alugueres
 	{
-		$lookup: {
+		$lookup: { //juntar inventário
 			from: "inventory",
 			localField: "rentals.inventory_id",
 			foreignField: "inventory_id",
 			as: "inventory"
 		}
 	},
-	{ $unwind: "$inventory" },
+	{ $unwind: "$inventory" }, //expandir inventário
 	{
-		$lookup: {
+		$lookup: { //juntar filme
 			from: "film",
 			localField: "inventory.film_id",
 			foreignField: "film_id",
 			as: "film"
 		}
 	},
-	{ $unwind: "$film" },
+	{ $unwind: "$film" }, //expandir filme
+
 	{
-		$lookup: {
+		$lookup: { //juntar staff
 			from: "staff",
 			localField: "rentals.staff_id",
 			foreignField: "staff_id",
 			as: "staff"
 		}
 	},
-	{ $unwind: "$staff" },
+	{ $unwind: "$staff" }, //expandir staff
 	{
-		$group: {
+		$group: { //agrupar por cliente
 			_id: "$customer_id",
 			customer: {
-				$first: {
+				$first: { //dados do cliente
 					name: { $concat: ["$first_name", " ", "$last_name"] },
 					email: "$email"
 				}
 			},
 			films: {
-				$push: {
+				$push: { //lista de filmes alugados
 					title: "$film.title",
 					rental_date: "$rentals.rental_date",
 					staff: {
@@ -63,15 +63,14 @@ db.customer.aggregate([
 		}
 	},
 	{
-		$sort: { "customer.name": 1 }
+		$sort: { "customer.name": 1 } //ordenar por nome do cliente
 	},
 	{
-		$project: {
+		$project: { //campos finais
 			_id: 0,
 			customer: 1,
 			films: 1
 		}
 	},
-	{ $sort: { first_name: 1 } },
-	{ $limit: 20 }
+	{ $limit: 20 } //limitar a 20
 ]).forEach(doc => printjson(doc));
