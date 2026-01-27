@@ -55,3 +55,7 @@ The scripts assume a MongoDB instance is available at the default `mongodb://127
 - **Key entities:** `film`, `customer`, `staff` and `address` (reference data), `film_category`, `film_actor`, `store` and `inventory` (embedded venue metadata), `category`, `city`, `country`, `language`, `payment` and `rental` (observational facts enriched with customer segments).
 - **Why mongosh only?** Reproducing grading artifacts should never require installing driver dependencies. Each script is idempotent and interacts with the DB through standard mongosh helpers such as `cat()`, `insertMany()`, and aggregation pipelines.
 
+## Teamwork
+
+This project was split very evenly between the two. We began by having one of us do the "customer" side, and the other the "film" side of the database, but eventually started working together to create queries that used both.
+Beyond that, there wasn't much planning. We simply started on one section of the project and told the other what was being done, who would either already be or would start working on another part (ex. one did `architecture.md` while another did `README.md`).
