@@ -54,7 +54,7 @@
     "globals": "^17.1.0",
     "jest-junit": "^16.0.0",
     "markdownlint-cli": "^0.47.0",
-    "prettier": "^3.8.0"
+    "prettier": "^3.8.1"
   },
   "dependencies": {
     "colors": "^1.4.0",
