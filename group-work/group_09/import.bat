@@ -1,0 +1,15 @@
+mongoimport --db group_09 --collection actor --file output/actor.json --jsonArray
+mongoimport --db group_09 --collection address --file output/address.json --jsonArray
+mongoimport --db group_09 --collection category --file output/category.json --jsonArray
+mongoimport --db group_09 --collection city --file output/city.json --jsonArray
+mongoimport --db group_09 --collection country --file output/country.json --jsonArray
+mongoimport --db group_09 --collection customer --file output/customer.json --jsonArray
+mongoimport --db group_09 --collection film --file output/film.json --jsonArray
+mongoimport --db group_09 --collection film_actor --file output/film_actor.json --jsonArray
+mongoimport --db group_09 --collection film_category --file output/film_category.json --jsonArray
+mongoimport --db group_09 --collection inventory --file output/inventory.json --jsonArray
+mongoimport --db group_09 --collection language --file output/language.json --jsonArray
+mongoimport --db group_09 --collection payment --file output/payment.json --jsonArray
+mongoimport --db group_09 --collection rental --file output/rental.json --jsonArray
+mongoimport --db group_09 --collection staff --file output/staff.json --jsonArray
+mongoimport --db group_09 --collection store --file output/store.json --jsonArray
