@@ -1,4 +1,4 @@
-# Group 01 - MongoDB NoSQL Database Project
+# Group 01 - Flight Management System
 
 ## Team Members
 
@@ -6,241 +6,167 @@ See our team composition in [group_members.md](../group_members.md#group-01)
 
 ## Project Overview
 
-This project demonstrates our comprehensive understanding of MongoDB database operations and NoSQL concepts. We have implemented a complete set of database solutions that showcase our ability to design schemas, insert data, and create complex queries for real-world scenarios.
+This project implements a comprehensive **Flight Management System** using MongoDB, demonstrating advanced NoSQL database design patterns, query optimization, and analytical capabilities for real-world airline operations. The system tracks airline operations, flight schedules, and passenger reservations while providing business intelligence through complex aggregation pipelines.
 
-### Learning Objectives Achieved
+### Key Features
 
-- Mastered MongoDB query language and operators
-- Designed efficient document schemas following best practices
-- Implemented complex aggregation pipelines for data analysis
-- Created optimized indexes for query performance
-- Developed data insertion strategies for various use cases
+- **Operational Management**: Track flight schedules, capacity, and status updates
+- **Customer Service**: Manage reservations, user accounts, and customer inquiries
+- **Business Analytics**: Analyze revenue, route popularity, customer lifetime value, and operational efficiency
+- **Strategic Planning**: Identify underperforming routes, optimize pricing, and understand customer behavior patterns
 
-## Database Design
+## Project Structure
 
-### Collections Created
-
-1. **Primary Collections**
-   - Structured document schemas with embedded documents
-   - Referenced relationships between collections
-   - Optimized field types and data structures
-
-2. **Schema Design Decisions**
-   - Denormalization strategies for read optimization
-   - Embedding vs referencing trade-offs
-   - Index planning based on query patterns
-
-## Data Operations Implemented
-
-### 1. Database Creation & Setup
-
-- Created database with appropriate naming conventions
-- Established collections with validation rules
-- Set up indexes for optimal query performance
-
-### 2. Data Insertion
-
-- **Bulk Insert Operations**: Efficient insertion of large datasets
-- **Single Document Inserts**: Individual record creation with validation
-- **Batch Processing**: Organized data imports from multiple sources
-- **Data Generation**: Created realistic test data using various patterns
-
-### 3. Query Operations
-
-#### Basic Queries
-
-- Find operations with multiple filter conditions
-- Projection to retrieve specific fields
-- Sorting and limiting result sets
-- Regular expression searches for text patterns
-
-#### Advanced Queries
-
-- Complex filtering with `$and`, `$or`, `$nor` operators
-- Array queries using `$elemMatch`, `$all`, `$size`
-- Nested document queries with dot notation
-- Comparison operators for range queries
-
-### 4. Aggregation Pipelines
-
-#### Data Analysis Pipelines
-
-- `$match` stages for filtering
-- `$group` operations for statistical analysis
-- `$project` for data transformation
-- `$sort` and `$limit` for result control
-
-#### Complex Aggregations
-
-- Multi-stage pipelines for business analytics
-- `$lookup` for joining collections
-- `$unwind` for array manipulation
-- `$facet` for multiple aggregation outputs
-
-### 5. Update Operations
-
-- Single and multi-document updates
-- Array update operators (`$push`, `$pull`, `$addToSet`)
-- Field update operators (`$set`, `$unset`, `$inc`)
-- Conditional updates with query filters
-
-### 6. Index Management
-
-- Single field indexes for common queries
-- Compound indexes for complex query patterns
-- Text indexes for search functionality
-- Unique indexes for data integrity
-
-## Technologies & Tools Used
-
-- **Database**: MongoDB 7.0
-- **Shell**: MongoDB Shell (mongosh)
-- **Query Language**: MongoDB Query Language (MQL)
-- **Tools**: MongoDB Compass for visualization
-- **Scripts**: JavaScript for database operations
-
-## Database Setup Instructions
-
-### Prerequisites
-
-- MongoDB 7.0 or higher installed locally
-- MongoDB Shell (mongosh) installed
-- MongoDB Compass (optional, for GUI access)
-
-### Running Our Solution
-
-1. **Start MongoDB Server**
-
-   ```bash
-   mongod --dbpath /path/to/data/directory
-   ```
-
-2. **Connect to MongoDB**
-
-   ```bash
-   mongosh
-   ```
-
-3. **Create and Use Database**
-
-   ```javascript
-   use group_01_db
-   ```
-
-4. **Execute Our Scripts**
-
-   ```bash
-   mongosh < solution.js
-   ```
-
-5. **Verify Data**
-   ```javascript
-   db.getCollectionNames();
-   db.collection_name.countDocuments();
-   ```
-
-## Query Examples from Our Solution
-
-### Example 1: Find Products by Category
-
-```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 100, $lte: 1000 },
-});
+```
+group_01/
+├── README.md                    # This file (group-level overview)
+├── project/                     # Main project deliverables
+│   ├── README.md                # Detailed project documentation
+│   ├── architecture.md          # Schema design and modeling decisions
+│   ├── performance.md           # Query performance analysis
+│   ├── import_data.mongosh.js   # Database bootstrap script
+│   ├── data/                    # JSON data files
+│   │   ├── airlines.json
+│   │   ├── airports.json
+│   │   ├── countries.json
+│   │   ├── flights.json
+│   │   ├── reservations.json
+│   │   ├── users.json
+│   │   └── README.md
+│   └── queries/                 # 20+ query scripts
+│       ├── index_blueprint.mongosh.js
+│       ├── 01_create_flight_reservation.mongosh.js
+│       ├── 02_update_user_email.mongosh.js
+│       └── ... (20 total queries)
+├── solution.md                  # Solution documentation
+└── solution_example.md          # Example solutions
 ```
 
-### Example 2: Aggregate Sales Data
+## Quick Start
+
+Navigate to the project directory and follow these steps:
+
+```bash
+cd project
+
+# 1. Import data into MongoDB
+mongosh import_data.mongosh.js
+
+# 2. Create indexes for optimal performance
+mongosh queries/index_blueprint.mongosh.js
+
+# 3. Run individual queries
+mongosh queries/01_create_flight_reservation.mongosh.js
+mongosh queries/13_total_revenue_by_airline.mongosh.js
+```
+
+For detailed setup instructions and troubleshooting, see [`project/README.md`](project/README.md).
+
+## Database Schema
+
+The system consists of six collections:
+
+| Collection | Type | Purpose |
+|------------|------|---------|
+| `airlines` | Reference | Airline IATA codes, names, and country associations |
+| `airports` | Reference | Airport identifiers, names, and geographic metadata |
+| `countries` | Reference | Country codes and names |
+| `users` | Reference | User accounts with email addresses and authentication data |
+| `flights` | Transactional | Scheduled flights with route, timing, capacity, pricing, and status |
+| `reservations` | Transactional | Passenger reservations linked to flights and users |
+
+### Design Highlights
+
+- **Reference-based relationships**: Flights reference airlines and airports via IATA codes for efficient updates
+- **Optimized indexes**: Compound indexes support common query patterns (route lookups, date ranges, user reservations)
+- **Balanced denormalization**: Strategic embedding vs referencing based on access patterns
+
+For comprehensive architecture documentation, see [`project/architecture.md`](project/architecture.md).
+
+## Query Capabilities
+
+The system provides 20+ comprehensive queries covering:
+
+### Operational Queries
+- Create and manage flight reservations
+- Update user information
+- Cancel flights and manage flight status
+- Check available seats and capacity
+
+### Analytical Queries
+- **Revenue Analysis**: Total revenue by airline, route profitability
+- **Route Analytics**: Most popular routes, average flight duration by route
+- **Customer Analytics**: Customer lifetime value, users with most reservations
+- **Operational Intelligence**: Low-occupancy flights, cancellation analysis by route
+
+### Example Query: Total Revenue by Airline
 
 ```javascript
-db.sales.aggregate([
-  { $match: { year: 2024 } },
+db.reservations.aggregate([
+  { $match: { status: "confirmed" } },
+  {
+    $lookup: {
+      from: "flights",
+      localField: "flightNumber",
+      foreignField: "flightNumber",
+      as: "flight"
+    }
+  },
+  { $unwind: "$flight" },
   {
     $group: {
-      _id: "$month",
-      totalSales: { $sum: "$amount" },
-      avgSale: { $avg: "$amount" },
-    },
+      _id: "$flight.airlineIata",
+      totalRevenue: { $sum: "$flight.price" }
+    }
   },
-  { $sort: { _id: 1 } },
+  { $sort: { totalRevenue: -1 } }
 ]);
 ```
 
-### Example 3: Update Inventory
+For all query examples and detailed documentation, see [`project/README.md`](project/README.md#query-examples-from-our-solution).
 
-```javascript
-db.inventory.updateMany(
-  { quantity: { $lt: 10 } },
-  { $set: { status: "low_stock", lastUpdated: new Date() } }
-);
-```
+## Technologies & Tools
+
+- **Database**: MongoDB 7.0+
+- **Shell**: MongoDB Shell (mongosh)
+- **Query Language**: MongoDB Query Language (MQL)
+- **Tools**: MongoDB Compass (optional, for GUI access)
+- **Scripts**: JavaScript (mongosh) for all database operations
 
 ## Performance Optimizations
 
-1. **Query Optimization**
-   - Used covered queries where possible
-   - Implemented proper index strategies
-   - Avoided full collection scans
+- **Indexed Queries**: All queries leverage appropriate indexes for optimal performance
+- **Efficient Aggregations**: Complex analytics queries use optimized aggregation pipelines
+- **Scalable Design**: Reference-based relationships support high-volume transactional data
+- **Query Optimization**: Covered queries, proper index strategies, and minimal collection scans
 
-2. **Data Modeling**
-   - Balanced between embedding and referencing
-   - Minimized document growth patterns
-   - Optimized for read-heavy workloads
-
-3. **Index Strategy**
-   - Created indexes based on query patterns
-   - Used compound indexes for sort operations
-   - Monitored index usage with explain()
-
-## Challenges and Solutions
-
-### Challenge 1: Complex Aggregations
-
-- **Problem**: Needed to analyze data across multiple collections
-- **Solution**: Used `$lookup` stages with optimized pipeline order
-
-### Challenge 2: Large Dataset Insertion
-
-- **Problem**: Inserting millions of documents efficiently
-- **Solution**: Implemented bulk write operations with ordered: false
-
-### Challenge 3: Query Performance
-
-- **Problem**: Slow queries on large collections
-- **Solution**: Created appropriate compound indexes and used projection
-
-## Testing & Validation
-
-- Tested all queries with sample datasets
-- Validated aggregation pipeline results
-- Verified index effectiveness using explain()
-- Ensured data integrity with validation rules
+For detailed performance metrics and index analysis, see [`project/performance.md`](project/performance.md).
 
 ## Learning Outcomes
 
 Through this project, we gained practical experience in:
 
-- Database design patterns for NoSQL
-- Writing efficient MongoDB queries
-- Building complex aggregation pipelines
-- Performance optimization techniques
-- Data modeling best practices
-
-## Future Enhancements
-
-- Implement change streams for real-time data monitoring
-- Add time-series collections for temporal data
-- Explore sharding for horizontal scaling
-- Implement schema versioning strategies
+- **NoSQL Database Design**: Document modeling patterns, embedding vs referencing strategies
+- **MongoDB Query Language**: Complex filtering, aggregation pipelines, and update operations
+- **Performance Optimization**: Index design, query optimization, and explain() analysis
+- **Business Intelligence**: Building analytical queries for real-world business scenarios
+- **Data Modeling Best Practices**: Schema design for operational and analytical workloads
 
 ## Documentation
 
-Additional files in our submission:
+- **[`project/README.md`](project/README.md)** – Complete project documentation with setup instructions
+- **[`project/architecture.md`](project/architecture.md)** – Detailed schema design and modeling decisions
+- **[`project/performance.md`](project/performance.md)** – Query performance analysis and optimization strategies
+- **[`project/data/README.md`](project/data/README.md)** – Data source documentation and validation notes
+- **[`solution.md`](solution.md)** – Solution documentation
 
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
+## Next Steps
 
-## Contributors
+1. Review [`project/architecture.md`](project/architecture.md) to understand the data model
+2. Explore [`project/performance.md`](project/performance.md) to see optimization strategies
+3. Run individual queries to understand specific use cases
+4. Experiment with modifications to see how the system responds
 
-Group 01 - 2025
+---
+
+**Group 01** – MongoDB NoSQL Databases Project | 2026

@@ -1,0 +1,3257 @@
+[
+  {
+    "ident": "AGGH",
+    "name": "Honiara International Airport",
+    "continent": "OC",
+    "country": "SB",
+    "municipality": "Honiara"
+  },
+  {
+    "ident": "AYPY",
+    "name": "Port Moresby Jacksons International Airport",
+    "continent": "OC",
+    "country": "PG",
+    "municipality": "Port Moresby"
+  },
+  {
+    "ident": "BIKF",
+    "name": "Keflavik International Airport",
+    "continent": "EU",
+    "country": "IS",
+    "municipality": "Reykjavík"
+  },
+  {
+    "ident": "CYEG",
+    "name": "Edmonton International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Edmonton"
+  },
+  {
+    "ident": "CYHZ",
+    "name": "Halifax / Stanfield International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Halifax"
+  },
+  {
+    "ident": "CYOW",
+    "name": "Ottawa Macdonald-Cartier International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Ottawa"
+  },
+  {
+    "ident": "CYQB",
+    "name": "Quebec Jean Lesage International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Quebec"
+  },
+  {
+    "ident": "CYUL",
+    "name": "Montreal / Pierre Elliott Trudeau International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Montréal"
+  },
+  {
+    "ident": "CYVR",
+    "name": "Vancouver International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Vancouver"
+  },
+  {
+    "ident": "CYWG",
+    "name": "Winnipeg / James Armstrong Richardson International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Winnipeg"
+  },
+  {
+    "ident": "CYXS",
+    "name": "Prince George Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Prince George"
+  },
+  {
+    "ident": "CYXX",
+    "name": "Abbotsford International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Abbotsford"
+  },
+  {
+    "ident": "CYYC",
+    "name": "Calgary International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Calgary"
+  },
+  {
+    "ident": "CYYJ",
+    "name": "Victoria International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Victoria"
+  },
+  {
+    "ident": "CYYT",
+    "name": "St. John's International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "St. John's"
+  },
+  {
+    "ident": "CYYZ",
+    "name": "Toronto Lester B. Pearson International Airport",
+    "continent": "NA",
+    "country": "CA",
+    "municipality": "Toronto"
+  },
+  {
+    "ident": "DAAG",
+    "name": "Houari Boumediene Airport",
+    "continent": "AF",
+    "country": "DZ",
+    "municipality": "Algiers"
+  },
+  {
+    "ident": "DGAA",
+    "name": "Kotoka International Airport",
+    "continent": "AF",
+    "country": "GH",
+    "municipality": "Accra"
+  },
+  {
+    "ident": "DNAA",
+    "name": "Nnamdi Azikiwe International Airport",
+    "continent": "AF",
+    "country": "NG",
+    "municipality": "Abuja"
+  },
+  {
+    "ident": "DNMM",
+    "name": "Murtala Muhammed International Airport",
+    "continent": "AF",
+    "country": "NG",
+    "municipality": "Lagos"
+  },
+  {
+    "ident": "DRRN",
+    "name": "Diori Hamani International Airport",
+    "continent": "AF",
+    "country": "NE",
+    "municipality": "Niamey"
+  },
+  {
+    "ident": "DTTA",
+    "name": "Tunis Carthage International Airport",
+    "continent": "AF",
+    "country": "TN",
+    "municipality": "Tunis"
+  },
+  {
+    "ident": "EBBR",
+    "name": "Brussels Airport",
+    "continent": "EU",
+    "country": "BE",
+    "municipality": "Zaventem"
+  },
+  {
+    "ident": "EDDB",
+    "name": "Berlin Brandenburg Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Berlin"
+  },
+  {
+    "ident": "EDDF",
+    "name": "Frankfurt Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Frankfurt am Main"
+  },
+  {
+    "ident": "EDDH",
+    "name": "Hamburg Helmut Schmidt Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Hamburg"
+  },
+  {
+    "ident": "EDDK",
+    "name": "Cologne Bonn Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Köln (Cologne)"
+  },
+  {
+    "ident": "EDDL",
+    "name": "Düsseldorf Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Düsseldorf"
+  },
+  {
+    "ident": "EDDM",
+    "name": "Munich Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Munich"
+  },
+  {
+    "ident": "EDDN",
+    "name": "Nuremberg Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Nuremberg"
+  },
+  {
+    "ident": "EDDP",
+    "name": "Leipzig/Halle Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Leipzig"
+  },
+  {
+    "ident": "EDDS",
+    "name": "Stuttgart Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Stuttgart"
+  },
+  {
+    "ident": "EDDV",
+    "name": "Hannover Airport",
+    "continent": "EU",
+    "country": "DE",
+    "municipality": "Hannover"
+  },
+  {
+    "ident": "EETN",
+    "name": "Lennart Meri Tallinn Airport",
+    "continent": "EU",
+    "country": "EE",
+    "municipality": "Tallinn"
+  },
+  {
+    "ident": "EFHK",
+    "name": "Helsinki Vantaa Airport",
+    "continent": "EU",
+    "country": "FI",
+    "municipality": "Helsinki"
+  },
+  {
+    "ident": "EGAA",
+    "name": "Belfast International Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "Belfast"
+  },
+  {
+    "ident": "EGBB",
+    "name": "Birmingham International Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "Birmingham"
+  },
+  {
+    "ident": "EGCC",
+    "name": "Manchester Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "Manchester"
+  },
+  {
+    "ident": "EGGW",
+    "name": "London Luton Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "London"
+  },
+  {
+    "ident": "EGKK",
+    "name": "London Gatwick Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "London"
+  },
+  {
+    "ident": "EGLL",
+    "name": "London Heathrow Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "London"
+  },
+  {
+    "ident": "EGPF",
+    "name": "Glasgow International Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "Paisley, Renfrewshire"
+  },
+  {
+    "ident": "EGPH",
+    "name": "Edinburgh Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "Edinburgh"
+  },
+  {
+    "ident": "EGSS",
+    "name": "London Stansted Airport",
+    "continent": "EU",
+    "country": "GB",
+    "municipality": "London"
+  },
+  {
+    "ident": "EHAM",
+    "name": "Amsterdam Airport Schiphol",
+    "continent": "EU",
+    "country": "NL",
+    "municipality": "Amsterdam"
+  },
+  {
+    "ident": "EHEH",
+    "name": "Eindhoven Airport",
+    "continent": "EU",
+    "country": "NL",
+    "municipality": "Eindhoven"
+  },
+  {
+    "ident": "EHU",
+    "name": "Ezhou Huahu Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Ezhou"
+  },
+  {
+    "ident": "EIDW",
+    "name": "Dublin Airport",
+    "continent": "EU",
+    "country": "IE",
+    "municipality": "Dublin"
+  },
+  {
+    "ident": "EINN",
+    "name": "Shannon Airport",
+    "continent": "EU",
+    "country": "IE",
+    "municipality": "Shannon"
+  },
+  {
+    "ident": "EKBI",
+    "name": "Billund Airport",
+    "continent": "EU",
+    "country": "DK",
+    "municipality": "Billund"
+  },
+  {
+    "ident": "EKCH",
+    "name": "Copenhagen Kastrup Airport",
+    "continent": "EU",
+    "country": "DK",
+    "municipality": "Copenhagen"
+  },
+  {
+    "ident": "ELLX",
+    "name": "Luxembourg-Findel International Airport",
+    "continent": "EU",
+    "country": "LU",
+    "municipality": "Luxembourg"
+  },
+  {
+    "ident": "ENBR",
+    "name": "Bergen Airport, Flesland",
+    "continent": "EU",
+    "country": "NO",
+    "municipality": "Bergen"
+  },
+  {
+    "ident": "ENGM",
+    "name": "Oslo Airport, Gardermoen",
+    "continent": "EU",
+    "country": "NO",
+    "municipality": "Oslo"
+  },
+  {
+    "ident": "ENTC",
+    "name": "Tromsø Airport, Langnes",
+    "continent": "EU",
+    "country": "NO",
+    "municipality": "Tromsø"
+  },
+  {
+    "ident": "ENVA",
+    "name": "Trondheim Airport, Værnes",
+    "continent": "EU",
+    "country": "NO",
+    "municipality": "Trondheim"
+  },
+  {
+    "ident": "ENZV",
+    "name": "Stavanger Airport, Sola",
+    "continent": "EU",
+    "country": "NO",
+    "municipality": "Stavanger"
+  },
+  {
+    "ident": "EPGD",
+    "name": "Gdańsk Lech Wałęsa Airport",
+    "continent": "EU",
+    "country": "PL",
+    "municipality": "Gdańsk"
+  },
+  {
+    "ident": "EPKK",
+    "name": "Kraków John Paul II International Airport",
+    "continent": "EU",
+    "country": "PL",
+    "municipality": "Kraków"
+  },
+  {
+    "ident": "EPWA",
+    "name": "Warsaw Chopin Airport",
+    "continent": "EU",
+    "country": "PL",
+    "municipality": "Warsaw"
+  },
+  {
+    "ident": "ESGG",
+    "name": "Gothenburg-Landvetter Airport",
+    "continent": "EU",
+    "country": "SE",
+    "municipality": "Gothenburg"
+  },
+  {
+    "ident": "ESSA",
+    "name": "Stockholm-Arlanda Airport",
+    "continent": "EU",
+    "country": "SE",
+    "municipality": "Stockholm"
+  },
+  {
+    "ident": "EVRA",
+    "name": "Riga International Airport",
+    "continent": "EU",
+    "country": "LV",
+    "municipality": "Riga"
+  },
+  {
+    "ident": "EYVI",
+    "name": "Vilnius International Airport",
+    "continent": "EU",
+    "country": "LT",
+    "municipality": "Vilnius"
+  },
+  {
+    "ident": "FACT",
+    "name": "Cape Town International Airport",
+    "continent": "AF",
+    "country": "ZA",
+    "municipality": "Cape Town"
+  },
+  {
+    "ident": "FALE",
+    "name": "King Shaka International Airport",
+    "continent": "AF",
+    "country": "ZA",
+    "municipality": "Durban"
+  },
+  {
+    "ident": "FAOR",
+    "name": "OR Tambo International Airport",
+    "continent": "AF",
+    "country": "ZA",
+    "municipality": "Johannesburg"
+  },
+  {
+    "ident": "FBSK",
+    "name": "Sir Seretse Khama International Airport",
+    "continent": "AF",
+    "country": "BW",
+    "municipality": "Gaborone"
+  },
+  {
+    "ident": "FDSK",
+    "name": "King Mswati III International Airport",
+    "continent": "AF",
+    "country": "SZ",
+    "municipality": "Mpaka"
+  },
+  {
+    "ident": "FIMP",
+    "name": "Sir Seewoosagur Ramgoolam International Airport",
+    "continent": "AF",
+    "country": "MU",
+    "municipality": "Plaine Magnien"
+  },
+  {
+    "ident": "FLLS",
+    "name": "Kenneth Kaunda International Airport",
+    "continent": "AF",
+    "country": "ZM",
+    "municipality": "Lusaka"
+  },
+  {
+    "ident": "FMEE",
+    "name": "Roland Garros Airport",
+    "continent": "AF",
+    "country": "RE",
+    "municipality": "Sainte-Marie"
+  },
+  {
+    "ident": "FMMI",
+    "name": "Ivato Airport",
+    "continent": "AF",
+    "country": "MG",
+    "municipality": "Antananarivo"
+  },
+  {
+    "ident": "FNLU",
+    "name": "Quatro de Fevereiro International Airport",
+    "continent": "AF",
+    "country": "AO",
+    "municipality": "Luanda"
+  },
+  {
+    "ident": "FQMA",
+    "name": "Maputo Airport",
+    "continent": "AF",
+    "country": "MZ",
+    "municipality": "Maputo"
+  },
+  {
+    "ident": "FSIA",
+    "name": "Seychelles International Airport",
+    "continent": "AF",
+    "country": "SC",
+    "municipality": "Mahe Island"
+  },
+  {
+    "ident": "FTTJ",
+    "name": "N'Djamena International Airport",
+    "continent": "AF",
+    "country": "TD",
+    "municipality": "N'Djamena"
+  },
+  {
+    "ident": "FVHA",
+    "name": "Robert Gabriel Mugabe International Airport",
+    "continent": "AF",
+    "country": "ZW",
+    "municipality": "Harare"
+  },
+  {
+    "ident": "FYWH",
+    "name": "Hosea Kutako International Airport",
+    "continent": "AF",
+    "country": "NA",
+    "municipality": "Windhoek"
+  },
+  {
+    "ident": "FZAA",
+    "name": "Ndjili International Airport",
+    "continent": "AF",
+    "country": "CD",
+    "municipality": "Kinshasa"
+  },
+  {
+    "ident": "GABS",
+    "name": "Modibo Keita International Airport",
+    "continent": "AF",
+    "country": "ML",
+    "municipality": "Bamako"
+  },
+  {
+    "ident": "GBYD",
+    "name": "Banjul International Airport",
+    "continent": "AF",
+    "country": "GM",
+    "municipality": "Banjul"
+  },
+  {
+    "ident": "GCFV",
+    "name": "Fuerteventura Airport",
+    "continent": "AF",
+    "country": "ES",
+    "municipality": "El Matorral"
+  },
+  {
+    "ident": "GCLP",
+    "name": "Gran Canaria Airport",
+    "continent": "AF",
+    "country": "ES",
+    "municipality": "Gran Canaria Island"
+  },
+  {
+    "ident": "GCRR",
+    "name": "César Manrique-Lanzarote Airport",
+    "continent": "AF",
+    "country": "ES",
+    "municipality": "San Bartolomé"
+  },
+  {
+    "ident": "GCTS",
+    "name": "Tenerife Sur Airport",
+    "continent": "AF",
+    "country": "ES",
+    "municipality": "Tenerife"
+  },
+  {
+    "ident": "GFLL",
+    "name": "Lungi International Airport",
+    "continent": "AF",
+    "country": "SL",
+    "municipality": "Freetown (Lungi-Town)"
+  },
+  {
+    "ident": "GLRB",
+    "name": "Roberts International Airport",
+    "continent": "AF",
+    "country": "LR",
+    "municipality": "Monrovia"
+  },
+  {
+    "ident": "GMMN",
+    "name": "Mohammed V International Airport",
+    "continent": "AF",
+    "country": "MA",
+    "municipality": "Casablanca"
+  },
+  {
+    "ident": "GOBD",
+    "name": "Blaise Diagne International Airport",
+    "continent": "AF",
+    "country": "SN",
+    "municipality": "Dakar"
+  },
+  {
+    "ident": "GQNO",
+    "name": "Nouakchott–Oumtounsy International Airport",
+    "continent": "AF",
+    "country": "MR",
+    "municipality": "Nouakchott"
+  },
+  {
+    "ident": "GVAC",
+    "name": "Amílcar Cabral International Airport",
+    "continent": "AF",
+    "country": "CV",
+    "municipality": "Espargos"
+  },
+  {
+    "ident": "HAAB",
+    "name": "Addis Ababa Bole International Airport",
+    "continent": "AF",
+    "country": "ET",
+    "municipality": "Addis Ababa"
+  },
+  {
+    "ident": "HDAM",
+    "name": "Djibouti-Ambouli Airport",
+    "continent": "AF",
+    "country": "DJ",
+    "municipality": "Djibouti City"
+  },
+  {
+    "ident": "HECA",
+    "name": "Cairo International Airport",
+    "continent": "AF",
+    "country": "EG",
+    "municipality": "Cairo"
+  },
+  {
+    "ident": "HEGN",
+    "name": "Hurghada International Airport",
+    "continent": "AF",
+    "country": "EG",
+    "municipality": "Hurghada"
+  },
+  {
+    "ident": "HESH",
+    "name": "Sharm El Sheikh International Airport",
+    "continent": "AF",
+    "country": "EG",
+    "municipality": "Sharm El Sheikh"
+  },
+  {
+    "ident": "HJJJ",
+    "name": "Juba International Airport",
+    "continent": "AF",
+    "country": "SS",
+    "municipality": "Juba"
+  },
+  {
+    "ident": "HKJK",
+    "name": "Jomo Kenyatta International Airport",
+    "continent": "AF",
+    "country": "KE",
+    "municipality": "Nairobi"
+  },
+  {
+    "ident": "HKMO",
+    "name": "Moi International Airport",
+    "continent": "AF",
+    "country": "KE",
+    "municipality": "Mombasa"
+  },
+  {
+    "ident": "HLLM",
+    "name": "Mitiga International Airport",
+    "continent": "AF",
+    "country": "LY",
+    "municipality": "Tripoli"
+  },
+  {
+    "ident": "HRYR",
+    "name": "Kigali International Airport",
+    "continent": "AF",
+    "country": "RW",
+    "municipality": "Kigali"
+  },
+  {
+    "ident": "HSSK",
+    "name": "Khartoum International Airport",
+    "continent": "AF",
+    "country": "SD",
+    "municipality": "Khartoum"
+  },
+  {
+    "ident": "HTDA",
+    "name": "Julius Nyerere International Airport",
+    "continent": "AF",
+    "country": "TZ",
+    "municipality": "Dar es Salaam"
+  },
+  {
+    "ident": "HTZA",
+    "name": "Abeid Amani Karume International Airport",
+    "continent": "AF",
+    "country": "TZ",
+    "municipality": "Zanzibar"
+  },
+  {
+    "ident": "HUEN",
+    "name": "Entebbe International Airport",
+    "continent": "AF",
+    "country": "UG",
+    "municipality": "Kampala"
+  },
+  {
+    "ident": "KADW",
+    "name": "Joint Base Andrews",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Camp Springs"
+  },
+  {
+    "ident": "KATL",
+    "name": "Hartsfield Jackson Atlanta International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Atlanta"
+  },
+  {
+    "ident": "KAUS",
+    "name": "Austin Bergstrom International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Austin"
+  },
+  {
+    "ident": "KBNA",
+    "name": "Nashville International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Nashville"
+  },
+  {
+    "ident": "KBOS",
+    "name": "Logan International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Boston"
+  },
+  {
+    "ident": "KBUF",
+    "name": "Buffalo Niagara International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Buffalo"
+  },
+  {
+    "ident": "KBWI",
+    "name": "Baltimore/Washington International Thurgood Marshall Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Baltimore"
+  },
+  {
+    "ident": "KCLE",
+    "name": "Cleveland Hopkins International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Cleveland"
+  },
+  {
+    "ident": "KCLT",
+    "name": "Charlotte Douglas International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Charlotte"
+  },
+  {
+    "ident": "KCMA",
+    "name": "Camarillo International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Camarillo"
+  },
+  {
+    "ident": "KCMH",
+    "name": "John Glenn Columbus International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Columbus"
+  },
+  {
+    "ident": "KCVG",
+    "name": "Cincinnati Northern Kentucky International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Cincinnati / Covington"
+  },
+  {
+    "ident": "KDCA",
+    "name": "Ronald Reagan Washington National Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Washington"
+  },
+  {
+    "ident": "KDEN",
+    "name": "Denver International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Denver"
+  },
+  {
+    "ident": "KDFW",
+    "name": "Dallas Fort Worth International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Dallas-Fort Worth"
+  },
+  {
+    "ident": "KDTW",
+    "name": "Detroit Metropolitan Wayne County Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Detroit"
+  },
+  {
+    "ident": "KEWR",
+    "name": "Newark Liberty International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Newark"
+  },
+  {
+    "ident": "KFLL",
+    "name": "Fort Lauderdale Hollywood International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Fort Lauderdale"
+  },
+  {
+    "ident": "KIAD",
+    "name": "Washington Dulles International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Dulles"
+  },
+  {
+    "ident": "KIAH",
+    "name": "George Bush Intercontinental Houston Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Houston"
+  },
+  {
+    "ident": "KIND",
+    "name": "Indianapolis International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Indianapolis"
+  },
+  {
+    "ident": "KJAX",
+    "name": "Jacksonville International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Jacksonville"
+  },
+  {
+    "ident": "KJFK",
+    "name": "John F Kennedy International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "New York"
+  },
+  {
+    "ident": "KLAS",
+    "name": "Harry Reid International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Las Vegas"
+  },
+  {
+    "ident": "KLAX",
+    "name": "Los Angeles / Tom Bradley International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Los Angeles"
+  },
+  {
+    "ident": "KLGA",
+    "name": "La Guardia Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "New York"
+  },
+  {
+    "ident": "KMCI",
+    "name": "Kansas City International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Kansas City"
+  },
+  {
+    "ident": "KMCO",
+    "name": "Orlando International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Orlando"
+  },
+  {
+    "ident": "KMDW",
+    "name": "Chicago Midway International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Chicago"
+  },
+  {
+    "ident": "KMEM",
+    "name": "Memphis International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Memphis"
+  },
+  {
+    "ident": "KMIA",
+    "name": "Miami International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Miami"
+  },
+  {
+    "ident": "KMKE",
+    "name": "General Mitchell International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Milwaukee"
+  },
+  {
+    "ident": "KMSP",
+    "name": "Minneapolis–Saint Paul International Airport / Wold–Chamberlain Field",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Minneapolis"
+  },
+  {
+    "ident": "KMSY",
+    "name": "Louis Armstrong New Orleans International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "New Orleans"
+  },
+  {
+    "ident": "KOAK",
+    "name": "Metropolitan Oakland International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Oakland"
+  },
+  {
+    "ident": "KOMA",
+    "name": "Eppley Airfield",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Omaha"
+  },
+  {
+    "ident": "KONT",
+    "name": "Ontario International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Ontario"
+  },
+  {
+    "ident": "KORD",
+    "name": "Chicago O'Hare International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Chicago"
+  },
+  {
+    "ident": "KPBI",
+    "name": "Palm Beach International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "West Palm Beach"
+  },
+  {
+    "ident": "KPDX",
+    "name": "Portland International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Portland"
+  },
+  {
+    "ident": "KPHL",
+    "name": "Philadelphia International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Philadelphia"
+  },
+  {
+    "ident": "KPHX",
+    "name": "Phoenix Sky Harbor International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Phoenix"
+  },
+  {
+    "ident": "KPIT",
+    "name": "Pittsburgh International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Pittsburgh"
+  },
+  {
+    "ident": "KPVD",
+    "name": "Theodore Francis Green State Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Warwick"
+  },
+  {
+    "ident": "KPWM",
+    "name": "Portland International Jetport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Portland"
+  },
+  {
+    "ident": "KRDU",
+    "name": "Raleigh Durham International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Raleigh/Durham"
+  },
+  {
+    "ident": "KRIC",
+    "name": "Richmond International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Richmond"
+  },
+  {
+    "ident": "KRNO",
+    "name": "Reno Tahoe International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Reno"
+  },
+  {
+    "ident": "KRSW",
+    "name": "Southwest Florida International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Fort Myers"
+  },
+  {
+    "ident": "KSAN",
+    "name": "San Diego International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "San Diego"
+  },
+  {
+    "ident": "KSAT",
+    "name": "San Antonio International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "San Antonio"
+  },
+  {
+    "ident": "KSAV",
+    "name": "Savannah Hilton Head International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Savannah"
+  },
+  {
+    "ident": "KSDF",
+    "name": "Louisville Muhammad Ali International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Louisville"
+  },
+  {
+    "ident": "KSEA",
+    "name": "Seattle–Tacoma International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Seattle"
+  },
+  {
+    "ident": "KSFB",
+    "name": "Orlando Sanford International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Orlando"
+  },
+  {
+    "ident": "KSFO",
+    "name": "San Francisco International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "San Francisco"
+  },
+  {
+    "ident": "KSJC",
+    "name": "Norman Y. Mineta San Jose International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "San Jose"
+  },
+  {
+    "ident": "KSLC",
+    "name": "Salt Lake City International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Salt Lake City"
+  },
+  {
+    "ident": "KSMF",
+    "name": "Sacramento International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Sacramento"
+  },
+  {
+    "ident": "KSNA",
+    "name": "John Wayne Orange County International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Santa Ana"
+  },
+  {
+    "ident": "KSTL",
+    "name": "St Louis Lambert International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "St Louis"
+  },
+  {
+    "ident": "KSYR",
+    "name": "Syracuse Hancock International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Syracuse"
+  },
+  {
+    "ident": "KTPA",
+    "name": "Tampa International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Tampa"
+  },
+  {
+    "ident": "KTUL",
+    "name": "Tulsa International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Tulsa"
+  },
+  {
+    "ident": "LATI",
+    "name": "Tirana International Airport Mother Teresa",
+    "continent": "EU",
+    "country": "AL",
+    "municipality": "Tirana"
+  },
+  {
+    "ident": "LBBG",
+    "name": "Burgas Airport",
+    "continent": "EU",
+    "country": "BG",
+    "municipality": "Burgas"
+  },
+  {
+    "ident": "LBSF",
+    "name": "Sofia Airport",
+    "continent": "EU",
+    "country": "BG",
+    "municipality": "Sofia"
+  },
+  {
+    "ident": "LBWN",
+    "name": "Varna Airport",
+    "continent": "EU",
+    "country": "BG",
+    "municipality": "Varna"
+  },
+  {
+    "ident": "LCLK",
+    "name": "Larnaca International Airport",
+    "continent": "AS",
+    "country": "CY",
+    "municipality": "Larnaca"
+  },
+  {
+    "ident": "LDZA",
+    "name": "Zagreb Airport",
+    "continent": "EU",
+    "country": "HR",
+    "municipality": "Zagreb"
+  },
+  {
+    "ident": "LEAL",
+    "name": "Alicante-Elche Miguel Hernández Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Alicante"
+  },
+  {
+    "ident": "LEBL",
+    "name": "Josep Tarradellas Barcelona-El Prat Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Barcelona"
+  },
+  {
+    "ident": "LEIB",
+    "name": "Ibiza Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Ibiza (Eivissa)"
+  },
+  {
+    "ident": "LEMD",
+    "name": "Adolfo Suárez Madrid–Barajas Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Madrid"
+  },
+  {
+    "ident": "LEMG",
+    "name": "Málaga-Costa del Sol Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Málaga"
+  },
+  {
+    "ident": "LEPA",
+    "name": "Palma de Mallorca Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Palma de Mallorca"
+  },
+  {
+    "ident": "LEST",
+    "name": "Santiago-Rosalía de Castro Airport",
+    "continent": "EU",
+    "country": "ES",
+    "municipality": "Santiago de Compostela"
+  },
+  {
+    "ident": "LFBD",
+    "name": "Bordeaux-Mérignac Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Bordeaux/Mérignac"
+  },
+  {
+    "ident": "LFBO",
+    "name": "Toulouse-Blagnac Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Toulouse/Blagnac"
+  },
+  {
+    "ident": "LFLL",
+    "name": "Lyon Saint-Exupéry Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Lyon"
+  },
+  {
+    "ident": "LFML",
+    "name": "Marseille Provence Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Marseille"
+  },
+  {
+    "ident": "LFMN",
+    "name": "Nice-Côte d'Azur Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Nice"
+  },
+  {
+    "ident": "LFPG",
+    "name": "Charles de Gaulle International Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Paris"
+  },
+  {
+    "ident": "LFPO",
+    "name": "Paris-Orly Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Paris"
+  },
+  {
+    "ident": "LFSB",
+    "name": "EuroAirport Basel-Mulhouse-Freiburg Airport",
+    "continent": "EU",
+    "country": "FR",
+    "municipality": "Bâle/Mulhouse"
+  },
+  {
+    "ident": "LGAV",
+    "name": "Athens Eleftherios Venizelos International Airport",
+    "continent": "EU",
+    "country": "GR",
+    "municipality": "Athens"
+  },
+  {
+    "ident": "LGIR",
+    "name": "Heraklion International Nikos Kazantzakis Airport",
+    "continent": "EU",
+    "country": "GR",
+    "municipality": "Heraklion"
+  },
+  {
+    "ident": "LGTS",
+    "name": "Thessaloniki Macedonia International Airport",
+    "continent": "EU",
+    "country": "GR",
+    "municipality": "Thessaloniki"
+  },
+  {
+    "ident": "LHBP",
+    "name": "Budapest Liszt Ferenc International Airport",
+    "continent": "EU",
+    "country": "HU",
+    "municipality": "Budapest"
+  },
+  {
+    "ident": "LIBD",
+    "name": "Bari Karol Wojtyła Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Bari"
+  },
+  {
+    "ident": "LIBR",
+    "name": "Brindisi Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Brindisi"
+  },
+  {
+    "ident": "LICC",
+    "name": "Catania-Fontanarossa Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Catania"
+  },
+  {
+    "ident": "LICJ",
+    "name": "Falcone–Borsellino Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Palermo"
+  },
+  {
+    "ident": "LIEE",
+    "name": "Cagliari Elmas Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Cagliari"
+  },
+  {
+    "ident": "LIMC",
+    "name": "Malpensa International Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Milan"
+  },
+  {
+    "ident": "LIME",
+    "name": "Milan Bergamo Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Milan"
+  },
+  {
+    "ident": "LIMF",
+    "name": "Turin Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Torino"
+  },
+  {
+    "ident": "LIPE",
+    "name": "Bologna Guglielmo Marconi Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Bologna"
+  },
+  {
+    "ident": "LIPX",
+    "name": "Verona-Villafranca Valerio Catullo Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Villafranca di Verona"
+  },
+  {
+    "ident": "LIPZ",
+    "name": "Venice Marco Polo Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Venice"
+  },
+  {
+    "ident": "LIRF",
+    "name": "Rome–Fiumicino Leonardo da Vinci International Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Rome"
+  },
+  {
+    "ident": "LIRN",
+    "name": "Naples International Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Napoli"
+  },
+  {
+    "ident": "LIRP",
+    "name": "Pisa International Airport",
+    "continent": "EU",
+    "country": "IT",
+    "municipality": "Pisa"
+  },
+  {
+    "ident": "LJLJ",
+    "name": "Ljubljana Jože Pučnik Airport",
+    "continent": "EU",
+    "country": "SI",
+    "municipality": "Ljubljana"
+  },
+  {
+    "ident": "LKPR",
+    "name": "Václav Havel Airport Prague",
+    "continent": "EU",
+    "country": "CZ",
+    "municipality": "Prague"
+  },
+  {
+    "ident": "LLBG",
+    "name": "Ben Gurion International Airport",
+    "continent": "AS",
+    "country": "IL",
+    "municipality": "Tel Aviv"
+  },
+  {
+    "ident": "LLER",
+    "name": "Ramon International Airport",
+    "continent": "AS",
+    "country": "IL",
+    "municipality": "Eilat"
+  },
+  {
+    "ident": "LMML",
+    "name": "Malta International Airport",
+    "continent": "EU",
+    "country": "MT",
+    "municipality": "Valletta"
+  },
+  {
+    "ident": "LOWW",
+    "name": "Vienna International Airport",
+    "continent": "EU",
+    "country": "AT",
+    "municipality": "Vienna"
+  },
+  {
+    "ident": "LPFR",
+    "name": "Faro Airport",
+    "continent": "EU",
+    "country": "PT",
+    "municipality": "Faro"
+  },
+  {
+    "ident": "LPMA",
+    "name": "Madeira International Airport Cristiano Ronaldo",
+    "continent": "EU",
+    "country": "PT",
+    "municipality": "Funchal"
+  },
+  {
+    "ident": "LPPD",
+    "name": "João Paulo II Airport",
+    "continent": "EU",
+    "country": "PT",
+    "municipality": "Ponta Delgada"
+  },
+  {
+    "ident": "LPPR",
+    "name": "Francisco de Sá Carneiro Airport",
+    "continent": "EU",
+    "country": "PT",
+    "municipality": "Porto"
+  },
+  {
+    "ident": "LPPT",
+    "name": "Humberto Delgado Airport (Lisbon Portela Airport)",
+    "continent": "EU",
+    "country": "PT",
+    "municipality": "Lisbon"
+  },
+  {
+    "ident": "LROP",
+    "name": "Henri Coandă International Airport",
+    "continent": "EU",
+    "country": "RO",
+    "municipality": "Bucharest"
+  },
+  {
+    "ident": "LSGG",
+    "name": "Geneva Cointrin International Airport",
+    "continent": "EU",
+    "country": "CH",
+    "municipality": "Geneva"
+  },
+  {
+    "ident": "LSZH",
+    "name": "Zürich Airport",
+    "continent": "EU",
+    "country": "CH",
+    "municipality": "Zurich"
+  },
+  {
+    "ident": "LTAC",
+    "name": "Esenboğa International Airport",
+    "continent": "AS",
+    "country": "TR",
+    "municipality": "Ankara"
+  },
+  {
+    "ident": "LTAI",
+    "name": "Antalya International Airport",
+    "continent": "AS",
+    "country": "TR",
+    "municipality": "Antalya"
+  },
+  {
+    "ident": "LTBA",
+    "name": "İstanbul Atatürk Airport",
+    "continent": "EU",
+    "country": "TR",
+    "municipality": "Bakırköy, Istanbul"
+  },
+  {
+    "ident": "LTBJ",
+    "name": "Adnan Menderes International Airport",
+    "continent": "AS",
+    "country": "TR",
+    "municipality": "İzmir"
+  },
+  {
+    "ident": "LTBS",
+    "name": "Dalaman International Airport",
+    "continent": "AS",
+    "country": "TR",
+    "municipality": "Dalaman"
+  },
+  {
+    "ident": "LTFE",
+    "name": "Milas Bodrum International Airport",
+    "continent": "AS",
+    "country": "TR",
+    "municipality": "Bodrum"
+  },
+  {
+    "ident": "LTFJ",
+    "name": "Istanbul Sabiha Gökçen International Airport",
+    "continent": "AS",
+    "country": "TR",
+    "municipality": "Pendik, Istanbul"
+  },
+  {
+    "ident": "LTFM",
+    "name": "İstanbul Airport",
+    "continent": "EU",
+    "country": "TR",
+    "municipality": "Arnavutköy, Istanbul"
+  },
+  {
+    "ident": "LWSK",
+    "name": "Skopje International Airport",
+    "continent": "EU",
+    "country": "MK",
+    "municipality": "Skopje"
+  },
+  {
+    "ident": "LYBE",
+    "name": "Belgrade Nikola Tesla Airport",
+    "continent": "EU",
+    "country": "RS",
+    "municipality": "Belgrade"
+  },
+  {
+    "ident": "LYPG",
+    "name": "Podgorica Airport / Podgorica Golubovci Airbase",
+    "continent": "EU",
+    "country": "ME",
+    "municipality": "Podgorica"
+  },
+  {
+    "ident": "LZIB",
+    "name": "M. R. Štefánik Airport",
+    "continent": "EU",
+    "country": "SK",
+    "municipality": "Bratislava"
+  },
+  {
+    "ident": "MBPV",
+    "name": "Providenciales International Airport",
+    "continent": "NA",
+    "country": "TC",
+    "municipality": "Providenciales"
+  },
+  {
+    "ident": "MDPC",
+    "name": "Punta Cana International Airport",
+    "continent": "NA",
+    "country": "DO",
+    "municipality": "Punta Cana"
+  },
+  {
+    "ident": "MDSD",
+    "name": "Las Américas International Airport",
+    "continent": "NA",
+    "country": "DO",
+    "municipality": "Santo Domingo"
+  },
+  {
+    "ident": "MGGT",
+    "name": "La Aurora Airport",
+    "continent": "NA",
+    "country": "GT",
+    "municipality": "Guatemala City"
+  },
+  {
+    "ident": "MKJP",
+    "name": "Norman Manley International Airport",
+    "continent": "NA",
+    "country": "JM",
+    "municipality": "Kingston"
+  },
+  {
+    "ident": "MMAA",
+    "name": "Aeropuerto Internacional Juan N. Álvarez",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Acapulco"
+  },
+  {
+    "ident": "MMCZ",
+    "name": "Aeropuerto Internacional de Cozumel",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Cozumel"
+  },
+  {
+    "ident": "MMDO",
+    "name": "Aeropuerto Internacional Gral, Guadalupe Victoria",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Durango"
+  },
+  {
+    "ident": "MMGL",
+    "name": "Aeropuerto Internacional Miguel Hidalgo",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Tlajomulco de Zúñiga"
+  },
+  {
+    "ident": "MMHO",
+    "name": "General Ignacio P. Garcia International Airport",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Hermosillo"
+  },
+  {
+    "ident": "MMLO",
+    "name": "Aeropuerto Internacional Del Bajío",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Silao"
+  },
+  {
+    "ident": "MMMD",
+    "name": "Aeropuerto Internacional Manuel Crescencio Rejón",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Mérida"
+  },
+  {
+    "ident": "MMMX",
+    "name": "Aeropuerto Internacional Lic. Benito Juárez",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de México"
+  },
+  {
+    "ident": "MMMY",
+    "name": "Aeropuerto Internacional Gral. Mariano Escobedo",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Apodaca"
+  },
+  {
+    "ident": "MMMZ",
+    "name": "Aeropuerto Internacional Gral. Rafael Buelna",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Mazatlàn"
+  },
+  {
+    "ident": "MMPR",
+    "name": "Aeropuerto Internacional Lic. Gustavo Díaz Ordaz",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Puerto Vallarta"
+  },
+  {
+    "ident": "MMSD",
+    "name": "Aeropuerto Internacional de Los Cabos",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de San José del Cabo"
+  },
+  {
+    "ident": "MMSM",
+    "name": "General Felipe Ángeles International Airport",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Mexico City"
+  },
+  {
+    "ident": "MMTJ",
+    "name": "Aeropuerto Internacional Gral. Abelardo Rodriguez",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Tijuana"
+  },
+  {
+    "ident": "MMTO",
+    "name": "Aeropuerto Internacional Adolfo López Mateos",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Toluca"
+  },
+  {
+    "ident": "MMUN",
+    "name": "Aeropuerto Internacional de Cancún",
+    "continent": "NA",
+    "country": "MX",
+    "municipality": "Ciudad de Cancún"
+  },
+  {
+    "ident": "MPTO",
+    "name": "Tocumen International Airport",
+    "continent": "NA",
+    "country": "PA",
+    "municipality": "Tocumen"
+  },
+  {
+    "ident": "MRLB",
+    "name": "Guanacaste Airport",
+    "continent": "NA",
+    "country": "CR",
+    "municipality": "Liberia"
+  },
+  {
+    "ident": "MSLP",
+    "name": "Monseñor Óscar Arnulfo Romero International Airport",
+    "continent": "NA",
+    "country": "SV",
+    "municipality": "San Salvador (San Luis Talpa)"
+  },
+  {
+    "ident": "MTPP",
+    "name": "Toussaint Louverture International Airport",
+    "continent": "NA",
+    "country": "HT",
+    "municipality": "Port-au-Prince"
+  },
+  {
+    "ident": "MUHA",
+    "name": "José Martí International Airport",
+    "continent": "NA",
+    "country": "CU",
+    "municipality": "Havana"
+  },
+  {
+    "ident": "MUVR",
+    "name": "Juan Gualberto Gomez International Airport",
+    "continent": "NA",
+    "country": "CU",
+    "municipality": "Matanzas"
+  },
+  {
+    "ident": "MWCR",
+    "name": "Owen Roberts International Airport",
+    "continent": "NA",
+    "country": "KY",
+    "municipality": "George Town"
+  },
+  {
+    "ident": "MYNN",
+    "name": "Lynden Pindling International Airport",
+    "continent": "NA",
+    "country": "BS",
+    "municipality": "Nassau"
+  },
+  {
+    "ident": "MZBZ",
+    "name": "Philip S. W. Goldson International Airport",
+    "continent": "NA",
+    "country": "BZ",
+    "municipality": "Belize City"
+  },
+  {
+    "ident": "NTAA",
+    "name": "Faa'a International Airport",
+    "continent": "OC",
+    "country": "PF",
+    "municipality": "Papeete"
+  },
+  {
+    "ident": "NVVV",
+    "name": "Bauerfield International Airport",
+    "continent": "OC",
+    "country": "VU",
+    "municipality": "Port Vila"
+  },
+  {
+    "ident": "NWWM",
+    "name": "Nouméa Magenta Airport",
+    "continent": "OC",
+    "country": "NC",
+    "municipality": "Nouméa"
+  },
+  {
+    "ident": "NZAA",
+    "name": "Auckland International Airport",
+    "continent": "OC",
+    "country": "NZ",
+    "municipality": "Auckland"
+  },
+  {
+    "ident": "NZCH",
+    "name": "Christchurch International Airport",
+    "continent": "OC",
+    "country": "NZ",
+    "municipality": "Christchurch"
+  },
+  {
+    "ident": "NZWN",
+    "name": "Wellington International Airport",
+    "continent": "OC",
+    "country": "NZ",
+    "municipality": "Wellington"
+  },
+  {
+    "ident": "OBBI",
+    "name": "Bahrain International Airport",
+    "continent": "AS",
+    "country": "BH",
+    "municipality": "Manama"
+  },
+  {
+    "ident": "OEDF",
+    "name": "King Fahd International Airport",
+    "continent": "AS",
+    "country": "SA",
+    "municipality": "Ad Dammam"
+  },
+  {
+    "ident": "OEDR",
+    "name": "King Abdulaziz Air Base",
+    "continent": "AS",
+    "country": "SA",
+    "municipality": "Dhahran"
+  },
+  {
+    "ident": "OEJN",
+    "name": "King Abdulaziz International Airport",
+    "continent": "AS",
+    "country": "SA",
+    "municipality": "Jeddah"
+  },
+  {
+    "ident": "OEMA",
+    "name": "Prince Mohammad Bin Abdulaziz Airport",
+    "continent": "AS",
+    "country": "SA",
+    "municipality": "Medina"
+  },
+  {
+    "ident": "OERK",
+    "name": "King Khaled International Airport",
+    "continent": "AS",
+    "country": "SA",
+    "municipality": "Riyadh"
+  },
+  {
+    "ident": "OIIE",
+    "name": "Imam Khomeini International Airport",
+    "continent": "AS",
+    "country": "IR",
+    "municipality": "Tehran"
+  },
+  {
+    "ident": "OIII",
+    "name": "Mehrabad International Airport",
+    "continent": "AS",
+    "country": "IR",
+    "municipality": "Tehran"
+  },
+  {
+    "ident": "OIMM",
+    "name": "Mashhad International Airport",
+    "continent": "AS",
+    "country": "IR",
+    "municipality": "Mashhad"
+  },
+  {
+    "ident": "OISS",
+    "name": "Shiraz Shahid Dastghaib International Airport",
+    "continent": "AS",
+    "country": "IR",
+    "municipality": "Shiraz"
+  },
+  {
+    "ident": "OJAI",
+    "name": "Queen Alia International Airport",
+    "continent": "AS",
+    "country": "JO",
+    "municipality": "Amman"
+  },
+  {
+    "ident": "OKBK",
+    "name": "Kuwait International Airport",
+    "continent": "AS",
+    "country": "KW",
+    "municipality": "Kuwait City"
+  },
+  {
+    "ident": "OLBA",
+    "name": "Beirut Rafic Hariri International Airport",
+    "continent": "AS",
+    "country": "LB",
+    "municipality": "Beirut"
+  },
+  {
+    "ident": "OM-0003",
+    "name": "Duqm International Airport",
+    "continent": "AS",
+    "country": "OM",
+    "municipality": "Duqm"
+  },
+  {
+    "ident": "OMAA",
+    "name": "Abu Dhabi International Airport",
+    "continent": "AS",
+    "country": "AE",
+    "municipality": "Abu Dhabi"
+  },
+  {
+    "ident": "OMDB",
+    "name": "Dubai International Airport",
+    "continent": "AS",
+    "country": "AE",
+    "municipality": "Dubai"
+  },
+  {
+    "ident": "OMDW",
+    "name": "Al Maktoum International Airport",
+    "continent": "AS",
+    "country": "AE",
+    "municipality": "Jebel Ali"
+  },
+  {
+    "ident": "OMSJ",
+    "name": "Sharjah International Airport",
+    "continent": "AS",
+    "country": "AE",
+    "municipality": "Sharjah"
+  },
+  {
+    "ident": "OOMS",
+    "name": "Muscat International Airport",
+    "continent": "AS",
+    "country": "OM",
+    "municipality": "Muscat"
+  },
+  {
+    "ident": "OPIS",
+    "name": "Islamabad International Airport",
+    "continent": "AS",
+    "country": "PK",
+    "municipality": "Attock"
+  },
+  {
+    "ident": "OPKC",
+    "name": "Jinnah International Airport",
+    "continent": "AS",
+    "country": "PK",
+    "municipality": "Karachi"
+  },
+  {
+    "ident": "OPLA",
+    "name": "Allama Iqbal International Airport",
+    "continent": "AS",
+    "country": "PK",
+    "municipality": "Lahore"
+  },
+  {
+    "ident": "ORBI",
+    "name": "Baghdad International Airport / New Al Muthana Air Base",
+    "continent": "AS",
+    "country": "IQ",
+    "municipality": "Baghdad"
+  },
+  {
+    "ident": "OSDI",
+    "name": "Damascus International Airport",
+    "continent": "AS",
+    "country": "SY",
+    "municipality": "Damascus"
+  },
+  {
+    "ident": "OTHH",
+    "name": "Hamad International Airport",
+    "continent": "AS",
+    "country": "QA",
+    "municipality": "Doha"
+  },
+  {
+    "ident": "PAFA",
+    "name": "Fairbanks International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Fairbanks"
+  },
+  {
+    "ident": "PANC",
+    "name": "Ted Stevens Anchorage International Airport",
+    "continent": "NA",
+    "country": "US",
+    "municipality": "Anchorage"
+  },
+  {
+    "ident": "PGUM",
+    "name": "Antonio B. Won Pat International Airport",
+    "continent": "OC",
+    "country": "GU",
+    "municipality": "Hagåtña"
+  },
+  {
+    "ident": "PHNL",
+    "name": "Daniel K Inouye International Airport",
+    "continent": "OC",
+    "country": "US",
+    "municipality": "Honolulu"
+  },
+  {
+    "ident": "RCKH",
+    "name": "Kaohsiung International Airport",
+    "continent": "AS",
+    "country": "TW",
+    "municipality": "Kaohsiung (Xiaogang)"
+  },
+  {
+    "ident": "RCTP",
+    "name": "Taiwan Taoyuan International Airport",
+    "continent": "AS",
+    "country": "TW",
+    "municipality": "Taoyuan (Dayuan)"
+  },
+  {
+    "ident": "RJAA",
+    "name": "Narita International Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Narita"
+  },
+  {
+    "ident": "RJBB",
+    "name": "Kansai International Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Osaka"
+  },
+  {
+    "ident": "RJCC",
+    "name": "New Chitose Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Sapporo"
+  },
+  {
+    "ident": "RJFF",
+    "name": "Fukuoka Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Fukuoka"
+  },
+  {
+    "ident": "RJFK",
+    "name": "Kagoshima Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Kagoshima"
+  },
+  {
+    "ident": "RJGG",
+    "name": "Chubu Centrair International Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Tokoname"
+  },
+  {
+    "ident": "RJOO",
+    "name": "Osaka International Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Osaka"
+  },
+  {
+    "ident": "RJSS",
+    "name": "Sendai Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Natori"
+  },
+  {
+    "ident": "RJTT",
+    "name": "Tokyo Haneda International Airport",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Tokyo"
+  },
+  {
+    "ident": "RJTY",
+    "name": "Yokota Air Base",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Fussa"
+  },
+  {
+    "ident": "RKJB",
+    "name": "Muan International Airport",
+    "continent": "AS",
+    "country": "KR",
+    "municipality": "Piseo-ri (Muan)"
+  },
+  {
+    "ident": "RKPC",
+    "name": "Jeju International Airport",
+    "continent": "AS",
+    "country": "KR",
+    "municipality": "Jeju City"
+  },
+  {
+    "ident": "RKPK",
+    "name": "Gimhae International Airport",
+    "continent": "AS",
+    "country": "KR",
+    "municipality": "Busan"
+  },
+  {
+    "ident": "RKSI",
+    "name": "Incheon International Airport",
+    "continent": "AS",
+    "country": "KR",
+    "municipality": "Seoul"
+  },
+  {
+    "ident": "RKSS",
+    "name": "Gimpo International Airport",
+    "continent": "AS",
+    "country": "KR",
+    "municipality": "Seoul"
+  },
+  {
+    "ident": "ROAH",
+    "name": "Naha Airport / JASDF Naha Air Base",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": "Naha"
+  },
+  {
+    "ident": "RODN",
+    "name": "Kadena Air Base",
+    "continent": "AS",
+    "country": "JP",
+    "municipality": ""
+  },
+  {
+    "ident": "RPLL",
+    "name": "Ninoy Aquino International Airport",
+    "continent": "AS",
+    "country": "PH",
+    "municipality": "Manila"
+  },
+  {
+    "ident": "RPMD",
+    "name": "Francisco Bangoy International Airport",
+    "continent": "AS",
+    "country": "PH",
+    "municipality": "Davao"
+  },
+  {
+    "ident": "RPVM",
+    "name": "Mactan Cebu International Airport",
+    "continent": "AS",
+    "country": "PH",
+    "municipality": "Lapu-Lapu City"
+  },
+  {
+    "ident": "RU-0016",
+    "name": "Lipetsk Air Base",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Lipetsk"
+  },
+  {
+    "ident": "SABE",
+    "name": "Jorge Newbery Airpark",
+    "continent": "SA",
+    "country": "AR",
+    "municipality": "Buenos Aires"
+  },
+  {
+    "ident": "SAEZ",
+    "name": "Minister Pistarini International Airport",
+    "continent": "SA",
+    "country": "AR",
+    "municipality": "Buenos Aires (Ezeiza)"
+  },
+  {
+    "ident": "SBBE",
+    "name": "Val de Cans/Júlio Cezar Ribeiro International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Belém"
+  },
+  {
+    "ident": "SBBR",
+    "name": "Presidente Juscelino Kubitschek International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Brasília"
+  },
+  {
+    "ident": "SBCF",
+    "name": "Tancredo Neves International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Belo Horizonte"
+  },
+  {
+    "ident": "SBEG",
+    "name": "Eduardo Gomes International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Manaus"
+  },
+  {
+    "ident": "SBFL",
+    "name": "Hercílio Luz International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Florianópolis"
+  },
+  {
+    "ident": "SBGL",
+    "name": "Rio Galeão – Tom Jobim International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Rio De Janeiro"
+  },
+  {
+    "ident": "SBGR",
+    "name": "Guarulhos - Governador André Franco Montoro International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "São Paulo"
+  },
+  {
+    "ident": "SBSV",
+    "name": "Deputado Luiz Eduardo Magalhães International Airport",
+    "continent": "SA",
+    "country": "BR",
+    "municipality": "Salvador"
+  },
+  {
+    "ident": "SCEL",
+    "name": "Comodoro Arturo Merino Benítez International Airport",
+    "continent": "SA",
+    "country": "CL",
+    "municipality": "Santiago"
+  },
+  {
+    "ident": "SEGU",
+    "name": "José Joaquín de Olmedo International Airport",
+    "continent": "SA",
+    "country": "EC",
+    "municipality": "Guayaquil"
+  },
+  {
+    "ident": "SEQM",
+    "name": "Mariscal Sucre International Airport",
+    "continent": "SA",
+    "country": "EC",
+    "municipality": "Quito"
+  },
+  {
+    "ident": "SGAS",
+    "name": "Aeropuerto Internacional Silvio Pettirossi",
+    "continent": "SA",
+    "country": "PY",
+    "municipality": "Asunción"
+  },
+  {
+    "ident": "SGES",
+    "name": "Aeropuerto Internacional Guaraní",
+    "continent": "SA",
+    "country": "PY",
+    "municipality": "Ciudad del Este"
+  },
+  {
+    "ident": "SGME",
+    "name": "Aeropuerto Internacional Dr. Luis Maria Argaña",
+    "continent": "SA",
+    "country": "PY",
+    "municipality": "Mariscal Estigarribia"
+  },
+  {
+    "ident": "SGPJ",
+    "name": "Aeropuerto Internacional Dr. Augusto Roberto Fuster",
+    "continent": "SA",
+    "country": "PY",
+    "municipality": "Pedro Juan Caballero"
+  },
+  {
+    "ident": "SKBO",
+    "name": "El Dorado International Airport",
+    "continent": "SA",
+    "country": "CO",
+    "municipality": "Bogota"
+  },
+  {
+    "ident": "SLVR",
+    "name": "Viru Viru International Airport",
+    "continent": "SA",
+    "country": "BO",
+    "municipality": "Santa Cruz"
+  },
+  {
+    "ident": "SMJP",
+    "name": "Johan Adolf Pengel International Airport",
+    "continent": "SA",
+    "country": "SR",
+    "municipality": "Zandery"
+  },
+  {
+    "ident": "SOCA",
+    "name": "Cayenne – Félix Eboué Airport",
+    "continent": "SA",
+    "country": "GF",
+    "municipality": "Matoury"
+  },
+  {
+    "ident": "SPIM",
+    "name": "Jorge Chávez International Airport",
+    "continent": "SA",
+    "country": "PE",
+    "municipality": "Lima"
+  },
+  {
+    "ident": "SPZO",
+    "name": "Alejandro Velasco Astete International Airport",
+    "continent": "SA",
+    "country": "PE",
+    "municipality": "Cusco"
+  },
+  {
+    "ident": "SUMU",
+    "name": "Carrasco General Cesáreo L. Berisso International Airport",
+    "continent": "SA",
+    "country": "UY",
+    "municipality": "Ciudad de la Costa"
+  },
+  {
+    "ident": "SVBC",
+    "name": "General José Antonio Anzoategui International Airport",
+    "continent": "SA",
+    "country": "VE",
+    "municipality": "Barcelona"
+  },
+  {
+    "ident": "SVMI",
+    "name": "Simón Bolívar International Airport",
+    "continent": "SA",
+    "country": "VE",
+    "municipality": "Caracas"
+  },
+  {
+    "ident": "TAO",
+    "name": "Qingdao Jiaodong International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Jiaozhou, Qingdao"
+  },
+  {
+    "ident": "TFFF",
+    "name": "Martinique Aimé Césaire International Airport",
+    "continent": "NA",
+    "country": "MQ",
+    "municipality": "Fort-de-France"
+  },
+  {
+    "ident": "TFFR",
+    "name": "Pointe-à-Pitre Le Raizet International  Airport",
+    "continent": "NA",
+    "country": "GP",
+    "municipality": "Pointe-à-Pitre"
+  },
+  {
+    "ident": "TJSJ",
+    "name": "Luis Munoz Marin International Airport",
+    "continent": "NA",
+    "country": "PR",
+    "municipality": "San Juan"
+  },
+  {
+    "ident": "TLPL",
+    "name": "Hewanorra International Airport",
+    "continent": "NA",
+    "country": "LC",
+    "municipality": "Vieux Fort"
+  },
+  {
+    "ident": "TNCA",
+    "name": "Queen Beatrix International Airport",
+    "continent": "NA",
+    "country": "AW",
+    "municipality": "Oranjestad"
+  },
+  {
+    "ident": "TNCB",
+    "name": "Flamingo International Airport",
+    "continent": "NA",
+    "country": "BQ",
+    "municipality": "Kralendijk, Bonaire"
+  },
+  {
+    "ident": "TNCC",
+    "name": "Hato International Airport",
+    "continent": "NA",
+    "country": "CW",
+    "municipality": "Willemstad"
+  },
+  {
+    "ident": "TNCM",
+    "name": "Princess Juliana International Airport",
+    "continent": "NA",
+    "country": "SX",
+    "municipality": "Saint Martin"
+  },
+  {
+    "ident": "UAAA",
+    "name": "Almaty International Airport",
+    "continent": "AS",
+    "country": "KZ",
+    "municipality": "Almaty"
+  },
+  {
+    "ident": "UACC",
+    "name": "Nursultan Nazarbayev International Airport",
+    "continent": "AS",
+    "country": "KZ",
+    "municipality": "Nur-Sultan"
+  },
+  {
+    "ident": "UAFM",
+    "name": "Manas International Airport",
+    "continent": "AS",
+    "country": "KG",
+    "municipality": "Bishkek"
+  },
+  {
+    "ident": "UAIT",
+    "name": "Hazrat Sultan International Airport",
+    "continent": "AS",
+    "country": "KZ",
+    "municipality": ""
+  },
+  {
+    "ident": "UBBB",
+    "name": "Heydar Aliyev International Airport",
+    "continent": "AS",
+    "country": "AZ",
+    "municipality": "Baku"
+  },
+  {
+    "ident": "UDYZ",
+    "name": "Zvartnots International Airport",
+    "continent": "AS",
+    "country": "AM",
+    "municipality": "Yerevan"
+  },
+  {
+    "ident": "UGTB",
+    "name": "Tbilisi International Airport",
+    "continent": "AS",
+    "country": "GE",
+    "municipality": "Tbilisi"
+  },
+  {
+    "ident": "UHWW",
+    "name": "Vladivostok International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Artyom"
+  },
+  {
+    "ident": "UKBB",
+    "name": "Boryspil International Airport",
+    "continent": "EU",
+    "country": "UA",
+    "municipality": "Boryspil"
+  },
+  {
+    "ident": "UKLL",
+    "name": "Lviv International Airport",
+    "continent": "EU",
+    "country": "UA",
+    "municipality": "Lviv"
+  },
+  {
+    "ident": "ULLI",
+    "name": "Pulkovo Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "St. Petersburg"
+  },
+  {
+    "ident": "UMMS",
+    "name": "Minsk National Airport",
+    "continent": "EU",
+    "country": "BY",
+    "municipality": "Minsk"
+  },
+  {
+    "ident": "UNKL",
+    "name": "Krasnoyarsk International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Krasnoyarsk"
+  },
+  {
+    "ident": "UNNT",
+    "name": "Novosibirsk Tolmachevo Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Novosibirsk"
+  },
+  {
+    "ident": "URRP",
+    "name": "Platov International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Rostov-on-Don"
+  },
+  {
+    "ident": "URSS",
+    "name": "Sochi International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Sochi"
+  },
+  {
+    "ident": "USSS",
+    "name": "Koltsovo Airport",
+    "continent": "AS",
+    "country": "RU",
+    "municipality": "Yekaterinburg"
+  },
+  {
+    "ident": "UTAA",
+    "name": "Ashgabat International Airport",
+    "continent": "AS",
+    "country": "TM",
+    "municipality": "Ashgabat"
+  },
+  {
+    "ident": "UTTT",
+    "name": "Tashkent International Airport",
+    "continent": "AS",
+    "country": "UZ",
+    "municipality": "Tashkent"
+  },
+  {
+    "ident": "UUBW",
+    "name": "Zhukovsky International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Moscow"
+  },
+  {
+    "ident": "UUDD",
+    "name": "Domodedovo International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Moscow"
+  },
+  {
+    "ident": "UUEE",
+    "name": "Sheremetyevo International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Moscow"
+  },
+  {
+    "ident": "UUWW",
+    "name": "Vnukovo International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Moscow"
+  },
+  {
+    "ident": "UWKD",
+    "name": "Kazan International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Kazan"
+  },
+  {
+    "ident": "UWSG",
+    "name": "Gagarin International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Saratov"
+  },
+  {
+    "ident": "UWUU",
+    "name": "Ufa International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Ufa"
+  },
+  {
+    "ident": "UWWW",
+    "name": "Kurumoch International Airport",
+    "continent": "EU",
+    "country": "RU",
+    "municipality": "Samara"
+  },
+  {
+    "ident": "VABB",
+    "name": "Chhatrapati Shivaji International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Mumbai"
+  },
+  {
+    "ident": "VAGO",
+    "name": "Dabolim Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Vasco da Gama"
+  },
+  {
+    "ident": "VCBI",
+    "name": "Bandaranaike International Colombo Airport",
+    "continent": "AS",
+    "country": "LK",
+    "municipality": "Colombo"
+  },
+  {
+    "ident": "VCRI",
+    "name": "Mattala Rajapaksa International Airport",
+    "continent": "AS",
+    "country": "LK",
+    "municipality": ""
+  },
+  {
+    "ident": "VDPP",
+    "name": "Phnom Penh International Airport",
+    "continent": "AS",
+    "country": "KH",
+    "municipality": "Phnom Penh (Pou Senchey)"
+  },
+  {
+    "ident": "VDSR",
+    "name": "Siem Reap International Airport",
+    "continent": "AS",
+    "country": "KH",
+    "municipality": "Siem Reap"
+  },
+  {
+    "ident": "VECC",
+    "name": "Netaji Subhash Chandra Bose International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Kolkata"
+  },
+  {
+    "ident": "VGZR",
+    "name": "Hazrat Shahjalal International Airport",
+    "continent": "AS",
+    "country": "BD",
+    "municipality": "Dhaka"
+  },
+  {
+    "ident": "VHHH",
+    "name": "Hong Kong International Airport",
+    "continent": "AS",
+    "country": "HK",
+    "municipality": "Islands"
+  },
+  {
+    "ident": "VIDP",
+    "name": "Indira Gandhi International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "New Delhi"
+  },
+  {
+    "ident": "VMMC",
+    "name": "Macau International Airport",
+    "continent": "AS",
+    "country": "MO",
+    "municipality": "Nossa Senhora do Carmo"
+  },
+  {
+    "ident": "VNKT",
+    "name": "Tribhuvan International Airport",
+    "continent": "AS",
+    "country": "NP",
+    "municipality": "Kathmandu"
+  },
+  {
+    "ident": "VOBL",
+    "name": "Kempegowda International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Bangalore"
+  },
+  {
+    "ident": "VOCI",
+    "name": "Cochin International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Kochi"
+  },
+  {
+    "ident": "VOHS",
+    "name": "Rajiv Gandhi International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Hyderabad"
+  },
+  {
+    "ident": "VOMM",
+    "name": "Chennai International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Chennai"
+  },
+  {
+    "ident": "VOTV",
+    "name": "Thiruvananthapuram International Airport",
+    "continent": "AS",
+    "country": "IN",
+    "municipality": "Thiruvananthapuram"
+  },
+  {
+    "ident": "VRMM",
+    "name": "Malé International Airport",
+    "continent": "AS",
+    "country": "MV",
+    "municipality": "Malé"
+  },
+  {
+    "ident": "VTBD",
+    "name": "Don Mueang International Airport",
+    "continent": "AS",
+    "country": "TH",
+    "municipality": "Bangkok"
+  },
+  {
+    "ident": "VTBS",
+    "name": "Suvarnabhumi Airport",
+    "continent": "AS",
+    "country": "TH",
+    "municipality": "Bangkok"
+  },
+  {
+    "ident": "VTCC",
+    "name": "Chiang Mai International Airport",
+    "continent": "AS",
+    "country": "TH",
+    "municipality": "Chiang Mai"
+  },
+  {
+    "ident": "VTSP",
+    "name": "Phuket International Airport",
+    "continent": "AS",
+    "country": "TH",
+    "municipality": "Phuket"
+  },
+  {
+    "ident": "VVNB",
+    "name": "Noi Bai International Airport",
+    "continent": "AS",
+    "country": "VN",
+    "municipality": "Hanoi (Soc Son)"
+  },
+  {
+    "ident": "VVTS",
+    "name": "Tan Son Nhat International Airport",
+    "continent": "AS",
+    "country": "VN",
+    "municipality": "Ho Chi Minh City"
+  },
+  {
+    "ident": "VYMD",
+    "name": "Mandalay International Airport",
+    "continent": "AS",
+    "country": "MM",
+    "municipality": "Mandalay"
+  },
+  {
+    "ident": "VYYY",
+    "name": "Yangon International Airport",
+    "continent": "AS",
+    "country": "MM",
+    "municipality": "Yangon"
+  },
+  {
+    "ident": "WAAA",
+    "name": "Hasanuddin International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Ujung Pandang"
+  },
+  {
+    "ident": "WADD",
+    "name": "Ngurah Rai (Bali) International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Denpasar"
+  },
+  {
+    "ident": "WAJJ",
+    "name": "Dortheys Hiyo Eluay International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Sentani"
+  },
+  {
+    "ident": "WALL",
+    "name": "Sultan Aji Muhammad Sulaiman Sepinggan International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Balikpapan"
+  },
+  {
+    "ident": "WARR",
+    "name": "Juanda International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Surabaya"
+  },
+  {
+    "ident": "WBSB",
+    "name": "Brunei International Airport",
+    "continent": "AS",
+    "country": "BN",
+    "municipality": "Bandar Seri Begawan"
+  },
+  {
+    "ident": "WIII",
+    "name": "Soekarno-Hatta International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Jakarta"
+  },
+  {
+    "ident": "WIMM",
+    "name": "Kualanamu International Airport",
+    "continent": "AS",
+    "country": "ID",
+    "municipality": "Medan"
+  },
+  {
+    "ident": "WMKK",
+    "name": "Kuala Lumpur International Airport",
+    "continent": "AS",
+    "country": "MY",
+    "municipality": "Sepang"
+  },
+  {
+    "ident": "WSSS",
+    "name": "Singapore Changi Airport",
+    "continent": "AS",
+    "country": "SG",
+    "municipality": "Singapore"
+  },
+  {
+    "ident": "YBBN",
+    "name": "Brisbane International Airport",
+    "continent": "OC",
+    "country": "AU",
+    "municipality": "Brisbane"
+  },
+  {
+    "ident": "YMML",
+    "name": "Melbourne International Airport",
+    "continent": "OC",
+    "country": "AU",
+    "municipality": "Melbourne"
+  },
+  {
+    "ident": "YNT",
+    "name": "Yantai Penglai International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Yantai"
+  },
+  {
+    "ident": "YPAD",
+    "name": "Adelaide International Airport",
+    "continent": "OC",
+    "country": "AU",
+    "municipality": "Adelaide"
+  },
+  {
+    "ident": "YPDN",
+    "name": "Darwin International Airport / RAAF Darwin",
+    "continent": "OC",
+    "country": "AU",
+    "municipality": "Darwin"
+  },
+  {
+    "ident": "YPPH",
+    "name": "Perth International Airport",
+    "continent": "OC",
+    "country": "AU",
+    "municipality": "Perth"
+  },
+  {
+    "ident": "YSSY",
+    "name": "Sydney Kingsford Smith International Airport",
+    "continent": "OC",
+    "country": "AU",
+    "municipality": "Sydney"
+  },
+  {
+    "ident": "ZBAA",
+    "name": "Beijing Capital International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Beijing"
+  },
+  {
+    "ident": "ZBAD",
+    "name": "Beijing Daxing International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Beijing"
+  },
+  {
+    "ident": "ZBHH",
+    "name": "Hohhot Baita International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Hohhot"
+  },
+  {
+    "ident": "ZBTJ",
+    "name": "Tianjin Binhai International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Tianjin"
+  },
+  {
+    "ident": "ZBYN",
+    "name": "Taiyuan Wusu Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Taiyuan"
+  },
+  {
+    "ident": "ZGGG",
+    "name": "Guangzhou Baiyun International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Guangzhou (Huadu)"
+  },
+  {
+    "ident": "ZGHA",
+    "name": "Changsha Huanghua International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Changsha (Changsha)"
+  },
+  {
+    "ident": "ZGKL",
+    "name": "Guilin Liangjiang International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Guilin (Lingui)"
+  },
+  {
+    "ident": "ZGNN",
+    "name": "Nanning Wuxu Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Nanning (Jiangnan)"
+  },
+  {
+    "ident": "ZGSZ",
+    "name": "Shenzhen Bao'an International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Shenzhen (Bao'an)"
+  },
+  {
+    "ident": "ZHCC",
+    "name": "Zhengzhou Xinzheng International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Zhengzhou"
+  },
+  {
+    "ident": "ZHHH",
+    "name": "Wuhan Tianhe International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Wuhan (Huangpi)"
+  },
+  {
+    "ident": "ZJHK",
+    "name": "Haikou Meilan International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Haikou (Meilan)"
+  },
+  {
+    "ident": "ZJSY",
+    "name": "Sanya Phoenix International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Sanya (Tianya)"
+  },
+  {
+    "ident": "ZLLL",
+    "name": "Lanzhou Zhongchuan International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Lanzhou (Yongdeng)"
+  },
+  {
+    "ident": "ZLXY",
+    "name": "Xi'an Xianyang International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Xianyang (Weicheng)"
+  },
+  {
+    "ident": "ZMCK",
+    "name": "Ulaanbaatar Chinggis Khaan International Airport",
+    "continent": "AS",
+    "country": "MN",
+    "municipality": "Ulaanbaatar (Sergelen)"
+  },
+  {
+    "ident": "ZPPP",
+    "name": "Kunming Changshui International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Kunming"
+  },
+  {
+    "ident": "ZSAM",
+    "name": "Xiamen Gaoqi International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Xiamen"
+  },
+  {
+    "ident": "ZSCN",
+    "name": "Nanchang Changbei International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Nanchang"
+  },
+  {
+    "ident": "ZSFZ",
+    "name": "Fuzhou Changle International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Fuzhou"
+  },
+  {
+    "ident": "ZSHC",
+    "name": "Hangzhou Xiaoshan International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Hangzhou"
+  },
+  {
+    "ident": "ZSJN",
+    "name": "Jinan Yaoqiang International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Jinan"
+  },
+  {
+    "ident": "ZSNB",
+    "name": "Ningbo Lishe International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Ningbo"
+  },
+  {
+    "ident": "ZSNJ",
+    "name": "Nanjing Lukou International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Nanjing"
+  },
+  {
+    "ident": "ZSPD",
+    "name": "Shanghai Pudong International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Shanghai (Pudong)"
+  },
+  {
+    "ident": "ZSSS",
+    "name": "Shanghai Hongqiao International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Shanghai (Minhang)"
+  },
+  {
+    "ident": "ZSWZ",
+    "name": "Wenzhou Longwan International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Wenzhou"
+  },
+  {
+    "ident": "ZUCK",
+    "name": "Chongqing Jiangbei International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Chongqing"
+  },
+  {
+    "ident": "ZUGY",
+    "name": "Guiyang Longdongbao International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Guiyang (Nanming)"
+  },
+  {
+    "ident": "ZUTF",
+    "name": "Chengdu Tianfu International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Chengdu (Jianyang)"
+  },
+  {
+    "ident": "ZUUU",
+    "name": "Chengdu Shuangliu International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Chengdu (Shuangliu)"
+  },
+  {
+    "ident": "ZWWW",
+    "name": "Ürümqi Diwopu International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Ürümqi"
+  },
+  {
+    "ident": "ZYCC",
+    "name": "Changchun Longjia International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Changchun"
+  },
+  {
+    "ident": "ZYHB",
+    "name": "Harbin Taiping International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Harbin"
+  },
+  {
+    "ident": "ZYTL",
+    "name": "Dalian Zhoushuizi International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Ganjingzi, Dalian"
+  },
+  {
+    "ident": "ZYTX",
+    "name": "Shenyang Taoxian International Airport",
+    "continent": "AS",
+    "country": "CN",
+    "municipality": "Hunnan, Shenyang"
+  }
+]
