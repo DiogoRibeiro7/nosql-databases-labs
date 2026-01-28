@@ -1,0 +1,82 @@
+[
+  {
+    "studentCode": "STU-001",
+    "name": "Aimee Zank",
+    "gender": "male",
+    "address": "123 Maple Street, Austin, TX",
+    "email": "aimee.zank@example.com",
+    "phone_number": "+1-512-555-0101"
+  },
+  {
+    "studentCode": "STU-002",
+    "name": "John Miller",
+    "gender": "male",
+    "address": "456 Oak Avenue, Denver, CO",
+    "email": "john.miller@example.com",
+    "phone_number": "+1-303-555-0102"
+  },
+  {
+    "studentCode": "STU-003",
+    "name": "Sarah Collins",
+    "gender": "female",
+    "address": "789 Pine Road, Seattle, WA",
+    "email": "sarah.collins@example.com",
+    "phone_number": "+1-206-555-0103"
+  },
+  {
+    "studentCode": "STU-004",
+    "name": "David Nguyen",
+    "gender": "male",
+    "address": "321 Cedar Lane, San Jose, CA",
+    "email": "david.nguyen@example.com",
+    "phone_number": "+1-408-555-0104"
+  },
+  {
+    "studentCode": "STU-005",
+    "name": "Emily Carter",
+    "gender": "female",
+    "address": "654 Birch Street, Madison, WI",
+    "email": "emily.carter@example.com",
+    "phone_number": "+1-608-555-0105"
+  },
+  {
+    "studentCode": "STU-006",
+    "name": "Michael Brown",
+    "gender": "male",
+    "address": "987 Walnut Drive, Columbus, OH",
+    "email": "michael.brown@example.com",
+    "phone_number": "+1-614-555-0106"
+  },
+  {
+    "studentCode": "STU-007",
+    "name": "Jessica Lopez",
+    "gender": "female",
+    "address": "159 Spruce Court, Phoenix, AZ",
+    "email": "jessica.lopez@example.com",
+    "phone_number": "+1-602-555-0107"
+  },
+  {
+    "studentCode": "STU-008",
+    "name": "Daniel Kim",
+    "gender": "male",
+    "address": "753 Willow Way, Irvine, CA",
+    "email": "daniel.kim@example.com",
+    "phone_number": "+1-949-555-0108"
+  },
+  {
+    "studentCode": "STU-009",
+    "name": "Olivia Turner",
+    "gender": "female",
+    "address": "852 Aspen Boulevard, Boulder, CO",
+    "email": "olivia.turner@example.com",
+    "phone_number": "+1-720-555-0109"
+  },
+  {
+    "studentCode": "STU-010",
+    "name": "Chris Anderson",
+    "gender": "male",
+    "address": "951 Poplar Street, Minneapolis, MN",
+    "email": "chris.anderson@example.com",
+    "phone_number": "+1-612-555-0110"
+  }
+]
