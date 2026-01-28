@@ -9,6 +9,7 @@ Use these prompts if you need a short warm-up before producing the full design p
 1. Pick one scenario (E-commerce, Content, or Custom) and list:
    - 3 entities (e.g., `Customer`, `Order`, `Product`)
    - 3 attributes per entity
+
 2. Capture the list in `NOTES.md` under “Basic Exercises”.
 
 ## Exercise 2: Relationship Sketch

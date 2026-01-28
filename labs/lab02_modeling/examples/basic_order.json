@@ -1,0 +1,20 @@
+{
+  "order_id": "ORD005",
+  "customer_id": "CUST002",
+  "status": "pending",
+  "shipping_address": {
+    "street": "Rua da Cortinha",
+    "city": "Gaia"
+  },
+  "items": [
+    {
+      "product_id": "PROD003",
+      "unit_price": 1499.99
+    },
+    {
+      "product_id": "PROD0093",
+      "unit_price": 99.99
+    }
+  ],
+  "tax": 171
+}
