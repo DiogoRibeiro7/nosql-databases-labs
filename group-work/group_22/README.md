@@ -1,246 +1,258 @@
-# Group 22 - MongoDB NoSQL Database Project
+# Group 22 – MongoDB NoSQL Database Project
 
 ## Team Members
+See our team composition in [group_members.md](../group_members.md#group-22).
 
-See our team composition in [group_members.md](../group_members.md#group-22)
+---
 
-## Project Overview
-
-This project demonstrates our comprehensive understanding of MongoDB database operations and NoSQL concepts. We have implemented a complete set of database solutions that showcase our ability to design schemas, insert data, and create complex queries for real-world scenarios.
+# Project Overview
+For this project, we were required to design and implement a MongoDB database based on a dataset of our choice.  
+We created a complete NoSQL system for a **restaurant ordering platform**, including restaurants, menu items, orders, and order items.
 
 ### Learning Objectives Achieved
+- Designed a real-world MongoDB schema
+- Implemented CRUD operations across multiple collections
+- Used aggregation pipelines to compute statistics
+- Applied query operators for filtering and sorting
 
-- Mastered MongoDB query language and operators
-- Designed efficient document schemas following best practices
-- Implemented complex aggregation pipelines for data analysis
-- Created optimized indexes for query performance
-- Developed data insertion strategies for various use cases
+---
 
-## Database Design
+# Database Design
 
-### Collections Created
+## ER Diagram (Mermaid)
 
-1. **Primary Collections**
-   - Structured document schemas with embedded documents
-   - Referenced relationships between collections
-   - Optimized field types and data structures
+```mermaid
+erDiagram
+    RESTAURANTS {
+        object _id
+        string name
+        string type
+        float rating
+        boolean open
+        object address
+        array menu
+    }
 
-2. **Schema Design Decisions**
-   - Denormalization strategies for read optimization
-   - Embedding vs referencing trade-offs
-   - Index planning based on query patterns
+    MENU_ITEMS {
+        object _id
+        object restaurantId
+        string item
+        float price
+        string category
+    }
 
-## Data Operations Implemented
+    ORDERS {
+        object _id
+        string orderNumber
+        object restaurantId
+        array items
+        float totalPrice
+        string status
+        date createdAt
+    }
 
-### 1. Database Creation & Setup
+    ORDER_ITEMS {
+        object _id
+        object orderId
+        string name
+        int qty
+        float unitPrice
+    }
 
-- Created database with appropriate naming conventions
-- Established collections with validation rules
-- Set up indexes for optimal query performance
-
-### 2. Data Insertion
-
-- **Bulk Insert Operations**: Efficient insertion of large datasets
-- **Single Document Inserts**: Individual record creation with validation
-- **Batch Processing**: Organized data imports from multiple sources
-- **Data Generation**: Created realistic test data using various patterns
-
-### 3. Query Operations
-
-#### Basic Queries
-
-- Find operations with multiple filter conditions
-- Projection to retrieve specific fields
-- Sorting and limiting result sets
-- Regular expression searches for text patterns
-
-#### Advanced Queries
-
-- Complex filtering with `$and`, `$or`, `$nor` operators
-- Array queries using `$elemMatch`, `$all`, `$size`
-- Nested document queries with dot notation
-- Comparison operators for range queries
-
-### 4. Aggregation Pipelines
-
-#### Data Analysis Pipelines
-
-- `$match` stages for filtering
-- `$group` operations for statistical analysis
-- `$project` for data transformation
-- `$sort` and `$limit` for result control
-
-#### Complex Aggregations
-
-- Multi-stage pipelines for business analytics
-- `$lookup` for joining collections
-- `$unwind` for array manipulation
-- `$facet` for multiple aggregation outputs
-
-### 5. Update Operations
-
-- Single and multi-document updates
-- Array update operators (`$push`, `$pull`, `$addToSet`)
-- Field update operators (`$set`, `$unset`, `$inc`)
-- Conditional updates with query filters
-
-### 6. Index Management
-
-- Single field indexes for common queries
-- Compound indexes for complex query patterns
-- Text indexes for search functionality
-- Unique indexes for data integrity
-
-## Technologies & Tools Used
-
-- **Database**: MongoDB 7.0
-- **Shell**: MongoDB Shell (mongosh)
-- **Query Language**: MongoDB Query Language (MQL)
-- **Tools**: MongoDB Compass for visualization
-- **Scripts**: JavaScript for database operations
-
-## Database Setup Instructions
-
-### Prerequisites
-
-- MongoDB 7.0 or higher installed locally
-- MongoDB Shell (mongosh) installed
-- MongoDB Compass (optional, for GUI access)
-
-### Running Our Solution
-
-1. **Start MongoDB Server**
-
-   ```bash
-   mongod --dbpath /path/to/data/directory
-   ```
-
-2. **Connect to MongoDB**
-
-   ```bash
-   mongosh
-   ```
-
-3. **Create and Use Database**
-
-   ```javascript
-   use group_22_db
-   ```
-
-4. **Execute Our Scripts**
-
-   ```bash
-   mongosh < solution.js
-   ```
-
-5. **Verify Data**
-   ```javascript
-   db.getCollectionNames();
-   db.collection_name.countDocuments();
-   ```
-
-## Query Examples from Our Solution
-
-### Example 1: Find Products by Category
-
-```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 100, $lte: 1000 },
-});
+    RESTAURANTS ||--o{ MENU_ITEMS : "has many"
+    RESTAURANTS ||--o{ ORDERS : "receives"
+    ORDERS ||--o{ ORDER_ITEMS : "contains"
 ```
 
-### Example 2: Aggregate Sales Data
+---
 
+# Collections Created
+
+Below are **expanded examples** representing realistic documents in each collection.
+
+---
+
+## 1. **restaurants**
+Stores information about a restaurant, including address and an embedded menu.
+
+```json
+{
+  "_id": { "$oid": "51fe29d3685d4a0a9f055a87" },
+  "name": "Pizza Pino Nice",
+  "type": "Libanais",
+  "rating": 3.6,
+  "open": false,
+  "address": {
+    "street": "61 rue de Bordeaux",
+    "city": "Bordeaux",
+    "postalCode": "88455"
+  },
+  "menu": [
+    { "item": "Tiramisu", "price": 15.92, "category": "dessert" },
+    { "item": "Lasagnes", "price": 11.99, "category": "main" }
+  ]
+}
+```
+
+---
+
+## 2. **menu_items**
+Contains individual menu items referencing their restaurant.
+
+```json
+{
+  "_id": { "$oid": "6972ad45985ef13385ba429b" },
+  "restaurantId": { "$oid": "51fe29d3685d4a0a9f055a87" },
+  "item": "Tiramisu",
+  "price": 15.92,
+  "category": "dessert"
+}
+```
+
+
+---
+
+## 3. **orders**
+Represents an entire customer order using **embedded items**.
+
+```json
+{
+  "_id": { "$oid": "690367d6b52abfb7d152f781" },
+  "orderNumber": "ORD-1000",
+  "restaurantId": { "$oid": "7a42b136e2ea484f9396503a" },
+  "items": [
+    { "name": "Tacos au Boeuf", "qty": 1, "unitPrice": 11.76 },
+    { "name": "Smoothie Vert", "qty": 3, "unitPrice": 11.76 }
+  ],
+  "totalPrice": 85.6,
+  "status": "delivered",
+  "createdAt": { "$date": "2025-10-23T10:47:17.250Z" }
+}
+```
+
+
+---
+
+## 4. **order_items**
+Referenced “line item” version of order contents.
+
+```json
+{
+  "_id": { "$oid": "6972ad45985ef13385ba42ff" },
+  "orderId": { "$oid": "690367d6b52abfb7d152f781" },
+  "name": "Tacos au Boeuf",
+  "qty": 1,
+  "unitPrice": 11.76
+}
+```
+
+
+---
+
+# Schema Design Decisions
+- **Embedded items** in `orders` → fast order retrieval  
+- **Referenced menu items** → reusable and easy to query  
+- **Embedded menu inside restaurants** → faster display of restaurant pages  
+- Mixed approach supports both transactional and analytical queries  
+
+---
+
+# Data Operations Implemented
+
+## 1. Database Setup
+- Created `group_22` database
+
+## 2. Insert Operations
+- Run seed.js to populate the database
+
+## 3. Query Operations (Examples)
+
+### **Open restaurants in city**
 ```javascript
-db.sales.aggregate([
-  { $match: { year: 2024 } },
+db.restaurants
+  .find(
+    { "address.city": "Toulouse", open: true },
+    { _id: 0, name: 1, type: 1, rating: 1 }
+  )
+  .sort({ rating: -1 })
+  .forEach((doc) => printjson(doc));
+```
+
+### **Find Restaurants by Cuisine and Sorted by Rating**
+```javascript
+db = db.getSiblingDB("group_22");
+print("Indien restaurants sorted by rating (highest first):");
+db.restaurants
+  .find({ type: "Indien" }, { _id: 0, name: 1, rating: 1, address: 1 })
+  .sort({ rating: -1 })
+  .forEach((doc) => printjson(doc));
+```
+
+
+---
+
+# Aggregation Pipelines (Example)
+
+### **Average Price per Category for Restaurant**
+```javascript
+db.menu_items
+.aggregate([
+  { $match: { restaurantId: ObjectId("51fe29d3685d4a0a9f055a87") } },
   {
     $group: {
-      _id: "$month",
-      totalSales: { $sum: "$amount" },
-      avgSale: { $avg: "$amount" },
-    },
+      _id: { restaurantId: "$restaurantId", category: "$category" },
+      averagePrice: { $avg: "$price" }
+    }
   },
-  { $sort: { _id: 1 } },
-]);
+  {
+    $lookup: {
+      from: "restaurants",
+      localField: "_id.restaurantId",
+      foreignField: "_id",
+      as: "restaurant"
+    }
+  },
+  { $unwind: "$restaurant" },
+  {
+    $project: {
+      _id: 0,
+      restaurantName: "$restaurant.name",
+      category: "$_id.category",
+      averagePrice: 1
+    }
+  },
+  { $sort: { averagePrice: -1 } }
+])
+  .forEach((doc) => printjson(doc));
 ```
 
-### Example 3: Update Inventory
 
-```javascript
-db.inventory.updateMany(
-  { quantity: { $lt: 10 } },
-  { $set: { status: "low_stock", lastUpdated: new Date() } }
-);
-```
+---
 
-## Performance Optimizations
 
-1. **Query Optimization**
-   - Used covered queries where possible
-   - Implemented proper index strategies
-   - Avoided full collection scans
+# Learning Outcomes
+- Designing practical NoSQL structures  
+- Embedding vs referencing trade-offs  
+- Complex filtering and aggregation  
+- Using MongoDB for real-world data  
 
-2. **Data Modeling**
-   - Balanced between embedding and referencing
-   - Minimized document growth patterns
-   - Optimized for read-heavy workloads
+---
 
-3. **Index Strategy**
-   - Created indexes based on query patterns
-   - Used compound indexes for sort operations
-   - Monitored index usage with explain()
+# Future Enhancements
+- Add user accounts and authentication  
+- Add restaurant search by price range, rating, cuisine  
+- Add analytics dashboard (top-selling items, busiest restaurants)  
+- Add schema validation rules for stricter data consistency  
 
-## Challenges and Solutions
+---
 
-### Challenge 1: Complex Aggregations
+# Documentation
+- `solution.md` – Full explanation of operations  
+- `queries` – All queries and aggregations used  
+- `data` – Sample data used for inserts  
+- `seed.js` – File for populating the database
 
-- **Problem**: Needed to analyze data across multiple collections
-- **Solution**: Used `$lookup` stages with optimized pipeline order
+---
 
-### Challenge 2: Large Dataset Insertion
-
-- **Problem**: Inserting millions of documents efficiently
-- **Solution**: Implemented bulk write operations with ordered: false
-
-### Challenge 3: Query Performance
-
-- **Problem**: Slow queries on large collections
-- **Solution**: Created appropriate compound indexes and used projection
-
-## Testing & Validation
-
-- Tested all queries with sample datasets
-- Validated aggregation pipeline results
-- Verified index effectiveness using explain()
-- Ensured data integrity with validation rules
-
-## Learning Outcomes
-
-Through this project, we gained practical experience in:
-
-- Database design patterns for NoSQL
-- Writing efficient MongoDB queries
-- Building complex aggregation pipelines
-- Performance optimization techniques
-- Data modeling best practices
-
-## Future Enhancements
-
-- Implement change streams for real-time data monitoring
-- Add time-series collections for temporal data
-- Explore sharding for horizontal scaling
-- Implement schema versioning strategies
-
-## Documentation
-
-Additional files in our submission:
-
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
-
-## Contributors
-
-Group 22 - 2025
+# Contributors
+Group 22 – 2025/26
