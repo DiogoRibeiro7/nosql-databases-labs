@@ -8,35 +8,84 @@ db.porto_listings.createIndex({ neighbourhood: 1, beds: 1, review_scores_rating:
 
 // --- 2. PIPELINES DE AGREGAÇÃO ---
 
-// Q1: Preço Médio por Bairro
+// Q1: Preço minimo, maximo e Médio por Bairro 
 // Resolve problemas de tipos de dados convertendo string para número [cite: 298]
 db.porto_listings.aggregate([
   {
     $project: {
       neighbourhood: 1,
-      price_clean: { 
-        $ltrim: { 
-          input: { $ifNull: ["$price", "€0"] }, 
-          chars: "€" 
-        } 
+      price_clean: {
+        $ltrim: {
+          input: { $ifNull: ["$price", "€0"] },
+          chars: "€"
+        }
       }
     }
   },
   {
     $project: {
       neighbourhood: 1,
-      price_numeric: { $convert: { input: "$price_clean", to: "double", onError: 0 } }
+      price_numeric: {
+        $convert: {
+          input: "$price_clean",
+          to: "double",
+          onError: 0
+        }
+      }
     }
   },
   {
     $group: {
       _id: "$neighbourhood",
-      avgPrice: { $avg: "$price_numeric" },
-      totalListings: { $sum: 1 }
+      minPrice: { $min: "$price_numeric" },
+      maxPrice: { $max: "$price_numeric" },
+      avgPrice: { $avg: "$price_numeric" }
     }
   },
+  {
+    $project: {
+      minPrice: { $round: ["$minPrice", 1] }, 
+      maxPrice: { $round: ["$maxPrice", 1] },
+      avgPrice: { $round: ["$avgPrice", 1] }
+    }
+  },
+  { $sort: { minPrice: 1 } }
+]);
+
+// calculo de quantas casas tem por bairro, preco min,max,medio e rating medio
+db.porto_listings.aggregate([
+  { $project: {
+      neighbourhood: 1,
+      review_scores_rating: 1,
+      price_numeric: {
+        $convert: {
+          input: { $ltrim: { input: { $ifNull: ["$price", "€0"] }, chars: "€" } },
+          to: "double",
+          onError: 0
+        }
+      }
+  }},
+  { $match: { neighbourhood: { $ne: null }, price_numeric: { $gt: 0 } } },
+  { $group: {
+      _id: "$neighbourhood",
+      total: { $sum: 1 },
+      minPrice: { $min: "$price_numeric" },
+      maxPrice: { $max: "$price_numeric" },
+      avgPrice: { $avg: "$price_numeric" },
+      avgRating: { $avg: "$review_scores_rating" }
+  }},
+  { $project: {
+      _id: 0,
+      neighbourhood: "$_id",
+      total: 1,
+      avgPrice: { $round: ["$avgPrice", 1] },
+      minPrice: { $round: ["$minPrice", 1] },
+      maxPrice: { $round: ["$maxPrice", 1] },
+      avgRating: { $round: ["$avgRating", 1] }
+  }},
   { $sort: { avgPrice: -1 } }
 ]);
+
 
 // Q4: Interconexão de Dados (Requirement: Referenced Collections)
 // Cruzamos a coleção porto_listings com a coleção hosts
