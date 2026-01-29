@@ -2,7 +2,7 @@
 //speed up queries
 
 //3
-db.rental.createIndex({ customer_id: 1 }, { unique: true });
+db.rental.createIndex({ customer_id: 1 });
 db.inventory.createIndex({ inventory_id: 1 }, { unique: true });
 db.film.createIndex({ film_id: 1 }, { unique: true });
 db.staff.createIndex({ staff_id: 1 }, { unique: true });
