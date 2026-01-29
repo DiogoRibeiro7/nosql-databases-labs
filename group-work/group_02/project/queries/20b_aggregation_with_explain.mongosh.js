@@ -1,5 +1,6 @@
-// Query 20b: Complex Aggregation Pipeline with Explain (index-optimized)
-// Demonstrates performance analysis with index usage
+// Query 20b: Aggregation Performance WITH Indexes
+// Part 2 of 2 - Compares optimized performance against Query 20 baseline
+// Automatically recreates indexes via index_blueprint.mongosh.js
 // Usage: mongosh queries/20b_aggregation_with_explain.mongosh.js
 
 // Load and execute index blueprint to ensure indexes exist
@@ -15,8 +16,8 @@ const pipeline = [
   {
     $match: {
       rental_date: { $gte: new Date("2005-05-01"), $lte: new Date("2006-02-28") },
-      "payment.amount": { $gte: 0.99 }
-    }
+      "payment.amount": { $gte: 0.99 },
+    },
   },
   // Lookup customer details (uses idx_customer_id_unique)
   {
@@ -24,23 +25,23 @@ const pipeline = [
       from: "customers",
       localField: "customer.customer_id",
       foreignField: "customer_id",
-      as: "customer_details"
-    }
+      as: "customer_details",
+    },
   },
   // Unwind customer details
   { $unwind: { path: "$customer_details", preserveNullAndEmptyArrays: true } },
   // Group by store and category
   {
     $group: {
-      _id: { 
-        store_id: "$store_id", 
+      _id: {
+        store_id: "$store_id",
         category: "$film.category",
-        customer_country: "$customer_details.address.city.country"
+        customer_country: "$customer_details.address.city.country",
       },
       revenue: { $sum: "$payment.amount" },
       rentals: { $sum: 1 },
-      unique_customers: { $addToSet: "$customer.customer_id" }
-    }
+      unique_customers: { $addToSet: "$customer.customer_id" },
+    },
   },
   // Add computed fields
   {
@@ -49,11 +50,11 @@ const pipeline = [
       revenue: 1,
       rentals: 1,
       unique_customers_count: { $size: "$unique_customers" },
-      avg_revenue_per_rental: { $divide: ["$revenue", "$rentals"] }
-    }
+      avg_revenue_per_rental: { $divide: ["$revenue", "$rentals"] },
+    },
   },
   { $sort: { revenue: -1 } },
-  { $limit: 10 }
+  { $limit: 10 },
 ];
 
 print("Aggregation results:");
@@ -63,7 +64,8 @@ db.rentals.aggregate(pipeline).forEach((doc) => printjson(doc));
 const explain = db.rentals.explain("executionStats").aggregate(pipeline);
 
 let stats = explain.executionStats;
-if (!stats && Array.isArray(explain.stages)) { // fallback for explain shape variations
+if (!stats && Array.isArray(explain.stages)) {
+  // fallback for explain shape variations
   const cursorStage = explain.stages.find((stage) => stage.$cursor && stage.$cursor.executionStats);
   if (cursorStage) {
     stats = cursorStage.$cursor.executionStats;

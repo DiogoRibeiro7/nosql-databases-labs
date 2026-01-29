@@ -13,9 +13,9 @@ db.inventory
     {
       $group: {
         _id: "$available",
-        count: { $sum: 1 }
-      }
-    }
+        count: { $sum: 1 },
+      },
+    },
   ])
   .forEach((doc) => printjson(doc));
 
@@ -25,8 +25,9 @@ const updateResult = db.inventory.updateMany(
   {
     $set: {
       available: true,
-      last_update: new Date()
-    }
+      last_update: new Date(),
+    },
+    $unset: { current_rental_id: "" },
   }
 );
 

@@ -1,5 +1,6 @@
 // Query 18: Update Customer Data (UPDATE)
-// Demonstrates partial update operation
+// Demonstrates $inc operator for counter fields
+// Note: In production, this would be triggered by actual rental creation
 // Usage: mongosh queries/18_update_customer.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");

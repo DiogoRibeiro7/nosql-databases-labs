@@ -1,5 +1,7 @@
 // Query 17: Insert New Customer (CREATE)
-// Demonstrates insert operation with validation
+// Demonstrates insert operation with validation and flexible schema - uses different field names than import
+// to show MongoDB's schema-less
+
 // Usage: mongosh queries/17_insert_new_customer.mongosh.js
 
 db = db.getSiblingDB("sakila_mongodb");
