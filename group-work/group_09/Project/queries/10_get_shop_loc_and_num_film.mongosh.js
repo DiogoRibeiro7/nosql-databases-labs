@@ -1,4 +1,5 @@
 //quantos filmes tem em cada loja e a sua localização
+// Usage: mongosh queries/04_get_actors_by_film_count.mongosh.js
 db = db.getSiblingDB("sakila");
 
 db.store.aggregate([

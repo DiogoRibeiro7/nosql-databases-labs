@@ -3,6 +3,8 @@
 
 print("Atores com mais filmes:");
 
+db = db.getSiblingDB("sakila");
+
 db.film_actor.aggregate([
 	{
 		$group: { //contar filmes por ator

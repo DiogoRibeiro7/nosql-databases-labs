@@ -1,4 +1,5 @@
 //listar os filmes tem em cada loja e a sua localisação
+// Correr: mongosh queries/11_get_films_in_shop.mongosh.js
 db = db.getSiblingDB("sakila");
 
 db.store.aggregate([

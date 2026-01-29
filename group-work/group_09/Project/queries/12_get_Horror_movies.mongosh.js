@@ -1,5 +1,5 @@
 //listar os filmes de terror
-// Correr: mongosh queries/12_get_Horror_moviess.mongosh.js
+// Correr: mongosh queries/12_get_Horror_movies.mongosh.js
 db = db.getSiblingDB("sakila");
 db.film_category.aggregate([
 	// Join category to get category name
