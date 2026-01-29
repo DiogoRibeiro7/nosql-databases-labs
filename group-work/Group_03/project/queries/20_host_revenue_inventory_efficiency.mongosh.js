@@ -13,7 +13,7 @@ db.bookings
       $group: {
         _id: "$host_id",
         total_bookings: { $sum: 1 },
-        total_revenue: { $sum: "$total_price" },
+        total_revenue: { $sum: "$total_revenue" },
       },
     },
     {

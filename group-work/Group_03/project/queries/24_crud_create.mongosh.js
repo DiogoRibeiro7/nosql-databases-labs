@@ -29,7 +29,6 @@ const booking = {
   booking_date: new Date(),
   status: "confirmed",
   nights: 2,
-  total_price: sample.pricing.daily_price * 2,
   total_revenue: sample.pricing.daily_price * 2,
 };
 const bres = db.bookings.insertOne(booking);

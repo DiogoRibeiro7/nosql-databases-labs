@@ -25,37 +25,37 @@ availability, and trend detection. Key business drivers in the supplied scripts 
 
 ```
 {
-listing_id: Number, // Primary identifier
-name: String, // Property name
-host: { // Embedded host info
-host_id: Number,
-host_name: String
-},
-location: { // Embedded location
-neighbourhood: String,
-coordinates: {
-latitude: Number,
-longitude: Number
-}
-},
-room_type: String, // "Entire home/apt", "Private room", etc.
-price: Decimal128, // Nightly price in EUR
-price_category: String, // "budget", "mid-range", "premium", "luxury"
-capacity: { // Embedded capacity info
-accommodates: Number,
-bedrooms: Number,
-beds: Number
-},
-booking_rules: { // Embedded booking rules
-minimum_nights: Number,
-availability_365: Number
-},
-reviews: { // Embedded review summary
-number_of_reviews: Number,
-review_scores_rating: Number
-},
-created_at: Date,
-last_update: Date
+  _id: Number, // Primary identifier (from raw `id`)
+  name: String,
+  host: { // Embedded host summary
+    id: Number,
+    name: String,
+  },
+  location: {
+    neighbourhood: String,
+    coordinates: { type: "Point", coordinates: [Number, Number] },
+  },
+  details: {
+    room_type: String,
+    accommodates: Number,
+    bedrooms: Number,
+    beds: Number,
+  },
+  pricing: {
+    daily_price: Decimal128,
+    currency: String,
+    category: String,
+  },
+  availability: {
+    minimum_nights: Number,
+    days_available_365: Number,
+  },
+  reviews: {
+    count: Number,
+    rating: Number,
+  },
+  created_at: Date,
+  last_update: Date,
 }
 ```
 
@@ -104,7 +104,7 @@ guest_name: String
 check_in: Date,
 check_out: Date,
 nights: Number, // Pre-computed duration
-total_price: Decimal128, // Pre-computed total
+total_revenue: Decimal128, // Pre-computed total
 status: String, // "completed", "cancelled"
 created_at: Date
 }
@@ -140,13 +140,13 @@ Design Rationale:
 
 ### Bookings Collection
 
-| Index                 | Purpose                  |
-| --------------------- | ------------------------ |
-| `{ listing_id: 1 }`   | Join with listings       |
-| `{ host_id: 1 }`      | Host revenue aggregation |
-| `{ status: 1 }`       | Booking status filtering |
-| `{ check_in: 1 }`     | Time-series analysis     |
-| `{ total_price: -1 }` | Revenue-based ranking    |
+| Index                   | Purpose                  |
+| ----------------------- | ------------------------ |
+| `{ listing_id: 1 }`     | Join with listings       |
+| `{ host_id: 1 }`        | Host revenue aggregation |
+| `{ status: 1 }`         | Booking status filtering |
+| `{ check_in: 1 }`       | Time-series analysis     |
+| `{ total_revenue: -1 }` | Revenue-based ranking    |
 
 ### Hosts Collection
 
