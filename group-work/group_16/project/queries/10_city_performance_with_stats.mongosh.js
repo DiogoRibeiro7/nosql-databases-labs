@@ -1,15 +1,8 @@
-// "Qual é a cidade que gera mais dinheiro em encomendas de valor elevado (20€ ou mais)?" com relatório de performance usando índices
-
 db = db.getSiblingDB("food_express");
-print(`Revenue pipeline with INDEX USAGE for: ${db.getName()}`);
 
 const pipeline = [
-  // Filtra apenas encomendas com valor >= 20€
+  { $match: { totalPrice: { $gte: 20 } } },
   {
-    $match: { totalPrice: { $gte: 20 } } 
-  },
-  {
-    // Junta informação do restaurante
     $lookup: {
       from: "restaurants",
       localField: "restaurantId",
@@ -19,38 +12,38 @@ const pipeline = [
   },
   { $unwind: "$restaurant" },
   {
-     // Agrupa por cidade do restaurante
     $group: {
       _id: "$restaurant.address.city",
-      // Soma total da faturação
       totalRevenue: { $sum: "$totalPrice" },
-      // Número total de encomendas
       orderCount: { $sum: 1 }
     }
   },
-  // Ordena as cidades por faturação (decrescente)
   { $sort: { totalRevenue: -1 } }
 ];
 
+// --- 1. MOSTRAR OS RESULTADOS DE NEGÓCIO ---
 print("\n--- Business Output: Revenue by City (Orders >= 20€) ---");
+// Isto vai imprimir a lista de cidades e valores
 db.orders.aggregate(pipeline).forEach((doc) => printjson(doc));
 
-print("\n--- Execution Stats (Now using IXSCAN) ---");
+// --- 2. MOSTRAR A EXPLICAÇÃO TÉCNICA (O plano de execução) ---
+print("\n--- Performance Verification ---");
 const explain = db.orders.explain("executionStats").aggregate(pipeline);
-let stats = explain.executionStats;
 
-// Procura as estatísticas nos estágios internos da agregação
-if (!stats && explain.stages) {
-    const stageWithStats = explain.stages.find(s => s.$cursor || (s.$stage && s.$stage.executionStats));
-    if (stageWithStats && stageWithStats.$cursor) stats = stageWithStats.$cursor.executionStats;
-}
-
-// Apresenta métricas relevantes de performance
-if (stats) {
-    print(`Execution time (ms): ${stats.executionTimeMillis}`);
-    print(`Documents examined: ${stats.totalDocsExamined}`);
-    print(`Keys examined: ${stats.totalKeysExamined}`); 
-    print(`Stage: ${stats.executionStages ? stats.executionStages.stage : "IXSCAN (via Index)"}`);
+if (explain.stages && explain.stages[0] && explain.stages[0].$cursor) {
+    let plano = explain.stages[0].$cursor.queryPlanner.winningPlan;
+    
+    // Navegamos pelos níveis do plano para encontrar o IXSCAN ou COLLSCAN
+    print("Estágio de Saída: " + plano.stage); 
+    
+    if (plano.inputStage) {
+        print("Estágio de Recuperação: " + plano.inputStage.stage);
+        
+      
+        if (plano.inputStage.inputStage) {
+            print("Estágio de Pesquisa: " + plano.inputStage.inputStage.stage);
+        }
+    }
 } else {
-    print("Check if indexes from file 00 were applied.");
+    print("Não foi possível extrair os detalhes do plano.");
 }

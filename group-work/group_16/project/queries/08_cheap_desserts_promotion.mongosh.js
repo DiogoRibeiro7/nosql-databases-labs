@@ -2,28 +2,23 @@
 
 db = db.getSiblingDB("food_express");
 
-print("Restaurants with budget-friendly desserts (< 10€):");
+print("Restaurantes com sobremesas < 10€ (Filtrado):");
 
-db.restaurants.find(
-    { 
-      "menu": { 
-        $elemMatch: { 
-          category: "dessert", 
-          price: { $lt: 10 } 
-        } 
-      } 
-    }, 
-    // Mostra apenas os valores que quero (0 = esconder, 1 = mostrar)
-    { 
-      _id: 0, 
-      name: 1, 
-      type: 1, 
-      "address.city": 1,
-      menu: 1 
-    }
-  )
-// Ordena os restaurantes que oferecem sobremesas económicas (do o menor para o maior)
-  .sort({ name: 1 })
-  
-// Imprime cada documento no terminal
-  .forEach((doc) => printjson(doc));
+db.restaurants.aggregate([
+  { $match: { "menu": { $elemMatch: { category: "dessert", price: { $lt: 10 } } } } },
+
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      city: "$address.city",
+      menu: {
+        $filter: {
+          input: "$menu",
+          as: "item",
+          cond: { $and: [{ $eq: ["$$item.category", "dessert"] },{ $lt: ["$$item.price", 10] }]}
+        }
+      }
+    }}
+
+]).forEach(printjson);

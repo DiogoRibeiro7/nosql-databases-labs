@@ -1,5 +1,5 @@
 db = db.getSiblingDB("food_express");
-print("Optimizing the engine for: ${db.getName()}");
+print(`Optimizing the engine for: ${db.getName()}`);
 
 // Não permite que o numero de encomendas seja repetido
 printjson(db.orders.createIndex({ orderNumber: 1 }, { unique: true }));
