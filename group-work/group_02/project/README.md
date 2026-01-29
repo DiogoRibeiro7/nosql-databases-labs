@@ -4,18 +4,18 @@ This solution demonstrates a complete MongoDB implementation of the classic Saki
 
 ## Deliverables in This Folder
 
-| Path | Purpose |
-| ---- | ------- |
-| `import_data.mongosh.js` | Bootstrap script that transforms relational Sakila data (CSV/JSON) into denormalized MongoDB collections. |
-| `architecture.md` | Design rationale covering collection schemas, embedding strategies, and index decisions. |
-| `data/` | Source CSV and JSON files extracted from the original Sakila relational database. |
-| `queries/01-16_*.mongosh.js` | Business intelligence queries covering revenue analysis, customer insights, and inventory management. |
-| `queries/17-19_*.mongosh.js` | CRUD operations demonstrating insert, update, and delete patterns. |
-| `queries/20_aggregation_with_explain.mongosh.js` | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline measurement. |
+| Path                                              | Purpose                                                                                                                                                                     |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `import_data.mongosh.js`                          | Bootstrap script that transforms relational Sakila data (CSV/JSON) into denormalized MongoDB collections.                                                                   |
+| `architecture.md`                                 | Design rationale covering collection schemas, embedding strategies, and index decisions.                                                                                    |
+| `data/`                                           | Source CSV and JSON files extracted from the original Sakila relational database.                                                                                           |
+| `queries/01-16_*.mongosh.js`                      | Business intelligence queries covering revenue analysis, customer insights, and inventory management.                                                                       |
+| `queries/17-19_*.mongosh.js`                      | CRUD operations demonstrating insert, update, and delete patterns.                                                                                                          |
+| `queries/20_aggregation_with_explain.mongosh.js`  | Complex aggregation pipeline with forced collection scan (no indexes) for performance baseline measurement.                                                                 |
 | `queries/20b_aggregation_with_explain.mongosh.js` | Same complex aggregation pipeline optimized with indexes for performance comparison. Automatically loads and executes `index_blueprint.mongosh.js` to ensure indexes exist. |
-| `queries/21_collection_stats.mongosh.js` | Collection statistics and storage metrics. |
-| `queries/22-26_*.mongosh.js` | Advanced analytical queries for location analysis, duration patterns, and bulk operations. |
-| `queries/index_blueprint.mongosh.js` | Idempotent script that drops existing indexes and recreates all required indexes for optimal query performance. |
+| `queries/21_collection_stats.mongosh.js`          | Collection statistics and storage metrics.                                                                                                                                  |
+| `queries/22-26_*.mongosh.js`                      | Advanced analytical queries for location analysis, duration patterns, and bulk operations.                                                                                  |
+| `queries/index_blueprint.mongosh.js`              | Idempotent script that drops existing indexes and recreates all required indexes for optimal query performance.                                                             |
 
 ## How to Run Everything (Local MongoDB)
 
@@ -98,14 +98,14 @@ The original Sakila relational schema requires 5-7 table JOINs for common querie
 
 ## Key Query Patterns Demonstrated
 
-| Query Type | Examples | Collections Used |
-|------------|----------|------------------|
-| Revenue Analysis | Total revenue by category, rating, store, time period | rentals, films |
-| Customer Insights | Top customers, inactive accounts, repeat rental patterns | customers, rentals |
-| Inventory Management | Film availability, never-rented titles, stock allocation | inventory, films, rentals |
-| Operational Metrics | Staff performance, store comparisons, overdue tracking | rentals, stores, customers |
-| Analytics | Geographic distribution, temporal patterns, actor popularity | customers, rentals, films |
-| Performance Testing | Index impact measurement via complex aggregations with/without indexes | rentals, customers |
+| Query Type           | Examples                                                               | Collections Used           |
+| -------------------- | ---------------------------------------------------------------------- | -------------------------- |
+| Revenue Analysis     | Total revenue by category, rating, store, time period                  | rentals, films             |
+| Customer Insights    | Top customers, inactive accounts, repeat rental patterns               | customers, rentals         |
+| Inventory Management | Film availability, never-rented titles, stock allocation               | inventory, films, rentals  |
+| Operational Metrics  | Staff performance, store comparisons, overdue tracking                 | rentals, stores, customers |
+| Analytics            | Geographic distribution, temporal patterns, actor popularity           | customers, rentals, films  |
+| Performance Testing  | Index impact measurement via complex aggregations with/without indexes | rentals, customers         |
 
 ## Index Performance Comparison
 
@@ -115,6 +115,7 @@ The project includes two versions of a complex aggregation query to demonstrate 
 - **Query 20b (With Indexes):** Same aggregation but automatically loads and executes `index_blueprint.mongosh.js` at startup to ensure all indexes are created, then leverages compound and unique indexes on `rental_date`, `customer_id`, and `store_id` for optimized execution.
 
 The complex pipeline includes:
+
 - Date range filtering on rental_date
 - $lookup joins with customers collection
 - Multi-field grouping with country aggregation
@@ -269,17 +270,3 @@ Through this project, we gained practical experience in:
 - **Schema Flexibility:** We found that the lack of rigid schemas allowed us to make faster adjustments during the data transformation process, demonstrating how NoSQL can accelerate development cycles.
 - **The Denormalization Mindset:** Transitioning from the normalized Sakila SQL model to a document-oriented structure was a major shift in our thinking, particularly regarding the trade-offs between storage redundancy and query speed.
 - **Practical Optimization:** Learning to use profiling tools like `explain()` and implementing strategic compound indexes gave us hands-on proof of the performance gains possible in MongoDB.
-
-## Contributors
-
-#### GROUP 02 - TSIW - 2026
-
-| Student | ID | Email |
-| --- | --- | --- |
-| António Manuel Cruz Barreto Amorim | 40240119 | 40240119@esmad.ipp.pt |
-| Gabriel de Sousa Paiva | 40240137 | 40240137@esmad.ipp.pt |
-| Emanuel José Fernandes Gomes | 40230432 | 40230432@esmad.ipp.pt |
-
-## Teacher
-
-Prof. Diogo Filipe de Bastos Sousa Ribeiro
