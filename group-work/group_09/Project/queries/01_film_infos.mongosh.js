@@ -11,6 +11,12 @@ db.film.aggregate([
 			foreignField: "film_id",
 			pipeline: [
 				{
+					$project: { //excluir campos desnecessários para reduzir o processamento
+						_id: 0,
+						category_id: 1
+					}
+				},
+				{	
 					$lookup: { //buscar nome da categoria
 						from: "category",
 						localField: "category_id",
@@ -19,8 +25,7 @@ db.film.aggregate([
 							{
 								$project: { //excluir campos desnecessários
 									_id: 0,
-									category_id: 0,
-									last_update: 0
+									name: 1
 								}
 							}
 						],
@@ -28,13 +33,10 @@ db.film.aggregate([
 					},
 				},
 				{
-					$project: { //excluir campos desnecessários
-						_id: 0,
-						film_id: 0,
-						category_id: 0,
-						last_update: 0
+					$project: { //Filtrar o que importa
+						category: 1
 					}
-				}
+				},
 			],
 			as: "category" //campo final
 		}
@@ -45,10 +47,9 @@ db.film.aggregate([
 			localField: "language_id",
 			foreignField: "language_id",
 			pipeline: [{
-				$project: { //excluir campos desnecessários
+				$project: { //pegar os campos necessários
 					_id: 0,
-					language_id: 0,
-					last_update: 0
+					name: 1
 				}
 			}],
 			as: "linguagem"
@@ -65,16 +66,22 @@ db.film.aggregate([
 			foreignField: "film_id",
 			pipeline: [
 				{
+					$project: {
+						_id: 0,
+						actor_id: 1
+					}
+				},
+				{
 					$lookup: { //buscar nome do ator
 						from: "actor",
 						localField: "actor_id",
 						foreignField: "actor_id",
 						pipeline: [
 							{
-								$project: { //remover campos
+								$project: { //pegar o campo
 									_id: 0,
-									actor_id: 0,
-									last_update: 0
+									first_name: 1,
+									last_name: 1
 								}
 							}
 						],
@@ -82,11 +89,8 @@ db.film.aggregate([
 					}
 				},
 				{
-					$project: { //excluir campos desnecessários
-						_id: 0,
-						film_id: 0,
-						actor_id: 0,
-						last_update: 0
+					$project: { //formatar
+						nome: 1
 					}
 				}
 			],

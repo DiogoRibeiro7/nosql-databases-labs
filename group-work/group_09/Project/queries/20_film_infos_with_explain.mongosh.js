@@ -12,32 +12,34 @@ const pipeline = [
 			foreignField: "film_id",
 			pipeline: [
 				{
+					$project: { //excluir campos desnecessários para reduzir o processamento
+						_id: 0,
+						category_id: 1
+					}
+				},
+				{	
 					$lookup: { //buscar nome da categoria
 						from: "category",
 						localField: "category_id",
 						foreignField: "category_id",
 						pipeline: [
 							{
-								$project: { //remover campos desnecessários
+								$project: { //excluir campos desnecessários
 									_id: 0,
-									category_id: 0,
-									last_update: 0
+									name: 1
 								}
 							}
 						],
 						as: "category"
-					}
+					},
 				},
 				{
-					$project: { //remover campos desnecessários
-						_id: 0,
-						film_id: 0,
-						category_id: 0,
-						last_update: 0
+					$project: { //Filtrar o que importa
+						category: 1
 					}
-				}
+				},
 			],
-			as: "category"
+			as: "category" //campo final
 		}
 	},
 	{
@@ -45,21 +47,19 @@ const pipeline = [
 			from: "language",
 			localField: "language_id",
 			foreignField: "language_id",
-			pipeline: [
-				{
-					$project: { //remover campos desnecessários
-						_id: 0,
-						language_id: 0,
-						last_update: 0
-					}
+			pipeline: [{
+				$project: { //pegar os campos necessários
+					_id: 0,
+					name: 1
 				}
-			],
+			}],
 			as: "linguagem"
 		}
 	},
-	{ $unwind: "$category" }, //expandir
+	{ $unwind: "$category" }, //expandir as listas
 	{ $unwind: "$category.category" },
 	{ $unwind: "$linguagem" },
+
 	{
 		$lookup: { //juntar atores
 			from: "film_actor",
@@ -67,16 +67,22 @@ const pipeline = [
 			foreignField: "film_id",
 			pipeline: [
 				{
+					$project: {
+						_id: 0,
+						actor_id: 1
+					}
+				},
+				{
 					$lookup: { //buscar nome do ator
 						from: "actor",
 						localField: "actor_id",
 						foreignField: "actor_id",
 						pipeline: [
 							{
-								$project: { //remover campos desnecessários
+								$project: { //pegar o campo
 									_id: 0,
-									actor_id: 0,
-									last_update: 0
+									first_name: 1,
+									last_name: 1
 								}
 							}
 						],
@@ -84,11 +90,8 @@ const pipeline = [
 					}
 				},
 				{
-					$project: { //remover campos desnecessários
-						_id: 0,
-						film_id: 0,
-						actor_id: 0,
-						last_update: 0
+					$project: { //formatar
+						nome: 1
 					}
 				}
 			],
@@ -100,19 +103,17 @@ const pipeline = [
 			_id: 0,
 			title: 1,
 			description: 1,
-			category: "$category.category.name", //nome da categoria
+			category: "$category.category.name",
 			release_year: 1,
 			rental_duration: 1,
 			rental_rate: 1,
 			replacement_cost: 1,
 			rating: 1,
 			special_features: 1,
-			linguagem: "$linguagem.name", //nome da linguagem
-			actor: 1
+			linguagem: "$linguagem.name",
+			actor: 1,
 		}
-	},
-	{ $sort: { _id: 1 } }, //ordenar por id
-	{ $limit: 5 } //limitar a 5
+	}
 ];
 
 db.film.aggregate(pipeline).forEach((doc) => printjson(doc));
