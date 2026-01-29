@@ -2,7 +2,20 @@
 // Correr: mongosh queries/12_get_Horror_moviess.mongosh.js
 db = db.getSiblingDB("sakila");
 db.film_category.aggregate([
-	{ $match: { category_id: 11 } }, //filtrar pela categoria 11
+	// Join category to get category name
+	{
+		$lookup: {
+			from: "category",
+			localField: "category_id",
+			foreignField: "category_id",
+			as: "category"
+		}
+	},
+	{ $unwind: "$category" },
+
+	{ $match: { "category.name": "Horror" } }, //filtrar por nome
+
+	// Join film
 	{
 		$lookup: { //juntar dados do filme
 			from: "film",
@@ -13,12 +26,9 @@ db.film_category.aggregate([
 	},
 	{ $unwind: "$film" }, //expandir filme
 	{
-		$project: { //remover campos desnecessários
+		$project: {
 			_id: 0,
-			film_id: 0,
-			category_id: 0,
-			last_update: 0
+			title: "$film.title"
 		}
-	},
-	{ $replaceRoot: { newRoot: { film: "$film.title" } } } //substituir documento pelo título do filme
+	}
 ]).forEach(doc => printjson(doc));
