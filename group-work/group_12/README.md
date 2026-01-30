@@ -1,4 +1,4 @@
-Group 14 - FoodExpress Delivery System
+Group 12 - FoodExpress Delivery System
 This folder contains the complete final project submission for Group 14, implementing a NoSQL solution for a food delivery platform (FoodExpress) focusing on restaurant management and order processing.
 
 project/ – Fully working solution containing the DATA folder (JSON sources for restaurants and orders) and QUERIES folder (mongosh scripts).
