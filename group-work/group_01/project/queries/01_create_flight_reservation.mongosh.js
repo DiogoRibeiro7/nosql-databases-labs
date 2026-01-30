@@ -5,8 +5,8 @@
 db = db.getSiblingDB("group_01_flight_management_system_final");
 print("Creating flight reservation...");
 const result = db.reservations.insertOne({
-  flightId: "123",
-  userId: "456",
+  flightNumber: "VD9531",
+  userId: ObjectId("697102e5d31ee2696f40e8d9"),
   reservationDate: new Date(),
   status: "pending"
 });
