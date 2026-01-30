@@ -93,8 +93,8 @@ We utilize standard Bulk Import operations via mongoimport to efficiently load t
 Import Data: Run the following commands in your terminal from the project folder to populate the database:
 
    ```bash
-mongoimport --db lab_nosql --collection restaurants --file "./data/restaurants.json" --jsonArray
-mongoimport --db lab_nosql --collection orders --file "./data/orders.json" --jsonArray
+mongoimport --db lab_nosql --collection restaurants --file "./data/foodexpress_db.restaurants.json" --jsonArray
+mongoimport --db lab_nosql --collection orders --file "./data/foodexpress_db.orders.json" --jsonArray
    ```
 
 2. **Connect to MongoDB**
