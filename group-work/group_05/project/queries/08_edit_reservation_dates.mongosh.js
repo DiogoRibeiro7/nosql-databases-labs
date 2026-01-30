@@ -1,22 +1,34 @@
 /* eslint-disable */
-/**
- * USE CASE: "Chenging reservation dates"
- * * * User Story:
- * "As a user had a last minute chenge of plans and requests a change of reservation dates."
- * * * Technical Goal:
- * Perform a update by reservation id to $set new reservation dates',
- */
 db = db.getSiblingDB("group_05_final");
 
-const reservationDates = {
-  reservation_id: "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
-  user_id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b4dnb6d",
-  dates: ["2026/04/15", "2026/04/25"],
-};
+/**
+ * USE CASE: "Changing reservation dates"
+ * * * User Story:
+ * "As a user who had a last-minute change of plans, I need to request
+ * a change of reservation dates for my existing booking."
+ * * * Technical Goal:
+ * Perform an atomic update ($set) on the 'dates' array for a specific
+ * reservation ID.
+ */
 
-const updateReservation = db.reservations.updateOne(
-  { id: reservationDates.reservation_id },
-  { $set: { dates: reservationDates.dates } }
-);
+// Function to handle the update logic
+function modifyReservationDates(reservationId, newDates) {
+  print(`\n--- Updating Reservation: ${reservationId} ---`);
 
-print(updateReservation);
+  const result = db.reservations.updateOne({ id: reservationId }, { $set: { dates: newDates } });
+
+  // robust output handling
+  if (result.matchedCount === 0) {
+    print("Error: Reservation ID not found.");
+  } else if (result.modifiedCount > 0) {
+    print("Success: Dates updated successfully.");
+    print(`New Dates: ${JSON.stringify(newDates)}`);
+  } else {
+    print("Notice: No changes made (Dates were already identical).");
+  }
+}
+
+const TEST_RESERVATION_ID = "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a";
+const NEW_DATE_RANGE = ["2026-04-15", "2026-04-25"];
+
+modifyReservationDates(TEST_RESERVATION_ID, NEW_DATE_RANGE);

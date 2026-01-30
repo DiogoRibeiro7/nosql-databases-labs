@@ -13,42 +13,41 @@ db = db.getSiblingDB("group_05_final");
  * ($group: _id: null) to calculate distinct sets and total counts.
  */
 
-const optimizedPortfolio = db.hosts.aggregate([
-  {
-    $match: {
-      name: /^Lisbon/,
+db.hosts
+  .aggregate([
+    {
+      $match: {
+        name: /^Lisbon/,
+      },
     },
-  },
-  {
-    // Get the listings for these specific hosts
-    $lookup: {
-      from: "listings",
-      localField: "id",
-      foreignField: "host_id",
-      as: "property_portfolio",
+    {
+      // Get the listings for these specific hosts
+      $lookup: {
+        from: "listings",
+        localField: "id",
+        foreignField: "host_id",
+        as: "property_portfolio",
+      },
     },
-  },
-  {
-    // Expand the list of properties
-    $unwind: "$property_portfolio",
-  },
-  {
-    // Calculate the stats
-    $group: {
-      _id: null,
-      unique_neighbourhoods: { $addToSet: "$property_portfolio.neighbourhood" },
-      total_listings: { $sum: 1 },
+    {
+      // Expand the list of properties
+      $unwind: "$property_portfolio",
     },
-  },
-  {
-    $project: {
-      _id: 0,
-      brand_filter: "Lisbon*",
-      total_listings: 1,
-      unique_neighbourhoods: 1,
+    {
+      // Calculate the stats
+      $group: {
+        _id: null,
+        unique_neighbourhoods: { $addToSet: "$property_portfolio.neighbourhood" },
+        total_listings: { $sum: 1 },
+      },
     },
-  },
-]);
-
-// Print the plan
-print(optimizedPortfolio);
+    {
+      $project: {
+        _id: 0,
+        brand_filter: "Lisbon*",
+        total_listings: 1,
+        unique_neighbourhoods: 1,
+      },
+    },
+  ])
+  .forEach(printjson);

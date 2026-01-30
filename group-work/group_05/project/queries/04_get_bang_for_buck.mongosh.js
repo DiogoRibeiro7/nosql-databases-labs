@@ -13,60 +13,48 @@ db = db.getSiblingDB("group_05_final");
  * retrieve the top 5 highest-ranking flat documents.
  */
 
-const bestValueListings = db.listings.aggregate([
-  {
-    // Clean the price field
-    // The data is stored as strings ("€50"), so we must strip the symbol
-    // and convert to a number for math operations.
-    $addFields: {
-      numeric_price: {
-        $toDouble: {
-          $trim: {
-            input: "$price",
-            chars: "€", // explicit character removal
-          },
+print("Top 5 Best Value Listings:");
+
+db.listings
+  .aggregate([
+    {
+      // Ensure data quality
+      // We only want listings with a valid price and high ratings (4.5+)
+      // NOTE: 'price' is now a Number, so we query it directly (no $toDouble needed)
+      $match: {
+        price: { $gt: 0 },
+        review_scores_rating: { $gte: 4.5 },
+      },
+    },
+    {
+      // Compute the custom Value Score
+      // Formula: (Rating * Capacity) / Price
+      // A higher score means you get more quality and space per euro.
+      $project: {
+        _id: 0,
+        name: 1,
+        price: 1,
+        rating: "$review_scores_rating",
+        capacity: "$accommodates",
+        // Calculate and round the score for readability
+        value_score: {
+          $round: [
+            {
+              // Now using "$price" directly
+              $divide: [{ $multiply: ["$review_scores_rating", "$accommodates"] }, "$price"],
+            },
+            2,
+          ],
         },
       },
     },
-  },
-  {
-    // Ensure data quality
-    // We only want listings with a valid price and high ratings (4.5+)
-    $match: {
-      numeric_price: { $gt: 0 },
-      review_scores_rating: { $gte: 4.5 },
+    {
+      // Highest value first
+      $sort: { value_score: -1 },
     },
-  },
-  {
-    // Compute the custom Value Score
-    // Formula: (Rating * Capacity) / Price
-    // A higher score means you get more quality and space per euro.
-    $project: {
-      _id: 0,
-      name: 1,
-      formatted_price: "$price",
-      rating: "$review_scores_rating",
-      capacity: "$accommodates",
-      // Calculate and round the score for readability
-      value_score: {
-        $round: [
-          {
-            $divide: [{ $multiply: ["$review_scores_rating", "$accommodates"] }, "$numeric_price"],
-          },
-          2,
-        ],
-      },
+    {
+      // Top 5 results
+      $limit: 5,
     },
-  },
-  {
-    // Highest value first
-    $sort: { value_score: -1 },
-  },
-  {
-    // Top 5 results
-    $limit: 5,
-  },
-]);
-
-print("Top 5 Best Value Listings:");
-print(bestValueListings);
+  ])
+  .forEach(printjson);

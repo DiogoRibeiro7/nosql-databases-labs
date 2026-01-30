@@ -1,27 +1,41 @@
 /* eslint-disable */
+db = db.getSiblingDB("group_05_final");
+
 /**
  * USE CASE: "Checking room availability"
  * * * User Story:
- * "As a user wants to plan a trip and need to check if the desired listing is available for the input dates."
+ * "As a user, I want to plan a trip and need to check if the desired listing
+ * is available for my specific dates before I attempt to book."
  * * * Technical Goal:
- * Perform a countDocuments to check if the listing checks out the date conditions. If the listing is returned, the reservation isn´t possible since there is already an existing one with such conditions. It prevents double booking by covering all possible conflict scenarios',
+ * Prevent Double Bookings. We perform a countDocuments() to see if ANY existing
+ * reservation overlaps with the requested range.
+ * Logic: An overlap exists if (RequestStart < ExistingEnd) AND (RequestEnd > ExistingStart).
  */
-db = db.getSiblingDB("group_05_final");
 
-const input = {
-  listing_id: 10005,
-  y_start: "2026/03/18",
-  z_end: "2026/03/21",
-};
+function checkAvailability(listingId, requestStart, requestEnd) {
+  print(`\n--- Checking Availability for Listing ${listingId} ---`);
+  print(`Requested: ${requestStart} to ${requestEnd}`);
 
-const conflicts = db.reservations.countDocuments({
-  listing_id: input.listing_id,
-  "dates.0": { $lt: input.z_end },
-  "dates.1": { $gt: input.y_start },
-});
+  const conflictCount = db.reservations.countDocuments({
+    listing_id: listingId,
+    // Existing reservation starts BEFORE request ends
+    "dates.0": { $lt: requestEnd },
+    // Existing reservation ends AFTER request starts
+    "dates.1": { $gt: requestStart },
+  });
 
-if (conflicts) {
-  print("Conflict found! There's already a reservation for this listing", conflicts);
-} else {
-  print("Clear! No overlapping reservations found.");
+  if (conflictCount > 0) {
+    print(`UNAVAILABLE: Found ${conflictCount} conflicting reservation(s).`);
+  } else {
+    print("AVAILABLE: No overlapping reservations found. You can book!");
+  }
 }
+
+// --- TEST PARAMETERS ---
+const LISTING_ID = 10005;
+
+// Scenario 1: A date range that likely conflicts
+checkAvailability(LISTING_ID, "2026-03-18", "2026-03-21");
+
+// Scenario 2: A date range far in the future
+checkAvailability(LISTING_ID, "2027-01-01", "2027-01-05");

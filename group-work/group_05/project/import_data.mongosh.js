@@ -1,122 +1,109 @@
-const { MongoClient } = require("mongodb");
+// import_data.mongosh.js
+
+// Connect to the correct database
+db = db.getSiblingDB("group_05_final");
+console.log("Switched to database: group_05_final");
+
+// Load the filesystem module
 const fs = require("fs");
-const path = require("path");
 
-async function importData() {
-  // Connection URI
-  const uri = "mongodb://localhost:27017";
-  const client = new MongoClient(uri);
+// Helper function to load, clean, and insert data
+function loadAndInsert(collectionName, fileName, transformFn) {
+  const filePath = `data/${fileName}`;
 
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB...");
-
-    const db = client.db("group_05_final");
-
-    // Helper function to load JSON file and insert into a specific collection
-    const loadAndInsert = async (collectionName, fileName) => {
-      const filePath = path.join(__dirname, fileName); // Assuming file is in root/data based on your logs
-
-      if (!fs.existsSync(filePath)) {
-        console.error(`File not found: ${fileName}`);
-        return;
-      }
-
-      console.log(`Reading ${fileName}...`);
-      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-      // Drop existing collection to start fresh
-      const collections = await db.listCollections({ name: collectionName }).toArray();
-      if (collections.length > 0) {
-        await db.collection(collectionName).drop();
-        console.log(`Dropped existing collection: ${collectionName}`);
-      }
-
-      // Insert Data
-      const collection = db.collection(collectionName);
-      if (data.length > 0) {
-        const result = await collection.insertMany(data);
-        console.log(`Inserted ${result.insertedCount} documents into '${collectionName}'`);
-      } else {
-        console.log(`No data found in ${fileName}, skipping insertion.`);
-      }
-    };
-
-    // --- 1. Import Process ---
-    // Make sure paths match where your files actually are.
-    // Based on your error log, it seems they are in a 'data' subfolder.
-    await loadAndInsert("hosts", "data/hosts.json");
-    await loadAndInsert("listings", "data/listings.json");
-    await loadAndInsert("reviews", "data/reviews.json");
-    await loadAndInsert("reservations", "data/reservations.json");
-
-    console.log("\n--- Creating Indexes ---");
-
-    // --- Index Creation ---
-
-    // ====================================================
-    // COLLECTION: HOSTS
-    // ====================================================
-
-    // A. Primary Key / Foreign Key Target
-    await db
-      .collection("hosts")
-      .createIndex({ id: 1 }, { unique: true, name: "idx_hosts_id_unique" });
-
-    // B. Brand Analysis
-    await db.collection("hosts").createIndex({ name: 1 }, { name: "idx_hosts_name" });
-
-    // ====================================================
-    // COLLECTION: LISTINGS
-    // ====================================================
-
-    // A. Primary Key
-    await db
-      .collection("listings")
-      .createIndex({ id: 1 }, { unique: true, name: "idx_listings_id_unique" });
-
-    // B. Foreign Key
-    await db.collection("listings").createIndex({ host_id: 1 }, { name: "idx_listings_host_id" });
-
-    // C. Geospatial + Scalar Filters (Compound Index)
-    await db
-      .collection("listings")
-      .createIndex(
-        { location: "2dsphere", room_type: 1, accommodates: 1 },
-        { name: "idx_geo_hotel_capacity" }
-      );
-
-    // D. Rating Filter
-    await db
-      .collection("listings")
-      .createIndex({ review_scores_rating: -1 }, { name: "idx_listings_rating" });
-
-    // ====================================================
-    // COLLECTION: REVIEWS
-    // ====================================================
-
-    // A. The "Perfect" Pipeline Index
-    await db
-      .collection("reviews")
-      .createIndex(
-        { listing_id: 1, rating: -1, date: -1 },
-        { name: "idx_reviews_lookup_optimized" }
-      );
-
-    console.log("Indexes created successfully!");
-
-    // Check indexes on listings
-    const indexes = await db.collection("listings").indexes();
-    console.log("\nCurrent Indexes on 'listings':");
-    console.log(indexes);
-
-    console.log("\nAll operations finished successfully!");
-  } catch (error) {
-    console.error("Error importing data:", error);
-  } finally {
-    await client.close();
-    console.log("Connection closed.");
+  if (!fs.existsSync(filePath)) {
+    print(`Error: File not found at ${filePath}`);
+    return;
   }
+
+  print(`Reading ${fileName}...`);
+  const rawData = fs.readFileSync(filePath, "utf8");
+  let data = JSON.parse(rawData);
+
+  if (!data || data.length === 0) {
+    print(`No data found in ${fileName}, skipping.`);
+    return;
+  }
+
+  // Apply data cleaning/transformation if a function is provided
+  if (transformFn) {
+    print(`Transforming data for ${collectionName}...`);
+    data = data.map(transformFn);
+  }
+
+  // Drop existing collection to start fresh
+  db.getCollection(collectionName).drop();
+  print(`Dropped existing collection: ${collectionName}`);
+
+  // Insert Data
+  const result = db.getCollection(collectionName).insertMany(data);
+  print(`Inserted documents into '${collectionName}'`);
 }
 
-importData();
+// Transformation Logics
+
+// Cleaner for listings
+function cleanListing(doc) {
+  // Normalize Price: Remove '$' and ',' and convert to Number
+  if (doc.price && typeof doc.price === "string") {
+    const numericPrice = parseFloat(doc.price.replace(/[€$,]/g, ""));
+
+    doc.price = isNaN(numericPrice) ? 0 : numericPrice;
+  }
+
+  // Create GeoJSON Location: Essential for $geoNear queries
+  if (doc.latitude && doc.longitude) {
+    doc.location = {
+      type: "Point",
+      coordinates: [parseFloat(doc.longitude), parseFloat(doc.latitude)],
+    };
+  }
+
+  return doc;
+}
+
+// Import Process
+
+// Hosts
+loadAndInsert("hosts", "hosts.json", null);
+
+// Listings
+loadAndInsert("listings", "listings.json", cleanListing);
+
+// Reviews
+loadAndInsert("reviews", "reviews.json", null);
+
+// Reservations
+loadAndInsert("reservations", "reservations.json", null);
+
+// Index Creation
+print("\nCreating Indexes");
+
+// HOSTS
+db.hosts.createIndex({ id: 1 }, { unique: true, name: "idx_hosts_id_unique" });
+db.hosts.createIndex({ name: 1 }, { name: "idx_hosts_name" });
+
+// LISTINGS
+db.listings.createIndex({ id: 1 }, { unique: true, name: "idx_listings_id_unique" });
+db.listings.createIndex({ host_id: 1 }, { name: "idx_listings_host_id" });
+
+// Normalized Price Index
+db.listings.createIndex({ price: 1 }, { name: "idx_listings_price" });
+
+// Geospatial Index
+db.listings.createIndex(
+  { location: "2dsphere", room_type: 1, accommodates: 1 },
+  { name: "idx_geo_hotel_capacity" }
+);
+
+// Rating Index
+db.listings.createIndex({ review_scores_rating: -1 }, { name: "idx_listings_rating" });
+
+// REVIEWS
+db.reviews.createIndex(
+  { listing_id: 1, rating: -1, date: -1 },
+  { name: "idx_reviews_lookup_optimized" }
+);
+
+print("Indexes created successfully!");
+print("All operations finished.");
