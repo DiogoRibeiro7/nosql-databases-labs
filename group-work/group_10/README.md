@@ -7,7 +7,7 @@
 
 ## Descrição
 
-Este projeto implementa um sistema  gestão de videoclube, com 4 coleções principais:
+Este projeto implementa um sistema de gestão de videoclube, com 4 coleções principais:
 
 - `customers`  
 - `films`  
