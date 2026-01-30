@@ -1,6 +1,7 @@
 // faturação por loja e por filme
 // Usage: mongosh queries/01_receita_por_loja_e_filme.mongosh.js
 
+db = db.getSiblingDB("group_10_db");
 
 db.rentals.aggregate([
   // Filtramos apenas os alugueres finalizados
