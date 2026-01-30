@@ -20,58 +20,58 @@
 For the food express project, we built a MongoDB database to manage a food delivery service. The system handles restaurants, customers, and orders. We focused on designing efficient data models, optimizing queries for speed, and using aggregations to gather insights about sales and delivery operations.
 
 
-## Learning Objectives Achieved ???
+## Learning Objectives Achieved
 
-- Schema Design: Applied embedding strategies for medical history (fast reads) versus referencing for visits (avoiding unbounded arrays);
-- Aggregation Mastery: Mastered multi-stage pipelines using $lookup, $unwind, $group, $project, $sort, and $limit;
-- Performance: Implemented Compound and Text Indexes to support efficient filtering and sorting (Rule ESR);
-- Business Logic: Implemented complex filtering using $in, $gte, and Regex for clinical risk assessment.
+- Schema Architecture: Leveraged embedding for menu items to ensure rapid data retrieval, while utilizing references for order history to prevent issues with unbounded arrays.
+- Advanced Aggregation: Engineered complex data processing pipelines with stages like `$lookup`, `$unwind`, and `$group` to synthesize data.
+- Query Performance: Deployed Compound and Text Indexes to accelerate search and sort operations, following the Equality-Sort-Range (ESR) methodology.
+- Logic Implementation: Applied advanced filtering operators such as `$in`, `$gte`, and Regex to facilitate detailed analysis of delivery logistics and sales.
 
-## Database Design ???
+## Database Design
 
-- patients: Core collection with Embedded arrays (medications, allergies, chronic_conditions) to prioritize data locality and read performance;
-- visits: Separate collection using Referencing (patient_id) to handle potentially large visit histories without hitting the 16MB document limit;
-- lab_results: Independent collection linked to patients, simulating high-volume ingestion from laboratory equipment.
+- restaurants: Primary collection featuring embedded structures for menu items and operating schedules to enhance read efficiency and data locality.
+- orders: Distinct collection utilizing references (restaurant_id, customer_id) to manage extensive transaction histories while avoiding document size constraints.
+- reviews: Standalone collection associated with restaurants, designed to handle a high volume of customer feedback.
 
-## Schema Design Decisions ???
-- Denormalization: We referenced the patient_id in visits and results to allow for scalable growth (1-to-Many relationships);
-- Data Types: Ensured dates are stored as ISODate for correct range queries and calculations.
+## Schema Design Decisions
+- Denormalization Strategy: We employed references for `restaurant_id` within the orders and reviews collections to support scalable one-to-many relationships.
+- Type Consistency: Verified that all temporal data is stored as `ISODate` to facilitate accurate date-range filtering and duration calculations.
 
-## Data Operations Implemented ???
+## Data Operations Implemented
 
-### 1. Database Creation & Setup ???
+### 1. Database Creation & Setup
 
 - Created database with appropriate naming conventions
 - Established collections with validation rules
 
-### 2. Data Insertion ???
+### 2. Data Insertion
 
-We utilize standard Bulk Import operations via mongoimport to efficiently load the synthetic JSON records from the DATA folder into the lab_results database.
+We utilize standard Bulk Import operations via mongoimport to efficiently load the synthetic JSON records from the DATA folder into the lab_nosql database.
 
-### 3. Query Operations ???
+### 3. Query Operations
 
-#### Basic Queries ???
+#### Basic Queries
 
-- Data Retrieval: Execution of fundamental 'find()' operations using precise equality matches and dot notation for accessing embedded fields;
-- Logical Operators: Implementation of complex boolean logic 'OR/AND' using operators like '$in' to efficienty filter documents based on multiple criteria within a single query execution;
-- Field Selection: Utilization of projections to limit the returned data, optimizing network bandwidth by retrieving only the necessary fields for the application context.
+- Data Fetching: Performed standard `find()` queries with exact matches and dot notation to retrieve specific embedded details.
+- Boolean Logic: Applied logical operators such as `$or` and `$in` to filter records based on multiple conditions in a single pass.
+- Projection: Used field selection to return only relevant data points, reducing network load.
 
-#### Advanced Queries ???
+#### Advanced Queries
 
-- Pattern Matching: Application of regular expressions '$regex' to perform flexible text searches within unstructured string fields;
-- Range Filtering: Use of comparison operators such as 'gte', '$lt' to analyze numerical data points and filter records based on specific threshold values;
-- Statistical Grouping: Implementation of grouping stages to calculate counts, sums, and averages, enabling the extraction of high-level operational metrics from raw data.
+- Text Search: Utilized `$regex` for pattern matching to enable flexible searching within text fields like names and descriptions.
+- Value Ranges: Implemented comparison operators like `$gte` and `$lt` to filter numerical data such as prices and ratings.
+- Data Analysis: Constructed grouping stages to compute aggregates like sums and averages for operational insights.
 
-### 4. Aggregation Pipelines ???
+### 4. Aggregation Pipelines
 
-#### Complex Aggregations ???
+#### Complex Aggregations
 
-- Relational Joins: Development of multi-stage pipelines using '$lookup' to join related documents across different collections, mimicking relational behavior in a NoSQL environment;
-- Array Manipulation: Advanced handling of embedded arrays using '$unwind' to deconstruct lists into individual documents for granular sorting and filtering;
-- Business Logic Implementation: Application of specific filtering rules within aggregation stages to answer complex domain-specific questions that require traversing multiple data structures.
+- Data Joining: Built pipelines with `$lookup` to correlate documents from different collections, simulating relational joins.
+- Array Processing: Used `$unwind` to flatten array fields, enabling detailed analysis of individual list items.
+- Logic Application: Integrated specific filtering criteria within pipeline stages to address complex business questions involving multiple data entities.
 
 
-## Technologies & Tools Used ???
+## Technologies & Tools Used
 
 - **Database**: MongoDB 7.0
 - **Shell**: MongoDB Shell (mongosh)
@@ -109,25 +109,25 @@ mongoimport --db lab_nosql --collection orders --file "./data/orders.json" --jso
    use lab_nosql
    ```
 
-4. **Execute Queries ???** 
+4. **Execute Queries**
 
    ```bash
-   copy any querie
+   // Copy and paste any query from the queries folder
    ```
 
-5. **Test: Find Patients with O+ Blood Type**
+5. **Test: Find Restaurants with Italian Cuisine**
 
 ```javascript
-db = db.getSiblingDB("lab_results");
-print("List of Patients with O+ Blood Type:");
-db.patients
+db = db.getSiblingDB("lab_nosql");
+print("List of Restaurants with Italian Cuisine:");
+db.restaurants
   .aggregate([
-    { $match: { "demographics.blood_type": "O+" } },
+    { $match: { "cuisine": "Italian" } },
     {
       $project: {
         _id: 0,
-        "demographics.blood_type": 1,
-        "demographics.full_name": 1,
+        "cuisine": 1,
+        "name": 1,
       },
     },
   ]).forEach((doc) => printjson(doc));
@@ -148,60 +148,59 @@ load ("NameOfTheQuerie.js")
     ```
 **The Result Should appear in the terminal**
 
-## Performance and Indexing Strategy ???
+## Performance and Indexing Strategy
 
-We focused only on the first five queries for this
+We analyzed the execution plans for our primary queries to ensure optimal performance.
 
 1. **Load "index_setup.js"**
 
 2. **Use any of the queries with "..._With_Index.js"**
 
-these queries contain .explain("...")
+these queries contain `.explain("executionStats")`
 
-3. **Check if you see 'COLLSCAN' or 'IXSCAN'**
+3. **Check the output for 'IXSCAN' (Index Scan) versus 'COLLSCAN' (Collection Scan).**
 
-## Performance Optimizations ???
+## Performance Optimizations
 
-- Rule ESR: Queries were designed keeping Equality, Sort, and Range in mind;
-- Projection: Heavily utilized $project to minimize network overhead;
-- Pipeline Order: Ensured $match stages occur as early as possible to reduce dataset size before joins.
+- **ESR Adherence**: We structured our indexes based on the Equality, Sort, Range principle to maximize query efficiency.
+- **Field Projection**: We consistently applied `$project` stages to limit data transfer to only essential fields.
+- **Pipeline Efficiency**: We placed `$match` stages at the beginning of pipelines to filter data early, reducing the load on subsequent stages like `$lookup`.
 
-## Challenges and Solutions ???
+## Challenges and Solutions
 
-### Challenge 1: Sorting Embedded Chronological Data ???
+### Challenge 1: Analyzing Nested Status Histories
 
-- **Problem**: We needed to order surgeries chronologically, but they were stored inside an embedded array (Query 15), which standard sort operations cannot handle directly.
-- **Solution**: We applied the `$unwind` stage to deconstruct the array into individual documents, allowing us to perform a global `$sort` on the date field.
+- **Issue**: Order status updates were stored in an embedded array, making chronological sorting and analysis difficult with standard find operations.
+- **Resolution**: We implemented the `$unwind` aggregation stage to flatten the array into individual documents, allowing for precise sorting by timestamp.
 
-### Challenge 2: Adapting to Collaborative Version Control ???
+### Challenge 2: Team Collaboration on Database Scripts
 
-- **Problem**: As this was our first large-scale project using GitHub as a team, managing branches and the directory structure initially led to synchronization issues.
-- **Solution**: We established a clear workflow, communicating frequently before pushing code and adhering strictly to the required folder structure to avoid merge conflicts.
+- **Issue**: Managing concurrent edits to query scripts and data files led to version control conflicts.
+- **Resolution**: We adopted a feature-branch workflow and communicated changes to the file structure before merging to the main branch.
 
-### Challenge 3: Local Environment Configuration ???
+### Challenge 3: Tooling Consistency
 
-- **Problem**: Setting up the MongoDB local server, configuring system PATH variables, and ensuring the Database Tools (specifically mongoimport) were correctly installed on different operating systems proved difficult.
-- **Solution**: We standardized the installation process across the team and verified the environment setup before starting the data ingestion phase.
+- **Issue**: Discrepancies in `mongoimport` versions across different operating systems caused data ingestion failures.
+- **Resolution**: We standardized our development environment setup and documented the specific tool versions required for the project.
 
-## Testing & Validation ???
+## Testing & Validation
 
-- Tested all queries with sample datasets
-- Validated aggregation pipeline results
-- Verified index effectiveness using explain()
-- Ensured data integrity with validation rules
+- Verified query correctness against a known sample dataset.
+- Cross-referenced aggregation results with manual calculations.
+- Confirmed index usage and performance gains using `.explain()`.
+- Tested schema validation by attempting to insert invalid documents.
 
-## Learning Outcomes ???
+## Learning Outcomes
 
-Through this project, we gained practical experience in:
+This project provided hands-on experience in:
 
-- Designing Hybrid NoSQL Data Models
-- Building Complex Aggregation Pipelines
-- Optimizing Query Performance via Indexing
-- Handling Embedded Array Structures
-- Configuring Local MongoDB Environments
-- Managing Collaborative Git Workflows
+- Architecting hybrid NoSQL data models.
+- Constructing multi-stage aggregation pipelines for business intelligence.
+- Optimizing database read performance through indexing.
+- Manipulating nested document structures.
+- Managing a collaborative database development workflow.
 
-## Declaration ???
+## Declaration
 
 We declare that this submission is our own work and that all sources used have been properly cited.
 
