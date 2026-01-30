@@ -1,25 +1,13 @@
-# Group 18
+# Grupo 18 — NoSQL Databases (MongoDB)
 
-- Ricardo Viana
-- Miguel Silva
-
-
-## Tema
-Rede Social estilo Instagram/Twitter com:
-- Utilizadores
-- Posts com fotos e hashtags
-- Likes e comentários
-- Sistema de seguidores
-- Feed personalizado
+## Membros
+- Miguel Silva [40230060]
+- Ricardo Viana [40230435]
 
 
-## Conteúdo
-O projeto completo está na pasta `project/`.
+## Projeto
+- Nome: **FoodFinder — Plataforma de Descoberta de Restaurantes**
+- Pasta do projeto: `group-work/group_18/project/`
 
-Inclui:
-- Modelo de dados
-- CRUD
-- 20+ queries
-- Agregações
-- Índices e análise de performance
-- Dados de seed
+## Descrição breve
+Este projeto usa MongoDB e o dataset `restaurant.json` para modelar uma plataforma de descoberta de restaurantes, com reviews, favoritos e análises (aggregations).

@@ -1,3 +1,5 @@
+db = db.getSiblingDB("foodfinder");
+
 // Restaurants
 db.restaurants.createIndex({ type_of_food: 1 });
 db.restaurants.createIndex({ rating: -1 });

@@ -1,3 +1,5 @@
+db = db.getSiblingDB("foodfinder");
+
 // 1. Criar review
 db.reviews.insertOne({
   restaurantId: ObjectId("55f14312c7447c3da7051b26"),

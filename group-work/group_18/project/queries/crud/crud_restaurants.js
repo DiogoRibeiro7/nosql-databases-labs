@@ -1,3 +1,5 @@
+db = db.getSiblingDB("foodfinder");
+
 // 1. Inserir restaurante
 db.restaurants.insertOne({
   name: "New Sushi Place",
