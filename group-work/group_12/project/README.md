@@ -141,10 +141,10 @@ db.restaurants
    mongosh
    ```
 
-2. **Load any querie**
+2. **Load any query**
 
     ```bash
-load ("NameOfTheQuerie.js")
+load ("NameOfTheQuery.js")
     ```
 **The Result Should appear in the terminal**
 
