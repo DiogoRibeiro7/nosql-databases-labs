@@ -52,6 +52,3 @@ Aprendemos a:
 ## Conclusão
 
 Este projeto permitiu‑nos crescer tanto a nível técnico como a nível de trabalho em equipa. A experiência com MongoDB/NoSQL e a colaboração entre os dois foram fundamentais para alcançarmos um resultado final consistente, organizado e funcional.
-
-
-reflexao git
