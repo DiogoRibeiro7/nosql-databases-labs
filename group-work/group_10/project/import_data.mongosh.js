@@ -811,7 +811,7 @@ const rentals = [
     films: [{ filmId: "FILM-002", title: "Silent Streets", amount: 2.99 }],
     customerId: "CUST-005", storeId: "STORE-01"  
   }
-]
+];
 
 
 // Insert data ----------------------------------------------------------------
