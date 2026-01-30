@@ -17,6 +17,10 @@ db.movies
   })
   .sort({ "imdb.rating": -1 });
 
+
+
+
+
 // With projection (cleaner output)
 db.movies
   .find(
@@ -34,6 +38,55 @@ db.movies
   )
   .sort({ "imdb.rating": -1 });
 
+  //Result
+  /*
+    {
+    _id: ObjectId('573a13e9f29313caabdcc734'),
+    plot: 'A Welsh teenager will become the cool kid of the town if a deal is made with his new American neighbour.',
+    genres: [ 'Comedy' ],
+    runtime: 84,
+    cast: [
+      'Emile Hirsch',
+      'Craig Roberts',
+      'Richard Harrington',
+      'Mark Lewis Jones'
+    ],
+    poster: 'https://m.media-amazon.com/images/M/MV5BMTk3NjE1NzM2Ml5BMl5BanBnXkFtZTgwMzI1NDQ3NTE@._V1_SY1000_SX677_AL_.jpg',
+    title: 'Just Jim',
+    fullplot: 'A Welsh teenager will become the cool kid of the town if a deal is made with his new American neighbour.',
+    languages: [ 'English' ],
+    released: ISODate('2015-03-14T00:00:00.000Z'),
+    directors: [ 'Craig Roberts' ],
+    writers: [ 'Craig Roberts' ],
+    awards: { wins: 0, nominations: 1, text: '1 nomination.' },
+    lastupdated: '2015-08-02 00:23:47.370000000',
+    year: 2015,
+    imdb: { rating: 8.7, votes: 75, id: 3291148 },
+    countries: [ 'UK' ],
+    type: 'movie'
+  },
+  {
+    _id: ObjectId('573a13e0f29313caabdbad3a'),
+    plot: "The friendship of Rabbit and Deer is put to the test by Deer's new obsession to find the formula for the 3rd dimension...",
+    genres: [ 'Animation', 'Short', 'Adventure' ],
+    runtime: 17,
+    cast: [ 'Mèrocz Adrienn', 'Dèniel Czupi' ],
+    poster: 'https://m.media-amazon.com/images/M/MV5BMjM2Nzk2MTQwNV5BMl5BanBnXkFtZTgwMTE3Nzc1MjE@._V1_SY1000_SX677_AL_.jpg',
+    title: 'Rabbit and Deer',
+    fullplot: "The friendship of Rabbit and Deer is put to the test by Deer's new obsession to find the formula for the 3rd dimension...",
+    countries: [ 'Hungary' ],
+    released: ISODate('2014-03-29T00:00:00.000Z'),
+    directors: [ 'Pèter Vècz' ],
+    writers: [ 'Pèter Vècz (story)' ],
+    awards: { wins: 18, nominations: 1, text: '18 wins & 1 nomination.' },
+    lastupdated: '2015-07-17 00:49:35.567000000',
+    year: 2013,
+    imdb: { rating: 8.7, votes: 837, id: 2664910 },
+    type: 'movie'
+  }
+*/
+
+
 // ========================================
 // 2. Find all movies in "Drama" or "Thriller" genres with at least one award
 db.movies
@@ -42,6 +95,48 @@ db.movies
     "awards.wins": { $gte: 1 },
   })
   .sort({ "awards.wins": -1 });
+
+//Result 
+/*{
+    _id: ObjectId('573a13d5f29313caabd9cae7'),
+    fullplot: "Based on an incredible true story of one man's fight for survival and freedom. In the pre-Civil War United States, Solomon Northup (Chiwetel Ejiofor), a free black man from upstate New York, is abducted and sold into slavery. Facing cruelty (personified by a malevolent slave owner, portrayed by Michael Fassbender), as well as unexpected kindnesses, Solomon struggles not only to stay alive, but to retain his dignity. In the twelfth year of his unforgettable odyssey, Solomon's chance meeting with a Canadian abolitionist (Brad Pitt) will forever alter his life.",
+    imdb: { rating: 8.1, votes: 363143, id: 2024544 },
+    year: 2013,
+    plot: 'In the antebellum United States, Solomon Northup, a free black man from upstate New York, is abducted and sold into slavery.',
+    genres: [ 'Biography', 'Drama', 'History' ],
+    rated: 'R',
+    metacritic: 97,
+    title: '12 Years a Slave',
+    lastupdated: '2015-08-22 00:05:56.030000000',
+    languages: [ 'English' ],
+    writers: [
+      'John Ridley (screenplay)',
+      'Solomon Northup (based on "Twelve Years a Slave" by)'
+    ],
+    type: 'movie',
+    tomatoes: {
+      viewer: { rating: 0, numReviews: 0 },
+      lastUpdated: ISODate('2015-08-22T18:57:07.000Z')
+    },
+    poster: 'https://m.media-amazon.com/images/M/MV5BMjExMTEzODkyN15BMl5BanBnXkFtZTcwNTU4NTc4OQ@@._V1_SY1000_SX677_AL_.jpg',
+    num_mflix_comments: 2,
+    released: ISODate('2013-11-08T00:00:00.000Z'),
+    awards: {
+      wins: 267,
+      nominations: 256,
+      text: 'Won 3 Oscars. Another 264 wins & 256 nominations.'
+    },
+    countries: [ 'USA', 'UK' ],
+    cast: [
+      'Chiwetel Ejiofor',
+      'Dwight Henry',
+      'Dickie Gravois',
+      'Bryan Batt'
+    ],
+    directors: [ 'Steve McQueen' ],
+    runtime: 134
+  },*/
+
 
 // Alternative using $or
 db.movies.find({
@@ -55,16 +150,121 @@ db.movies.find({
   cast: "Tom Hanks",
 });
 
+/*Result:
+
+poster: 'https://m.media-amazon.com/images/M/MV5BMTY5MzYzNjc5NV5BMl5BanBnXkFtZTYwNTUyNTc2._V1_SY1000_SX677_AL_.jpg',
+    num_mflix_comments: 381,
+    released: ISODate('2002-12-25T00:00:00.000Z'),
+    awards: {
+      wins: 15,
+      nominations: 27,
+      text: 'Nominated for 2 Oscars. Another 13 wins & 27 nominations.'
+    },
+    countries: [ 'USA', 'Canada' ],
+    cast: [
+      'Leonardo DiCaprio',
+      'Tom Hanks',
+      'Christopher Walken',
+      'Martin Sheen'
+    ],
+    directors: [ 'Steven Spielberg' ],
+    runtime: 141
+  }*/
+
 // With formatted output
 db.movies
   .find({ cast: "Tom Hanks" }, { title: 1, year: 1, cast: 1, "imdb.rating": 1, _id: 0 })
   .sort({ year: -1 });
 
-// Using regex for partial match
+  /*Result: {
+    imdb: { rating: 8 },
+    year: 2002,
+    title: 'Catch Me If You Can',
+    cast: [
+      'Leonardo DiCaprio',
+      'Tom Hanks',
+      'Christopher Walken',
+      'Martin Sheen'
+    ]
+  }*/
+
+// Using regex for partial match  procurar padrões de texto i → opção case-insensitive (ignora maiúsculas/minúsculas)
 db.movies.find({
   cast: { $regex: /Tom Hanks/i },
 });
-
+/*Result 
+ fullplot: "The owner of a large bookstore chain starts putting the owner of a small local bookstore out of business. Meanwhile they have been corresponding over the internet without knowing who either of them are. They can't stand each other in person but over the internet they are very attracted. He finds out who she is but she doesn't know. He starts to like her more but she still hates him. He has to fix it.",
+    imdb: { rating: 6.5, votes: 139830, id: 128853 },
+    year: 1998,
+    plot: 'Two business rivals hate each other at the office but fall in love over the internet.',
+    genres: [ 'Comedy', 'Drama', 'Romance' ],
+    rated: 'PG',
+    metacritic: 57,
+    title: "You've Got Mail",
+    lastupdated: '2015-09-07 00:17:22.163000000',
+    languages: [ 'English' ],
+    writers: [
+      'Miklès Lèszlè (play)',
+      'Nora Ephron (screenplay)',
+      'Delia Ephron (screenplay)'
+    ],
+    type: 'movie',
+    tomatoes: {
+      website: 'http://www.youvegotmail.com',
+      viewer: { rating: 3.1, numReviews: 461550, meter: 73 },
+      dvd: ISODate('1999-05-04T00:00:00.000Z'),
+      critic: { rating: 6.2, numReviews: 83, meter: 69 },
+      lastUpdated: ISODate('2015-09-16T17:47:27.000Z'),
+      consensus: 'Great chemistry between the leads made this a warm and charming delight.',
+      rotten: 26,
+      production: 'Warner Bros. Pictures',
+      fresh: 57
+    },
+    poster: 'https://m.media-amazon.com/images/M/MV5BZTcxNzgzZjMtYzZiZC00MmE1LTg3MzQtZDAxMTYyZWE4MDNhL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_SX677_AL_.jpg',
+    num_mflix_comments: 1,
+    released: ISODate('1998-12-18T00:00:00.000Z'),
+    awards: {
+      wins: 6,
+      nominations: 7,
+      text: 'Nominated for 1 Golden Globe. Another 5 wins & 7 nominations.'
+    },
+    countries: [ 'USA' ],
+    cast: [ 'Tom Hanks', 'Meg Ryan', 'Greg Kinnear', 'Parker Posey' ],
+    directors: [ 'Nora Ephron' ],
+    runtime: 119
+  },
+  {
+    _id: ObjectId('573a13a4f29313caabd0f756'),
+    plot: 'Produced by Steven Spielberg and presented by Tom Hanks this documentary tells how war photographers faced the horrors that looked both in Europe and in the Pacific during World War II .',
+    genres: [ 'Documentary' ],
+    runtime: 88,
+    cast: [
+      'Tom Hanks',
+      'Stephen Ambrose',
+      'Russ Meyer',
+      'Walter Rosenblum'
+    ],
+    title: 'Shooting War',
+    fullplot: 'Produced by Steven Spielberg and presented by Tom Hanks this documentary tells how war photographers faced the horrors that looked both in Europe and in the Pacific during World War II .',
+    languages: [ 'English' ],
+    released: ISODate('2000-12-07T00:00:00.000Z'),
+    directors: [ 'Richard Schickel' ],
+    writers: [ 'Richard Schickel' ],
+    awards: {
+      wins: 0,
+      nominations: 2,
+      text: 'Nominated for 1 Primetime Emmy. Another 1 nomination.'
+    },
+    lastupdated: '2015-09-17 04:42:02.380000000',
+    year: 2000,
+    imdb: { rating: 7.9, votes: 361, id: 250730 },
+    countries: [ 'USA' ],
+    type: 'movie',
+    tomatoes: {
+      viewer: { rating: 3.9, numReviews: 7032, meter: 84 },
+      lastUpdated: ISODate('2015-06-08T18:11:55.000Z')
+    }
+  },*/
 // ========================================
 // 4. Find movies released in last 5 years, sorted by rating, top 20
 const currentYear = 2024;
@@ -82,6 +282,18 @@ db.movies
   .find({ year: { $gte: 2019 } }, { title: 1, year: 1, "imdb.rating": 1, genres: 1, _id: 0 })
   .sort({ "imdb.rating": -1 })
   .limit(20);
+
+  /*Result db.movies.find({year:{$gte:2016}},{ title: 1, year: 1, "imdb.rating": 1, genres: 1, _id: 0  }).sort({"imdb.rating":-1}).limit(20)
+  
+  [
+  {
+    genres: [ 'Action', 'Biography', 'Crime' ],
+    title: 'The Masked Saint',
+    year: 2016,
+    imdb: { rating: '' }
+  }
+]*/
+
 
 // ========================================
 // 5. Find all theaters in New York with screenings scheduled for today
