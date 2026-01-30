@@ -30,11 +30,11 @@ For the food express project, we built a MongoDB database to manage a food deliv
 ## Database Design
 
 - restaurants: Primary collection featuring embedded structures for menu items and operating schedules to enhance read efficiency and data locality.
-- orders: Distinct collection utilizing references (restaurant_id, customer_id) to manage extensive transaction histories while avoiding document size constraints.
+- orders: Distinct collection utilizing references (restaurantId, customer_id) to manage extensive transaction histories while avoiding document size constraints.
 - reviews: Standalone collection associated with restaurants, designed to handle a high volume of customer feedback.
 
 ## Schema Design Decisions
-- Denormalization Strategy: We employed references for `restaurant_id` within the orders and reviews collections to support scalable one-to-many relationships.
+- Denormalization Strategy: We employed references for `restaurantId` within the orders and reviews collections to support scalable one-to-many relationships.
 - Type Consistency: Verified that all temporal data is stored as `ISODate` to facilitate accurate date-range filtering and duration calculations.
 
 ## Data Operations Implemented
