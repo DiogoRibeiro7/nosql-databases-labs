@@ -49,7 +49,6 @@ db.customers.updateOne(
 // DELETE
 
 db.customers.deleteOne({ customerId: "CUST-020" });
-``
 
 
 
