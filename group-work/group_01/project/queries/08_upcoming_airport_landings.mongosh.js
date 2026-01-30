@@ -4,7 +4,7 @@
 
 db = db.getSiblingDB("group_01_flight_management_system_final");
 print("Upcoming airport landings:");
-const now = new Date().toISOString();
+const now = new Date();
 db.flights
   .find({ arrivalTime: { $gt: now } })
   .sort({ arrivalTime: 1 })
