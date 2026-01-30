@@ -23,7 +23,10 @@ db.users
     },
     {
       $match: {
-        "reservations.status": "confirmed"
+        $or: [
+          { reservations: null },
+          { "reservations.status": "confirmed" }
+        ]
       }
     },
     {
@@ -60,8 +63,23 @@ db.users
         _id: "$_id",
         fullName: { $first: "$fullName" },
         email: { $first: "$email" },
-        totalSpending: { $sum: "$flight.price" },
-        reservationCount: { $sum: 1 }
+        totalSpending: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $ne: ["$reservations", null] },
+                  { $ne: ["$flight", null] }
+                ]
+              },
+              { $ifNull: ["$flight.price", 0] },
+              0
+            ]
+          }
+        },
+        reservationCount: {
+          $sum: { $cond: [{ $ne: ["$reservations", null] }, 1, 0] }
+        }
       }
     },
     {
