@@ -1,5 +1,5 @@
 // Query 09: list visits containing Lisinopril to monitor prescription networks.
-db = db.getSiblingDB("medical_database");
+load("group-work/group_06/project/queries/ensure_medical_db.mongosh.js");
 
 // Limit to visits where Lisinopril appears, projecting only relevant fields for quick review.
 db.visits

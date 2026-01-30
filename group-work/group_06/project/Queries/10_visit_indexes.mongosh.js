@@ -1,5 +1,5 @@
 // Query 10: create indexes to speed common department and condition queries.
-db = db.getSiblingDB("medical_database");
+load("group-work/group_06/project/queries/ensure_medical_db.mongosh.js");
 
 // Ensure department + date queries run faster by using a compound index for match + sort.
 const visitsIndex = db.visits.createIndex({ department: 1, visit_date: -1 });

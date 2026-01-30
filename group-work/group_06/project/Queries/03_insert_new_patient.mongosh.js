@@ -1,7 +1,7 @@
 // Query 03: create a new patient record with basic data.
 // Real scenario: quick intake for initial triage.
 // Simple insert to seed a triage patient for follow-up workflows.
-db = db.getSiblingDB("medical_database");
+load("group-work/group_06/project/queries/ensure_medical_db.mongosh.js");
 
 // Insert a quick triage patient entry so follow-up teams can access a consistent record.
 db.patients.insertOne({

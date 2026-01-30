@@ -1,6 +1,6 @@
 // Query 04: update an existing patient's contact details to keep records current.
 // Applies contact updates to keep patient communication channels valid.
-db = db.getSiblingDB("medical_database");
+load("group-work/group_06/project/queries/ensure_medical_db.mongosh.js");
 
 // Keep communication channels current by updating contact info and timestamp.
 const outcome = db.patients.updateOne(

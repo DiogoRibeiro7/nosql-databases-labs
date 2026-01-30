@@ -1,5 +1,5 @@
 // Query 12: flag visits with high blood pressure for priority follow-up.
-db = db.getSiblingDB("medical_database");
+load("group-work/group_06/project/queries/ensure_medical_db.mongosh.js");
 
 // Update follow_up.required to true for hypertension alerts during triage.
 const updateResult = db.visits.updateMany(

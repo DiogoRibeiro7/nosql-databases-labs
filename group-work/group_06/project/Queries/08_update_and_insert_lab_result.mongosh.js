@@ -1,5 +1,5 @@
 // Query 08: ensure the latest lab result stays recorded using upsert.
-db = db.getSiblingDB("medical_database");
+load("group-work/group_06/project/queries/ensure_medical_db.mongosh.js");
 
 // Use upsert to overwrite the latest value without duplicating result_id.
 const labOutcome = db.lab_results.updateOne(
