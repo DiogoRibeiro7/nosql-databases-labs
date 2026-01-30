@@ -48,13 +48,14 @@ db.grades
               range: {
                 $switch: { // $switch para nomes legíveis
                   branches: [
-                    { case: { $eq: ["$_id", 0] }, then: "0-29 (Negativa)" },
-                    { case: { $eq: ["$_id", 50] }, then: "30-59 (Nao Satisfaz)" },
+                   { case: { $eq: ["$_id", 0] }, then: "0-49 (Negativa)" },
+                    { case: { $eq: ["$_id", 50] }, then: "50-59 (Nao Satisfaz)" },
                     { case: { $eq: ["$_id", 60] }, then: "60-69 (Satisfaz)" },
                     { case: { $eq: ["$_id", 70] }, then: "70-79 (Bom)" },
-                    { case: { $eq: ["$_id", 80] }, then: "80-89 (Muito Bom)" },
+                   { case: { $eq: ["$_id", 80] }, then: "80-89 (Muito Bom)" },
                     { case: { $eq: ["$_id", 90] }, then: "90-100 (Excelente)" },
                   ],
+                  default: "Other",
                 },
               },
               count: 1,

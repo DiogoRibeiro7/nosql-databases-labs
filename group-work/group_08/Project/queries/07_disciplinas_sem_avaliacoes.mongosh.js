@@ -25,7 +25,7 @@ db.subjects
         credits: 1,
         teacher: 1,
         enrolledStudents: { $size: "$enrolledGrades" }, // $size conta elementos no array
-        missingEnrollments: { $subtract: [10, { $size: "$enrolledGrades" }] }, // Assumindo 10 alunos total
+        missingEnrollments: { $subtract: [db.students.countDocuments(), { $size: "$enrolledGrades" }] }, // Assumindo 10 alunos total
       },
     },
     // Ordena por mais alunos em falta

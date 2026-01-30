@@ -1,11 +1,11 @@
-# MongoDB Database Operations - Group 07 Solution
+# MongoDB Database Operations - Group 08 Solution
 
 ## Database Setup
 
 ### Create Database
 
 ```javascript
-use group_07_db
+use group_08_db
 ```
 
 ## Collection Schemas

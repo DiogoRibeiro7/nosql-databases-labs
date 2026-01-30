@@ -1,6 +1,6 @@
 // School Management - Sample Final Project (mongosh only)
 // Run with:
-//   mongosh import_school_data.mongosh.js
+//   mongosh import_data.mongosh.js
 
 // Switch to a dedicated database
 db = db.getSiblingDB("group_08_school_final");

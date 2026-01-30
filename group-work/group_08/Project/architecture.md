@@ -12,9 +12,10 @@ The municipality sponsors weekend night markets. Each event hosts 3–4 rotating
 
 | Collection | Role | Notes |
 | ---------- | ---- | ----- |
-| `student` | Reference/master data | Stable identifiers (`studentCode`) enriched with operational capacity, tier, and featured items. |
-| `class` | Semi-static reference data | Embeds venue details to avoid additional joins during reporting. |
-| `grades` | Fact/telemetry | Each document captures the sales basket, wait time, payment method, and minimal customer segmentation. |
+| `student` | Reference/master data | Stable identifiers (`studentCode`) enriched with demographic attributes, enrollment status, and grade-level or section metadata. |
+| `class` | Semi-static reference data | Represents subjects or courses; embeds instructor, term, and schedule details to avoid additional joins during reporting. |
+| `grades` | Fact/telemetry | Each document records a student’s grade for a specific class or assessment, including score, grading period, and basic performance context. |
+|
 
 ### Schema Highlights
 
@@ -59,15 +60,15 @@ The municipality sponsors weekend night markets. Each event hosts 3–4 rotating
 
 ## Relationships & Access Patterns
 
-- `orders` → `events` (N:1 via `eventCode`).
-- `orders` → `vendors` (N:1 via `vendorId`).
-- Most dashboards aggregate orders grouped by event, vendor, district, or time windows.
-- Rare admin tasks filter by `partnershipTier` or `sustainabilityTier`.
+- `grades` → `student` (N:1 via `studentCode`).
+- `grades` → `subject` (N:1 via `subjectCode`).
+- Most reports aggregate grades grouped by student, subject, teacher, or term to compute averages and rankings.
+- Occasional admin tasks filter by student attributes (for example, gender or address) or by subject metadata (for example, teacher or credits).
 
 ## Index Blueprint
 
-- `grades` composite index `{ studentCode: 1, subjectCode: 1, createdAt: 1 }` – supports top-line KPI rollups and chronological trend charts.
-- `student` index `{ studentCode: 1 }` – allows deduplicating visitors without scanning the entire collection.
-- `subject` unique index `{ subjectCode: 1 }` and `events` unique index `{ eventCode: 1 }` – prevents accidental duplicates when importing data from spreadsheets.
+- `grades` composite index `{ studentCode: 1, subjectCode: 1 }` – supports efficient lookups of a student's grades per subject and avoids collection scans in analytic pipelines.
+- `student` unique index `{ studentCode: 1 }` – allows fast lookups and ensures stable external identifiers when importing data.
+- `subject` unique index `{ subjectCode: 1 }` – prevents accidental duplicates when importing subject data from spreadsheets.
 
-Indexes are provisioned via `queries/index_blueprint.mongosh.js` so students can reapply them after a drop/reload cycle.
+Indexes are created in `queries/import_data.mongosh.js` so they are reapplied automatically whenever the seed script is run.

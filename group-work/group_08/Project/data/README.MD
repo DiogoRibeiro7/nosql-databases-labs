@@ -7,6 +7,9 @@ These JSON files mirror the documents embedded inside `import_data.mongosh.js`. 
 | `grades.json` | Canonical catalog of partner food vendors and their operational capacity. |
 | `students.json` | Events sponsored by the municipality with embedded venue information. |
 | `subjects.json` | Sanitized orders captured during the events; doubles as telemetry for service-level reports. |
+| `students.json` | List of student records, including identifiers and basic profile information. |
+| `subjects.json` | Catalog of school subjects/courses available in the curriculum. |
+| `grades.json` | Grade records linking students to subjects and their scores or marks. |
 
 Usage tips:
 
