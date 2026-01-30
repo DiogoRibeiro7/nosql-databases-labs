@@ -154,14 +154,13 @@ We analyzed the execution plans for our primary queries to ensure optimal perfor
 
 1. **Load "index_setup.js"**
 
-2. **Use any of the queries with "..._With_Index.js"**
-
-these queries contain `.explain("executionStats")`
+2. **Run any relevant query script from the `queries` folder and include `.explain("executionStats")` to inspect its execution plan.**
 
 3. **Check the output for 'IXSCAN' (Index Scan) versus 'COLLSCAN' (Collection Scan).**
 
 ## Performance Optimizations
 
+## Performance Optimizations
 - **ESR Adherence**: We structured our indexes based on the Equality, Sort, Range principle to maximize query efficiency.
 - **Field Projection**: We consistently applied `$project` stages to limit data transfer to only essential fields.
 - **Pipeline Efficiency**: We placed `$match` stages at the beginning of pipelines to filter data early, reducing the load on subsequent stages like `$lookup`.
