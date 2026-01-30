@@ -10,12 +10,42 @@ db.porto_listings.find({
 }).sort({ price: -1 });
 
 // Q2: Análise de Procura - Opções económicas em bairros centrais
-// Uso do operador $in e limites de preço
-db.porto_listings.find({
-    neighbourhood: { $in: ["Ribeira", "Baixa", "Sé"] },
-    beds: { $gt: 1 },
-    price: { $regex: "€[0-9]{1,2}$" } // Filtra preços abaixo de 100€
-}).sort({ review_scores_rating: -1 });
+db.porto_listings.aggregate([
+  {
+    $match: {
+      neighbourhood: { $in: ["Ribeira", "Baixa"] },
+      beds: { $gt: 1 }
+    }
+  },
+  {
+    // Converter preço de string para número
+    $addFields: {
+      priceNum: {
+        $convert: {
+          input: {
+            $replaceAll: {
+              input: "$price",
+              find: "€",
+              replacement: ""
+            }
+          },
+          to: "double",
+          onError: null,
+          onNull: null
+        }
+      }
+    }
+  },
+  {
+    $match: { priceNum: { $lt: 100 } }
+  },
+  {
+    $sort: { priceNum: 1 }
+  },
+  {
+    $project: { priceNum: 0 } //removr o campo temporario
+  }
+]);
 
 // Q3: Verificação de Disponibilidade e Fidelização
 // Alojamentos com alta disponibilidade mas poucas reviews (oportunidade de marketing)
@@ -53,3 +83,10 @@ db.porto_listings.find({
     neighbourhood: "Paranhos", 
     room_type: "Private room" 
 });
+
+db.porto_listings.find({ 
+    neighbourhood: "Bonfim", 
+    room_type: "Entire home/apt",
+    accommodates: { $gte: 4 },
+    review_scores_rating: { $gte: 4.5 }
+}).sort({ price: -1 });

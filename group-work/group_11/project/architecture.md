@@ -160,7 +160,7 @@ Demonstrates full data lifecycle management:
 ## 5. Data Flow
 
 1. Raw data is imported into the `porto_listings` collection
-2. `setup_collection.mongodb.js` generates derived collections
+2. `setup_colections.mongodb.js` generates derived collections
 3. Business and aggregation queries operate on primary and derived collections
 4. CRUD operations validate data manipulation capabilities
 

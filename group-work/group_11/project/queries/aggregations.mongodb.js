@@ -3,13 +3,12 @@ use('travel_booking');
 // --- 1. CRIAÇÃO DE ÍNDICES (Otimização conforme requisito 6.2) --- 
 // Devem ser criados para melhorar a performance das queries 
 db.porto_listings.createIndex({ neighbourhood: 1, room_type: 1 });
-db.porto_listings.createIndex({ price: 1 });
 db.porto_listings.createIndex({ neighbourhood: 1, beds: 1, review_scores_rating: -1 });
 
 // --- 2. PIPELINES DE AGREGAÇÃO ---
 
 // Q1: Preço minimo, maximo e Médio por Bairro 
-// Resolve problemas de tipos de dados convertendo string para número [cite: 298]
++// Converte o preço de string (por exemplo, "€120") para número para evitar problemas de tipo nos cálculos
 db.porto_listings.aggregate([
   {
     $project: {
@@ -94,7 +93,8 @@ db.porto_listings.aggregate([
   { 
     $match: { 
       neighbourhood: "Ribeira",
-      review_scores_rating: { $gte: 90 } // Ajustado para a escala do teu JSON
+      review_scores_rating: { $gte: 4.5 } // Ajustado para a escala (0-5) do teu JSON
+
     } 
   },
   {

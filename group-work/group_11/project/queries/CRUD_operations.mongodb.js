@@ -27,12 +27,11 @@ db.porto_listings.updateOne(
     { $inc: { review_scores_rating: 0.2 } }
 );
 
-// Adicionar uma nova comodidade (amenity) sem apagar as anteriores
+// Adicionar uma nova comodidade (amenity) sem apagar as anteriores e evitar duplicados
 db.porto_listings.updateOne(
-    { id: 10001 },
-    { $push: { amenities: "Coffee Machine" } }
+    { id: 10002 },
+    { $addToSet: { amenities: "Air Conditioning" } }
 );
-
 // 4. DELETE: Limpeza de dados irrelevantes
 // Remover alojamentos que têm preço zero ou não têm camas (dados corrompidos)
 db.porto_listings.deleteMany({

@@ -73,7 +73,6 @@ project/
 │   ├── aggregation.mongodb.js
 │   ├── business_queries.mongodb.js
 │   └── CRUD_operations.mongodb.js
-├── tests/
 └── README.md
 ```
 
