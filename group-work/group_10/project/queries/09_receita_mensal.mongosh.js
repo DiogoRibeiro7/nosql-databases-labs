@@ -8,4 +8,4 @@ db.rentals.aggregate([
       revenue: { $sum: "$films.amount" }
   }},
   { $sort: { "_id.month": 1 } }
-])
+]).forEach(printjson);
