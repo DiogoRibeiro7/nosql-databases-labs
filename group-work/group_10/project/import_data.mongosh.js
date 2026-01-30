@@ -708,7 +708,7 @@ const films = [
     stockPolicy: null,
     lastUpdate: null
   }
-]
+];
 
 
 const stores = [
