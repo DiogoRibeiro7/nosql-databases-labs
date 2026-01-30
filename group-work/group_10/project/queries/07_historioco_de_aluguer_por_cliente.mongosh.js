@@ -1,4 +1,4 @@
-
+// Query: histórico de aluguer por cliente (rental history per customer)
 db = db.getSiblingDB("group_10_db");
 
 db.rentals.find(
