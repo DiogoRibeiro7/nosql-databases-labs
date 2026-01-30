@@ -79,7 +79,8 @@ The Flight Management System tracks airline operations, flight schedules, and pa
   userId: ObjectId("..."),                                  // Reference to users._id
   seatNumber: "61F",
   status: "confirmed",                                      // confirmed, pending, cancelled
-  reservationDate: ISODate("2025-01-15T10:30:00Z")
+  reservationDate: ISODate("2025-01-15T10:30:00Z"),
+  amount: 324.17                                            // optional; paid amount (fare class). If absent, revenue uses flight.price
 }
 ```
 
