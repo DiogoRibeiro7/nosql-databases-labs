@@ -7,7 +7,7 @@ Implementa um sistema de gestão de videoclube com clientes, filmes, lojas e alu
 
 | Path | Purpose |
 | ------ | --------- |
-| `import_data.mongosh.js` | Bootstrap script that wipes/creates the `group_xx_example_final` database and loads inline sample data. |
+| `import_data.mongosh.js` | Bootstrap script that wipes/creates the `group_10_db` database and loads inline sample data. |
 | `architecture.md` | Written rationale for the collections, embedding strategy, and indexes. |
 | `performance.md` | Notes on query patterns, index coverage, and manual explain output. |
 | `data/` | JSON copies of the inline fixtures for documentation or slide decks. |
