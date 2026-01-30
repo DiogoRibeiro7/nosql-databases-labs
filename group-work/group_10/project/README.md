@@ -3,7 +3,7 @@
 Este projeto demonstra como deve ser estruturada e documentada uma submissão final totalmente baseada em scripts **mongosh**, sem Node.js.  
 Implementa um sistema de gestão de videoclube com clientes, filmes, lojas e alugueres, incluindo validação de dados, agregações analíticas e otimização de performance com índices.
 
-## ## Deliverables in This Folder
+## Deliverables in This Folder
 
 | Path | Purpose |
 | ------ | --------- |
