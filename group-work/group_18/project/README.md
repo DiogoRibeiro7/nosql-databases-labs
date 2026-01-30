@@ -24,4 +24,4 @@ Permite:
 2. Importar o dataset de restaurantes:
 
 ```bash
-mongoimport --db foodfinder --collection restaurants --file group-work/group_05/project/data/restaurant.json --jsonArray
+mongoimport --db foodfinder --collection restaurants --file group-work/group_18/project/data/restaurant.json --jsonArray
