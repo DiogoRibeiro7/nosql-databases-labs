@@ -18,3 +18,4 @@ db.Providers.createIndex({ providerId: 1 }, { unique: true });
 db.AuditLogs.createIndex({ resourceId: 1, timestamp: -1 });
 
 print("✔ Índices criados com sucesso!");
+

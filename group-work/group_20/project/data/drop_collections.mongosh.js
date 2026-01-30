@@ -7,3 +7,4 @@ db.Providers.drop();
 db.AuditLogs.drop();
 
 print("✔ Coleções removidas com sucesso!");
+

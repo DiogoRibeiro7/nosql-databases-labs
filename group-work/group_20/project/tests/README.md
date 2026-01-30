@@ -12,5 +12,8 @@ Os testes são executados diretamente no MongoDB Atlas, sem Node.js ou framework
 ## Como executar
 
 ```bash
+
 mongosh "mongodb+srv://teste:teste123@cluster0.uxzs8d5.mongodb.net/healthcare" project/tests/data_quality.mongosh.js
 mongosh "mongodb+srv://teste:teste123@cluster0.uxzs8d5.mongodb.net/healthcare" project/tests/queries_tests.mongosh.js
+
+```

@@ -2,16 +2,25 @@ use("healthcare");
 
 db.Providers.insertMany([
   {
-    "providerId": "PR001",
-    "name": "Dr. João Costa",
-    "specialty": "Cardiologia",
-    "organization": "Hospital Central do Porto"
+    providerId: "PR001",
+    name: {
+      first: "João",
+      last: "Costa",
+      title: "Dr."
+    },
+    specialty: "Cardiologia",
+    organization: "Hospital Central do Porto",
+    status: "ativo"
   },
   {
-    "providerId": "PR002",
-    "name": "Dra. Marta Ribeiro",
-    "specialty": "Medicina Interna",
-    "organization": "Hospital de Braga"
+    providerId: "PR002",
+    name: {
+      first: "Marta",
+      last: "Ribeiro",
+      title: "Dra."
+    },
+    specialty: "Medicina Interna",
+    organization: "Hospital de Braga",
+    status: "ativo"
   }
-].forEach(doc => { insertIfNotExists("Patients", { patientId: doc.patientId }, doc); }));
-
+]);

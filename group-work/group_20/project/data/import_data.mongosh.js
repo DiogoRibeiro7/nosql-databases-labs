@@ -15,10 +15,10 @@ function insertIfNotExists(collection, query, document) {
 globalThis.insertIfNotExists = insertIfNotExists;
 
 // Carregar ficheiros de dados
-load("./project/data/patients.mongosh.js");
-load("./project/data/clinical_encounters.mongosh.js");
-load("./project/data/lab_results.mongosh.js");
-load("./project/data/providers.mongosh.js");
-load("./project/data/audit_logs.mongosh.js");
+load("./data/patients.mongosh.js");
+load("./data/clinical_encounters.mongosh.js");
+load("./data/lab_results.mongosh.js");
+load("./data/providers.mongosh.js");
+load("./data/audit_logs.mongosh.js");
 
 print("✔ Dados importados com sucesso (com verificação de duplicados)!");
