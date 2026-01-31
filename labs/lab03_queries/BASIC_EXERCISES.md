@@ -6,7 +6,7 @@ Use these before jumping into the full query/index workload. They reinforce shel
 
 ## Exercise 1: Data Verification
 
-1. Switch to `lab03_movies`.
+1. Switch to `ldb.userss`.
 2. Run `db.movies.countDocuments()`, `db.theaters.countDocuments()`, and `db.users.countDocuments()`.
 3. Record the values in `NOTES.md` (Basic section) to prove the import worked.
 
