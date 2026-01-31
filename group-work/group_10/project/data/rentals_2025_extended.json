@@ -1,0 +1,359 @@
+[
+  {
+    "rentalDate": {
+      "$date": "2025-01-01T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-08T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-002",
+        "title": "ACE GOLDFINGER",
+        "amount": 4.99
+      },
+      {
+        "filmId": "FILM-008",
+        "title": "AIRPORT POLLOCK",
+        "amount": 4.99
+      }
+    ],
+    "customerId": "CUST-001",
+    "storeId": "STORE-01",
+    "totalAmount": 9.98
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-02T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-09T00:00:00Z"
+    },
+    "status": "rented",
+    "films": [
+      {
+        "filmId": "FILM-001",
+        "title": "ACADEMY DINOSAUR",
+        "amount": 0.99
+      }
+    ],
+    "customerId": "CUST-002",
+    "storeId": "STORE-01",
+    "totalAmount": 0.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-03T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-10T00:00:00Z"
+    },
+    "status": "overdue",
+    "films": [
+      {
+        "filmId": "FILM-011",
+        "title": "ALAMO VIDEOTAPE",
+        "amount": 0.99
+      },
+      {
+        "filmId": "FILM-014",
+        "title": "ALICE FANTASIA",
+        "amount": 0.99
+      }
+    ],
+    "customerId": "CUST-003",
+    "storeId": "STORE-02",
+    "totalAmount": 1.98
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-04T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-11T00:00:00Z"
+    },
+    "status": "cancelled",
+    "films": [
+      {
+        "filmId": "FILM-009",
+        "title": "ALABAMA DEVIL",
+        "amount": 0.0
+      }
+    ],
+    "customerId": "CUST-004",
+    "storeId": "STORE-02",
+    "totalAmount": 0.0
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-05T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-12T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-019",
+        "title": "AMADEUS HOLY",
+        "amount": 0.99
+      },
+      {
+        "filmId": "FILM-004",
+        "title": "AFFAIR PREJUDICE",
+        "amount": 2.99
+      }
+    ],
+    "customerId": "CUST-005",
+    "storeId": "STORE-01",
+    "totalAmount": 3.98
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-06T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-13T00:00:00Z"
+    },
+    "status": "rented",
+    "films": [
+      {
+        "filmId": "FILM-015",
+        "title": "ALIEN CENTER",
+        "amount": 2.99
+      }
+    ],
+    "customerId": "CUST-006",
+    "storeId": "STORE-03",
+    "totalAmount": 2.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-07T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-14T00:00:00Z"
+    },
+    "status": "overdue",
+    "films": [
+      {
+        "filmId": "FILM-020",
+        "title": "AMELIE HELLFIGHTERS",
+        "amount": 4.99
+      }
+    ],
+    "customerId": "CUST-007",
+    "storeId": "STORE-03",
+    "totalAmount": 4.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-08T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-15T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-010",
+        "title": "ALADDIN CALENDAR",
+        "amount": 4.99
+      }
+    ],
+    "customerId": "CUST-008",
+    "storeId": "STORE-01",
+    "totalAmount": 4.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-09T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-16T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-005",
+        "title": "AFRICAN EGG",
+        "amount": 2.99
+      }
+    ],
+    "customerId": "CUST-001",
+    "storeId": "STORE-01",
+    "totalAmount": 2.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-10T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-17T00:00:00Z"
+    },
+    "status": "rented",
+    "films": [
+      {
+        "filmId": "FILM-012",
+        "title": "ALASKA PHANTOM",
+        "amount": 0.99
+      }
+    ],
+    "customerId": "CUST-002",
+    "storeId": "STORE-02",
+    "totalAmount": 0.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-11T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-18T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-007",
+        "title": "AIRPLANE SIERRA",
+        "amount": 4.99
+      }
+    ],
+    "customerId": "CUST-003",
+    "storeId": "STORE-02",
+    "totalAmount": 4.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-12T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-19T00:00:00Z"
+    },
+    "status": "rented",
+    "films": [
+      {
+        "filmId": "FILM-017",
+        "title": "ALONE TRIP",
+        "amount": 0.99
+      }
+    ],
+    "customerId": "CUST-001",
+    "storeId": "STORE-01",
+    "totalAmount": 0.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-12T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-19T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-003",
+        "title": "ADAPTATION HOLES",
+        "amount": 2.99
+      }
+    ],
+    "customerId": "CUST-005",
+    "storeId": "STORE-01",
+    "totalAmount": 2.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-13T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-20T00:00:00Z"
+    },
+    "status": "rented",
+    "films": [
+      {
+        "filmId": "FILM-010",
+        "title": "ALADDIN CALENDAR",
+        "amount": 4.99
+      }
+    ],
+    "customerId": "CUST-004",
+    "storeId": "STORE-04",
+    "totalAmount": 4.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-14T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-21T00:00:00Z"
+    },
+    "status": "overdue",
+    "films": [
+      {
+        "filmId": "FILM-019",
+        "title": "AMADEUS HOLY",
+        "amount": 0.99
+      }
+    ],
+    "customerId": "CUST-002",
+    "storeId": "STORE-01",
+    "totalAmount": 0.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-15T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-22T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-006",
+        "title": "AGENT TRUMAN",
+        "amount": 2.99
+      }
+    ],
+    "customerId": "CUST-009",
+    "storeId": "STORE-05",
+    "totalAmount": 2.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-16T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-23T00:00:00Z"
+    },
+    "status": "rented",
+    "films": [
+      {
+        "filmId": "FILM-016",
+        "title": "ALLEY EVOLUTION",
+        "amount": 2.99
+      }
+    ],
+    "customerId": "CUST-003",
+    "storeId": "STORE-02",
+    "totalAmount": 2.99
+  },
+  {
+    "rentalDate": {
+      "$date": "2025-01-16T00:00:00Z"
+    },
+    "dueDate": {
+      "$date": "2025-01-23T00:00:00Z"
+    },
+    "status": "returned",
+    "films": [
+      {
+        "filmId": "FILM-002",
+        "title": "ACE GOLDFINGER",
+        "amount": 4.99
+      }
+    ],
+    "customerId": "CUST-005",
+    "storeId": "STORE-01",
+    "totalAmount": 4.99
+  }
+]
