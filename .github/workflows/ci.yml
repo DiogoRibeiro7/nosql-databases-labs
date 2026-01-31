@@ -426,11 +426,69 @@ jobs:
         continue-on-error: true
 
   # ============================================================================
+  # Group 22 MongoDB Project Tests
+  # ============================================================================
+  group-22-mongodb-tests:
+    name: Group 22 MongoDB Tests
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand({ping: 1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install mongosh
+        run: npm install -g mongosh || true
+
+      - name: Install dependencies for Group 22
+        run: |
+          cd group-work/group_22/project
+          npm install
+
+      - name: Set up .env for CI
+        run: |
+          echo "MONGODB_URI=mongodb://localhost:27017" > .env
+          echo "MONGODB_DB_NAME=group_22" >> .env
+        working-directory: group-work/group_22/project
+
+      - name: Seed database for Group 22
+        run: |
+          cd group-work/group_22/project
+          node data/seed.js
+
+      - name: Apply indexes for Group 22
+        run: |
+          cd group-work/group_22/project
+          mongosh "mongodb://localhost:27017" --file queries/index_blueprint.mongosh.js
+
+      - name: Run sample queries for Group 22
+        run: |
+          cd group-work/group_22/project
+          # Run a few key queries to verify they execute without error
+          mongosh "mongodb://localhost:27017/group_22" --file queries/01_open_restaurants_in_city.mongosh.js > /dev/null
+          mongosh "mongodb://localhost:27017/group_22" --file queries/03_top_n_restaurants_by_rating.mongosh.js > /dev/null
+          mongosh "mongodb://localhost:27017/group_22" --file queries/11_revenue_for_restaurant.mongosh.js > /dev/null
+          echo "Sample queries ran successfully"
+
+  # ============================================================================
   # Code Coverage Summary
   # ============================================================================
   coverage-summary:
     name: Coverage Report (Target >80%)
-    needs: [python-faker-tests, mongodb-labs-tests]
+    needs: [python-faker-tests, mongodb-labs-tests, group-22-mongodb-tests]
     runs-on: ubuntu-latest
     if: always()
 
@@ -444,6 +502,7 @@ jobs:
           echo "### Status:" >> coverage-summary.md
           echo "- Python Faker: ${{ needs.python-faker-tests.result }}" >> coverage-summary.md
           echo "- Node.js Labs: ${{ needs.mongodb-labs-tests.result }}" >> coverage-summary.md
+          echo "- Group 22 MongoDB: ${{ needs.group-22-mongodb-tests.result }}" >> coverage-summary.md
           echo "" >> coverage-summary.md
           echo "View detailed reports at: https://codecov.io/gh/${{ github.repository }}" >> coverage-summary.md
 
