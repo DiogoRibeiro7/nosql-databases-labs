@@ -30,14 +30,18 @@ events:
 **Revenue by event/vendor pipeline**
 
 ```javascript
-db.orders.aggregate([
-  { $group: {
-      _id: { event: "$eventCode", vendor: "$vendorId" },
-      revenue: { $sum: "$totalAmount" },
-      avgWait: { $avg: "$waitTimeMinutes" }
-  }},
-  { $sort: { "revenue": -1 } }
-]).explain("executionStats");
+db.orders
+  .aggregate([
+    {
+      $group: {
+        _id: { event: "$eventCode", vendor: "$vendorId" },
+        revenue: { $sum: "$totalAmount" },
+        avgWait: { $avg: "$waitTimeMinutes" },
+      },
+    },
+    { $sort: { revenue: -1 } },
+  ])
+  .explain("executionStats");
 ```
 
 Highlight: `executionStats` reports `inputStage.indexName: "eventCode_1_vendorId_1_createdAt_1"` with `totalDocsExamined` matching `nReturned`, indicating a fully covered read (no COLLSCAN).
@@ -45,16 +49,20 @@ Highlight: `executionStats` reports `inputStage.indexName: "eventCode_1_vendorId
 **Loyalty tracker**
 
 ```javascript
-db.orders.aggregate([
-  { $group: {
-      _id: "$customer.customerId",
-      visits: { $sum: 1 },
-      districts: { $addToSet: "$customer.district" },
-      lastVisit: { $max: "$createdAt" }
-  }},
-  { $match: { visits: { $gte: 2 } } },
-  { $sort: { lastVisit: -1 } }
-]).explain("executionStats");
+db.orders
+  .aggregate([
+    {
+      $group: {
+        _id: "$customer.customerId",
+        visits: { $sum: 1 },
+        districts: { $addToSet: "$customer.district" },
+        lastVisit: { $max: "$createdAt" },
+      },
+    },
+    { $match: { visits: { $gte: 2 } } },
+    { $sort: { lastVisit: -1 } },
+  ])
+  .explain("executionStats");
 ```
 
 Result: `totalDocsExamined` equals `nReturned` with the `{ customer.customerId: 1 }` index, so loyalty lookups scale linearly with the number of engaged visitors.
