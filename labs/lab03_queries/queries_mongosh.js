@@ -17,10 +17,6 @@ db.movies
   })
   .sort({ "imdb.rating": -1 });
 
-
-
-
-
 // With projection (cleaner output)
 db.movies
   .find(
@@ -38,8 +34,8 @@ db.movies
   )
   .sort({ "imdb.rating": -1 });
 
-  //Result
-  /*
+//Result
+/*
     {
     _id: ObjectId('573a13e9f29313caabdcc734'),
     plot: 'A Welsh teenager will become the cool kid of the town if a deal is made with his new American neighbour.',
@@ -86,7 +82,6 @@ db.movies
   }
 */
 
-
 // ========================================
 // 2. Find all movies in "Drama" or "Thriller" genres with at least one award
 db.movies
@@ -96,7 +91,7 @@ db.movies
   })
   .sort({ "awards.wins": -1 });
 
-//Result 
+//Result
 /*{
     _id: ObjectId('573a13d5f29313caabd9cae7'),
     fullplot: "Based on an incredible true story of one man's fight for survival and freedom. In the pre-Civil War United States, Solomon Northup (Chiwetel Ejiofor), a free black man from upstate New York, is abducted and sold into slavery. Facing cruelty (personified by a malevolent slave owner, portrayed by Michael Fassbender), as well as unexpected kindnesses, Solomon struggles not only to stay alive, but to retain his dignity. In the twelfth year of his unforgettable odyssey, Solomon's chance meeting with a Canadian abolitionist (Brad Pitt) will forever alter his life.",
@@ -137,7 +132,6 @@ db.movies
     runtime: 134
   },*/
 
-
 // Alternative using $or
 db.movies.find({
   $or: [{ genres: "Drama" }, { genres: "Thriller" }],
@@ -176,7 +170,7 @@ db.movies
   .find({ cast: "Tom Hanks" }, { title: 1, year: 1, cast: 1, "imdb.rating": 1, _id: 0 })
   .sort({ year: -1 });
 
-  /*Result: {
+/*Result: {
     imdb: { rating: 8 },
     year: 2002,
     title: 'Catch Me If You Can',
@@ -283,7 +277,7 @@ db.movies
   .sort({ "imdb.rating": -1 })
   .limit(20);
 
-  /*Result db.movies.find({year:{$gte:2016}},{ title: 1, year: 1, "imdb.rating": 1, genres: 1, _id: 0  }).sort({"imdb.rating":-1}).limit(20)
+/*Result db.movies.find({year:{$gte:2016}},{ title: 1, year: 1, "imdb.rating": 1, genres: 1, _id: 0  }).sort({"imdb.rating":-1}).limit(20)
   
   [
   {
@@ -293,7 +287,6 @@ db.movies
     imdb: { rating: '' }
   }
 ]*/
-
 
 // ========================================
 // 5. Find all theaters in New York with screenings scheduled for today
