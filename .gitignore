@@ -88,7 +88,9 @@ outputs/*.csv
 data/*.json
 !labs/*/starter/data/*.json
 
-# LaTeX build artifacts
+# LaTeX files and build artifacts
+*.tex
+*.pdf
 *.aux
 *.bbl
 *.bcf
@@ -106,6 +108,12 @@ data/*.json
 *.toc
 *.vrb
 *.xdv
+*.dvi
+*.ps
+*.eps
+*.cb
+*.cb2
+*.spl
 # Ignore nested Yarn lockfiles but track the root file
 **/yarn.lock
 !/yarn.lock
