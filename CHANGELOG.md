@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.0] - 2026-02-01
+
+
+### Changes in this release:
+
+Initial release
+
+
+### Contributors:
+
+---
+
 ## [v1.1.0] - 2026-01-07
 
 
