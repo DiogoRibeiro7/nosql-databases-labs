@@ -1,0 +1,204 @@
+name: Version Bump Check
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  version-check:
+    name: Verify Version Bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from main branch
+        id: main_version
+        run: |
+          git fetch origin main
+          MAIN_VERSION=$(git show origin/main:package.json | grep '"version"' | head -1 | cut -d'"' -f4)
+          echo "Main branch version: $MAIN_VERSION"
+          echo "version=$MAIN_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get version from PR branch
+        id: pr_version
+        run: |
+          PR_VERSION=$(grep '"version"' package.json | head -1 | cut -d'"' -f4)
+          echo "PR branch version: $PR_VERSION"
+          echo "version=$PR_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        id: compare
+        run: |
+          MAIN_VERSION="${{ steps.main_version.outputs.version }}"
+          PR_VERSION="${{ steps.pr_version.outputs.version }}"
+
+          echo "Comparing versions:"
+          echo "  Main branch: $MAIN_VERSION"
+          echo "  PR branch: $PR_VERSION"
+
+          if [ "$MAIN_VERSION" = "$PR_VERSION" ]; then
+            echo "needs_bump=true" >> $GITHUB_OUTPUT
+            echo "❌ Version has not been bumped!"
+          else
+            echo "needs_bump=false" >> $GITHUB_OUTPUT
+            echo "✅ Version has been bumped from $MAIN_VERSION to $PR_VERSION"
+          fi
+
+      - name: Determine version bump type
+        if: steps.compare.outputs.needs_bump == 'false'
+        id: bump_type
+        run: |
+          MAIN_VERSION="${{ steps.main_version.outputs.version }}"
+          PR_VERSION="${{ steps.pr_version.outputs.version }}"
+
+          # Parse semantic versions
+          IFS='.' read -r MAIN_MAJOR MAIN_MINOR MAIN_PATCH <<< "$MAIN_VERSION"
+          IFS='.' read -r PR_MAJOR PR_MINOR PR_PATCH <<< "$PR_VERSION"
+
+          if [ "$PR_MAJOR" -gt "$MAIN_MAJOR" ]; then
+            echo "type=major" >> $GITHUB_OUTPUT
+            echo "Bump type: MAJOR ($MAIN_VERSION → $PR_VERSION)"
+          elif [ "$PR_MINOR" -gt "$MAIN_MINOR" ]; then
+            echo "type=minor" >> $GITHUB_OUTPUT
+            echo "Bump type: MINOR ($MAIN_VERSION → $PR_VERSION)"
+          elif [ "$PR_PATCH" -gt "$MAIN_PATCH" ]; then
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "Bump type: PATCH ($MAIN_VERSION → $PR_VERSION)"
+          else
+            echo "type=invalid" >> $GITHUB_OUTPUT
+            echo "⚠️ Warning: Version change detected but appears to be a downgrade"
+          fi
+
+      - name: Post PR comment
+        if: always()
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const needs_bump = '${{ steps.compare.outputs.needs_bump }}' === 'true';
+            const main_version = '${{ steps.main_version.outputs.version }}';
+            const pr_version = '${{ steps.pr_version.outputs.version }}';
+            const bump_type = '${{ steps.bump_type.outputs.type }}';
+
+            let body;
+
+            if (needs_bump) {
+              body = `## ❌ Version Check Failed
+
+            The version in this PR (\`${pr_version}\`) is the same as in the main branch (\`${main_version}\`).
+
+            ### Required Action:
+            Please bump the version before merging to main. You can:
+
+            1. **Run the version bump command:**
+               \`\`\`bash
+               npm version patch  # for bug fixes
+               npm version minor  # for new features
+               npm version major  # for breaking changes
+               \`\`\`
+
+            2. **Or manually update** \`package.json\` and \`package-lock.json\`
+
+            3. **Commit the version bump:**
+               \`\`\`bash
+               git add package.json package-lock.json
+               git commit -m "chore: bump version to x.x.x"
+               git push
+               \`\`\`
+
+            ### Why is this required?
+            - Every merge to main should represent a new release
+            - Version bumps help track changes and maintain proper release history
+            - This ensures proper semantic versioning practices
+
+            ⚠️ **This check is required and will block merging until resolved.**`;
+            } else if (bump_type === 'invalid') {
+              body = `## ⚠️ Version Check Warning
+
+            The version has changed from \`${main_version}\` to \`${pr_version}\`, but this appears to be a downgrade.
+
+            Please verify this is intentional. Normal version bumps should increment the version number.`;
+            } else {
+              const bumpEmoji = {
+                major: '🚀',
+                minor: '✨',
+                patch: '🐛'
+              }[bump_type] || '📦';
+
+              body = `## ✅ Version Check Passed
+
+            ${bumpEmoji} Version has been bumped from \`${main_version}\` to \`${pr_version}\` (${bump_type} bump)
+
+            The PR is ready to merge from a versioning perspective.`;
+            }
+
+            // Find and update existing comment or create new one
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('## ❌ Version Check Failed') ||
+              comment.body.includes('## ✅ Version Check Passed') ||
+              comment.body.includes('## ⚠️ Version Check Warning')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+      - name: Fail if version not bumped
+        if: steps.compare.outputs.needs_bump == 'true'
+        run: |
+          echo "::error::Version has not been bumped. Please bump the version before merging to main."
+          exit 1
+
+      - name: Set status check
+        if: always()
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const needs_bump = '${{ steps.compare.outputs.needs_bump }}' === 'true';
+            const state = needs_bump ? 'failure' : 'success';
+            const description = needs_bump
+              ? 'Version must be bumped before merging to main'
+              : 'Version has been bumped';
+
+            try {
+              await github.rest.repos.createCommitStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                sha: context.payload.pull_request.head.sha,
+                state: state,
+                context: 'version-bump-check',
+                description: description
+              });
+            } catch (error) {
+              console.log('Could not set status check:', error.message);
+            }
