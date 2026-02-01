@@ -1,0 +1,4802 @@
+[
+  {
+    "id": 10000,
+    "host_id": 10000,
+    "name": "Charming Porto Apartment 1",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.617464,
+        41.121297
+      ]
+    },
+    "latitude": 41.121297,
+    "longitude": -8.617464,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 0,
+    "review_scores_rating": 4.0,
+    "availability_365": 180
+  },
+  {
+    "id": 10001,
+    "host_id": 10001,
+    "name": "Charming Porto Apartment 2",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.641492,
+        41.147677
+      ]
+    },
+    "latitude": 41.147677,
+    "longitude": -8.641492,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 3,
+    "review_scores_rating": 4.1,
+    "availability_365": 181
+  },
+  {
+    "id": 10002,
+    "host_id": 10002,
+    "name": "Charming Porto Apartment 3",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.581979,
+        41.17334
+      ]
+    },
+    "latitude": 41.17334,
+    "longitude": -8.581979,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 6,
+    "review_scores_rating": 4.2,
+    "availability_365": 182
+  },
+  {
+    "id": 10003,
+    "host_id": 10003,
+    "name": "Charming Porto Apartment 4",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.606578,
+        41.149407
+      ]
+    },
+    "latitude": 41.149407,
+    "longitude": -8.606578,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 9,
+    "review_scores_rating": 4.3,
+    "availability_365": 183
+  },
+  {
+    "id": 10004,
+    "host_id": 10004,
+    "name": "Charming Porto Apartment 5",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.576918,
+        41.125774
+      ]
+    },
+    "latitude": 41.125774,
+    "longitude": -8.576918,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 12,
+    "review_scores_rating": 4.4,
+    "availability_365": 184
+  },
+  {
+    "id": 10005,
+    "host_id": 10005,
+    "name": "Charming Porto Apartment 6",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.636801,
+        41.127814
+      ]
+    },
+    "latitude": 41.127814,
+    "longitude": -8.636801,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 15,
+    "review_scores_rating": 4.5,
+    "availability_365": 185
+  },
+  {
+    "id": 10006,
+    "host_id": 10006,
+    "name": "Charming Porto Apartment 7",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.637492,
+        41.124555
+      ]
+    },
+    "latitude": 41.124555,
+    "longitude": -8.637492,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 18,
+    "review_scores_rating": 4.6,
+    "availability_365": 186
+  },
+  {
+    "id": 10007,
+    "host_id": 10007,
+    "name": "Charming Porto Apartment 8",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.63396,
+        41.148932
+      ]
+    },
+    "latitude": 41.148932,
+    "longitude": -8.63396,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 21,
+    "review_scores_rating": 4.7,
+    "availability_365": 187
+  },
+  {
+    "id": 10008,
+    "host_id": 10008,
+    "name": "Charming Porto Apartment 9",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.644487,
+        41.111789
+      ]
+    },
+    "latitude": 41.111789,
+    "longitude": -8.644487,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 24,
+    "review_scores_rating": 4.8,
+    "availability_365": 188
+  },
+  {
+    "id": 10009,
+    "host_id": 10009,
+    "name": "Charming Porto Apartment 10",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.58555,
+        41.17786
+      ]
+    },
+    "latitude": 41.17786,
+    "longitude": -8.58555,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 27,
+    "review_scores_rating": 4.9,
+    "availability_365": 189
+  },
+  {
+    "id": 10010,
+    "host_id": 10010,
+    "name": "Charming Porto Apartment 11",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.571854,
+        41.186563
+      ]
+    },
+    "latitude": 41.186563,
+    "longitude": -8.571854,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 30,
+    "review_scores_rating": 4.0,
+    "availability_365": 190
+  },
+  {
+    "id": 10011,
+    "host_id": 10011,
+    "name": "Charming Porto Apartment 12",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.58494,
+        41.139964
+      ]
+    },
+    "latitude": 41.139964,
+    "longitude": -8.58494,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 33,
+    "review_scores_rating": 4.1,
+    "availability_365": 191
+  },
+  {
+    "id": 10012,
+    "host_id": 10012,
+    "name": "Charming Porto Apartment 13",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.580248,
+        41.164113
+      ]
+    },
+    "latitude": 41.164113,
+    "longitude": -8.580248,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 36,
+    "review_scores_rating": 4.2,
+    "availability_365": 192
+  },
+  {
+    "id": 10013,
+    "host_id": 10013,
+    "name": "Charming Porto Apartment 14",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.618117,
+        41.130919
+      ]
+    },
+    "latitude": 41.130919,
+    "longitude": -8.618117,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 39,
+    "review_scores_rating": 4.3,
+    "availability_365": 193
+  },
+  {
+    "id": 10014,
+    "host_id": 10014,
+    "name": "Charming Porto Apartment 15",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.598555,
+        41.160927
+      ]
+    },
+    "latitude": 41.160927,
+    "longitude": -8.598555,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 42,
+    "review_scores_rating": 4.4,
+    "availability_365": 194
+  },
+  {
+    "id": 10015,
+    "host_id": 10015,
+    "name": "Charming Porto Apartment 16",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.576452,
+        41.167239
+      ]
+    },
+    "latitude": 41.167239,
+    "longitude": -8.576452,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 45,
+    "review_scores_rating": 4.5,
+    "availability_365": 195
+  },
+  {
+    "id": 10016,
+    "host_id": 10016,
+    "name": "Charming Porto Apartment 17",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.61303,
+        41.129118
+      ]
+    },
+    "latitude": 41.129118,
+    "longitude": -8.61303,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 48,
+    "review_scores_rating": 4.6,
+    "availability_365": 196
+  },
+  {
+    "id": 10017,
+    "host_id": 10017,
+    "name": "Charming Porto Apartment 18",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.643468,
+        41.151021
+      ]
+    },
+    "latitude": 41.151021,
+    "longitude": -8.643468,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 51,
+    "review_scores_rating": 4.7,
+    "availability_365": 197
+  },
+  {
+    "id": 10018,
+    "host_id": 10018,
+    "name": "Charming Porto Apartment 19",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.603728,
+        41.142969
+      ]
+    },
+    "latitude": 41.142969,
+    "longitude": -8.603728,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 54,
+    "review_scores_rating": 4.8,
+    "availability_365": 198
+  },
+  {
+    "id": 10019,
+    "host_id": 10019,
+    "name": "Charming Porto Apartment 20",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.621476,
+        41.173943
+      ]
+    },
+    "latitude": 41.173943,
+    "longitude": -8.621476,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 57,
+    "review_scores_rating": 4.9,
+    "availability_365": 199
+  },
+  {
+    "id": 10020,
+    "host_id": 10000,
+    "name": "Charming Porto Apartment 21",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.58998,
+        41.167548
+      ]
+    },
+    "latitude": 41.167548,
+    "longitude": -8.58998,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 60,
+    "review_scores_rating": 4.0,
+    "availability_365": 200
+  },
+  {
+    "id": 10021,
+    "host_id": 10001,
+    "name": "Charming Porto Apartment 22",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.643655,
+        41.167415
+      ]
+    },
+    "latitude": 41.167415,
+    "longitude": -8.643655,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 63,
+    "review_scores_rating": 4.1,
+    "availability_365": 201
+  },
+  {
+    "id": 10022,
+    "host_id": 10002,
+    "name": "Charming Porto Apartment 23",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.644373,
+        41.181785
+      ]
+    },
+    "latitude": 41.181785,
+    "longitude": -8.644373,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 66,
+    "review_scores_rating": 4.2,
+    "availability_365": 202
+  },
+  {
+    "id": 10023,
+    "host_id": 10003,
+    "name": "Charming Porto Apartment 24",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.574615,
+        41.125172
+      ]
+    },
+    "latitude": 41.125172,
+    "longitude": -8.574615,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 69,
+    "review_scores_rating": 4.3,
+    "availability_365": 203
+  },
+  {
+    "id": 10024,
+    "host_id": 10004,
+    "name": "Charming Porto Apartment 25",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.586275,
+        41.186897
+      ]
+    },
+    "latitude": 41.186897,
+    "longitude": -8.586275,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 72,
+    "review_scores_rating": 4.4,
+    "availability_365": 204
+  },
+  {
+    "id": 10025,
+    "host_id": 10005,
+    "name": "Charming Porto Apartment 26",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.58797,
+        41.170007
+      ]
+    },
+    "latitude": 41.170007,
+    "longitude": -8.58797,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 75,
+    "review_scores_rating": 4.5,
+    "availability_365": 205
+  },
+  {
+    "id": 10026,
+    "host_id": 10006,
+    "name": "Charming Porto Apartment 27",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.61273,
+        41.186995
+      ]
+    },
+    "latitude": 41.186995,
+    "longitude": -8.61273,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 78,
+    "review_scores_rating": 4.6,
+    "availability_365": 206
+  },
+  {
+    "id": 10027,
+    "host_id": 10007,
+    "name": "Charming Porto Apartment 28",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.615686,
+        41.156243
+      ]
+    },
+    "latitude": 41.156243,
+    "longitude": -8.615686,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 81,
+    "review_scores_rating": 4.7,
+    "availability_365": 207
+  },
+  {
+    "id": 10028,
+    "host_id": 10008,
+    "name": "Charming Porto Apartment 29",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.580549,
+        41.142756
+      ]
+    },
+    "latitude": 41.142756,
+    "longitude": -8.580549,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 84,
+    "review_scores_rating": 4.8,
+    "availability_365": 208
+  },
+  {
+    "id": 10029,
+    "host_id": 10009,
+    "name": "Charming Porto Apartment 30",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.59357,
+        41.185489
+      ]
+    },
+    "latitude": 41.185489,
+    "longitude": -8.59357,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 87,
+    "review_scores_rating": 4.9,
+    "availability_365": 209
+  },
+  {
+    "id": 10030,
+    "host_id": 10010,
+    "name": "Charming Porto Apartment 31",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.604215,
+        41.175617
+      ]
+    },
+    "latitude": 41.175617,
+    "longitude": -8.604215,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 90,
+    "review_scores_rating": 4.0,
+    "availability_365": 210
+  },
+  {
+    "id": 10031,
+    "host_id": 10011,
+    "name": "Charming Porto Apartment 32",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.618832,
+        41.130209
+      ]
+    },
+    "latitude": 41.130209,
+    "longitude": -8.618832,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 93,
+    "review_scores_rating": 4.1,
+    "availability_365": 211
+  },
+  {
+    "id": 10032,
+    "host_id": 10012,
+    "name": "Charming Porto Apartment 33",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.640591,
+        41.162215
+      ]
+    },
+    "latitude": 41.162215,
+    "longitude": -8.640591,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 96,
+    "review_scores_rating": 4.2,
+    "availability_365": 212
+  },
+  {
+    "id": 10033,
+    "host_id": 10013,
+    "name": "Charming Porto Apartment 34",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.624115,
+        41.166771
+      ]
+    },
+    "latitude": 41.166771,
+    "longitude": -8.624115,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 99,
+    "review_scores_rating": 4.3,
+    "availability_365": 213
+  },
+  {
+    "id": 10034,
+    "host_id": 10014,
+    "name": "Charming Porto Apartment 35",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.604056,
+        41.120452
+      ]
+    },
+    "latitude": 41.120452,
+    "longitude": -8.604056,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 102,
+    "review_scores_rating": 4.4,
+    "availability_365": 214
+  },
+  {
+    "id": 10035,
+    "host_id": 10015,
+    "name": "Charming Porto Apartment 36",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.575818,
+        41.171583
+      ]
+    },
+    "latitude": 41.171583,
+    "longitude": -8.575818,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 105,
+    "review_scores_rating": 4.5,
+    "availability_365": 215
+  },
+  {
+    "id": 10036,
+    "host_id": 10016,
+    "name": "Charming Porto Apartment 37",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.621437,
+        41.114756
+      ]
+    },
+    "latitude": 41.114756,
+    "longitude": -8.621437,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 108,
+    "review_scores_rating": 4.6,
+    "availability_365": 216
+  },
+  {
+    "id": 10037,
+    "host_id": 10017,
+    "name": "Charming Porto Apartment 38",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.605981,
+        41.165318
+      ]
+    },
+    "latitude": 41.165318,
+    "longitude": -8.605981,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 111,
+    "review_scores_rating": 4.7,
+    "availability_365": 217
+  },
+  {
+    "id": 10038,
+    "host_id": 10018,
+    "name": "Charming Porto Apartment 39",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.611982,
+        41.121202
+      ]
+    },
+    "latitude": 41.121202,
+    "longitude": -8.611982,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 114,
+    "review_scores_rating": 4.8,
+    "availability_365": 218
+  },
+  {
+    "id": 10039,
+    "host_id": 10019,
+    "name": "Charming Porto Apartment 40",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.613277,
+        41.118213
+      ]
+    },
+    "latitude": 41.118213,
+    "longitude": -8.613277,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 117,
+    "review_scores_rating": 4.9,
+    "availability_365": 219
+  },
+  {
+    "id": 10040,
+    "host_id": 10000,
+    "name": "Charming Porto Apartment 41",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.595123,
+        41.174191
+      ]
+    },
+    "latitude": 41.174191,
+    "longitude": -8.595123,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 120,
+    "review_scores_rating": 4.0,
+    "availability_365": 220
+  },
+  {
+    "id": 10041,
+    "host_id": 10001,
+    "name": "Charming Porto Apartment 42",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.590586,
+        41.179966
+      ]
+    },
+    "latitude": 41.179966,
+    "longitude": -8.590586,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 123,
+    "review_scores_rating": 4.1,
+    "availability_365": 221
+  },
+  {
+    "id": 10042,
+    "host_id": 10002,
+    "name": "Charming Porto Apartment 43",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.576926,
+        41.13978
+      ]
+    },
+    "latitude": 41.13978,
+    "longitude": -8.576926,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 126,
+    "review_scores_rating": 4.2,
+    "availability_365": 222
+  },
+  {
+    "id": 10043,
+    "host_id": 10003,
+    "name": "Charming Porto Apartment 44",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.634667,
+        41.124021
+      ]
+    },
+    "latitude": 41.124021,
+    "longitude": -8.634667,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 129,
+    "review_scores_rating": 4.3,
+    "availability_365": 223
+  },
+  {
+    "id": 10044,
+    "host_id": 10004,
+    "name": "Charming Porto Apartment 45",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.621592,
+        41.12681
+      ]
+    },
+    "latitude": 41.12681,
+    "longitude": -8.621592,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 132,
+    "review_scores_rating": 4.4,
+    "availability_365": 224
+  },
+  {
+    "id": 10045,
+    "host_id": 10005,
+    "name": "Charming Porto Apartment 46",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.636445,
+        41.164103
+      ]
+    },
+    "latitude": 41.164103,
+    "longitude": -8.636445,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 135,
+    "review_scores_rating": 4.5,
+    "availability_365": 225
+  },
+  {
+    "id": 10046,
+    "host_id": 10006,
+    "name": "Charming Porto Apartment 47",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.627449,
+        41.176889
+      ]
+    },
+    "latitude": 41.176889,
+    "longitude": -8.627449,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 138,
+    "review_scores_rating": 4.6,
+    "availability_365": 226
+  },
+  {
+    "id": 10047,
+    "host_id": 10007,
+    "name": "Charming Porto Apartment 48",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.644182,
+        41.139494
+      ]
+    },
+    "latitude": 41.139494,
+    "longitude": -8.644182,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 141,
+    "review_scores_rating": 4.7,
+    "availability_365": 227
+  },
+  {
+    "id": 10048,
+    "host_id": 10008,
+    "name": "Charming Porto Apartment 49",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.649044,
+        41.111857
+      ]
+    },
+    "latitude": 41.111857,
+    "longitude": -8.649044,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 144,
+    "review_scores_rating": 4.8,
+    "availability_365": 228
+  },
+  {
+    "id": 10049,
+    "host_id": 10009,
+    "name": "Charming Porto Apartment 50",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.610098,
+        41.156401
+      ]
+    },
+    "latitude": 41.156401,
+    "longitude": -8.610098,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 147,
+    "review_scores_rating": 4.9,
+    "availability_365": 229
+  },
+  {
+    "id": 10050,
+    "host_id": 10010,
+    "name": "Charming Porto Apartment 51",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.583431,
+        41.174031
+      ]
+    },
+    "latitude": 41.174031,
+    "longitude": -8.583431,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 0,
+    "review_scores_rating": 4.0,
+    "availability_365": 230
+  },
+  {
+    "id": 10051,
+    "host_id": 10011,
+    "name": "Charming Porto Apartment 52",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.623972,
+        41.175348
+      ]
+    },
+    "latitude": 41.175348,
+    "longitude": -8.623972,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 3,
+    "review_scores_rating": 4.1,
+    "availability_365": 231
+  },
+  {
+    "id": 10052,
+    "host_id": 10012,
+    "name": "Charming Porto Apartment 53",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.62661,
+        41.122157
+      ]
+    },
+    "latitude": 41.122157,
+    "longitude": -8.62661,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 6,
+    "review_scores_rating": 4.2,
+    "availability_365": 232
+  },
+  {
+    "id": 10053,
+    "host_id": 10013,
+    "name": "Charming Porto Apartment 54",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.625506,
+        41.172726
+      ]
+    },
+    "latitude": 41.172726,
+    "longitude": -8.625506,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 9,
+    "review_scores_rating": 4.3,
+    "availability_365": 233
+  },
+  {
+    "id": 10054,
+    "host_id": 10014,
+    "name": "Charming Porto Apartment 55",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.59915,
+        41.133048
+      ]
+    },
+    "latitude": 41.133048,
+    "longitude": -8.59915,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 12,
+    "review_scores_rating": 4.4,
+    "availability_365": 234
+  },
+  {
+    "id": 10055,
+    "host_id": 10015,
+    "name": "Charming Porto Apartment 56",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.627737,
+        41.136921
+      ]
+    },
+    "latitude": 41.136921,
+    "longitude": -8.627737,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 15,
+    "review_scores_rating": 4.5,
+    "availability_365": 235
+  },
+  {
+    "id": 10056,
+    "host_id": 10016,
+    "name": "Charming Porto Apartment 57",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.617033,
+        41.183323
+      ]
+    },
+    "latitude": 41.183323,
+    "longitude": -8.617033,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 18,
+    "review_scores_rating": 4.6,
+    "availability_365": 236
+  },
+  {
+    "id": 10057,
+    "host_id": 10017,
+    "name": "Charming Porto Apartment 58",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.585637,
+        41.179853
+      ]
+    },
+    "latitude": 41.179853,
+    "longitude": -8.585637,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 21,
+    "review_scores_rating": 4.7,
+    "availability_365": 237
+  },
+  {
+    "id": 10058,
+    "host_id": 10018,
+    "name": "Charming Porto Apartment 59",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.645609,
+        41.15541
+      ]
+    },
+    "latitude": 41.15541,
+    "longitude": -8.645609,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 24,
+    "review_scores_rating": 4.8,
+    "availability_365": 238
+  },
+  {
+    "id": 10059,
+    "host_id": 10019,
+    "name": "Charming Porto Apartment 60",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.594264,
+        41.11267
+      ]
+    },
+    "latitude": 41.11267,
+    "longitude": -8.594264,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 27,
+    "review_scores_rating": 4.9,
+    "availability_365": 239
+  },
+  {
+    "id": 10060,
+    "host_id": 10000,
+    "name": "Charming Porto Apartment 61",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.64686,
+        41.110362
+      ]
+    },
+    "latitude": 41.110362,
+    "longitude": -8.64686,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 30,
+    "review_scores_rating": 4.0,
+    "availability_365": 240
+  },
+  {
+    "id": 10061,
+    "host_id": 10001,
+    "name": "Charming Porto Apartment 62",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.600668,
+        41.134662
+      ]
+    },
+    "latitude": 41.134662,
+    "longitude": -8.600668,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 33,
+    "review_scores_rating": 4.1,
+    "availability_365": 241
+  },
+  {
+    "id": 10062,
+    "host_id": 10002,
+    "name": "Charming Porto Apartment 63",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.621301,
+        41.149511
+      ]
+    },
+    "latitude": 41.149511,
+    "longitude": -8.621301,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 36,
+    "review_scores_rating": 4.2,
+    "availability_365": 242
+  },
+  {
+    "id": 10063,
+    "host_id": 10003,
+    "name": "Charming Porto Apartment 64",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.626747,
+        41.165301
+      ]
+    },
+    "latitude": 41.165301,
+    "longitude": -8.626747,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 39,
+    "review_scores_rating": 4.3,
+    "availability_365": 243
+  },
+  {
+    "id": 10064,
+    "host_id": 10004,
+    "name": "Charming Porto Apartment 65",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.584554,
+        41.131239
+      ]
+    },
+    "latitude": 41.131239,
+    "longitude": -8.584554,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 42,
+    "review_scores_rating": 4.4,
+    "availability_365": 244
+  },
+  {
+    "id": 10065,
+    "host_id": 10005,
+    "name": "Charming Porto Apartment 66",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.576638,
+        41.181972
+      ]
+    },
+    "latitude": 41.181972,
+    "longitude": -8.576638,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 45,
+    "review_scores_rating": 4.5,
+    "availability_365": 245
+  },
+  {
+    "id": 10066,
+    "host_id": 10006,
+    "name": "Charming Porto Apartment 67",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.643183,
+        41.135911
+      ]
+    },
+    "latitude": 41.135911,
+    "longitude": -8.643183,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 48,
+    "review_scores_rating": 4.6,
+    "availability_365": 246
+  },
+  {
+    "id": 10067,
+    "host_id": 10007,
+    "name": "Charming Porto Apartment 68",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.633049,
+        41.168832
+      ]
+    },
+    "latitude": 41.168832,
+    "longitude": -8.633049,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 51,
+    "review_scores_rating": 4.7,
+    "availability_365": 247
+  },
+  {
+    "id": 10068,
+    "host_id": 10008,
+    "name": "Charming Porto Apartment 69",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.58392,
+        41.165858
+      ]
+    },
+    "latitude": 41.165858,
+    "longitude": -8.58392,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 54,
+    "review_scores_rating": 4.8,
+    "availability_365": 248
+  },
+  {
+    "id": 10069,
+    "host_id": 10009,
+    "name": "Charming Porto Apartment 70",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.63898,
+        41.142242
+      ]
+    },
+    "latitude": 41.142242,
+    "longitude": -8.63898,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 57,
+    "review_scores_rating": 4.9,
+    "availability_365": 249
+  },
+  {
+    "id": 10070,
+    "host_id": 10010,
+    "name": "Charming Porto Apartment 71",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.616805,
+        41.142197
+      ]
+    },
+    "latitude": 41.142197,
+    "longitude": -8.616805,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 60,
+    "review_scores_rating": 4.0,
+    "availability_365": 250
+  },
+  {
+    "id": 10071,
+    "host_id": 10011,
+    "name": "Charming Porto Apartment 72",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.601711,
+        41.154852
+      ]
+    },
+    "latitude": 41.154852,
+    "longitude": -8.601711,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 63,
+    "review_scores_rating": 4.1,
+    "availability_365": 251
+  },
+  {
+    "id": 10072,
+    "host_id": 10012,
+    "name": "Charming Porto Apartment 73",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.620514,
+        41.124707
+      ]
+    },
+    "latitude": 41.124707,
+    "longitude": -8.620514,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 66,
+    "review_scores_rating": 4.2,
+    "availability_365": 252
+  },
+  {
+    "id": 10073,
+    "host_id": 10013,
+    "name": "Charming Porto Apartment 74",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.625885,
+        41.137356
+      ]
+    },
+    "latitude": 41.137356,
+    "longitude": -8.625885,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 69,
+    "review_scores_rating": 4.3,
+    "availability_365": 253
+  },
+  {
+    "id": 10074,
+    "host_id": 10014,
+    "name": "Charming Porto Apartment 75",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.607482,
+        41.147908
+      ]
+    },
+    "latitude": 41.147908,
+    "longitude": -8.607482,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 72,
+    "review_scores_rating": 4.4,
+    "availability_365": 254
+  },
+  {
+    "id": 10075,
+    "host_id": 10015,
+    "name": "Charming Porto Apartment 76",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.626359,
+        41.116869
+      ]
+    },
+    "latitude": 41.116869,
+    "longitude": -8.626359,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 75,
+    "review_scores_rating": 4.5,
+    "availability_365": 255
+  },
+  {
+    "id": 10076,
+    "host_id": 10016,
+    "name": "Charming Porto Apartment 77",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.616111,
+        41.181679
+      ]
+    },
+    "latitude": 41.181679,
+    "longitude": -8.616111,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 78,
+    "review_scores_rating": 4.6,
+    "availability_365": 256
+  },
+  {
+    "id": 10077,
+    "host_id": 10017,
+    "name": "Charming Porto Apartment 78",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.649882,
+        41.146814
+      ]
+    },
+    "latitude": 41.146814,
+    "longitude": -8.649882,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 81,
+    "review_scores_rating": 4.7,
+    "availability_365": 257
+  },
+  {
+    "id": 10078,
+    "host_id": 10018,
+    "name": "Charming Porto Apartment 79",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.587843,
+        41.183945
+      ]
+    },
+    "latitude": 41.183945,
+    "longitude": -8.587843,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 84,
+    "review_scores_rating": 4.8,
+    "availability_365": 258
+  },
+  {
+    "id": 10079,
+    "host_id": 10019,
+    "name": "Charming Porto Apartment 80",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.59477,
+        41.130814
+      ]
+    },
+    "latitude": 41.130814,
+    "longitude": -8.59477,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 87,
+    "review_scores_rating": 4.9,
+    "availability_365": 259
+  },
+  {
+    "id": 10080,
+    "host_id": 10000,
+    "name": "Charming Porto Apartment 81",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.632277,
+        41.162024
+      ]
+    },
+    "latitude": 41.162024,
+    "longitude": -8.632277,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 90,
+    "review_scores_rating": 4.0,
+    "availability_365": 260
+  },
+  {
+    "id": 10081,
+    "host_id": 10001,
+    "name": "Charming Porto Apartment 82",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.578378,
+        41.179642
+      ]
+    },
+    "latitude": 41.179642,
+    "longitude": -8.578378,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 93,
+    "review_scores_rating": 4.1,
+    "availability_365": 261
+  },
+  {
+    "id": 10082,
+    "host_id": 10002,
+    "name": "Charming Porto Apartment 83",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.644993,
+        41.142011
+      ]
+    },
+    "latitude": 41.142011,
+    "longitude": -8.644993,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 96,
+    "review_scores_rating": 4.2,
+    "availability_365": 262
+  },
+  {
+    "id": 10083,
+    "host_id": 10003,
+    "name": "Charming Porto Apartment 84",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.613471,
+        41.159797
+      ]
+    },
+    "latitude": 41.159797,
+    "longitude": -8.613471,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 99,
+    "review_scores_rating": 4.3,
+    "availability_365": 263
+  },
+  {
+    "id": 10084,
+    "host_id": 10004,
+    "name": "Charming Porto Apartment 85",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.615584,
+        41.165815
+      ]
+    },
+    "latitude": 41.165815,
+    "longitude": -8.615584,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 102,
+    "review_scores_rating": 4.4,
+    "availability_365": 264
+  },
+  {
+    "id": 10085,
+    "host_id": 10005,
+    "name": "Charming Porto Apartment 86",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.641831,
+        41.147987
+      ]
+    },
+    "latitude": 41.147987,
+    "longitude": -8.641831,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 105,
+    "review_scores_rating": 4.5,
+    "availability_365": 265
+  },
+  {
+    "id": 10086,
+    "host_id": 10006,
+    "name": "Charming Porto Apartment 87",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.648128,
+        41.110799
+      ]
+    },
+    "latitude": 41.110799,
+    "longitude": -8.648128,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 108,
+    "review_scores_rating": 4.6,
+    "availability_365": 266
+  },
+  {
+    "id": 10087,
+    "host_id": 10007,
+    "name": "Charming Porto Apartment 88",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.626677,
+        41.155295
+      ]
+    },
+    "latitude": 41.155295,
+    "longitude": -8.626677,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 111,
+    "review_scores_rating": 4.7,
+    "availability_365": 267
+  },
+  {
+    "id": 10088,
+    "host_id": 10008,
+    "name": "Charming Porto Apartment 89",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.577876,
+        41.173218
+      ]
+    },
+    "latitude": 41.173218,
+    "longitude": -8.577876,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 114,
+    "review_scores_rating": 4.8,
+    "availability_365": 268
+  },
+  {
+    "id": 10089,
+    "host_id": 10009,
+    "name": "Charming Porto Apartment 90",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.601736,
+        41.170651
+      ]
+    },
+    "latitude": 41.170651,
+    "longitude": -8.601736,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 117,
+    "review_scores_rating": 4.9,
+    "availability_365": 269
+  },
+  {
+    "id": 10090,
+    "host_id": 10010,
+    "name": "Charming Porto Apartment 91",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.620845,
+        41.180443
+      ]
+    },
+    "latitude": 41.180443,
+    "longitude": -8.620845,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 120,
+    "review_scores_rating": 4.0,
+    "availability_365": 270
+  },
+  {
+    "id": 10091,
+    "host_id": 10011,
+    "name": "Charming Porto Apartment 92",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.58771,
+        41.130737
+      ]
+    },
+    "latitude": 41.130737,
+    "longitude": -8.58771,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 123,
+    "review_scores_rating": 4.1,
+    "availability_365": 271
+  },
+  {
+    "id": 10092,
+    "host_id": 10012,
+    "name": "Charming Porto Apartment 93",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.598525,
+        41.163045
+      ]
+    },
+    "latitude": 41.163045,
+    "longitude": -8.598525,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 126,
+    "review_scores_rating": 4.2,
+    "availability_365": 272
+  },
+  {
+    "id": 10093,
+    "host_id": 10013,
+    "name": "Charming Porto Apartment 94",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.577501,
+        41.116414
+      ]
+    },
+    "latitude": 41.116414,
+    "longitude": -8.577501,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 129,
+    "review_scores_rating": 4.3,
+    "availability_365": 273
+  },
+  {
+    "id": 10094,
+    "host_id": 10014,
+    "name": "Charming Porto Apartment 95",
+    "neighbourhood": "Bonfim",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.573164,
+        41.183728
+      ]
+    },
+    "latitude": 41.183728,
+    "longitude": -8.573164,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 132,
+    "review_scores_rating": 4.4,
+    "availability_365": 274
+  },
+  {
+    "id": 10095,
+    "host_id": 10015,
+    "name": "Charming Porto Apartment 96",
+    "neighbourhood": "Campanhã",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.641152,
+        41.144394
+      ]
+    },
+    "latitude": 41.144394,
+    "longitude": -8.641152,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 135,
+    "review_scores_rating": 4.5,
+    "availability_365": 275
+  },
+  {
+    "id": 10096,
+    "host_id": 10016,
+    "name": "Charming Porto Apartment 97",
+    "neighbourhood": "Paranhos",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.624676,
+        41.14094
+      ]
+    },
+    "latitude": 41.14094,
+    "longitude": -8.624676,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 138,
+    "review_scores_rating": 4.6,
+    "availability_365": 276
+  },
+  {
+    "id": 10097,
+    "host_id": 10017,
+    "name": "Charming Porto Apartment 98",
+    "neighbourhood": "Ramalde",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.637511,
+        41.175055
+      ]
+    },
+    "latitude": 41.175055,
+    "longitude": -8.637511,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 141,
+    "review_scores_rating": 4.7,
+    "availability_365": 277
+  },
+  {
+    "id": 10098,
+    "host_id": 10018,
+    "name": "Charming Porto Apartment 99",
+    "neighbourhood": "Cedofeita",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.603579,
+        41.133953
+      ]
+    },
+    "latitude": 41.133953,
+    "longitude": -8.603579,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 144,
+    "review_scores_rating": 4.8,
+    "availability_365": 278
+  },
+  {
+    "id": 10099,
+    "host_id": 10019,
+    "name": "Charming Porto Apartment 100",
+    "neighbourhood": "Ribeira",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -8.636351,
+        41.175831
+      ]
+    },
+    "latitude": 41.175831,
+    "longitude": -8.636351,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 147,
+    "review_scores_rating": 4.9,
+    "availability_365": 279
+  },
+  {
+    "id": 20000,
+    "host_id": 20000,
+    "name": "Charming Lisbon Apartment 1",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.160046,
+        38.741928
+      ]
+    },
+    "latitude": 38.741928,
+    "longitude": -9.160046,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 0,
+    "review_scores_rating": 4.0,
+    "availability_365": 180
+  },
+  {
+    "id": 20001,
+    "host_id": 20001,
+    "name": "Charming Lisbon Apartment 2",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.149606,
+        38.695892
+      ]
+    },
+    "latitude": 38.695892,
+    "longitude": -9.149606,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 3,
+    "review_scores_rating": 4.1,
+    "availability_365": 181
+  },
+  {
+    "id": 20002,
+    "host_id": 20002,
+    "name": "Charming Lisbon Apartment 3",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.113564,
+        38.684554
+      ]
+    },
+    "latitude": 38.684554,
+    "longitude": -9.113564,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 6,
+    "review_scores_rating": 4.2,
+    "availability_365": 182
+  },
+  {
+    "id": 20003,
+    "host_id": 20003,
+    "name": "Charming Lisbon Apartment 4",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.141403,
+        38.75882
+      ]
+    },
+    "latitude": 38.75882,
+    "longitude": -9.141403,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 9,
+    "review_scores_rating": 4.3,
+    "availability_365": 183
+  },
+  {
+    "id": 20004,
+    "host_id": 20004,
+    "name": "Charming Lisbon Apartment 5",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.12465,
+        38.69896
+      ]
+    },
+    "latitude": 38.69896,
+    "longitude": -9.12465,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 12,
+    "review_scores_rating": 4.4,
+    "availability_365": 184
+  },
+  {
+    "id": 20005,
+    "host_id": 20005,
+    "name": "Charming Lisbon Apartment 6",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.113892,
+        38.696779
+      ]
+    },
+    "latitude": 38.696779,
+    "longitude": -9.113892,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 15,
+    "review_scores_rating": 4.5,
+    "availability_365": 185
+  },
+  {
+    "id": 20006,
+    "host_id": 20006,
+    "name": "Charming Lisbon Apartment 7",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.121338,
+        38.720503
+      ]
+    },
+    "latitude": 38.720503,
+    "longitude": -9.121338,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 18,
+    "review_scores_rating": 4.6,
+    "availability_365": 186
+  },
+  {
+    "id": 20007,
+    "host_id": 20007,
+    "name": "Charming Lisbon Apartment 8",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.145197,
+        38.686031
+      ]
+    },
+    "latitude": 38.686031,
+    "longitude": -9.145197,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 21,
+    "review_scores_rating": 4.7,
+    "availability_365": 187
+  },
+  {
+    "id": 20008,
+    "host_id": 20008,
+    "name": "Charming Lisbon Apartment 9",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.132229,
+        38.708658
+      ]
+    },
+    "latitude": 38.708658,
+    "longitude": -9.132229,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 24,
+    "review_scores_rating": 4.8,
+    "availability_365": 188
+  },
+  {
+    "id": 20009,
+    "host_id": 20009,
+    "name": "Charming Lisbon Apartment 10",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.174878,
+        38.711975
+      ]
+    },
+    "latitude": 38.711975,
+    "longitude": -9.174878,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 27,
+    "review_scores_rating": 4.9,
+    "availability_365": 189
+  },
+  {
+    "id": 20010,
+    "host_id": 20010,
+    "name": "Charming Lisbon Apartment 11",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.109131,
+        38.755954
+      ]
+    },
+    "latitude": 38.755954,
+    "longitude": -9.109131,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 30,
+    "review_scores_rating": 4.0,
+    "availability_365": 190
+  },
+  {
+    "id": 20011,
+    "host_id": 20011,
+    "name": "Charming Lisbon Apartment 12",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.118659,
+        38.738104
+      ]
+    },
+    "latitude": 38.738104,
+    "longitude": -9.118659,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 33,
+    "review_scores_rating": 4.1,
+    "availability_365": 191
+  },
+  {
+    "id": 20012,
+    "host_id": 20012,
+    "name": "Charming Lisbon Apartment 13",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.142705,
+        38.704382
+      ]
+    },
+    "latitude": 38.704382,
+    "longitude": -9.142705,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 36,
+    "review_scores_rating": 4.2,
+    "availability_365": 192
+  },
+  {
+    "id": 20013,
+    "host_id": 20013,
+    "name": "Charming Lisbon Apartment 14",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.145737,
+        38.699026
+      ]
+    },
+    "latitude": 38.699026,
+    "longitude": -9.145737,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 39,
+    "review_scores_rating": 4.3,
+    "availability_365": 193
+  },
+  {
+    "id": 20014,
+    "host_id": 20014,
+    "name": "Charming Lisbon Apartment 15",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.154498,
+        38.717258
+      ]
+    },
+    "latitude": 38.717258,
+    "longitude": -9.154498,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 42,
+    "review_scores_rating": 4.4,
+    "availability_365": 194
+  },
+  {
+    "id": 20015,
+    "host_id": 20015,
+    "name": "Charming Lisbon Apartment 16",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.166219,
+        38.68868
+      ]
+    },
+    "latitude": 38.68868,
+    "longitude": -9.166219,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 45,
+    "review_scores_rating": 4.5,
+    "availability_365": 195
+  },
+  {
+    "id": 20016,
+    "host_id": 20016,
+    "name": "Charming Lisbon Apartment 17",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.143774,
+        38.75927
+      ]
+    },
+    "latitude": 38.75927,
+    "longitude": -9.143774,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 48,
+    "review_scores_rating": 4.6,
+    "availability_365": 196
+  },
+  {
+    "id": 20017,
+    "host_id": 20017,
+    "name": "Charming Lisbon Apartment 18",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.171263,
+        38.731664
+      ]
+    },
+    "latitude": 38.731664,
+    "longitude": -9.171263,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 51,
+    "review_scores_rating": 4.7,
+    "availability_365": 197
+  },
+  {
+    "id": 20018,
+    "host_id": 20018,
+    "name": "Charming Lisbon Apartment 19",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.148585,
+        38.687705
+      ]
+    },
+    "latitude": 38.687705,
+    "longitude": -9.148585,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 54,
+    "review_scores_rating": 4.8,
+    "availability_365": 198
+  },
+  {
+    "id": 20019,
+    "host_id": 20019,
+    "name": "Charming Lisbon Apartment 20",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.103471,
+        38.699375
+      ]
+    },
+    "latitude": 38.699375,
+    "longitude": -9.103471,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 57,
+    "review_scores_rating": 4.9,
+    "availability_365": 199
+  },
+  {
+    "id": 20020,
+    "host_id": 20000,
+    "name": "Charming Lisbon Apartment 21",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.168624,
+        38.731147
+      ]
+    },
+    "latitude": 38.731147,
+    "longitude": -9.168624,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 60,
+    "review_scores_rating": 4.0,
+    "availability_365": 200
+  },
+  {
+    "id": 20021,
+    "host_id": 20001,
+    "name": "Charming Lisbon Apartment 22",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.102606,
+        38.732589
+      ]
+    },
+    "latitude": 38.732589,
+    "longitude": -9.102606,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 63,
+    "review_scores_rating": 4.1,
+    "availability_365": 201
+  },
+  {
+    "id": 20022,
+    "host_id": 20002,
+    "name": "Charming Lisbon Apartment 23",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.135969,
+        38.760472
+      ]
+    },
+    "latitude": 38.760472,
+    "longitude": -9.135969,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 66,
+    "review_scores_rating": 4.2,
+    "availability_365": 202
+  },
+  {
+    "id": 20023,
+    "host_id": 20003,
+    "name": "Charming Lisbon Apartment 24",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.173408,
+        38.75196
+      ]
+    },
+    "latitude": 38.75196,
+    "longitude": -9.173408,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 69,
+    "review_scores_rating": 4.3,
+    "availability_365": 203
+  },
+  {
+    "id": 20024,
+    "host_id": 20004,
+    "name": "Charming Lisbon Apartment 25",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.151674,
+        38.716912
+      ]
+    },
+    "latitude": 38.716912,
+    "longitude": -9.151674,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 72,
+    "review_scores_rating": 4.4,
+    "availability_365": 204
+  },
+  {
+    "id": 20025,
+    "host_id": 20005,
+    "name": "Charming Lisbon Apartment 26",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.113011,
+        38.728411
+      ]
+    },
+    "latitude": 38.728411,
+    "longitude": -9.113011,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 75,
+    "review_scores_rating": 4.5,
+    "availability_365": 205
+  },
+  {
+    "id": 20026,
+    "host_id": 20006,
+    "name": "Charming Lisbon Apartment 27",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.16246,
+        38.760181
+      ]
+    },
+    "latitude": 38.760181,
+    "longitude": -9.16246,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 78,
+    "review_scores_rating": 4.6,
+    "availability_365": 206
+  },
+  {
+    "id": 20027,
+    "host_id": 20007,
+    "name": "Charming Lisbon Apartment 28",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.133063,
+        38.740639
+      ]
+    },
+    "latitude": 38.740639,
+    "longitude": -9.133063,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 81,
+    "review_scores_rating": 4.7,
+    "availability_365": 207
+  },
+  {
+    "id": 20028,
+    "host_id": 20008,
+    "name": "Charming Lisbon Apartment 29",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.156127,
+        38.746592
+      ]
+    },
+    "latitude": 38.746592,
+    "longitude": -9.156127,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 84,
+    "review_scores_rating": 4.8,
+    "availability_365": 208
+  },
+  {
+    "id": 20029,
+    "host_id": 20009,
+    "name": "Charming Lisbon Apartment 30",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.127892,
+        38.737118
+      ]
+    },
+    "latitude": 38.737118,
+    "longitude": -9.127892,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 87,
+    "review_scores_rating": 4.9,
+    "availability_365": 209
+  },
+  {
+    "id": 20030,
+    "host_id": 20010,
+    "name": "Charming Lisbon Apartment 31",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.118527,
+        38.694507
+      ]
+    },
+    "latitude": 38.694507,
+    "longitude": -9.118527,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 90,
+    "review_scores_rating": 4.0,
+    "availability_365": 210
+  },
+  {
+    "id": 20031,
+    "host_id": 20011,
+    "name": "Charming Lisbon Apartment 32",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.126876,
+        38.725264
+      ]
+    },
+    "latitude": 38.725264,
+    "longitude": -9.126876,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 93,
+    "review_scores_rating": 4.1,
+    "availability_365": 211
+  },
+  {
+    "id": 20032,
+    "host_id": 20012,
+    "name": "Charming Lisbon Apartment 33",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.140106,
+        38.760436
+      ]
+    },
+    "latitude": 38.760436,
+    "longitude": -9.140106,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 96,
+    "review_scores_rating": 4.2,
+    "availability_365": 212
+  },
+  {
+    "id": 20033,
+    "host_id": 20013,
+    "name": "Charming Lisbon Apartment 34",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.108105,
+        38.735679
+      ]
+    },
+    "latitude": 38.735679,
+    "longitude": -9.108105,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 99,
+    "review_scores_rating": 4.3,
+    "availability_365": 213
+  },
+  {
+    "id": 20034,
+    "host_id": 20014,
+    "name": "Charming Lisbon Apartment 35",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.158099,
+        38.751975
+      ]
+    },
+    "latitude": 38.751975,
+    "longitude": -9.158099,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 102,
+    "review_scores_rating": 4.4,
+    "availability_365": 214
+  },
+  {
+    "id": 20035,
+    "host_id": 20015,
+    "name": "Charming Lisbon Apartment 36",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.125819,
+        38.755641
+      ]
+    },
+    "latitude": 38.755641,
+    "longitude": -9.125819,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 105,
+    "review_scores_rating": 4.5,
+    "availability_365": 215
+  },
+  {
+    "id": 20036,
+    "host_id": 20016,
+    "name": "Charming Lisbon Apartment 37",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.132701,
+        38.715241
+      ]
+    },
+    "latitude": 38.715241,
+    "longitude": -9.132701,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 108,
+    "review_scores_rating": 4.6,
+    "availability_365": 216
+  },
+  {
+    "id": 20037,
+    "host_id": 20017,
+    "name": "Charming Lisbon Apartment 38",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.13435,
+        38.753809
+      ]
+    },
+    "latitude": 38.753809,
+    "longitude": -9.13435,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 111,
+    "review_scores_rating": 4.7,
+    "availability_365": 217
+  },
+  {
+    "id": 20038,
+    "host_id": 20018,
+    "name": "Charming Lisbon Apartment 39",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.147081,
+        38.707256
+      ]
+    },
+    "latitude": 38.707256,
+    "longitude": -9.147081,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 114,
+    "review_scores_rating": 4.8,
+    "availability_365": 218
+  },
+  {
+    "id": 20039,
+    "host_id": 20019,
+    "name": "Charming Lisbon Apartment 40",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.164721,
+        38.689618
+      ]
+    },
+    "latitude": 38.689618,
+    "longitude": -9.164721,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 117,
+    "review_scores_rating": 4.9,
+    "availability_365": 219
+  },
+  {
+    "id": 20040,
+    "host_id": 20000,
+    "name": "Charming Lisbon Apartment 41",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.109015,
+        38.717085
+      ]
+    },
+    "latitude": 38.717085,
+    "longitude": -9.109015,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 120,
+    "review_scores_rating": 4.0,
+    "availability_365": 220
+  },
+  {
+    "id": 20041,
+    "host_id": 20001,
+    "name": "Charming Lisbon Apartment 42",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.161019,
+        38.744934
+      ]
+    },
+    "latitude": 38.744934,
+    "longitude": -9.161019,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 123,
+    "review_scores_rating": 4.1,
+    "availability_365": 221
+  },
+  {
+    "id": 20042,
+    "host_id": 20002,
+    "name": "Charming Lisbon Apartment 43",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.155831,
+        38.734488
+      ]
+    },
+    "latitude": 38.734488,
+    "longitude": -9.155831,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 126,
+    "review_scores_rating": 4.2,
+    "availability_365": 222
+  },
+  {
+    "id": 20043,
+    "host_id": 20003,
+    "name": "Charming Lisbon Apartment 44",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.168221,
+        38.762055
+      ]
+    },
+    "latitude": 38.762055,
+    "longitude": -9.168221,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 129,
+    "review_scores_rating": 4.3,
+    "availability_365": 223
+  },
+  {
+    "id": 20044,
+    "host_id": 20004,
+    "name": "Charming Lisbon Apartment 45",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.170251,
+        38.726964
+      ]
+    },
+    "latitude": 38.726964,
+    "longitude": -9.170251,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 132,
+    "review_scores_rating": 4.4,
+    "availability_365": 224
+  },
+  {
+    "id": 20045,
+    "host_id": 20005,
+    "name": "Charming Lisbon Apartment 46",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.151285,
+        38.738971
+      ]
+    },
+    "latitude": 38.738971,
+    "longitude": -9.151285,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 135,
+    "review_scores_rating": 4.5,
+    "availability_365": 225
+  },
+  {
+    "id": 20046,
+    "host_id": 20006,
+    "name": "Charming Lisbon Apartment 47",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.156404,
+        38.755745
+      ]
+    },
+    "latitude": 38.755745,
+    "longitude": -9.156404,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 138,
+    "review_scores_rating": 4.6,
+    "availability_365": 226
+  },
+  {
+    "id": 20047,
+    "host_id": 20007,
+    "name": "Charming Lisbon Apartment 48",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.111374,
+        38.705967
+      ]
+    },
+    "latitude": 38.705967,
+    "longitude": -9.111374,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 141,
+    "review_scores_rating": 4.7,
+    "availability_365": 227
+  },
+  {
+    "id": 20048,
+    "host_id": 20008,
+    "name": "Charming Lisbon Apartment 49",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.107075,
+        38.742437
+      ]
+    },
+    "latitude": 38.742437,
+    "longitude": -9.107075,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 144,
+    "review_scores_rating": 4.8,
+    "availability_365": 228
+  },
+  {
+    "id": 20049,
+    "host_id": 20009,
+    "name": "Charming Lisbon Apartment 50",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.145644,
+        38.730556
+      ]
+    },
+    "latitude": 38.730556,
+    "longitude": -9.145644,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 147,
+    "review_scores_rating": 4.9,
+    "availability_365": 229
+  },
+  {
+    "id": 20050,
+    "host_id": 20010,
+    "name": "Charming Lisbon Apartment 51",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.116136,
+        38.751184
+      ]
+    },
+    "latitude": 38.751184,
+    "longitude": -9.116136,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 0,
+    "review_scores_rating": 4.0,
+    "availability_365": 230
+  },
+  {
+    "id": 20051,
+    "host_id": 20011,
+    "name": "Charming Lisbon Apartment 52",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.136056,
+        38.723672
+      ]
+    },
+    "latitude": 38.723672,
+    "longitude": -9.136056,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 3,
+    "review_scores_rating": 4.1,
+    "availability_365": 231
+  },
+  {
+    "id": 20052,
+    "host_id": 20012,
+    "name": "Charming Lisbon Apartment 53",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.131403,
+        38.744622
+      ]
+    },
+    "latitude": 38.744622,
+    "longitude": -9.131403,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 6,
+    "review_scores_rating": 4.2,
+    "availability_365": 232
+  },
+  {
+    "id": 20053,
+    "host_id": 20013,
+    "name": "Charming Lisbon Apartment 54",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.11436,
+        38.747716
+      ]
+    },
+    "latitude": 38.747716,
+    "longitude": -9.11436,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 9,
+    "review_scores_rating": 4.3,
+    "availability_365": 233
+  },
+  {
+    "id": 20054,
+    "host_id": 20014,
+    "name": "Charming Lisbon Apartment 55",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.115603,
+        38.701407
+      ]
+    },
+    "latitude": 38.701407,
+    "longitude": -9.115603,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 12,
+    "review_scores_rating": 4.4,
+    "availability_365": 234
+  },
+  {
+    "id": 20055,
+    "host_id": 20015,
+    "name": "Charming Lisbon Apartment 56",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.160671,
+        38.711664
+      ]
+    },
+    "latitude": 38.711664,
+    "longitude": -9.160671,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 15,
+    "review_scores_rating": 4.5,
+    "availability_365": 235
+  },
+  {
+    "id": 20056,
+    "host_id": 20016,
+    "name": "Charming Lisbon Apartment 57",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.103257,
+        38.713312
+      ]
+    },
+    "latitude": 38.713312,
+    "longitude": -9.103257,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 18,
+    "review_scores_rating": 4.6,
+    "availability_365": 236
+  },
+  {
+    "id": 20057,
+    "host_id": 20017,
+    "name": "Charming Lisbon Apartment 58",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.147908,
+        38.726619
+      ]
+    },
+    "latitude": 38.726619,
+    "longitude": -9.147908,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 21,
+    "review_scores_rating": 4.7,
+    "availability_365": 237
+  },
+  {
+    "id": 20058,
+    "host_id": 20018,
+    "name": "Charming Lisbon Apartment 59",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.117323,
+        38.69698
+      ]
+    },
+    "latitude": 38.69698,
+    "longitude": -9.117323,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 24,
+    "review_scores_rating": 4.8,
+    "availability_365": 238
+  },
+  {
+    "id": 20059,
+    "host_id": 20019,
+    "name": "Charming Lisbon Apartment 60",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.103782,
+        38.710727
+      ]
+    },
+    "latitude": 38.710727,
+    "longitude": -9.103782,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 27,
+    "review_scores_rating": 4.9,
+    "availability_365": 239
+  },
+  {
+    "id": 20060,
+    "host_id": 20000,
+    "name": "Charming Lisbon Apartment 61",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.13521,
+        38.716874
+      ]
+    },
+    "latitude": 38.716874,
+    "longitude": -9.13521,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 30,
+    "review_scores_rating": 4.0,
+    "availability_365": 240
+  },
+  {
+    "id": 20061,
+    "host_id": 20001,
+    "name": "Charming Lisbon Apartment 62",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.137733,
+        38.705564
+      ]
+    },
+    "latitude": 38.705564,
+    "longitude": -9.137733,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 33,
+    "review_scores_rating": 4.1,
+    "availability_365": 241
+  },
+  {
+    "id": 20062,
+    "host_id": 20002,
+    "name": "Charming Lisbon Apartment 63",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.134768,
+        38.715277
+      ]
+    },
+    "latitude": 38.715277,
+    "longitude": -9.134768,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 36,
+    "review_scores_rating": 4.2,
+    "availability_365": 242
+  },
+  {
+    "id": 20063,
+    "host_id": 20003,
+    "name": "Charming Lisbon Apartment 64",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.113063,
+        38.711424
+      ]
+    },
+    "latitude": 38.711424,
+    "longitude": -9.113063,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 39,
+    "review_scores_rating": 4.3,
+    "availability_365": 243
+  },
+  {
+    "id": 20064,
+    "host_id": 20004,
+    "name": "Charming Lisbon Apartment 65",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.15505,
+        38.692265
+      ]
+    },
+    "latitude": 38.692265,
+    "longitude": -9.15505,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 42,
+    "review_scores_rating": 4.4,
+    "availability_365": 244
+  },
+  {
+    "id": 20065,
+    "host_id": 20005,
+    "name": "Charming Lisbon Apartment 66",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.137264,
+        38.746818
+      ]
+    },
+    "latitude": 38.746818,
+    "longitude": -9.137264,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 45,
+    "review_scores_rating": 4.5,
+    "availability_365": 245
+  },
+  {
+    "id": 20066,
+    "host_id": 20006,
+    "name": "Charming Lisbon Apartment 67",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.115469,
+        38.75326
+      ]
+    },
+    "latitude": 38.75326,
+    "longitude": -9.115469,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 48,
+    "review_scores_rating": 4.6,
+    "availability_365": 246
+  },
+  {
+    "id": 20067,
+    "host_id": 20007,
+    "name": "Charming Lisbon Apartment 68",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.100766,
+        38.701028
+      ]
+    },
+    "latitude": 38.701028,
+    "longitude": -9.100766,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 51,
+    "review_scores_rating": 4.7,
+    "availability_365": 247
+  },
+  {
+    "id": 20068,
+    "host_id": 20008,
+    "name": "Charming Lisbon Apartment 69",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.155907,
+        38.691232
+      ]
+    },
+    "latitude": 38.691232,
+    "longitude": -9.155907,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 54,
+    "review_scores_rating": 4.8,
+    "availability_365": 248
+  },
+  {
+    "id": 20069,
+    "host_id": 20009,
+    "name": "Charming Lisbon Apartment 70",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.120555,
+        38.717604
+      ]
+    },
+    "latitude": 38.717604,
+    "longitude": -9.120555,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 57,
+    "review_scores_rating": 4.9,
+    "availability_365": 249
+  },
+  {
+    "id": 20070,
+    "host_id": 20010,
+    "name": "Charming Lisbon Apartment 71",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.136818,
+        38.726238
+      ]
+    },
+    "latitude": 38.726238,
+    "longitude": -9.136818,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 60,
+    "review_scores_rating": 4.0,
+    "availability_365": 250
+  },
+  {
+    "id": 20071,
+    "host_id": 20011,
+    "name": "Charming Lisbon Apartment 72",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.102742,
+        38.739483
+      ]
+    },
+    "latitude": 38.739483,
+    "longitude": -9.102742,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 63,
+    "review_scores_rating": 4.1,
+    "availability_365": 251
+  },
+  {
+    "id": 20072,
+    "host_id": 20012,
+    "name": "Charming Lisbon Apartment 73",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.150204,
+        38.712058
+      ]
+    },
+    "latitude": 38.712058,
+    "longitude": -9.150204,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 66,
+    "review_scores_rating": 4.2,
+    "availability_365": 252
+  },
+  {
+    "id": 20073,
+    "host_id": 20013,
+    "name": "Charming Lisbon Apartment 74",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.124907,
+        38.730674
+      ]
+    },
+    "latitude": 38.730674,
+    "longitude": -9.124907,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 69,
+    "review_scores_rating": 4.3,
+    "availability_365": 253
+  },
+  {
+    "id": 20074,
+    "host_id": 20014,
+    "name": "Charming Lisbon Apartment 75",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.165515,
+        38.730556
+      ]
+    },
+    "latitude": 38.730556,
+    "longitude": -9.165515,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 72,
+    "review_scores_rating": 4.4,
+    "availability_365": 254
+  },
+  {
+    "id": 20075,
+    "host_id": 20015,
+    "name": "Charming Lisbon Apartment 76",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.105799,
+        38.703006
+      ]
+    },
+    "latitude": 38.703006,
+    "longitude": -9.105799,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 75,
+    "review_scores_rating": 4.5,
+    "availability_365": 255
+  },
+  {
+    "id": 20076,
+    "host_id": 20016,
+    "name": "Charming Lisbon Apartment 77",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.166957,
+        38.718712
+      ]
+    },
+    "latitude": 38.718712,
+    "longitude": -9.166957,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 78,
+    "review_scores_rating": 4.6,
+    "availability_365": 256
+  },
+  {
+    "id": 20077,
+    "host_id": 20017,
+    "name": "Charming Lisbon Apartment 78",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.149443,
+        38.716201
+      ]
+    },
+    "latitude": 38.716201,
+    "longitude": -9.149443,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 81,
+    "review_scores_rating": 4.7,
+    "availability_365": 257
+  },
+  {
+    "id": 20078,
+    "host_id": 20018,
+    "name": "Charming Lisbon Apartment 79",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.161228,
+        38.713574
+      ]
+    },
+    "latitude": 38.713574,
+    "longitude": -9.161228,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 84,
+    "review_scores_rating": 4.8,
+    "availability_365": 258
+  },
+  {
+    "id": 20079,
+    "host_id": 20019,
+    "name": "Charming Lisbon Apartment 80",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.10739,
+        38.746748
+      ]
+    },
+    "latitude": 38.746748,
+    "longitude": -9.10739,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 87,
+    "review_scores_rating": 4.9,
+    "availability_365": 259
+  },
+  {
+    "id": 20080,
+    "host_id": 20000,
+    "name": "Charming Lisbon Apartment 81",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.170122,
+        38.702388
+      ]
+    },
+    "latitude": 38.702388,
+    "longitude": -9.170122,
+    "room_type": "Entire home/apt",
+    "price": "€40",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 90,
+    "review_scores_rating": 4.0,
+    "availability_365": 260
+  },
+  {
+    "id": 20081,
+    "host_id": 20001,
+    "name": "Charming Lisbon Apartment 82",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.133966,
+        38.691312
+      ]
+    },
+    "latitude": 38.691312,
+    "longitude": -9.133966,
+    "room_type": "Private room",
+    "price": "€55",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 93,
+    "review_scores_rating": 4.1,
+    "availability_365": 261
+  },
+  {
+    "id": 20082,
+    "host_id": 20002,
+    "name": "Charming Lisbon Apartment 83",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.118293,
+        38.745221
+      ]
+    },
+    "latitude": 38.745221,
+    "longitude": -9.118293,
+    "room_type": "Shared room",
+    "price": "€70",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 96,
+    "review_scores_rating": 4.2,
+    "availability_365": 262
+  },
+  {
+    "id": 20083,
+    "host_id": 20003,
+    "name": "Charming Lisbon Apartment 84",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.114629,
+        38.751849
+      ]
+    },
+    "latitude": 38.751849,
+    "longitude": -9.114629,
+    "room_type": "Hotel room",
+    "price": "€85",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 99,
+    "review_scores_rating": 4.3,
+    "availability_365": 263
+  },
+  {
+    "id": 20084,
+    "host_id": 20004,
+    "name": "Charming Lisbon Apartment 85",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.156914,
+        38.686125
+      ]
+    },
+    "latitude": 38.686125,
+    "longitude": -9.156914,
+    "room_type": "Entire home/apt",
+    "price": "€100",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 102,
+    "review_scores_rating": 4.4,
+    "availability_365": 264
+  },
+  {
+    "id": 20085,
+    "host_id": 20005,
+    "name": "Charming Lisbon Apartment 86",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.107905,
+        38.761714
+      ]
+    },
+    "latitude": 38.761714,
+    "longitude": -9.107905,
+    "room_type": "Private room",
+    "price": "€115",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 105,
+    "review_scores_rating": 4.5,
+    "availability_365": 265
+  },
+  {
+    "id": 20086,
+    "host_id": 20006,
+    "name": "Charming Lisbon Apartment 87",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.158166,
+        38.742748
+      ]
+    },
+    "latitude": 38.742748,
+    "longitude": -9.158166,
+    "room_type": "Shared room",
+    "price": "€130",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 108,
+    "review_scores_rating": 4.6,
+    "availability_365": 266
+  },
+  {
+    "id": 20087,
+    "host_id": 20007,
+    "name": "Charming Lisbon Apartment 88",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.112504,
+        38.759339
+      ]
+    },
+    "latitude": 38.759339,
+    "longitude": -9.112504,
+    "room_type": "Hotel room",
+    "price": "€145",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 111,
+    "review_scores_rating": 4.7,
+    "availability_365": 267
+  },
+  {
+    "id": 20088,
+    "host_id": 20008,
+    "name": "Charming Lisbon Apartment 89",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.173916,
+        38.694438
+      ]
+    },
+    "latitude": 38.694438,
+    "longitude": -9.173916,
+    "room_type": "Entire home/apt",
+    "price": "€160",
+    "accommodates": 6,
+    "bedrooms": 1,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 114,
+    "review_scores_rating": 4.8,
+    "availability_365": 268
+  },
+  {
+    "id": 20089,
+    "host_id": 20009,
+    "name": "Charming Lisbon Apartment 90",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.115863,
+        38.740161
+      ]
+    },
+    "latitude": 38.740161,
+    "longitude": -9.115863,
+    "room_type": "Private room",
+    "price": "€175",
+    "accommodates": 7,
+    "bedrooms": 2,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 117,
+    "review_scores_rating": 4.9,
+    "availability_365": 269
+  },
+  {
+    "id": 20090,
+    "host_id": 20010,
+    "name": "Charming Lisbon Apartment 91",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.144863,
+        38.760927
+      ]
+    },
+    "latitude": 38.760927,
+    "longitude": -9.144863,
+    "room_type": "Shared room",
+    "price": "€40",
+    "accommodates": 2,
+    "bedrooms": 3,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 120,
+    "review_scores_rating": 4.0,
+    "availability_365": 270
+  },
+  {
+    "id": 20091,
+    "host_id": 20011,
+    "name": "Charming Lisbon Apartment 92",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.111946,
+        38.699395
+      ]
+    },
+    "latitude": 38.699395,
+    "longitude": -9.111946,
+    "room_type": "Hotel room",
+    "price": "€55",
+    "accommodates": 3,
+    "bedrooms": 4,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 123,
+    "review_scores_rating": 4.1,
+    "availability_365": 271
+  },
+  {
+    "id": 20092,
+    "host_id": 20012,
+    "name": "Charming Lisbon Apartment 93",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.144584,
+        38.700871
+      ]
+    },
+    "latitude": 38.700871,
+    "longitude": -9.144584,
+    "room_type": "Entire home/apt",
+    "price": "€70",
+    "accommodates": 4,
+    "bedrooms": 1,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 126,
+    "review_scores_rating": 4.2,
+    "availability_365": 272
+  },
+  {
+    "id": 20093,
+    "host_id": 20013,
+    "name": "Charming Lisbon Apartment 94",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.134184,
+        38.713279
+      ]
+    },
+    "latitude": 38.713279,
+    "longitude": -9.134184,
+    "room_type": "Private room",
+    "price": "€85",
+    "accommodates": 5,
+    "bedrooms": 2,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 129,
+    "review_scores_rating": 4.3,
+    "availability_365": 273
+  },
+  {
+    "id": 20094,
+    "host_id": 20014,
+    "name": "Charming Lisbon Apartment 95",
+    "neighbourhood": "Príncipe Real",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.12812,
+        38.691258
+      ]
+    },
+    "latitude": 38.691258,
+    "longitude": -9.12812,
+    "room_type": "Shared room",
+    "price": "€100",
+    "accommodates": 6,
+    "bedrooms": 3,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 132,
+    "review_scores_rating": 4.4,
+    "availability_365": 274
+  },
+  {
+    "id": 20095,
+    "host_id": 20015,
+    "name": "Charming Lisbon Apartment 96",
+    "neighbourhood": "Campo de Ourique",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.139114,
+        38.690273
+      ]
+    },
+    "latitude": 38.690273,
+    "longitude": -9.139114,
+    "room_type": "Hotel room",
+    "price": "€115",
+    "accommodates": 7,
+    "bedrooms": 4,
+    "beds": 1,
+    "minimum_nights": 1,
+    "number_of_reviews": 135,
+    "review_scores_rating": 4.5,
+    "availability_365": 275
+  },
+  {
+    "id": 20096,
+    "host_id": 20016,
+    "name": "Charming Lisbon Apartment 97",
+    "neighbourhood": "Alfama",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.125929,
+        38.757637
+      ]
+    },
+    "latitude": 38.757637,
+    "longitude": -9.125929,
+    "room_type": "Entire home/apt",
+    "price": "€130",
+    "accommodates": 2,
+    "bedrooms": 1,
+    "beds": 2,
+    "minimum_nights": 2,
+    "number_of_reviews": 138,
+    "review_scores_rating": 4.6,
+    "availability_365": 276
+  },
+  {
+    "id": 20097,
+    "host_id": 20017,
+    "name": "Charming Lisbon Apartment 98",
+    "neighbourhood": "Baixa",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.160669,
+        38.719222
+      ]
+    },
+    "latitude": 38.719222,
+    "longitude": -9.160669,
+    "room_type": "Private room",
+    "price": "€145",
+    "accommodates": 3,
+    "bedrooms": 2,
+    "beds": 3,
+    "minimum_nights": 3,
+    "number_of_reviews": 141,
+    "review_scores_rating": 4.7,
+    "availability_365": 277
+  },
+  {
+    "id": 20098,
+    "host_id": 20018,
+    "name": "Charming Lisbon Apartment 99",
+    "neighbourhood": "Chiado",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.148465,
+        38.749172
+      ]
+    },
+    "latitude": 38.749172,
+    "longitude": -9.148465,
+    "room_type": "Shared room",
+    "price": "€160",
+    "accommodates": 4,
+    "bedrooms": 3,
+    "beds": 4,
+    "minimum_nights": 4,
+    "number_of_reviews": 144,
+    "review_scores_rating": 4.8,
+    "availability_365": 278
+  },
+  {
+    "id": 20099,
+    "host_id": 20019,
+    "name": "Charming Lisbon Apartment 100",
+    "neighbourhood": "Belém",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -9.16786,
+        38.725917
+      ]
+    },
+    "latitude": 38.725917,
+    "longitude": -9.16786,
+    "room_type": "Hotel room",
+    "price": "€175",
+    "accommodates": 5,
+    "bedrooms": 4,
+    "beds": 5,
+    "minimum_nights": 5,
+    "number_of_reviews": 147,
+    "review_scores_rating": 4.9,
+    "availability_365": 279
+  }
+]

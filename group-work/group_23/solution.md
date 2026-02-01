@@ -10,8 +10,8 @@
 
 | Name | Student ID | Email | Contribution % |
 | ---- | ---------- | ----- | -------------- |
-| Gonçalo Chaves | TBD | TBD | TBD |
-| José Pedro Silva | TBD | TBD | TBD |
+| Gonçalo Chaves | 40200104 | 40200104@esmad.ipp.pt | 50 |
+| José Pedro Silva | TBD | TBD | 50 |
 | All members should contribute equally to the project | TBD | TBD | TBD |
 | Contact information available in the course management system | TBD | TBD | TBD |
 | Any changes to group composition must be reported to the instructor | TBD | TBD | TBD |
@@ -22,48 +22,109 @@
 
 ## Executive Summary
 
-Provide a concise overview of the scenario, dataset, and primary achievements for the lab so reviewers can understand the submission without opening other files.
+This project is based on Airbnb listing datasets for the cities of Porto and Lisbon, provided in the repository.  
+The main objective is to design and query a MongoDB-based accommodation booking system capable of supporting data exploration, reservation management, and analytical insights.
 
 ---
 
 ## Problem Statement
-
-Summarize the lab brief, the business goals, and the constraints that shaped the MongoDB design decisions.
+Accommodation platforms must manage large volumes of listing data while supporting availability checks, reservations, and analytical queries such as pricing trends and occupancy rates.
 
 ### Requirements
 
-- [ ] Requirement 1 – define the workload and data domain
-- [ ] Requirement 2 – outline CRUD/aggregation capabilities
-- [ ] Requirement 3 – capture validation, indexing, or performance goals
-- [ ] Requirement 4 – document stretch objectives agreed with the staff
-
+- [ ] Requirement 1 – Use datasets provided in the course repository (Airbnb Porto and Lisbon)
+- [ ] Requirement 2 – Design at least three interrelated MongoDB collections
+- [ ] Requirement 3 – Implement CRUD operations and aggregation pipelines
+- [ ] Requirement 4 – apply indexing strategies
 ---
 
 ## Solution Architecture
 
 ### Data Model Design
 
-```javascript
-{
-  collection: "example",
-  schema: {
-    _id: "ObjectId",
-    fields: [
-      { name: "fieldA", type: "string" },
-      { name: "fieldB", type: "int" },
-      { name: "fieldC", type: "array" }
-    ]
-  }
-}
-```
+The database (staybook) is composed of four interrelated collections:
 
-Describe entity boundaries, embedding vs. referencing choices, and how the schema satisfies the requirements.
+1. listings
+
+Stores accommodation metadata imported from the Airbnb datasets.
+
+Key fields:
+
+id (number, unique dataset identifier)
+
+name, neighbourhood, room_type
+
+accommodates, availability_365
+
+price (string, original)
+
+price_eur (number, normalized for analytics)
+
+2. users
+
+Represents hosts and guests.
+
+Key fields:
+
+_id (ObjectId)
+
+name, email
+
+roles (array: host, guest)
+
+status, createdAt
+
+3. reservations
+
+Represents booking operations.
+
+Key fields:
+
+listingId → references listings.id
+
+guestId → references users._id
+
+dateFrom, dateTo
+
+totalPrice, status, createdAt
+
+4. reviews
+
+Represents post-stay feedback.
+
+Key fields:
+
+reservationId → references reservations._id
+
+listingId, guestId
+
+rating, comment, createdAt
+
+This design satisfies the requirement for 3+ interconnected collections with explicit references and realistic business relationships.
 
 ### Design Decisions
 
-1. **Document modeling** – explain how documents were structured to optimize reads/writes.
-2. **Indexing strategy** – note which indexes back the core workloads.
-3. **Validation & governance** – capture schema validation, security, or lifecycle policies.
+1. **Document modeling** 
+  - The "listings" collection was kept as the main catalogue with the data imported from the Airbnb datasets, since it is mostly used for reading and analysis.
+  - Reservations and reviews were stored in separate collections ("reservations" and "reviews") to avoid very large documents and to allow bookings and reviews to be managed independently.
+  - The collections are connected using references:
+     - "reservations.listingId" refers to "listings.id"
+     - "reservations.guestId" refers to "users._id"
+     -"reviews.reservationId" refers to "reservations._id"
+   - This structure makes it easier to scale the system and run queries.
+
+2. **Indexing strategy** 
+  - Indexes were created based on the most common queries in the system.
+  - In the "listings" collection, indexes on "price_eur", "accommodates", "neighbourhood", and "room_type" improve filtering and sorting when searching for accommodations.
+  - In the "reservations" collection, a compound index on "listingId", "status", "dateFrom", and "dateTo" was created to check date conflicts and availability.
+  - A unique index on "reviews.reservationId" ensures that each reservation can only have one review.
+  - Query performance was verified using "explain("executionStats")".
+
+3. **Validation & governance**
+  - Data validation is handled through indexes and automated checks.
+  - Unique indexes prevent duplicate data, such as repeated listings or multiple reviews for the same reservation.
+  - The script "tests/data_quality.mongosh.js" checks for missing fields, incorrect data types, invalid date ranges, invalid statuses, and broken references between collections.
+  - Seed scripts also include checks to ensure required data exists before inserting new documents.
 
 ### Trade-offs Considered
 
@@ -133,50 +194,61 @@ Describe functional, integration, and performance testing performed locally or i
 
 | Test Case | Description | Expected | Actual | Status |
 | --------- | ----------- | -------- | ------ | ------ |
-| TC001 | Connection & seed data loads | Data available | Data available | ✅ |
-| TC002 | Core aggregation returns KPIs | Metrics align with spec | Metrics align | ✅ |
-| TC003 | Update operations respect validation | Validation blocks bad data | Validation enforced | ✅ |
+| TC001 | Database connection and data import | Collections created with data | Listings, users, reservations and reviews loaded | ✅ |
+| TC002 | Data quality and integrity checks | No invalid or inconsistent data | All checks passed in `data_quality.mongosh.js` | ✅ |
+| TC003 | Referential integrity between collections | All references are valid | No broken references found | ✅ |
+| TC004 | Business rule validation | Dates, prices and ratings are valid | All rules enforced successfully | ✅ |
 
 ### Performance Testing
 
-```javascript
-const startTime = Date.now();
-// execute workload
-const endTime = Date.now();
-print(`Execution time: ${endTime - startTime}ms`);
-```
+Performance testing was done using "explain("executionStats")" to compare query behavior before and after creating indexes.
 
-Include notes about dataset size, indexes used, and observed resource metrics.
+Two main workloads were analyzed:
 
----
+-Listings filtering and sorting:
+  - Query filters listings by "accommodates" and sorts by "price_eur".
+  - Before optimization, MongoDB relied on a single-field index and examined more documents.
+  - After adding a compound index, the query execution time was reduced and index scans were consistently used.
+
+-Reservation conflict detection:
+  - Query checks for overlapping reservations for a given listing and date range.
+  - A compound index on "listingId", "status", "dateFrom", and "dateTo" was used.
+  - The optimized query avoided unnecessary document scans and returned results with minimal execution time.
+
 
 ## Challenges and Solutions
 
-### Challenge 1 – add short title
+### Challenge 1 – Price stored as string
 
-**Problem:** Summarize the issue.
-**Solution:** Capture the fix or mitigation.
+**Problem:**  
+The Airbnb datasets store prices as strings (for example "€40"), which made it impossible to sort or aggregate prices correctly.
 
-### Challenge 2 – add short title
+**Solution:**  
+A new numeric field "price_eur" was created by normalizing the original price value. This field is used in all analytical queries and was indexed to improve performance.
 
-**Problem:** Summarize the issue.
-**Solution:** Capture the fix or mitigation.
+### Challenge 2 – Ensuring data consistency across collections
 
----
+**Problem:**  
+MongoDB does not enforce foreign key constraints, which can lead to broken references between listings, users, reservations, and reviews.
+
+**Solution:**  
+Automated data-quality tests were implemented in "tests/data_quality.mongosh.js" to validate references, required fields, date ranges, and business rules. Unique indexes were also used to prevent duplicated data.
 
 ## Learning Outcomes
 
-1. Reinforced NoSQL data modeling best practices.
-2. Practiced MongoDB querying, aggregation, and indexing.
-3. Improved collaboration workflow for lab deliverables.
+1. Improved understanding of how to model real-world data using MongoDB and NoSQL principles.
+2. Gained practical experience writing queries and aggregation pipelines for analytical and business scenarios.
+3. Learned how to design and test indexes to improve query performance.
+4. Developed skills in validating data quality and ensuring consistency across collections.
+5. Gained experience organizing and documenting a complete MongoDB project.
 
 ### Skills Developed
 
 - [x] MongoDB query optimization
 - [x] Data modeling for NoSQL
-- [ ] Performance tuning (detail work pending)
-- [ ] Index design experiments
-- [ ] Aggregation pipeline deep dive
+- [X] Performance tuning (detail work pending)
+- [X] Index design experiments
+- [X] Aggregation pipeline deep dive
 
 ---
 
@@ -200,28 +272,27 @@ Include notes about dataset size, indexes used, and observed resource metrics.
 
 ### A. Complete Code Listings
 
-Link to the scripts (`queries.js`, `import_data.js`, etc.) committed alongside this report.
+- `project/import_data.mongosh.js` – imports the Airbnb datasets into MongoDB  
+- `project/queries/` – contains all CRUD and aggregation queries  
+- `project/queries/index_blueprint.mongosh.js` – defines the indexing strategy  
+- `project/advanced/` – contains performance analysis scripts using "explain()"  
+- `project/tests/data_quality.mongosh.js` – automated data quality and integrity checks  
+
 
 ### B. Data Samples
 
-Describe or link to anonymized sample documents to help reviewers understand the schema.
+Sample documents used in this project are provided through the Airbnb datasets included in the course repository.  
+These datasets contain anonymized and publicly available information about accommodation listings in Porto and Lisbon.
 
-### C. Additional Diagrams
-
-Include ERDs, sequence diagrams, or architecture figures if available.
-
----
+Additional sample data for users, reservations, and reviews was generated through seed scripts to simulate realistic booking and review scenarios while keeping the structure consistent with the original datasets.
 
 ## Declaration
 
 We declare that this submission is our own work and that all sources used have been properly cited.
-
 **Signatures:**
 
 - Gonçalo Chaves
-- ____________________
-- ____________________
-- ____________________
+- José Silva
 
-_Submission validated on: 2026-01-06_
+_Submission validated on: 2026-01-22_
 _Version: 1.0.0_

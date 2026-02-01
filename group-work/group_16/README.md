@@ -1,246 +1,33 @@
-# Group 16 - MongoDB NoSQL Database Project
+# Food Express – NoSQL Final Project (MongoDB) group 16
 
-## Team Members
+This project demonstrates the implementation of a database management system for a food delivery platform (Food Express). The focus is on analyzing restaurant performance, managing orders, and optimizing queries through indexes and complex aggregations.
 
-See our team composition in [group_members.md](../group_members.md#group-16)
+## Deliverables in This Folder
 
-## Project Overview
+| Path | Purpose |
+| ---- | ------- |
+| `architecture.md` | Written rationale for the collections (`restaurants` and `orders`) and the linking strategy. |
+| `data/` | JSON copies of the original datasets (`foodexpress_db.orders.json` and `foodexpress_db.restaurants.json`). |
+| `queries/` | Twelve `.mongodb.js` scripts featuring CRUD examples and rich aggregation pipelines. |
 
-This project demonstrates our comprehensive understanding of MongoDB database operations and NoSQL concepts. We have implemented a complete set of database solutions that showcase our ability to design schemas, insert data, and create complex queries for real-world scenarios.
 
-### Learning Objectives Achieved
+### Teamwork Experience
+Working as a group was fundamental to understanding the collaborative nature of database development. We learned to divide responsibilities between data modeling, query optimization, and documentation, ensuring that each part of the project was synchronized. This experience improved our communication skills and taught us how to perform peer reviews on our aggregation pipelines to reach the most efficient technical solutions.
 
-- Mastered MongoDB query language and operators
-- Designed efficient document schemas following best practices
-- Implemented complex aggregation pipelines for data analysis
-- Created optimized indexes for query performance
-- Developed data insertion strategies for various use cases
+## NOSQL in the future 
 
-## Database Design
+Learning NoSQL with MongoDB is essential because it reflects how modern, data-driven companies actually operate. Unlike traditional databases, NoSQL offers the flexibility to handle massive amounts of unstructured data and the scalability to grow alongside an application without rigid constraints. Mastering these tools—especially complex aggregations and performance optimization—equips us with the high-demand technical skills needed to build fast, real-time analytics.
 
-### Collections Created
 
-1. **Primary Collections**
-   - Structured document schemas with embedded documents
-   - Referenced relationships between collections
-   - Optimized field types and data structures
+## How to Run Everything (Local MongoDB)
 
-2. **Schema Design Decisions**
-   - Denormalization strategies for read optimization
-   - Embedding vs referencing trade-offs
-   - Index planning based on query patterns
+### 1. Seed the Database
+Ensure your MongoDB server is running and use the following commands from your terminal:
 
-## Data Operations Implemented
+```bash
+# Import Restaurants
+mongoimport --db food_express --collection restaurants --file "data/foodexpress_db.restaurants.json" --jsonArray
 
-### 1. Database Creation & Setup
+# Import Orders
+mongoimport --db food_express --collection orders --file "data/foodexpress_db.orders.json" --jsonArray
 
-- Created database with appropriate naming conventions
-- Established collections with validation rules
-- Set up indexes for optimal query performance
-
-### 2. Data Insertion
-
-- **Bulk Insert Operations**: Efficient insertion of large datasets
-- **Single Document Inserts**: Individual record creation with validation
-- **Batch Processing**: Organized data imports from multiple sources
-- **Data Generation**: Created realistic test data using various patterns
-
-### 3. Query Operations
-
-#### Basic Queries
-
-- Find operations with multiple filter conditions
-- Projection to retrieve specific fields
-- Sorting and limiting result sets
-- Regular expression searches for text patterns
-
-#### Advanced Queries
-
-- Complex filtering with `$and`, `$or`, `$nor` operators
-- Array queries using `$elemMatch`, `$all`, `$size`
-- Nested document queries with dot notation
-- Comparison operators for range queries
-
-### 4. Aggregation Pipelines
-
-#### Data Analysis Pipelines
-
-- `$match` stages for filtering
-- `$group` operations for statistical analysis
-- `$project` for data transformation
-- `$sort` and `$limit` for result control
-
-#### Complex Aggregations
-
-- Multi-stage pipelines for business analytics
-- `$lookup` for joining collections
-- `$unwind` for array manipulation
-- `$facet` for multiple aggregation outputs
-
-### 5. Update Operations
-
-- Single and multi-document updates
-- Array update operators (`$push`, `$pull`, `$addToSet`)
-- Field update operators (`$set`, `$unset`, `$inc`)
-- Conditional updates with query filters
-
-### 6. Index Management
-
-- Single field indexes for common queries
-- Compound indexes for complex query patterns
-- Text indexes for search functionality
-- Unique indexes for data integrity
-
-## Technologies & Tools Used
-
-- **Database**: MongoDB 7.0
-- **Shell**: MongoDB Shell (mongosh)
-- **Query Language**: MongoDB Query Language (MQL)
-- **Tools**: MongoDB Compass for visualization
-- **Scripts**: JavaScript for database operations
-
-## Database Setup Instructions
-
-### Prerequisites
-
-- MongoDB 7.0 or higher installed locally
-- MongoDB Shell (mongosh) installed
-- MongoDB Compass (optional, for GUI access)
-
-### Running Our Solution
-
-1. **Start MongoDB Server**
-
-   ```bash
-   mongod --dbpath /path/to/data/directory
-   ```
-
-2. **Connect to MongoDB**
-
-   ```bash
-   mongosh
-   ```
-
-3. **Create and Use Database**
-
-   ```javascript
-   use group_16_db
-   ```
-
-4. **Execute Our Scripts**
-
-   ```bash
-   mongosh < solution.js
-   ```
-
-5. **Verify Data**
-   ```javascript
-   db.getCollectionNames();
-   db.collection_name.countDocuments();
-   ```
-
-## Query Examples from Our Solution
-
-### Example 1: Find Products by Category
-
-```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 100, $lte: 1000 },
-});
-```
-
-### Example 2: Aggregate Sales Data
-
-```javascript
-db.sales.aggregate([
-  { $match: { year: 2024 } },
-  {
-    $group: {
-      _id: "$month",
-      totalSales: { $sum: "$amount" },
-      avgSale: { $avg: "$amount" },
-    },
-  },
-  { $sort: { _id: 1 } },
-]);
-```
-
-### Example 3: Update Inventory
-
-```javascript
-db.inventory.updateMany(
-  { quantity: { $lt: 10 } },
-  { $set: { status: "low_stock", lastUpdated: new Date() } }
-);
-```
-
-## Performance Optimizations
-
-1. **Query Optimization**
-   - Used covered queries where possible
-   - Implemented proper index strategies
-   - Avoided full collection scans
-
-2. **Data Modeling**
-   - Balanced between embedding and referencing
-   - Minimized document growth patterns
-   - Optimized for read-heavy workloads
-
-3. **Index Strategy**
-   - Created indexes based on query patterns
-   - Used compound indexes for sort operations
-   - Monitored index usage with explain()
-
-## Challenges and Solutions
-
-### Challenge 1: Complex Aggregations
-
-- **Problem**: Needed to analyze data across multiple collections
-- **Solution**: Used `$lookup` stages with optimized pipeline order
-
-### Challenge 2: Large Dataset Insertion
-
-- **Problem**: Inserting millions of documents efficiently
-- **Solution**: Implemented bulk write operations with ordered: false
-
-### Challenge 3: Query Performance
-
-- **Problem**: Slow queries on large collections
-- **Solution**: Created appropriate compound indexes and used projection
-
-## Testing & Validation
-
-- Tested all queries with sample datasets
-- Validated aggregation pipeline results
-- Verified index effectiveness using explain()
-- Ensured data integrity with validation rules
-
-## Learning Outcomes
-
-Through this project, we gained practical experience in:
-
-- Database design patterns for NoSQL
-- Writing efficient MongoDB queries
-- Building complex aggregation pipelines
-- Performance optimization techniques
-- Data modeling best practices
-
-## Future Enhancements
-
-- Implement change streams for real-time data monitoring
-- Add time-series collections for temporal data
-- Explore sharding for horizontal scaling
-- Implement schema versioning strategies
-
-## Documentation
-
-Additional files in our submission:
-
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
-
-## Contributors
-
-Group 16 - 2025

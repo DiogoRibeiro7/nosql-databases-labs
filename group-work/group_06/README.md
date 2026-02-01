@@ -139,58 +139,95 @@ This project demonstrates our comprehensive understanding of MongoDB database op
    db.collection_name.countDocuments();
    ```
 
-## Query Examples from Our Solution
+## Data import
 
-### Example 1: Find Products by Category
+Before running the query scripts, load the sample data into `medical_database`. An import script is provided:
 
-```javascript
-db.products.find({
-  category: "Electronics",
-  price: { $gte: 100, $lte: 1000 },
-});
-```
+- **Script**: `project/import_data.sh` — imports `project/data/patients.json`, `project/data/visits.json`, and `project/data/lab_results.json` into the `medical_database` database.
+- **Requirements**: MongoDB running locally and `mongoimport` (included with MongoDB tools).
+- **Usage** (from repository root):
+  ```bash
+  chmod +x group-work/group_06/project/import_data.sh
+  ./group-work/group_06/project/import_data.sh
+  ```
+- **Custom URI**: set `MONGODB_URI` if needed, e.g. `MONGODB_URI="mongodb://localhost:27017" ./group-work/group_06/project/import_data.sh`.
 
-### Example 2: Aggregate Sales Data
+If the collections are missing, the query scripts will throw an error and point you to run this import first.
 
-```javascript
-db.sales.aggregate([
-  { $match: { year: 2024 } },
-  {
-    $group: {
-      _id: "$month",
-      totalSales: { $sum: "$amount" },
-      avgSale: { $avg: "$amount" },
-    },
-  },
-  { $sort: { _id: 1 } },
-]);
-```
+## Query Scripts
 
-### Example 3: Update Inventory
+All query logic lives under `group-work/group_06/project/queries` and targets the `medical_database` collections. The folder holds 12 scripts, each documented inline and focusing on realistic MongoDB interactions. **Validação** (base e collections `patients`, `visits`, `lab_results`) está no ficheiro `ensure_medical_db.mongosh.js`; cada script carrega-o com `load(...)`. Se faltar alguma collection, aparece um erro a pedir para correr o import (ver Data import). **Corre os scripts a partir da raiz do repositório**, e.g. `mongosh group-work/group_06/project/queries/01_patients_by_age_and_gender.mongosh.js`.
 
-```javascript
-db.inventory.updateMany(
-  { quantity: { $lt: 10 } },
-  { $set: { status: "low_stock", lastUpdated: new Date() } }
-);
-```
+- `01_patients_by_age_and_gender.mongosh.js` – aggregation that filters Lisbon women aged 18‑65 and sorts them by descending age.
+- `02_chronic_patients_by_condition.mongosh.js` – find operation projecting only identifiers for patients with Diabetes or Hypertension.
+- `03_insert_new_patient.mongosh.js` – simple insert to register a new triage patient.
+- `04_update_patient_contact.mongosh.js` – update that keeps patient communication data current.
+- `05_delete_inactive_patient.mongosh.js` – delete flow targeting inactive records to keep storage lean.
+- `06_recent_visits_for_patient.mongosh.js` – read helper showing the five most recent visits per patient (configurable `PATIENT_ID` at top of file).
+- `07_visits_by_department_with_index.mongosh.js` – aggregation that counts visits per department using the `department` index, with `explain("executionStats")` to prove index usage.
+- `08_update_and_insert_lab_result.mongosh.js` – upsert for lab results so the latest record replaces or inserts as needed.
+- `09_list_prescription_medications.mongosh.js` – projection for visits where `Lisinopril` was prescribed, ideal for pharmacovigilance reporting.
+- `10_visit_indexes.mongosh.js` – index creation script that builds the compound `department + visit_date` index and the chronic-conditions index used across the queries.
+- `11_last_lab_results_for_patient.mongosh.js` – last three lab results for a patient (configurable `PATIENT_ID` at top of file).
+- `12_flag_high_bp_visits.mongosh.js` – flags visits with high blood pressure for follow-up.
+
+Each file can be executed via `mongosh` to inspect its output or confirm its effect.
+
+### Script idempotency and safe re-runs
+
+- **Read-only scripts** (01, 02, 06, 07, 09, 10, 11): safe to run repeatedly; they do not modify data.
+- **03_insert_new_patient**: running twice with the same data will trigger a duplicate key error (same `patient_id`); use a different `patient_id` or drop the document first if re-running for demos.
+- **04, 05, 08, 12**: updates/deletes; idempotent in the sense that running them again on the same dataset yields the same end state (e.g. same contact updated, same document deleted, same upsert result, same visits flagged).
 
 ## Performance Optimizations
 
 1. **Query Optimization**
-   - Used covered queries where possible
-   - Implemented proper index strategies
-   - Avoided full collection scans
+   - Filter early in pipelines to keep cursor volume minimal.
+   - Project only the fields needed for dashboards and reports.
+   - Sort after limiting result sets whenever possible.
 
 2. **Data Modeling**
-   - Balanced between embedding and referencing
-   - Minimized document growth patterns
-   - Optimized for read-heavy workloads
+   - Embedded demographics inside patients for quick read access.
+   - Arrays mirror the real-world structure of visits, prescriptions, and labs.
+   - Designed queries to touch indexed fields such as department or chronic conditions.
 
 3. **Index Strategy**
-   - Created indexes based on query patterns
-   - Used compound indexes for sort operations
-   - Monitored index usage with explain()
+   - Created `department + visit_date` compound index for frequent filter+sort operations.
+   - Indexed `medical_history.chronic_conditions` for analytic lookups.
+   - Reused unique identifiers (`patient_id`, `result_id`) across scripts.
+
+## Running Our Solution
+
+1. **Start MongoDB (if it is not already running)**
+
+   ```bash
+   mongod --dbpath /path/to/data/directory
+   ```
+
+2. **Connect with mongosh**
+
+   ```bash
+   mongosh
+   ```
+
+3. **Use the production dataset**
+
+   ```javascript
+   use medical_database
+   ```
+
+4. **Run a query script**
+
+   ```bash
+   mongosh group-work/group_06/project/queries/01_patients_by_age_and_gender.mongosh.js
+   ```
+
+5. **Confirm state**
+
+   ```javascript
+   db.getCollectionNames();
+   db.patients.countDocuments();
+   ```
 
 ## Challenges and Solutions
 
@@ -237,9 +274,10 @@ Through this project, we gained practical experience in:
 
 Additional files in our submission:
 
-- `solution.md` - Complete MongoDB queries and operations
-- `queries.js` - JavaScript file with all database operations
-- `data.json` - Sample data for testing
+- `solution.md` - Complete write-up describing the group’s MongoDB queries and operations.
+- `project/import_data.sh` - Script to import `project/data/*.json` into `medical_database` (run this before the query scripts).
+- `project/queries/` - Twelve `mongosh` scripts covering the CRUD, aggregation, index, and reporting workflows discussed above.
+- `project/data/` - Sample JSON exports (`patients.json`, `visits.json`, `lab_results.json`) used for testing these queries.
 
 ## Contributors
 

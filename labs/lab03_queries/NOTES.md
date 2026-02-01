@@ -1,5 +1,10 @@
 # Lab 03 - Advanced Queries and Indexes - Notes
 
+``db.movies.countDocuments(): 23539
+``db.theaters.countDocuments(): 1564
+``db.users.countDocuments():185
+
+
 **Database:** lab03_movies
 
 ```javascript

@@ -59,9 +59,9 @@ This document contains the official member listings for all groups in the NoSQL 
 
 ## Group 14
 
-- Sérgio Gonçalves
-- Lucas Silva
 - Gonçalo Duarte
+- Lucas Silva
+- Sérgio Gonçalves
 
 ## Group 16
 

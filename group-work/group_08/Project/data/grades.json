@@ -1,0 +1,80 @@
+[
+  {
+    "gradeCode": "GRD-001",
+    "studentCode": "STU-001",
+    "subjectCode": "SUB-001",
+    "score": 85
+  },
+  {
+    "gradeCode": "GRD-002",
+    "studentCode": "STU-001",
+    "subjectCode": "SUB-002",
+    "score": 78
+  },
+  {
+    "gradeCode": "GRD-003",
+    "studentCode": "STU-002",
+    "subjectCode": "SUB-001",
+    "score": 90
+  },
+  {
+    "gradeCode": "GRD-004",
+    "studentCode": "STU-002",
+    "subjectCode": "SUB-003",
+    "score": 88
+  },
+  {
+    "gradeCode": "GRD-005",
+    "studentCode": "STU-003",
+    "subjectCode": "SUB-002",
+    "score": 92
+  },
+  {
+    "gradeCode": "GRD-006",
+    "studentCode": "STU-003",
+    "subjectCode": "SUB-004",
+    "score": 81
+  },
+  {
+    "gradeCode": "GRD-007",
+    "studentCode": "STU-004",
+    "subjectCode": "SUB-003",
+    "score": 75
+  },
+  {
+    "gradeCode": "GRD-008",
+    "studentCode": "STU-005",
+    "subjectCode": "SUB-005",
+    "score": 89
+  },
+  {
+    "gradeCode": "GRD-009",
+    "studentCode": "STU-006",
+    "subjectCode": "SUB-006",
+    "score": 94
+  },
+  {
+    "gradeCode": "GRD-010",
+    "studentCode": "STU-007",
+    "subjectCode": "SUB-007",
+    "score": 87
+  },
+  {
+    "gradeCode": "GRD-011",
+    "studentCode": "STU-008",
+    "subjectCode": "SUB-006",
+    "score": 91
+  },
+  {
+    "gradeCode": "GRD-012",
+    "studentCode": "STU-009",
+    "subjectCode": "SUB-009",
+    "score": 84
+  },
+  {
+    "gradeCode": "GRD-013",
+    "studentCode": "STU-010",
+    "subjectCode": "SUB-010",
+    "score": 96
+  }
+]

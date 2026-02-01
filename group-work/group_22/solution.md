@@ -10,7 +10,7 @@
 
 | Name | Student ID | Email | Contribution % |
 | ---- | ---------- | ----- | -------------- |
-| Afonso Fernandes | TBD | TBD | TBD |
+| Afonso Fernandes | 40230362 | 40230362@esmad.ipp.pt | TBD |
 | Alexandre Fidalgo | TBD | TBD | TBD |
 | Tiago Rodrigues | TBD | TBD | TBD |
 
@@ -20,8 +20,8 @@
 
 ## Executive Summary
 
-Provide a concise overview of the scenario, dataset, and primary achievements for the lab so reviewers can understand the submission without opening other files.
-
+Domain: restaurant ordering system (FoodExpress) using restaurants + orders datasets.
+4 collections: restaurants, orders, menu_items, order_items.
 ---
 
 ## Problem Statement

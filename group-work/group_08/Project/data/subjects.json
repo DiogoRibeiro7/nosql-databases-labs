@@ -1,0 +1,72 @@
+[
+  {
+    "subjectCode": "SUB-001",
+    "name": "Mathematics",
+    "code": "MATH101",
+    "teacher": "Mr. Johnson",
+    "credits": 3
+  },
+  {
+    "subjectCode": "SUB-002",
+    "name": "English Literature",
+    "code": "ENG102",
+    "teacher": "Ms. Roberts",
+    "credits": 3
+  },
+  {
+    "subjectCode": "SUB-003",
+    "name": "Physics",
+    "code": "PHY103",
+    "teacher": "Dr. Smith",
+    "credits": 4
+  },
+  {
+    "subjectCode": "SUB-004",
+    "name": "Chemistry",
+    "code": "CHEM104",
+    "teacher": "Dr. Lee",
+    "credits": 4
+  },
+  {
+    "subjectCode": "SUB-005",
+    "name": "Biology",
+    "code": "BIO105",
+    "teacher": "Ms. Adams",
+    "credits": 3
+  },
+  {
+    "subjectCode": "SUB-006",
+    "name": "Computer Science",
+    "code": "CS106",
+    "teacher": "Mr. Wilson",
+    "credits": 4
+  },
+  {
+    "subjectCode": "SUB-007",
+    "name": "History",
+    "code": "HIST107",
+    "teacher": "Mrs. Clark",
+    "credits": 3
+  },
+  {
+    "subjectCode": "SUB-008",
+    "name": "Geography",
+    "code": "GEO108",
+    "teacher": "Mr. Lewis",
+    "credits": 2
+  },
+  {
+    "subjectCode": "SUB-009",
+    "name": "Economics",
+    "code": "ECON109",
+    "teacher": "Dr. Patel",
+    "credits": 3
+  },
+  {
+    "subjectCode": "SUB-010",
+    "name": "Physical Education",
+    "code": "PE110",
+    "teacher": "Coach Miller",
+    "credits": 1
+  }
+]
