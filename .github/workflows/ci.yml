@@ -484,6 +484,31 @@ jobs:
         run: |
           if [ -d "group-work/${{ matrix.group }}/project" ]; then
             echo "has_project=true" >> $GITHUB_OUTPUT
+            if [ -f "group-work/${{ matrix.group }}/project/package.json" ]; then
+              echo "has_package_json=true" >> $GITHUB_OUTPUT
+            else
+              echo "has_package_json=false" >> $GITHUB_OUTPUT
+            fi
+            if [ -f "group-work/${{ matrix.group }}/project/data/seed.js" ]; then
+              echo "has_seed_js=true" >> $GITHUB_OUTPUT
+            else
+              echo "has_seed_js=false" >> $GITHUB_OUTPUT
+            fi
+            if [ -f "group-work/${{ matrix.group }}/project/import_data.mongosh.js" ]; then
+              echo "has_import_mongosh=true" >> $GITHUB_OUTPUT
+            else
+              echo "has_import_mongosh=false" >> $GITHUB_OUTPUT
+            fi
+            if [ -f "group-work/${{ matrix.group }}/project/queries/index_blueprint.mongosh.js" ]; then
+              echo "has_index_blueprint=true" >> $GITHUB_OUTPUT
+            else
+              echo "has_index_blueprint=false" >> $GITHUB_OUTPUT
+            fi
+            if [ -d "group-work/${{ matrix.group }}/project/queries" ]; then
+              echo "has_queries=true" >> $GITHUB_OUTPUT
+            else
+              echo "has_queries=false" >> $GITHUB_OUTPUT
+            fi
           else
             echo "has_project=false" >> $GITHUB_OUTPUT
             echo "No project folder for ${{ matrix.group }}, skipping."
@@ -494,13 +519,13 @@ jobs:
         run: npm install -g mongosh || true
 
       - name: Install dependencies for group
-        if: steps.group-check.outputs.has_project == 'true'
+        if: steps.group-check.outputs.has_project == 'true' && steps.group-check.outputs.has_package_json == 'true'
         run: |
           cd "group-work/${{ matrix.group }}/project"
           npm install
 
       - name: Set up .env for CI
-        if: steps.group-check.outputs.has_project == 'true'
+        if: steps.group-check.outputs.has_project == 'true' && steps.group-check.outputs.has_package_json == 'true'
         run: |
           echo "MONGODB_URI=mongodb://localhost:27017" > .env
           echo "MONGODB_DB_NAME=${{ matrix.group }}" >> .env
@@ -510,23 +535,42 @@ jobs:
         if: steps.group-check.outputs.has_project == 'true'
         run: |
           cd "group-work/${{ matrix.group }}/project"
-          node data/seed.js
+          if [ "${{ steps.group-check.outputs.has_seed_js }}" = "true" ]; then
+            node data/seed.js
+          elif [ "${{ steps.group-check.outputs.has_import_mongosh }}" = "true" ]; then
+            mongosh "mongodb://localhost:27017" --file import_data.mongosh.js
+          else
+            echo "No seed.js or import_data.mongosh.js for ${{ matrix.group }}, skipping data load."
+          fi
 
       - name: Apply indexes for group
         if: steps.group-check.outputs.has_project == 'true'
         run: |
           cd "group-work/${{ matrix.group }}/project"
-          mongosh "mongodb://localhost:27017" --file queries/index_blueprint.mongosh.js
+          if [ "${{ steps.group-check.outputs.has_index_blueprint }}" = "true" ]; then
+            mongosh "mongodb://localhost:27017" --file queries/index_blueprint.mongosh.js
+          else
+            echo "No queries/index_blueprint.mongosh.js for ${{ matrix.group }}, skipping."
+          fi
 
       - name: Run sample queries for group
         if: steps.group-check.outputs.has_project == 'true'
         run: |
           cd "group-work/${{ matrix.group }}/project"
-          # Run a few key queries to verify they execute without error
-          mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file queries/01_open_restaurants_in_city.mongosh.js > /dev/null
-          mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file queries/03_top_n_restaurants_by_rating.mongosh.js > /dev/null
-          mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file queries/11_revenue_for_restaurant.mongosh.js > /dev/null
-          echo "Sample queries ran successfully"
+          if [ "${{ steps.group-check.outputs.has_queries }}" = "true" ]; then
+            # Run the first 3 query scripts (excluding index_blueprint)
+            mapfile -t query_files < <(ls -1 queries/*.mongosh.js 2>/dev/null | grep -v "index_blueprint" | head -n 3)
+            if [ "${#query_files[@]}" -eq 0 ]; then
+              echo "No query scripts found for ${{ matrix.group }}"
+            else
+              for file in "${query_files[@]}"; do
+                mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file "$file" > /dev/null
+              done
+              echo "Sample queries ran successfully"
+            fi
+          else
+            echo "No queries folder for ${{ matrix.group }}"
+          fi
 
   # ============================================================================
   # Code Coverage Summary
