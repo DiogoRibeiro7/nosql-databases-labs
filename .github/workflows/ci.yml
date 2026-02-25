@@ -429,11 +429,37 @@ jobs:
         continue-on-error: true
 
   # ============================================================================
-  # Group 22 MongoDB Project Tests
+  # Group MongoDB Project Tests (All Groups)
   # ============================================================================
-  group-22-mongodb-tests:
-    name: Group 22 MongoDB Tests
+  group-mongodb-tests:
+    name: Group MongoDB Tests (${{ matrix.group }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        group:
+          - group_01
+          - group_02
+          - group_03
+          - group_04
+          - group_05
+          - group_06
+          - group_07
+          - group_08
+          - group_09
+          - group_10
+          - group_11
+          - group_12
+          - group_13
+          - group_14
+          - group_16
+          - group_17
+          - group_18
+          - group_19
+          - group_20
+          - group_22
+          - group_23
+          - group_XX_example
     services:
       mongodb:
         image: mongo:7.0
@@ -453,37 +479,53 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Detect group project
+        id: group-check
+        run: |
+          if [ -d "group-work/${{ matrix.group }}/project" ]; then
+            echo "has_project=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_project=false" >> $GITHUB_OUTPUT
+            echo "No project folder for ${{ matrix.group }}, skipping."
+          fi
+
       - name: Install mongosh
+        if: steps.group-check.outputs.has_project == 'true'
         run: npm install -g mongosh || true
 
-      - name: Install dependencies for Group 22
+      - name: Install dependencies for group
+        if: steps.group-check.outputs.has_project == 'true'
         run: |
-          cd group-work/group_22/project
+          cd "group-work/${{ matrix.group }}/project"
           npm install
 
       - name: Set up .env for CI
+        if: steps.group-check.outputs.has_project == 'true'
         run: |
           echo "MONGODB_URI=mongodb://localhost:27017" > .env
-          echo "MONGODB_DB_NAME=group_22" >> .env
-        working-directory: group-work/group_22/project
+          echo "MONGODB_DB_NAME=${{ matrix.group }}" >> .env
+        working-directory: group-work/${{ matrix.group }}/project
 
-      - name: Seed database for Group 22
+      - name: Seed database for group
+        if: steps.group-check.outputs.has_project == 'true'
         run: |
-          cd group-work/group_22/project
+          cd "group-work/${{ matrix.group }}/project"
           node data/seed.js
 
-      - name: Apply indexes for Group 22
+      - name: Apply indexes for group
+        if: steps.group-check.outputs.has_project == 'true'
         run: |
-          cd group-work/group_22/project
+          cd "group-work/${{ matrix.group }}/project"
           mongosh "mongodb://localhost:27017" --file queries/index_blueprint.mongosh.js
 
-      - name: Run sample queries for Group 22
+      - name: Run sample queries for group
+        if: steps.group-check.outputs.has_project == 'true'
         run: |
-          cd group-work/group_22/project
+          cd "group-work/${{ matrix.group }}/project"
           # Run a few key queries to verify they execute without error
-          mongosh "mongodb://localhost:27017/group_22" --file queries/01_open_restaurants_in_city.mongosh.js > /dev/null
-          mongosh "mongodb://localhost:27017/group_22" --file queries/03_top_n_restaurants_by_rating.mongosh.js > /dev/null
-          mongosh "mongodb://localhost:27017/group_22" --file queries/11_revenue_for_restaurant.mongosh.js > /dev/null
+          mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file queries/01_open_restaurants_in_city.mongosh.js > /dev/null
+          mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file queries/03_top_n_restaurants_by_rating.mongosh.js > /dev/null
+          mongosh "mongodb://localhost:27017/${{ matrix.group }}" --file queries/11_revenue_for_restaurant.mongosh.js > /dev/null
           echo "Sample queries ran successfully"
 
   # ============================================================================
@@ -491,7 +533,7 @@ jobs:
   # ============================================================================
   coverage-summary:
     name: Coverage Report (Target >80%)
-    needs: [python-faker-tests, mongodb-labs-tests, group-22-mongodb-tests]
+    needs: [python-faker-tests, mongodb-labs-tests, group-mongodb-tests]
     runs-on: ubuntu-latest
     if: always()
 
