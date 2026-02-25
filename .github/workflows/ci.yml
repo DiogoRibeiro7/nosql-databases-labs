@@ -117,7 +117,7 @@ jobs:
         if: always()
         uses: codecov/codecov-action@v5
         with:
-          file: ./mongodb-faker-generator/coverage.xml
+          files: ./mongodb-faker-generator/coverage.xml
           flags: python-faker
           name: python-faker-coverage
           token: ${{ secrets.CODECOV_TOKEN }}
