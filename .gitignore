@@ -117,3 +117,6 @@ data/*.json
 # Ignore nested Yarn lockfiles but track the root file
 **/yarn.lock
 !/yarn.lock
+
+# Yarn (Berry)
+.yarn/install-state.gz
