@@ -4,6 +4,27 @@ db = db.getSiblingDB("group_05_final");
 print("\n--- Creating Indexes ---");
 
 // ====================================================
+// DEDUPE RESERVATIONS (FOR UNIQUE INDEX)
+// ====================================================
+print("\n--- Deduplicating Reservations IDs ---");
+const reservationDupes = db.reservations
+  .aggregate([
+    { $group: { _id: "$id", ids: { $push: "$_id" }, count: { $sum: 1 } } },
+    { $match: { count: { $gt: 1 } } },
+  ])
+  .toArray();
+
+reservationDupes.forEach((dupe) => {
+  // Keep the first document, remove the rest
+  const idsToRemove = dupe.ids.slice(1);
+  if (idsToRemove.length > 0) {
+    db.reservations.deleteMany({ _id: { $in: idsToRemove } });
+  }
+});
+
+print(`Removed duplicate reservation IDs: ${reservationDupes.length}`);
+
+// ====================================================
 // COLLECTION: HOSTS
 // ====================================================
 
