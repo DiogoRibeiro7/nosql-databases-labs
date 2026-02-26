@@ -53,10 +53,12 @@ jobs:
 
       - name: Wait for MongoDB
         run: |
-          for i in {1..30}; do
-            if mongosh --host 127.0.0.1 --quiet --eval "db.adminCommand({ ping: 1 })" > /dev/null 2>&1; then
-              echo "MongoDB is ready"
-              exit 0
+          for i in {1..60}; do
+            if nc -z 127.0.0.1 27017 >/dev/null 2>&1; then
+              if docker exec mongodb mongosh --quiet --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1; then
+                echo "MongoDB is ready"
+                exit 0
+              fi
             fi
             echo "Waiting for MongoDB..."
             sleep 2
