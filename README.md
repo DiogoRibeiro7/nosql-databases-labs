@@ -6,7 +6,6 @@
 [![Quick Node Quality](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/quick-node-quality.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/quick-node-quality.yml)
 [![Dataset Consistency](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/dataset-consistency.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/dataset-consistency.yml)
 [![Lab Artifacts](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/lab-artifacts.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/lab-artifacts.yml)
-[![Mongo Compatibility Matrix](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/mongo-compat.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/mongo-compat.yml)
 [![Security Scans](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/security-scans.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/security-scans.yml)
 [![Docs Lint](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/docs-lint.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/docs-lint.yml)
 [![Release & Version Control](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/release.yml/badge.svg)](https://github.com/diogoribeiro7/nosql-databases-labs/actions/workflows/release.yml)
