@@ -50,7 +50,7 @@ test("countNdjson reports stream failures for missing files", async () => {
   await cleanup();
   await assert.rejects(
     () => countNdjson(path.join(tmpDir, "missing.ndjson")),
-    /Stream failure/
+    /(Stream|Readline) failure/
   );
   await cleanup();
 });

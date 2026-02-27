@@ -29,6 +29,21 @@ async function countNdjson(filePath) {
     const rl = readline.createInterface({ input: stream, crlfDelay: Infinity });
     let count = 0;
     let lineNumber = 0;
+    let settled = false;
+
+    const finishOk = () => {
+      if (settled) return;
+      settled = true;
+      resolve(count);
+    };
+
+    const finishError = (error) => {
+      if (settled) return;
+      settled = true;
+      rl.close();
+      stream.destroy();
+      reject(error);
+    };
 
     rl.on("line", (line) => {
       lineNumber += 1;
@@ -41,15 +56,13 @@ async function countNdjson(filePath) {
         JSON.parse(trimmed);
         count += 1;
       } catch (error) {
-        rl.close();
-        stream.destroy();
-        reject(new Error(`Invalid JSON on line ${lineNumber}: ${error.message}`));
+        finishError(new Error(`Invalid JSON on line ${lineNumber}: ${error.message}`));
       }
     });
 
-    rl.on("close", () => resolve(count));
-    rl.on("error", (error) => reject(new Error(`Readline failure: ${error.message}`)));
-    stream.on("error", (error) => reject(new Error(`Stream failure: ${error.message}`)));
+    rl.on("close", finishOk);
+    rl.on("error", (error) => finishError(new Error(`Readline failure: ${error.message}`)));
+    stream.on("error", (error) => finishError(new Error(`Stream failure: ${error.message}`)));
   });
 }
 
