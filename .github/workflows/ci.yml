@@ -152,18 +152,11 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
-      - name: Get Yarn cache directory
-        id: labs-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.labs-yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-labs-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-labs-yarn-
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: |
@@ -270,18 +263,11 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
-      - name: Get Yarn cache directory
-        id: perf-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.perf-yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-perf-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-perf-yarn-
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -354,18 +340,11 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
-      - name: Get Yarn cache directory
-        id: integrity-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.integrity-yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-integrity-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-integrity-yarn-
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -402,18 +381,11 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
-      - name: Get Yarn cache directory
-        id: group-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.group-yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-group-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-group-yarn-
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
