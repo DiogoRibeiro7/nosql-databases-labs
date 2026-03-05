@@ -49,7 +49,7 @@ class FailoverSimulator {
         }
       }
     } catch (error) {
-      throw new Error(`Failed to connect to replica set: ${error.message}`);
+      throw new Error(`Failed to connect to replica set: ${error.message}`, { cause: error });
     }
   }
 

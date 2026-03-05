@@ -81,9 +81,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Get Yarn cache directory
         id: yarn-cache-dir
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v5
@@ -94,7 +97,7 @@ jobs:
             ${{ runner.os }}-lab-preview-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Resolve MongoDB container id
         id: mongo-cid
@@ -160,7 +163,7 @@ jobs:
             ${{ matrix.testCmd }} | tee ${{ matrix.coverageDir }}/${{ matrix.logFile }}
 
       - name: Upload lab artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.id }}-coverage
           path: ${{ matrix.coverageDir }}

@@ -115,7 +115,7 @@ class TestFramework {
         try {
           options.validator(doc);
         } catch (e) {
-          throw new Error(`Document ${index} validation failed: ${e.message}`);
+          throw new Error(`Document ${index} validation failed: ${e.message}`, { cause: e });
         }
       });
     }

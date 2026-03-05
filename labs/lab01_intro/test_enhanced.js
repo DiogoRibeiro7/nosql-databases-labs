@@ -1,4 +1,3 @@
-/* eslint-env mongo */
 /* global TestFramework */
 
 /**

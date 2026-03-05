@@ -1,5 +1,3 @@
-/* eslint-env mongo */
-
 /**
  * Lab 01 - Solutions entry point
  *

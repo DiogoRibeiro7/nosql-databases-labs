@@ -153,9 +153,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Get Yarn cache directory
         id: labs-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v5
@@ -167,7 +170,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
           npm install -g mongosh || true
 
       - name: Run linters and dataset smoke tests
@@ -271,9 +274,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Get Yarn cache directory
         id: perf-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v5
@@ -284,7 +290,7 @@ jobs:
             ${{ runner.os }}-perf-yarn-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run Lab 02 Performance Benchmarks
         run: |
@@ -330,7 +336,7 @@ jobs:
 
       - name: Upload Benchmark Results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-results
           path: labs/*/benchmark_results.json
@@ -355,9 +361,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Get Yarn cache directory
         id: integrity-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v5
@@ -368,7 +377,7 @@ jobs:
             ${{ runner.os }}-integrity-yarn-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run Data Integrity Validation
         run: |
@@ -383,7 +392,7 @@ jobs:
 
       - name: Upload Validation Reports
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: validation-reports
           path: labs/*/validation_report.json
@@ -403,9 +412,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Get Yarn cache directory
         id: group-yarn-cache
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
       - name: Cache Yarn dependencies
         uses: actions/cache@v5
@@ -416,7 +428,7 @@ jobs:
             ${{ runner.os }}-group-yarn-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Validate Group Structure
         run: |
@@ -596,7 +608,7 @@ jobs:
           echo "View detailed reports at: https://codecov.io/gh/${{ github.repository }}" >> coverage-summary.md
 
       - name: Upload Coverage Summary
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-summary
           path: coverage-summary.md

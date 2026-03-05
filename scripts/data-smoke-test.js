@@ -13,7 +13,7 @@ async function countJsonArray(filePath) {
   try {
     parsed = JSON.parse(raw);
   } catch (error) {
-    throw new Error(`Invalid JSON array: ${error.message}`);
+    throw new Error(`Invalid JSON array: ${error.message}`, { cause: error });
   }
 
   if (!Array.isArray(parsed)) {
@@ -29,6 +29,21 @@ async function countNdjson(filePath) {
     const rl = readline.createInterface({ input: stream, crlfDelay: Infinity });
     let count = 0;
     let lineNumber = 0;
+    let settled = false;
+
+    const finishOk = () => {
+      if (settled) return;
+      settled = true;
+      resolve(count);
+    };
+
+    const finishError = (error) => {
+      if (settled) return;
+      settled = true;
+      rl.close();
+      stream.destroy();
+      reject(error);
+    };
 
     rl.on("line", (line) => {
       lineNumber += 1;
@@ -41,15 +56,13 @@ async function countNdjson(filePath) {
         JSON.parse(trimmed);
         count += 1;
       } catch (error) {
-        rl.close();
-        stream.destroy();
-        reject(new Error(`Invalid JSON on line ${lineNumber}: ${error.message}`));
+        finishError(new Error(`Invalid JSON on line ${lineNumber}: ${error.message}`, { cause: error }));
       }
     });
 
-    rl.on("close", () => resolve(count));
-    rl.on("error", (error) => reject(new Error(`Readline failure: ${error.message}`)));
-    stream.on("error", (error) => reject(new Error(`Stream failure: ${error.message}`)));
+    rl.on("close", finishOk);
+    rl.on("error", (error) => finishError(new Error(`Readline failure: ${error.message}`, { cause: error })));
+    stream.on("error", (error) => finishError(new Error(`Stream failure: ${error.message}`, { cause: error })));
   });
 }
 
@@ -79,7 +92,9 @@ function countBson(filePath) {
     try {
       deserialize(slice);
     } catch (error) {
-      throw new Error(`Failed to deserialize BSON document at offset ${offset}: ${error.message}`);
+      throw new Error(`Failed to deserialize BSON document at offset ${offset}: ${error.message}`, {
+        cause: error,
+      });
     }
 
     count += 1;
@@ -138,7 +153,17 @@ async function run() {
   console.log("All dataset smoke tests passed.");
 }
 
-run().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  run().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  countJsonArray,
+  countNdjson,
+  countBson,
+  validateDataset,
+  run,
+};
