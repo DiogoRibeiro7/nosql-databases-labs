@@ -394,7 +394,7 @@ runTest("Connection string works", () => {
     print(`    ✓ Connection successful`);
     return true;
   } catch (e) {
-    throw new Error(`Connection failed: ${e}`);
+    throw new Error(`Connection failed: ${e}`, { cause: e });
   }
 });
 

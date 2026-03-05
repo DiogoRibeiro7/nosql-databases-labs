@@ -1,5 +1,3 @@
-/* eslint-env mongo */
-
 // NDJSON import script for lab03_movies database
 // Run this in mongosh: load("labs/lab03_queries/import_ndjson.js")
 

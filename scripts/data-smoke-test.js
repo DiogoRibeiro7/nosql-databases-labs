@@ -13,7 +13,7 @@ async function countJsonArray(filePath) {
   try {
     parsed = JSON.parse(raw);
   } catch (error) {
-    throw new Error(`Invalid JSON array: ${error.message}`);
+    throw new Error(`Invalid JSON array: ${error.message}`, { cause: error });
   }
 
   if (!Array.isArray(parsed)) {
@@ -56,13 +56,13 @@ async function countNdjson(filePath) {
         JSON.parse(trimmed);
         count += 1;
       } catch (error) {
-        finishError(new Error(`Invalid JSON on line ${lineNumber}: ${error.message}`));
+        finishError(new Error(`Invalid JSON on line ${lineNumber}: ${error.message}`, { cause: error }));
       }
     });
 
     rl.on("close", finishOk);
-    rl.on("error", (error) => finishError(new Error(`Readline failure: ${error.message}`)));
-    stream.on("error", (error) => finishError(new Error(`Stream failure: ${error.message}`)));
+    rl.on("error", (error) => finishError(new Error(`Readline failure: ${error.message}`, { cause: error })));
+    stream.on("error", (error) => finishError(new Error(`Stream failure: ${error.message}`, { cause: error })));
   });
 }
 
@@ -92,7 +92,9 @@ function countBson(filePath) {
     try {
       deserialize(slice);
     } catch (error) {
-      throw new Error(`Failed to deserialize BSON document at offset ${offset}: ${error.message}`);
+      throw new Error(`Failed to deserialize BSON document at offset ${offset}: ${error.message}`, {
+        cause: error,
+      });
     }
 
     count += 1;
