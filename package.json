@@ -52,7 +52,7 @@
     "c8": "^11.0.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
-    "globals": "^17.1.0",
+    "globals": "^17.4.0",
     "jest-junit": "^16.0.0",
     "markdownlint-cli": "^0.47.0",
     "prettier": "^3.8.1"
