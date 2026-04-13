@@ -150,7 +150,7 @@ jobs:
 
       - name: Create release PR
         if: env.RELEASE_PR_TOKEN != ''
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           NEW_VERSION: ${{ steps.new_version.outputs.version }}
           RELEASE_BRANCH: ${{ steps.release_branch.outputs.branch }}
