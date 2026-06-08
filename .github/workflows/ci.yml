@@ -115,7 +115,7 @@ jobs:
 
       - name: Upload Python Coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           files: ./mongodb-faker-generator/coverage.xml
           flags: python-faker
@@ -124,7 +124,7 @@ jobs:
 
       - name: Upload Pytest Results to Codecov
         if: always()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./mongodb-faker-generator/junit-python.xml
@@ -247,7 +247,7 @@ jobs:
 
       - name: Upload Node.js Coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           files: ./labs/*/coverage/lcov.info
           flags: nodejs-labs
