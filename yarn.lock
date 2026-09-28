@@ -316,6 +316,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bson@npm:^7.3.3":
+  version: 7.3.3
+  resolution: "bson@npm:7.3.3"
+  checksum: 10c0/d6ff014750446460185d05f5ffffd3c7ec854787d6547cf865a19796d36ad526643c8fa68a7bfc0d897b7f33f66ec5c24b11183212778f0484bb853f05dee4fd
+  languageName: node
+  linkType: hard
+
 "c8@npm:^11.0.0":
   version: 11.0.0
   resolution: "c8@npm:11.0.0"
@@ -1472,7 +1479,7 @@ __metadata:
   resolution: "nosql-databases-labs@workspace:."
   dependencies:
     "@eslint/js": "npm:^10.0.1"
-    bson: "npm:^7.1.1"
+    bson: "npm:^7.3.3"
     c8: "npm:^11.0.0"
     colors: "npm:^1.4.0"
     dotenv: "npm:^17.2.3"
