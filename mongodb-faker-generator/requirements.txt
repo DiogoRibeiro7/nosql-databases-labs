@@ -1,4 +1,4 @@
 # Dependencies for MongoDB Faker Generator
 faker==19.12.0
-pymongo==4.6.3
+pymongo==4.18.3
 psutil==5.9.8
